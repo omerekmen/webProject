@@ -20,4 +20,5 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    path('kategori/', category, name='category', ),
     ]
