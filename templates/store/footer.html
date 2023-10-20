@@ -1,36 +1,159 @@
 {% load static %}
 
-<!-- Sticky Footer -->
-<div class="sticky-footer sticky-content fix-bottom">
-    <a href="demo13.html" class="sticky-link">
-        <i class="d-icon-home"></i>
-        <span>Home</span>
-    </a>
-    <a href="demo13-shop.html" class="sticky-link">
-        <i class="d-icon-volume"></i>
-        <span>Categories</span>
-    </a>
-    <a href="wishlist.html" class="sticky-link">
-        <i class="d-icon-heart"></i>
-        <span>Wishlist</span>
-    </a>
-    <a href="account.html" class="sticky-link">
-        <i class="d-icon-user"></i>
-        <span>Account</span>
-    </a>
-    <div class="header-search hs-toggle dir-up">
-        <a href="#" class="search-toggle sticky-link">
-            <i class="d-icon-search"></i>
-            <span>Search</span>
-        </a>
-        <form action="#" class="input-wrapper">
-            <input type="text" class="form-control" name="search" autocomplete="off"
-                placeholder="Search your keyword..." required />
-            <button class="btn btn-search" type="submit" title="submit-button">
-                <i class="d-icon-search"></i>
-            </button>
-        </form>
+<footer class="footer">
+    <div class="container">
+
+        <div class="footer-middle">
+            <div class="row">
+                
+                
+                <div class="col-lg-3 col-sm-6">
+
+                    <div class="widget widget-about">
+                        <a href="demo21.html" class="logo-footer">
+                            <img src="{% static 'images/demos/demo33/logo-footer.png' %}" alt="logo-footer" width="153"
+                                height="44" />
+                        </a>
+
+                        <div class="widget-contact-info widget-collapsible">
+                            <ul class="contact-info">
+                                <li class="info phone"><label>PHONE:</label><a href="tel:#">Toll
+                                        Free (123) 456-7890</a></li>
+                                <li class="info email"><label>EMAIL:</label><a
+                                        href="mailto:mail@Riode.com">mail@Riode.com</a></li>
+                                <li class="info addr"><label>ADDRESS:</label><a href="#">123 Street Name, City,
+                                        England</a></li>
+                                <li class="info work"><label>WORKING DAYS/HOURS:</label><a href="#">Mon - Sun
+                                        / 9:00 AM -
+                                        8:00 PM</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- End Widget -->
+                </div>
+
+
+                <div class="col-lg-3 col-sm-6">
+
+                    <div class="widget widget-info">
+                        <h4 class="widget-title">About Us</h4>
+                        <ul class="widget-body">
+                            <li>
+                                <a href="about-us.html">About Us</a>
+                            </li>
+                            <li>
+                                <a href="#">Order History</a>
+                            </li>
+                            <li>
+                                <a href="#">Returns</a>
+                            </li>
+                            <li>
+                                <a href="#">Custom Service</a>
+                            </li>
+                            <li>
+                                <a href="#">Terms &amp; Condition</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End Widget -->
+                </div>
+
+
+                <div class="col-lg-3 col-sm-6">
+
+                    <div class="widget widget-service">
+                        <h4 class="widget-title">Customer Service</h4>
+                        <ul class="widget-body">
+                            <li>
+                                <a href="#">Payment Methods</a>
+                            </li>
+                            <li>
+                                <a href="#">Money-back Guarantee!</a>
+                            </li>
+                            <li>
+                                <a href="#">Returns</a>
+                            </li>
+                            <li>
+                                <a href="#">Custom Service</a>
+                            </li>
+                            <li>
+                                <a href="#">Terms & Conditions</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End Widget -->
+                </div>
+
+
+                <div class="col-lg-3 col-sm-6">
+
+                    <div class="widget widget-instagram mb-0">
+                        <h4 class="widget-title">Instagram</h4>
+                        <figure class="widget-body row">
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/01.jpg' %}" alt="instagram 1" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/02.jpg' %}" alt="instagram 2" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/03.jpg' %}" alt="instagram 3" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/04.jpg' %}" alt="instagram 4" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/05.jpg' %}" alt="instagram 5" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/06.jpg' %}" alt="instagram 6" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/07.jpg' %}" alt="instagram 7" width="64" height="64" />
+                            </div>
+                            <div class="col-3">
+                                <img src="{% static 'images/instagram/08.jpg' %}" alt="instagram 8" width="64" height="64" />
+                            </div>
+                        </figure>
+                    </div>
+                    <!-- End Instagram -->
+                </div>
+
+
+            </div>
+        </div>
+        <!-- End FooterMiddle -->
+
+
+
+        <!-- FooterBottom -->
+        <div class="footer-bottom">
+
+            <div class="footer-left">
+                <p class="copyright ls-normal"> &copy; <script>document.write(new Date().getFullYear())</script>. Tüm Hakları Saklıdır.</p> <!-- Yıl Otomatik Çekilecek -->
+            </div>
+            
+            <div class="footer-center">
+                <figure class="payment">
+                    <img src="{% static 'images/payment.png' %}" alt="payment" width="159" height="29" />
+                </figure>
+            </div>
+
+            <!--
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="#" title="social-link" class="social-link social-facebook fab fa-facebook-f"></a>
+                    <a href="#" title="social-link" class="social-link social-twitter fab fa-twitter"></a>
+                    <a href="#" title="social-link" class="social-link social-linkedin fab fa-linkedin-in"></a>
+                </div>
+            </div>
+            -->
+
+        </div>
+        <!-- End FooterBottom -->
+
+
+
     </div>
-</div>
-<!-- Scroll Top -->
-<a id="scroll-top" href="#top" title="Top" role="button" class="scroll-top"><i class="d-icon-arrow-up"></i></a>
+</footer>

@@ -6,135 +6,243 @@
 
 {% block content %}
 
-<div class="product product-single row mb-7">
-    <div class="col-md-6 sticky-sidebar-wrapper">
-        <div class="product-gallery pg-vertical sticky-sidebar" data-sticky-options="{'minWidth': 767}">
-            <div class="product-single-carousel owl-carousel owl-theme owl-nav-inner row cols-1 gutter-no">
-                <figure class="product-image">
-                    <img src="{% static 'images/product/product-1-1-580x652.jpg' %}" data-zoom-image="{% static 'images/product/product-1-1-800x900.jpg' %}" alt="Women's Brown Leather Backpacks" width="800" height="900">
+<main class="main home">
+    <div class="page-content">
+        <section class="big-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-nav-arrow row cols-1 gutter-no" data-owl-options="{
+            'items': 2,
+            'autoplay': false,
+            'loop': false,
+            'nav': true,
+            'dots': false,
+            'animateIn': 'fadeIn',
+            'animateOut': 'fadeOut'
+        }">
+
+            <div class="big-slide1 banner banner-fixed code-content" style="background-color: #fff">
+
+                <figure>
+                    <img src="{% static 'uploads/sliders/bahcesehir_slider1.png' %}" alt="banner" width="1180" height="444">
                 </figure>
-                <figure class="product-image">
-                    <img src="{% static 'images/product/product-1-2-580x652.jpg' %}" data-zoom-image="{% static 'images/product/product-1-2-800x900.jpg' %}" alt="Women's Brown Leather Backpacks" width="800" height="900">
-                </figure>
-                <figure class="product-image">
-                    <img src="{% static 'images/product/product-1-3-580x652.jpg' %}" data-zoom-image="{% static 'images/product/product-1-3-800x900.jpg' %}" alt="Women's Brown Leather Backpacks" width="800" height="900">
-                </figure>
-                <figure class="product-image">
-                    <img src="{% static 'images/product/product-1-4-580x652.jpg' %}" data-zoom-image="{% static 'images/product/product-1-4-800x900.jpg' %}" alt="Women's Brown Leather Backpacks" width="800" height="900">
-                </figure>
-            </div>
-            <div class="product-thumbs-wrap">
-                <div class="product-thumbs">
-                    <div class="product-thumb active">
-                        <img src="{% static 'images/product/product-1-1-109x122.jpg' %}" alt="product thumbnail" width="109" height="122">
-                    </div>
-                    <div class="product-thumb">
-                        <img src="{% static 'images/product/product-1-2-109x122.jpg' %}" alt="product thumbnail" width="109" height="122">
-                    </div>
-                    <div class="product-thumb">
-                        <img src="{% static 'images/product/product-1-3-109x122.jpg' %}" alt="product thumbnail" width="109" height="122">
-                    </div>
-                    <div class="product-thumb">
-                        <img src="{% static 'images/product/product-1-4-109x122.jpg' %}" alt="product thumbnail" width="109" height="122">
+
+                <div class="banner-content y-50 pt-4">
+                    <div class="slide-animate">
+                        <h4 class="banner-subtitle text-uppercase slide-animate appear-animate mb-1" 
+                            data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1s', 'delay': '.3s' }">
+                            From Online Store
+                        </h4>
+
+                        <h3 class="banner-title font-weight-bold slide-animate appear-animate" 
+                            data-animation-options="{'name': 'blurIn', 'duration': '1s', 'delay': '.5s' }">
+                            Originals Comper<br>Star. Shoes
+                        </h3>
+                        
+                        <p class="text-dark font-primary text-uppercase slide-animate appear-animate" 
+                            data-animation-options="{'name': 'fadeInRightShorter', 'duration': '1s', 'delay': '.7s' }">
+                            <span class="ls-super font-weight-bold">For-Men</span>
+                            <br>Product Identifier: DD1160
+                        </p>
+
                     </div>
                 </div>
-                <button class="thumb-up disabled"><i class="fas fa-chevron-left"></i></button>
-                <button class="thumb-down disabled"><i class="fas fa-chevron-right"></i></button>
             </div>
-            <div class="product-label-group">
-                <label class="product-label label-new">new</label>
+
+            <div class="big-slide1 banner banner-fixed code-content" style="background-color: #fff">
+
+                <figure>
+                    <img src="{% static 'uploads/sliders/bahcesehir_slider2.png' %}" alt="banner" width="1180" height="444">
+                </figure>
+
+                <div class="banner-content y-50 pt-4">
+                    <div class="slide-animate">
+                        <h4 class="banner-subtitle text-uppercase slide-animate appear-animate mb-1" 
+                            data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1s', 'delay': '.3s' }">
+                            From Online Store
+                        </h4>
+
+                        <h3 class="banner-title font-weight-bold slide-animate appear-animate" 
+                            data-animation-options="{'name': 'blurIn', 'duration': '1s', 'delay': '.5s' }">
+                            Originals Comper<br>Star. Shoes
+                        </h3>
+                        
+                        <p class="text-dark font-primary text-uppercase slide-animate appear-animate" 
+                            data-animation-options="{'name': 'fadeInRightShorter', 'duration': '1s', 'delay': '.7s' }">
+                            <span class="ls-super font-weight-bold">For-Men</span>
+                            <br>Product Identifier: DD1160
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        
+        <!-- Products -->
+        <div class="container">
+            <div class="row main-content-wrap gutter-lg">
+
+                <div class="main-content">
+
+                    <nav class="toolbox sticky-toolbox sticky-content fix-top" style="">
+
+                        <div class="toolbox-left">
+
+                            <!-- FİLTRELEME BENCE TAMAMEN KALKMALI --> <!--
+                            <a href="#" class="toolbox-item left-sidebar-toggle btn btn-outline btn-primary btn-rounded btn-icon-right">Filter<i class="d-icon-arrow-right"></i></a>
+                            -->
+
+                            <div class="toolbox-item toolbox-sort select-box text-dark"> <!-- Sort by yapılacak kadar önemli değil bence ama nasıl istenirse -->
+                                <label>Sort By :</label>
+                                <select name="orderby" class="form-control">
+                                    <option value="default">Default</option>
+                                    <option value="popularity" selected="selected">Most Popular</option>
+                                    <option value="rating">Average rating</option>
+                                    <option value="date">Latest</option>
+                                    <option value="price-low">Sort forward price low</option>
+                                    <option value="price-high">Sort forward price high</option>
+                                    <option value="">Clear custom sort</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="toolbox-right"> <!-- Bence Gereksiz bir kısım ama kullanılabilir istenirse -->
+
+                            <div class="toolbox-item toolbox-show select-box text-dark">
+                                <label>Show :</label>
+                                <select name="count" class="form-control">
+                                    <option value="12">12</option>
+                                    <option value="24">24</option>
+                                    <option value="36">36</option>
+                                </select>
+                            </div>
+
+                            <!--  DİREKT GEREKSİZ BENCE
+                            <div class="toolbox-item toolbox-layout">
+                                <a href="shop-list-mode.html" class="d-icon-mode-list btn-layout"></a>
+                                <a href="shop.html" class="d-icon-mode-grid btn-layout active"></a>
+                            </div>
+                            -->
+
+                        </div>
+
+                    </nav>
+
+
+                    <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
+
+                        <div class="product-wrap">
+                            <div class="product product-classic">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="{% static 'images/shop/13.jpg' %}" alt="product" width="280" height="315">
+                                    </a>
+                                    <div class="product-label-group">
+                                        <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
+                                        <label class="product-label label-sale">27% Off</label>
+                                    </div>
+                                </figure>
+                                <div class="product-details">
+                                    <div class="product-cat">
+                                        <a href="shop-default-3.html">Clothing</a> <!-- CATEGORY from DB -->
+                                    </div>
+                                    <h3 class="product-name">
+                                        <a href="product.html">Coast Pool Comfort Jacket</a> <!-- PRODUCT NAME from DB -->
+                                    </h3>
+                                    <div class="product-price">
+                                        <ins class="new-price">$199.00</ins><del class="old-price">$210.00</del> <!-- PRICE from DB -->
+                                    </div>
+
+                                    <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
+                                    <div class="ratings-container">
+                                        <div class="ratings-full">
+                                            <span class="ratings" style="width:100%"></span>
+                                            <span class="tooltiptext tooltip-top"></span>
+                                        </div>
+                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
+                                    </div> -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
+                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                        <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-wrap">
+                            <div class="product product-classic">
+                                <figure class="product-media">
+                                    <a href="product.html">
+                                        <img src="{% static 'images/shop/13.jpg' %}" alt="product" width="280" height="315">
+                                    </a>
+                                    <div class="product-label-group">
+                                        <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
+                                    </div>
+                                </figure>
+                                <div class="product-details">
+                                    <div class="product-cat">
+                                        <a href="shop-default-3.html">Clothing</a> <!-- CATEGORY from DB -->
+                                    </div>
+                                    <h3 class="product-name">
+                                        <a href="product.html">Coast Pool Comfort Jacket</a> <!-- PRODUCT NAME from DB -->
+                                    </h3>
+                                    <div class="product-price">
+                                        <ins class="new-price">$199.00</ins><del class="old-price">$210.00</del> <!-- PRICE from DB -->
+                                    </div>
+
+                                    <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
+                                    <div class="ratings-container">
+                                        <div class="ratings-full">
+                                            <span class="ratings" style="width:100%"></span>
+                                            <span class="tooltiptext tooltip-top"></span>
+                                        </div>
+                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
+                                    </div> -->
+
+                                    <div class="product-action">
+                                        <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
+                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                        <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Pagination olayı da bence boş iş (en azından ana sayfa için) --> <!--
+                    <nav class="toolbox toolbox-pagination">
+                        <p class="show-info">Showing <span>12 of 56</span> Products</p>
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
+                                    <i class="d-icon-arrow-left"></i>Prev
+                                </a>
+                            </li>
+                            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item page-item-dots"><a class="page-link" href="#">6</a></li>
+                            <li class="page-item">
+                                <a class="page-link page-link-next" href="#" aria-label="Next">
+                                    Next<i class="d-icon-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    --> 
+
+                </div>
+
             </div>
         </div>
+        <!-- End of Products -->
+
     </div>
-    <div class="col-md-6">
-        <div class="product-details">
 
-            <h1 class="product-name">Converse Training Shoes</h1>
-            <div class="product-meta">
-                SKU: <span class="product-sku">12345670</span>
-                BRAND: <span class="product-brand">The Northland</span>
-            </div>
-            <div class="product-price">$113.00</div>
-            <div class="ratings-container">
-                <div class="ratings-full">
-                    <span class="ratings" style="width:80%"></span>
-                    <span class="tooltiptext tooltip-top"></span>
-                </div>
-                <a href="product.html#product-tab-reviews" class="link-to-tab rating-reviews">( 11
-                    reviews
-                    )</a>
-            </div>
-            <p class="product-short-desc">Sed egestas, ante et vulputate volutpat, eros pede
-                semper
-                est, vitae luctus metus libero eu augue. Morbi purus liberpuro ate vol
-                faucibus
-                adipiscing.</p>
-            <div class="product-form product-variations product-color">
-                <label>Color:</label>
-                <div class="select-box">
-                    <select name="color" class="form-control">
-                        <option value="" selected="selected">Choose an Option</option>
-                        <option value="white">White</option>
-                        <option value="black">Black</option>
-                        <option value="brown">Brown</option>
-                        <option value="red">Red</option>
-                        <option value="green">Green</option>
-                        <option value="yellow">Yellow</option>
-                    </select>
-                </div>
-            </div>
-            <div class="product-form product-variations product-size">
-                <label>Size:</label>
-                <div class="product-form-group">
-                    <div class="select-box">
-                        <select name="size" class="form-control">
-<option value="" selected="selected">Choose an Option</option>
-<option value="s">Small</option>
-<option value="m">Medium</option>
-<option value="l">Large</option>
-<option value="xl">Extra Large</option>
-                        </select>
-                    </div>
-                    <a href="#" class="product-variation-clean" style="display: none;">Clean
-                        All</a>
-                </div>
-            </div>
-            <div class="product-variation-price">
-                <span>$239.00</span>
-            </div>
-
-            <hr class="product-divider">
-
-            <div class="product-form product-qty">
-                <div class="product-form-group">
-                    <div class="input-group mr-2">
-                        <button class="quantity-minus d-icon-minus"></button>
-                        <input class="quantity form-control" type="number" min="1" max="1000000">
-                        <button class="quantity-plus d-icon-plus"></button>
-                    </div>
-                    <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold"><i class="d-icon-bag"></i>Add to
-                        Cart</button>
-                </div>
-            </div>
-
-            <hr class="product-divider mb-3">
-
-            <div class="product-footer">
-                <div class="social-links mr-4">
-                    <a href="#" class="social-link social-facebook fab fa-facebook-f"></a>
-                    <a href="#" class="social-link social-twitter fab fa-twitter"></a>
-                    <a href="#" class="social-link social-pinterest fab fa-pinterest-p"></a>
-                </div>
-                <span class="divider d-lg-show"></span>
-                <a href="#" class="btn-product btn-wishlist mr-6"><i class="d-icon-heart"></i>Add to
-                    wishlist</a>
-                <a href="#" class="btn-product btn-compare"><i class="d-icon-compare"></i>Add
-                    to
-                    compare</a>
-            </div>
-        </div>
-    </div>
-</div>
+</main>
 
 
 {% endblock %}
