@@ -1,0 +1,155 @@
+/*
+Demo 12 Variables
+*/
+
+@include set(
+    (
+        base: (
+            title: (
+                text-transform: none,
+                color: #444,
+                letter-spacing: -0.6px
+            )
+        ),
+        header: (
+            border-bottom: 1px solid #e1e1e1,
+			top: (
+                background: #2C2C2E,
+                color: #ccc,
+                letter-spacing: normal,
+                border-bottom: none
+			),
+			middle: (
+				padding-top: 2.8rem,
+				padding-bottom: 2.8rem,
+                font-weight: 600,
+                border-bottom: 1px solid #e1e1e1,
+				logo: (
+					margin-right: 0,
+                    margin-bottom: 0,
+                    margin-top: -1px
+				),
+				login: (
+					icon: (
+						font-size: 2.7rem,
+						margin: 0
+					)
+				)
+			),
+			bottom: (
+				padding-top: 0.5rem,
+				padding-bottom: 0.4rem,
+				font-size: 1.4rem
+            ),
+            sticky: (
+                padding-top: 0.5rem,
+                padding-bottom: 0.3rem
+            ),
+            main-nav: (
+                margin: 0 .1rem 0 0
+            ),
+			call: (
+				icon: (
+					font-size: 3rem,
+					margin: 0
+				)
+			),
+			cart: (
+				label: (
+					price: (
+						color: inherit
+					),
+				),
+				icon: (
+					color: inherit,
+				)
+			)
+		),
+		menu: (
+            ancestor: (
+                _gap: 3rem,
+                font-family: $font-family,
+                font-size: 1.4rem,
+                font-weight: 600,
+                color: #022222,
+            )
+		),
+        product: (
+            rating: (
+                _star-color: #fec348
+            ),
+            label: (
+                new: (
+                    background: $secondary-color
+                ),
+                sale: (
+                    background: $primary-color
+                )
+            ),
+            list-sm: (
+                _image-width: 15rem
+            )
+        ),
+        post: (
+            body: (
+                padding: 1.7rem 0 1.5rem
+            ),
+            detail: (
+                padding: 1.7rem 0 2rem
+            ),
+            meta: (
+                font-size: 1.4rem,
+                text-transform: false,
+                font-weight: 400,
+                letter-spacing: .14px,
+                color: #999,
+                info: (
+                    font-weight: 400,
+                    color: #222
+                )
+            ),
+            info: (
+                margin-bottom: .7rem
+            ),
+            title: (
+                margin-bottom: 1rem,
+                font-size: 1.8rem,
+                text-transform: capitalize,
+                letter-spacing: -0.45px,
+                font-weight: 700,
+                line-height: 1.5
+            ),
+            btn: (
+                _icon-gap: .9rem
+            )
+        ),
+        footer: (
+			middle: (
+				padding: 81px 0px 34px 0px,
+				letter-spacing: -.016em,
+				border-bottom: 1px solid #333,
+				widget: (
+					margin-bottom: 2.6rem,
+					title: (
+						letter-spacing: 0,
+						margin-bottom: 1.1rem
+					),
+					body: (
+						padding: .9rem 0 0
+					)
+				)
+			),
+			bottom: (
+				padding: 2.7rem 0 2.8rem
+			),
+			copyright: (
+				letter-spacing: -.01em
+			),
+			about: (
+                logo: (
+                    margin-bottom: 2rem,
+                )
+            )
+		)
+    )
+)

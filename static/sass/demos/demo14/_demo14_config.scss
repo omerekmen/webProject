@@ -1,0 +1,118 @@
+/*
+Demo 14 Variables
+*/
+@include set(
+    (
+        header: (
+            top: (
+                login: (
+                    icon: (
+                        margin-right: .8rem
+                    )
+                )
+            ),
+            middle: (
+                padding-top: 2.8rem,
+                logo: (
+                    margin-right: 0,
+                    margin-bottom: 0
+                )
+            ),
+            bottom: (
+                padding-bottom: 0,
+                margin-bottom: 2rem,
+                color: #fff,
+                font-weight: 600
+            ),
+            sticky: (
+                padding-top: 0,
+                padding-bottom: 0,
+                background: transparent,
+                box-shadow: none
+            ),
+            category: (
+                toggle: (
+                    padding: 1.5rem,
+                    border-radius: 3px 0 0 3px,
+                    icon: (
+                        font-size: 22px
+                    )
+                )
+            ),
+            inner-wrap: (
+                background: #313438,
+                padding-right: 2rem,
+                border-radius: 3px
+            ),
+            main-nav: (
+                margin-left: 2rem
+            ),
+        ),
+        menu: (
+            ancestor: (
+                _gap: 3.2rem,
+                padding: 1.95rem 0,
+                font-weight: 600
+            )
+        ),
+        category-menu: (
+            padding: 0,
+            background: transparent,
+            title: (
+                padding: 1.55rem 0
+            ),
+            ancestor: ( 
+                _split-line: 1px solid #eee,
+                padding: 1.55rem 0 1.55rem,
+                min-height: 4.4rem,
+                line-height: 1,
+                font-size: 1.3rem,
+                text-transform: capitalize,
+                font-weight: 400,
+                letter-spacing: 0,
+                color: #222
+            ),
+            icon: (
+                margin-top: -3px,
+                margin-right: 9px,
+                margin-bottom: 0,
+                margin-left: -2px,
+                font-size: 2rem,
+                color: #222
+            )
+        ),
+        product: (
+            label: (
+                new: (
+                    background: $secondary-color
+                ),
+                sale: (
+                    background: $primary-color
+                )
+            ),
+            price: (
+                margin-bottom: 1.6rem,
+                color: $primary-color
+            ),
+            rating: (
+                _star-color: #fed076
+            )
+        ),
+        footer: (
+            middle: (
+                widget: (
+                    title: (
+                        color: #ccc,
+                        letter-spacing: -.025em
+                    )
+                )
+            ),
+            bottom: (
+                padding: 2.6rem 0 2.9rem
+            ),
+            copyright: (
+                font-weight: 500
+            )
+        )
+    )
+)

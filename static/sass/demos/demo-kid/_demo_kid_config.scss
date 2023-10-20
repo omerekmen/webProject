@@ -1,0 +1,151 @@
+/* 
+Demo Kid Variables
+*/
+@include set(
+	(
+		base: (
+			title: (
+                font-family: Poppins,
+                color: #333,
+				font-size: 2rem,
+                font-weight: 700,
+                padding-top: 2px,
+                line-height: 2.3,
+                margin-bottom: 2rem,
+                letter-spacing: -.1px
+			),
+		),
+		header: (
+            font-weight: 300,
+            letter-spacing: -.01em,
+			top: (
+                color: #fff,
+                background-color: $primary-color,
+                border-bottom: 0,
+                padding-top: 1px,
+                padding-bottom: 1px,
+                letter-spacing: -.01em,
+				_links-gap: 2rem,
+            ),
+            search: (
+                simple: (
+                    color: #e1e1e1
+                ),
+                round: (
+                    width: 52rem
+                )
+            ),
+			middle: (
+                color: #222,
+                font-weight: 600,
+                font-size: 1.4rem,
+                padding-top: 3.8rem,
+                padding-bottom: 3.6rem,
+                border-bottom: 1px solid #efefef,
+
+                logo: (
+                    margin-right: 7.9rem
+                )
+            ),
+            category: (
+				toggle: (
+                    padding: 1.4rem 1.4rem 1.5rem,
+                    background-color: #fff,
+                    border-left: 1px solid #efefef,
+                    border-right: 1px solid #efefef,
+				)
+			),
+            bottom: (
+                border-bottom: 1px solid #efefef,
+                font-weight: 600,
+            ),
+            sticky: (
+                padding-top: 0,
+                padding-bottom: 0,
+                box-shadow: 0 0 10px 1px rgba(0,0,0,0.1)
+            ),
+			mmenu-toggle: (
+				color: #222
+			),
+			// search: (
+			// 	round: (
+			// 		width: 28rem
+			// 	),
+			// 	simple: (
+			// 		color: #e1e1e1
+			// 	)
+			// )
+		),
+        menu: (
+            ancestor: (
+                font-weight: 600,
+                padding: 1.3rem 0 1.4rem,
+            )
+        ),
+        category-menu: (
+            background-color: #fff,
+            padding-top: 5px,
+            padding-bottom: 2px,
+
+            ancestor: (
+                _split-line: 1px solid #efefef,
+                font-size: 1.4rem,
+                padding: 1.1rem 0 1.2rem,
+                letter-spacing: -.025em,
+            ),
+            icon: (
+                font-size: 1.7rem,
+                margin-bottom: 1px,
+            )
+        ),
+        product: (
+            name: (
+                margin-bottom: 2px,
+            ),
+            rating: (
+                font-size: 1rem,
+                letter-spacing: .36em,
+                margin-bottom: 1.5rem
+            ),
+            price: (
+                margin-bottom: 2px
+            )
+        ),
+        post: (
+            meta: (
+                margin-bottom: 2px
+            ),
+            title: (
+                font-family: Poppins,
+                letter-spacing: -.025em,
+                margin-bottom: .3rem
+            ),
+            content: (
+                letter-spacing: .3px
+            ),
+            calendar: (
+                text-transform: uppercase
+            )
+        ),
+        footer: (
+            middle: (
+                padding: 8.6rem 0 4.8rem,
+                widget: (
+                    title: (
+                        color: #e1e1e1,
+                        font-family: 'Baloo 2'
+                    )
+                )
+            ),
+            about: (
+                p: (
+                    margin-bottom: 2.8rem,
+                    letter-spacing: -.1px
+                )
+            ),
+            bottom: (
+                padding: 2.6rem 0 2.9rem
+            )
+        )
+	)
+)

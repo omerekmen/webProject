@@ -1,0 +1,103 @@
+@charset 'UTF-8';
+
+/*
+1. config
+2. mixins
+3. plugins
+4. base
+5. components
+6. header
+7. footer
+8. pages
+9. demo
+*/
+
+
+/* 1. config */
+@import '../../config/variables';
+$primary-color: #fabf00;
+$secondary-color: #fabf00;
+$primary-color-dark:  #141416;
+
+$dark-color: #fff;
+$light-color: #ccc;
+$lighter-color: #333;
+
+$border-color: #333;
+$border-color-light: #666;
+$border-color-secondary-light: #333;
+$border-color-dark: #fff; 
+$text-grey-color: #fff;
+$bg-white: #151515; 
+$bg-secondary-white-color: #222;	
+
+$second-font-family: 'Rammetto One', $alt-font-family;
+/* 2. mixins */
+@import '../../mixins/breakpoints'; 
+@import '../../mixins/core';
+@import '../../mixins/buttons';
+
+// Demo Variables
+@import '../demo-food3/demo_food3_config';
+
+/* 3. plugins */
+@import '../../components/slider';
+@import '../../components/nouislider';
+
+/* 4. base */
+@import '../../base/base';
+@import '../../base/helper';
+@import '../../base/type';
+@import '../../base/layout';
+@import '../../base/grid';
+@import '../../base/spacing';
+
+/* 5, components */
+
+@import '../../components/accordion';
+@import '../../components/alerts';
+@import '../../components/animation';
+@import '../../components/comments';
+@import '../../components/banners';
+@import '../../components/buttons';
+@import '../../components/blog';
+@import '../../components/categories';
+@import '../../components/font-icons';
+@import '../../components/forms';
+@import '../../components/icons';
+@import '../../components/icon-boxes';
+@import '../../components/instagram';
+@import '../../components/pagination';
+@import '../../components/page-header';
+@import '../../components/popups';
+@import '../../components/products';
+@import '../../components/social-icons';
+@import '../../components/tabs';
+@import '../../components/titles';
+@import '../../components/tooltip';
+@import '../../components/widgets';
+@import '../../components/product-single';
+@import '../../components/minipopup';
+@import '../../components/sidebar';
+@import '../../components/sidebar-shop';
+@import '../../components/overlay';
+@import '../../components/testimonials';
+@import '../../components/member';
+@import '../../components/store';
+@import '../../components/vendor';
+@import '../../components/step';
+
+/* 6. header */
+@import '../../base/header/header';
+@import '../../base/header/dropdown';
+@import '../../base/header/menu';
+
+/* 7. footer */
+@import '../../base/footer/footer';
+
+/* 8. Pages */
+@import '../../pages/shop';
+@import '../../pages/product-single';
+
+/* 9. Demos */
+@import '../demo-food3/demo_food3_custom';

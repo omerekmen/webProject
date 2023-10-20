@@ -1,0 +1,154 @@
+@include set (
+    (
+        // Header
+        header: (
+            border-bottom: 1px solid #eee,
+            top: (
+                border-bottom: 1px solid #eee
+            ),
+            middle: (
+                padding-top: 2.8rem,
+                font-size: 1.4rem,
+                logo: (
+                    margin-right: 0
+                ),
+                login: (
+                    icon: (
+                        font-size: 2rem
+                    )
+                )
+            ),
+            main-nav: (
+                margin: 0 auto 0 auto !important,
+                padding-left: .6rem
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 2.2rem
+                )
+            ),
+            cart: (
+                toggle: (
+                    padding: .3rem 0 .8rem
+                )
+            )
+        ),
+        // Footer
+        footer: (
+            background: $white-color,
+            _link-active-color: #FF9D7B,
+            top: (
+                border-bottom: false,
+                padding: 0,
+                line-height: 0,
+                overflow: hidden
+            ),
+            middle: (
+                padding: 3.5rem 0 2.9rem,
+                border-bottom: false,
+                background: #f8f8f8,
+                widget: (
+                    title: (
+                        padding: .6rem 0 .3rem,
+                        margin-bottom: 0,
+                        font-family: 'Jost',
+                        font-size: 1.8rem,
+                        letter-spacing: 0 !important,
+                        text-transform: uppercase,
+                        color: #333
+                    ),
+                    body: (
+                        color: #666
+                    )
+                )
+            ),
+            bottom: (
+                padding: 3.4rem 0,
+                background: #f8f8f8
+            ),
+            copyright: (
+                font-weight: 400,
+                color: #999,
+                letter-spacing: normal
+            ),
+            newsletter: (
+                desc: (
+                    margin-bottom: 1.9rem,
+                    padding-top: .1rem,
+                    font-size: 1.3rem,
+                    letter-spacing: 0 !important,
+                    color: #666
+                ),
+                input: (
+                    padding-bottom: .1rem,
+                    line-height: 1,
+                    border-top-left-radius: 24px,
+                    border-bottom-left-radius: 24px,
+                    background: $white-color
+                ),
+                btn: (
+                    border-radius: 4px,
+                    border-top-right-radius: 24px,
+                    border-bottom-right-radius: 24px,
+                    letter-spacing: -.025em
+                ),
+                form: (
+                    max-width: 100%
+                )
+            ),
+            social-link: (
+                height: 29px,
+                width: 29px,
+                margin: .2rem .4rem,
+                border: 1px solid #999,
+                font-size: 1.4rem
+            )
+        ),
+        product: (
+            label: (
+                top: (
+                    width: fit-content,
+                    background: #1F90FF
+                )
+            ),
+            name: (
+                padding-right: 0
+            ),
+            price: (
+                letter-spacing: -.025em
+            )
+        ),
+        post: (
+            detail: (
+                position: relative,
+                width: 84%,
+                margin-left: auto,
+                margin-right: auto,
+                background: $white-color,
+                border-radius: 4px,
+                z-index: 1
+            ),
+            meta: (
+                margin-top: .7rem,
+                margin-bottom: .4rem,
+                letter-spacing: 0
+            ),
+            title: (
+                margin-bottom: 2.2rem,
+                font-family: 'Jost',
+                font-size: 1.8rem,
+                letter-spacing: -.025em,
+                text-transform: none
+            )
+        ),
+        product-single: (
+            name: (
+                margin-bottom: .7rem,
+                font-family: 'Jost'
+            ),
+            product-meta: (
+                letter-spacing: .002em
+            )
+        )
+    )
+)

@@ -1,0 +1,103 @@
+/* 
+Demo 25 Variables
+*/
+@include set(
+    (
+        base: (
+            title: (
+                font-size: 2.6rem,
+                letter-spacing: -.025em,
+                text-transform: none,
+                line-height: 1,
+                color: $primary-color-dark,
+            )
+        ),
+        header: (
+            middle: (
+                padding-top: 2.7rem,
+                padding-bottom: 2.7rem,
+                color: #222,
+            ),
+            bottom: (
+                padding-bottom: 0,
+                color: #fff,
+                background: #313438
+            ),
+            sticky: (
+                padding-top: 0,
+                padding-bottom: 0,
+                background: #313438
+            ),
+            wishlist: (
+                margin-right: 1.8rem,
+                icon: (
+                    font-size: 2.6rem,
+                    line-height: 1
+                )
+            ),
+            call: (
+                icon: (
+                    font-size: 2.6rem
+                )
+            ),
+            login: (
+                icon: (
+                    font-size: 2.6rem
+                )
+            ),
+            cart: (
+                icon: (
+                    margin-top: -2px,
+                    color: false,
+                    font-size: 2.6rem,
+                    line-height: 1
+                )
+            )
+        ),
+        menu: (
+            ancestor: (
+                padding: 2rem 1.5rem,
+                color: #fff,
+                font-weight: 600,
+                _gap: 2px,
+                _active-color: #fff,
+            )
+        ),
+        product: (
+            body: (
+                padding-bottom: 0
+            ),
+            price: (
+                margin-bottom: 1.3rem
+            )
+        ),
+        footer: (
+			middle: (
+				padding: 81px 0px 34px 0px,
+				letter-spacing: -.016em,
+				border-bottom: 1px solid #333,
+				widget: (
+					margin-bottom: 2.6rem,
+					title: (
+						letter-spacing: 0,
+						margin-bottom: 1.1rem
+					),
+					body: (
+						padding: .9rem 0 0
+					)
+				)
+			),
+			bottom: (
+				padding: 2.7rem 0 2.8rem
+			),
+			copyright: (
+				letter-spacing: -.01em
+			),
+			about: (
+                logo: (
+                    margin-bottom: 2rem,
+                )
+            ),
+		)
+    )
+)

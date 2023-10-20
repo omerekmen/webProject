@@ -1,0 +1,113 @@
+/***********************************
+            product tab
+************************************/
+
+//product-tab-underline
+.product-tab-underline {
+    .nav-link {
+        position: relative;
+        font-size: 2rem;
+        letter-spacing: 0;
+        line-height: 1;
+        padding: 1.7rem 1.5rem 1.6rem;
+        color: #999;
+    
+        &:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 1px;
+            max-width: 100%;
+            width: 5.7rem;
+            height: 4px;
+            background: $primary-color;
+            transform: scaleX(0) translateX(-50%);
+            transform-origin: left;
+            transition: transform 0.3s;
+        }
+    
+        &.active, &:hover {
+            &:after {
+                transform: scaleX(1) translateX(-50%);
+            }
+        }
+    }
+    .nav-item:not(:last-child) {
+        margin-right: 1px;
+    }
+
+    .tab-pane {
+        padding: 2.2rem 0;
+    }
+
+    .nav {
+        margin-bottom: 8px;
+    }
+}
+
+/* product-tab-filter */
+.product-tab-filter {
+    .nav-filter { 
+        font-size: 1.6rem;
+        &:hover,
+        &.active{
+            color: $secondary-color; 
+        }
+    }
+    .toolbox {
+        display: flex;
+        align-items: center;
+        .toolbox-left {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+    }
+    
+    .product-filters { margin-right: 1.8rem; }
+    
+    .nav-filters li 
+    {
+        margin-right: 2.2rem; 
+    }
+}
+.product-tab-box {
+    @include mq(lg, max) {
+        .tab {
+            margin-top: 10px;
+        }
+    }
+    .tab-pane {
+        padding-top: 8px;
+    }
+    .nav-item {
+        .nav-link {
+            padding: 1.3rem 2.2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            border: 1px solid #ccc;
+            border-radius: .3rem;
+            color: #222;
+            letter-spacing: -.025em;
+            &:hover, &.active {
+                color: $primary-color !important;
+                border-color: $primary-color;
+            }
+        }
+        &:not(:last-child) {
+            margin-right: 1rem;
+        }
+    }
+    .product-border {
+        background-color: $white-color;
+        border: 1px solid $white-color;
+        border-radius: .3rem;
+        transition: border-color .3s;
+        overflow: hidden;
+        &:hover {
+            border-color: $primary-color;
+        }
+    }
+}

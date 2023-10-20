@@ -1,0 +1,83 @@
+@charset 'UTF-8';
+
+/*
+1. config
+2. mixins
+3. plugins
+4. base
+5. components
+6. header
+7. footer
+8. demo
+*/
+
+// Color
+$primary-color: #558063;
+$secondary-color: #ffa372;
+
+/* 1. config */
+@import '../../config/variables';
+
+/* 2. mixins */
+@import '../../mixins/breakpoints';
+@import '../../mixins/core';
+@import '../../mixins/buttons';
+
+@import 'demo_beauty_config';
+
+/* 3. plugins */
+@import '../../components/slider';
+
+/* 4. base */
+@import '../../base/base';
+@import '../../base/helper';
+@import '../../base/type';
+@import '../../base/layout';
+@import '../../base/grid';
+@import '../../base/spacing';
+
+/* 5, components */
+@import '../../components/alerts';
+@import '../../components/animation';
+@import '../../components/comments';
+@import '../../components/font-icons';
+@import '../../components/social-icons';
+@import '../../components/widgets';
+@import '../../components/forms';
+@import '../../components/tabs';
+@import '../../components/popups';
+@import '../../components/titles';
+@import '../../components/icons';
+@import '../../components/icon-boxes';
+@import '../../components/tooltip';
+@import '../../components/buttons';
+@import '../../components/blog';
+@import '../../components/pagination';
+@import '../../components/page-header';
+@import '../../components/products';
+@import '../../components/banners';
+@import '../../components/categories';
+@import '../../components/icon-boxes';
+@import '../../components/product-single';
+@import '../../components/minipopup';
+@import '../../components/overlay';
+@import '../../components/sidebar';
+@import '../../components/sidebar-shop';
+@import '../../components/instagram';
+@import '../../components/accordion';
+
+
+/* 6. header */
+@import '../../base/header/header';
+@import '../../base/header/dropdown';
+@import '../../base/header/menu';
+
+/* 7. footer */
+@import '../../base/footer/footer';
+
+/* 8. pages */
+@import '../../pages/product-single';
+@import '../../pages/shop';
+
+/* 9. Demos */
+@import 'demo_beauty_custom';

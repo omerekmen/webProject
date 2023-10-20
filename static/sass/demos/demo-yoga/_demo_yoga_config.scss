@@ -1,0 +1,49 @@
+/* Demo Yoga */
+
+@include set (
+    (
+        header: (
+            middle: (
+                padding-top: 2.6rem,
+                padding-bottom: 2.6rem,
+                font-size: 1.6rem,
+                logo: (
+                    margin-right: 5.7rem,
+                )
+            ),
+            main-nav: (
+                margin: .2rem 0 0 .3rem,
+            )
+        ),
+        footer: (
+            middle: (
+                widget: (
+                    margin-bottom: 2.7rem,
+                    title: (
+                        padding: 1.2rem 0 .6rem,
+                    )
+                )
+            )
+        ),
+        base: (
+            _gutter-lg: 20px,
+        ),
+        menu: (
+            ancestor: (
+                font-weight: 600,
+                letter-spacing: -.025em
+            )
+        ),
+        product: (
+			body: (
+				padding-top: 1.7rem,
+			),
+			price: (
+				font-weight: 400,
+			),
+			name: (
+				color: #444
+			)
+        ),
+    )
+);

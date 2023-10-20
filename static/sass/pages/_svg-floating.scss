@@ -1,0 +1,36 @@
+/*******************************
+        svg floating
+*******************************/
+//svg-floating
+.svg-floating {
+    margin-top: -60px;
+    .svg-floating-item {
+        overflow: hidden;   
+    }
+    .svg-background img{
+        min-height: 500px;
+    }
+    .svg-notice {
+        position: absolute;
+        bottom: 13%;
+        right: 22%;
+    }
+}
+.svg-template {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    svg {
+        fill: #fff;
+    }
+    figure {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    img {
+        min-height: 398px;
+    }
+}

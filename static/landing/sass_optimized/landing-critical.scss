@@ -1,0 +1,292 @@
+/*---------------------------------
+    Landing Critical scss
+---------------------------------*/
+
+/* 1. config */
+@import 'config/variables';
+
+/* 2. mixins */
+@import 'mixins/breakpoints';
+@import 'mixins/core';
+
+$primary-color: #0b80d2;
+$third-font-family: 'Segoe Script','Savoye LET', $alt-font-family;
+
+@include set(
+	(
+		base: (
+			_grey-section-bg: #f3f6f9,
+			_container-fluid-width: 1800px,
+		),
+		header: (
+			font-size: 1.4rem,
+			font-family: false,
+			letter-spacing: -.01em,
+
+			middle: (
+				padding-top: 2rem,
+				padding-bottom: 1.7rem,
+				border-bottom: 1px solid rgba(255,255,255,.3),
+				color: #fff,
+				background: false,
+				font-size: false,
+				font-weight: 600,
+				logo: (
+					margin-left: .3rem,
+					margin-right: 3rem
+				),
+				main-nav: (
+					margin-right: 0	
+				),
+			),
+			logo: (
+				margin-bottom: .3rem
+			),
+		),
+		menu: (
+			active: (
+				color: false,
+			),
+			ancestor: (
+				font-weight: false,
+				padding: 1.2rem 0 1.6rem,
+			)
+		)
+	)
+);
+
+/* 3. plugins */
+@import 'components/slider';
+// @import 'components/nouislider';
+
+/* 4. base */
+@import 'base/base';
+@import 'base/helper';
+//@import 'base/type';
+@import 'base/layout';
+//@import 'base/grid';
+// @import 'base/spacing';
+
+/* 5, components */
+// @import 'components/accordion';
+// @import 'components/alerts';
+// @import 'components/animation';
+@import 'components/banners';
+// @import 'components/blog';
+// @import 'components/buttons';
+// @import 'components/categories';
+// @import 'components/counter';
+//@import 'components/elements';
+// @import 'components/font-icons';
+// @import 'components/forms';
+// @import 'components/icon-boxes';
+// @import 'components/icons';
+// @import 'components/instagram';
+// @import 'components/member';
+// @import 'components/minipopup';
+// @import 'components/overlay';
+// @import 'components/page-header';
+// @import 'components/pagination';
+// @import 'components/popups';
+// @import 'components/products';
+// @import 'components/product-single';
+// @import 'components/social-icons';
+// @import 'components/sidebar';
+// @import 'components/sidebar-shop';
+// @import 'components/store';
+// @import 'components/tabs';
+// @import 'components/testimonials';
+// @import 'components/tooltip';
+// @import 'components/titles';
+// @import 'components/widgets';
+
+/* 6. header */
+@import 'base/header/header';
+// @import 'base/header/dropdown';
+@import 'base/header/menu';
+
+.appear-animate {
+	visibility: hidden;
+}
+
+/* Intro Banner */
+.intro-banner {
+	min-height: 82.8rem;
+	.banner-subtitle {
+		font-size: 2em;
+		.gift {
+			margin-left: .8rem;
+			margin-right: .6rem;
+			font-size: 2.4em;
+		}
+	}
+	.banner-title {
+		margin-bottom: 3.4rem;
+		font-size: 5em;
+		text-indent: -2px;
+		line-height: 1.06;
+	}
+	.container {
+		padding-top: 5rem;
+		padding-bottom: 5rem;
+	}
+	.banner-content {
+		display: inline-block;
+		padding-top: 100px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.btn-play {
+		display: inline-flex;
+		position: relative;
+		align-items: center;
+		justify-content: center;
+		margin-right: 1.5rem;
+		width: 7.8rem;
+		height: 7.8rem;
+		background: #222;
+		border-radius: 50%;
+		vertical-align: middle;
+		box-shadow: 0 5px 10px 0 rgba(0,0,0,.2);
+		z-index: 1;
+		svg {
+			width: 50px;
+			height: 50px;
+			fill: #fff;
+		}
+	}
+	.custom-absolute-img1 {
+		position: absolute;
+		margin: 0;
+		left: 52.7%;
+		right: 0;
+		bottom: 0;
+		img {
+			min-height: 600px;
+			object-fit: cover;
+			object-position: left top;
+		}
+	}
+	.custom-absolute-img2 {
+		position: absolute;
+		left: 57.38%;
+		margin: 0;
+		max-width: 40%;
+		bottom: -14rem;
+		img {
+			position: relative;
+			z-index: 1;
+		}
+		figure {
+			top: -50px;
+			&::before {
+				content: '';
+				position: absolute;
+				left: 10px;
+				right: 30px;
+				top: 10px;
+				bottom: 10px;
+				box-shadow: -20px 0px 100px 10px rgba(0,0,0,.5);
+			}
+		}
+	}
+	.mobile-content {
+		position: absolute;
+		left: 27%;
+		right: 6.8%;
+		top: 1.8%;
+		bottom: 12%;
+	}
+	.mobile-image {
+		position: relative;
+		z-index: 1;
+	}
+	.video-desc {
+		font-size: 1.6rem;
+		line-height: 2.2rem;
+		vertical-align: middle;
+		span {
+			font-size: 1.4rem;
+		}
+	}
+}
+.footer-bottom {
+	padding: 3.35rem 0;
+	border-top: 1px solid rgba(255,255,255,.05);
+	p {
+		font-size: 1.6rem;
+		letter-spacing: -.01em;
+	}
+}
+
+
+@media (min-width: 1366px) {
+	.d-xxl-none { display: none !important; }
+	.d-xxl-block { display: block !important; }
+}
+
+@include mq(xl) {
+    .d-xl-inline-block {
+        display: inline-block !important;
+    }
+}
+
+// Helper Class
+.same-height {
+	.icon-box, .flip-card {
+		height: 100%;
+	}
+}
+
+.text-lg {
+	font-size: 1.2em;
+}
+
+/* Header */
+.header .divider {
+	height: 62px;
+	margin-right: 2.4rem;
+	background: rgba(255,255,255,.3);
+}
+
+.header-middle.fixed {
+	border-bottom-color: transparent;
+}
+
+.change-log {
+	font-size: 1.4rem;
+	margin-bottom: 4px;
+}
+
+.header .btn-purchase {
+    display: inline-block;
+	border: 2px solid #e4eaec;
+    outline: 0;
+	margin-bottom: 4px;
+	border-width: 1px;
+	box-shadow: 0 5px 20px 0 rgba(0,0,0,.2);
+	border-radius: 3px;
+	background-color: #fff;
+    border-color: #fff;
+	color: #222;
+	padding: 1em 2em;
+    font-weight: 700;
+    font-size: 1.4rem;
+    font-family: Poppins,sans-serif;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: center;
+    transition: color 0.3s,border-color 0.3s,background-color 0.3s,box-shadow 0.3s;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.sticky-header.fixed .btn:hover {
+	background-color: $primary-color;
+}
+
+.change-log {
+	font-size: inherit;
+	letter-spacing: -.02em;
+	margin-bottom: 2px;
+}

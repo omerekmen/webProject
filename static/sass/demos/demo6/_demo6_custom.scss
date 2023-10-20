@@ -1,0 +1,220 @@
+/* 
+Demo 6
+*/
+
+/* Base */
+.btn,
+.breadcrumb {
+    font-family: $font-family;
+    letter-spacing: 0;
+}
+.banner-subtitle,
+.nav-filter,
+.btn-product {
+    letter-spacing: 0;
+}
+
+/* Header */
+.menu > .submenu > a::after { content: none; }
+
+.menu-active-underline > li > a::before { bottom: 1rem; }
+
+.cart-price { font-size: 1.4rem; }
+
+.cart-name-delimiter { color: $light-color; transition: color .3s; }
+
+.cart-dropdown:hover {
+    .cart-name-delimiter { color: $primary-color; }
+}
+
+.delimiter { 
+    font-size: 1.4rem;
+    color: #aaa;
+}
+
+.register-link { margin-right: 2.4rem; }
+
+.cart-dropdown .cart-count {
+    margin-top: .2rem;
+    font-size: 1.4rem;
+    span {
+        font-size: 1.6rem;
+    }
+}
+
+/* Intro Slider */
+.intro-slider {
+    img { object-fit: cover; }
+    .btn { font-size: 1.4em; }
+    .owl-animated-out { animation-duration: .3s; }
+    .banner-subtitle {
+        font-size: 2em;
+        font-weight: 900;
+    }
+    .banner-title {
+        font-size: 4em;
+        color: #333;
+        line-height: 1.15
+    }
+    .btn i {
+        margin-left: .9rem;
+    }
+}
+
+.owl-nav-arrow .owl-nav {
+    .owl-next, .owl-prev { 
+        color: #989898; 
+        &.disabled { color: #989898; opacity: .8;}
+    }
+}
+
+.intro-slide1 {
+    .banner-content { max-width: 39rem; left: 3.1%;
+        .floating {
+            position: absolute;
+            right: -208%;
+        } 
+    }
+    .banner-subtitle { margin-top: .4rem; }
+    .banner-title { margin-bottom: 3.9rem; }
+}
+
+.intro-slide2 {
+    min-height: 65rem;
+    .banner-content {
+        max-width: 45rem;
+        right: 2.7%;
+        .floating {
+            position: absolute;
+            left: -120%;
+        }
+    }
+    .banner-subtitle { margin: .4rem 0 .7rem; }
+    .banner-title { margin-bottom: 4.8rem; }
+    .intro-slide2-image img { 
+        width: 39.1em;
+        object-fit: contain; 
+    }
+}
+@include mq(lg) {
+    .intro-slider .intro-slide1 figure img {
+        height: 65rem;
+    }
+}
+/* Toolbox */
+.nav-filter { font-size: 1.6rem; color: $secondary-color; }
+
+.toolbox {
+    display: flex;
+    align-items: center;
+    margin: 0.8rem 0px 1.2rem;
+
+    .toolbox-left {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+
+    .right-sidebar-toggle {
+        font-size: 1.6rem;
+        color: $secondary-color;
+        i { margin: 0 .8rem .4rem 0; }
+        &:hover, &:focus { color: $primary-color; }
+    }
+}
+
+.product-filters { margin-right: 1.8rem; }
+
+.nav-filters li:not(:last-child) { margin-right: 2.2rem; }
+
+.divider { height: 2rem; margin-right: 2.1rem; }
+
+/* Product */
+.product-wrapper .search-toggle {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #444;
+    padding: 0.9rem 0 1.1rem .3rem;
+    i {
+        font-size: 1.8rem;
+        color: #999;
+        margin-right: 0.8rem;
+    }
+}
+
+.btn.btn-load {
+    border-width: 1px;
+    color: $secondary-color;
+}
+
+.toolbox-left .header-search.hs-toggle:hover {
+    .input-wrapper {
+        transform: translate3d(0, 0, 0);
+        visibility: visible;
+        transition: transform .4s;
+        opacity: 1;
+    }
+}
+
+/* Sidebar */
+.shop-sidebar .sidebar-content { padding: 3rem; }
+
+.filter-actions { padding: 0 1rem 0 .2rem; }
+
+/* footer */
+.footer-middle {
+    .social-links {
+        justify-content: center;
+    }
+}
+
+//Product Pgae
+.product-details .product-navigation { padding: 0 .2rem; }
+.breadcrumb li:not(:last-child)::after {
+    content: '/';
+    font-size: 1.6rem;
+    line-height: 1;
+}
+/* Responsive */
+@include mq(xl, max) {
+    .intro-slide2-image { left: 5.8%; }
+}
+@include mq(lg, max) {
+    .intro-slide2 {
+        .intro-slide2-image { left: auto; right: 5%; }
+        .banner-content { 
+            left: 5%; 
+            right: auto;
+        }
+    }
+    .intro-slide2, .intro-slider img { min-height: 55rem; }
+    .toolbox {
+        .divider,
+        .header-search {
+            display: none;
+        }
+    }
+    .mobile-menu-toggle svg { stroke: #222; }
+}
+
+@include mq(md, max) {
+    .toolbox {
+        display: block;
+
+        .toolbox-left { margin-bottom: 1rem; }
+    }
+
+    .banner { font-size: .9rem; }
+    .intro-slide1 img { object-position: 60% 50%; }
+    .intro-slide2, .intro-slider img { min-height: 45rem; }
+}
+@include mq(sm, max) {
+    .intro-slide2 {
+        .banner-content { left: 2%; }
+        .intro-slide2-image { 
+            right: 0; 
+            img { width: 30em; }
+        }
+    }
+}

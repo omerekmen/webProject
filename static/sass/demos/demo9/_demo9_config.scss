@@ -1,0 +1,133 @@
+/*
+Demo 9 Variables
+*/
+@include set(
+    (
+        base: (
+            title: (
+                font-size: 2rem,
+                font-weight: 700,
+                line-height: 1.2em,
+                letter-spacing: -0.28px,
+                margin-bottom: 2.4rem
+            )
+        ),
+        header: (
+			top: (
+				letter-spacing: 0,
+				login: (
+					icon: (
+						font-size: 1.5rem
+					)
+				),
+				_links-gap: 1.7rem,
+			),
+			middle: (
+                color: #222,
+                font-weight: 600,
+                font-size: 1.4rem,
+                padding-top: 2.8rem,
+
+                login: (
+                    margin-right: 3.2rem,
+                    margin-top: .5rem,
+                    icon: (
+                        font-size: 2.7rem
+                    )
+                )
+            ),
+            bottom: (
+                color: #fff,
+                font-weight: 700,
+                padding-bottom: 0,
+            ),
+            cart: (
+                toggle: (
+                    padding: 0.7rem 0 0.4rem
+                )
+            ),
+            sticky: (
+                padding-top: 0,
+                padding-bottom: 0,
+                background-color: #313438
+            ),
+			mmenu-toggle: (
+				color: #222
+			),
+			search: (
+				round: (
+					width: 28rem
+				),
+				simple: (
+					color: #e1e1e1
+				)
+			)
+        ),
+        menu: (
+            ancestor: (
+                _gap: 2.9rem,
+                padding: 2rem 0,
+                font-weight: 600,
+            ),
+        ),
+        product: (
+            rating: (
+                margin-bottom: 1.7rem,
+                _star-color: #666
+            ),
+            body: (
+                padding-top: 1.6rem,
+                padding-bottom: 0
+            ),
+            label: (
+                background-color: $primary-color,
+                
+                sale: (
+                    background-color: $primary-color
+                )
+            )
+        ),
+        post: (
+            body: (
+                padding: 2rem
+            ),
+            title: (
+                text-transform: none,
+                font-size: 1.8rem,
+                line-height: 24px,
+                margin-bottom: 1.3rem
+            ),
+            content: (
+                margin-bottom: 3.7rem,
+                _row-count: 4
+            )
+        ),
+        footer: (
+			middle: (
+				padding: 82px 0px 40px 0px
+			),
+			bottom: (
+				padding: 2.8rem 0
+			),
+			about: (
+                logo: (
+					margin-top: -1px,
+                    margin-bottom: 1.9rem,
+                ),
+                p: (
+                    margin-bottom: 2.7rem,
+                    letter-spacing: -.008em
+                )
+            ),
+			copyright: (
+                color: #666,
+                font-weight: 500,
+				letter-spacing: -.01em
+			),
+			social-link: (
+				width: 2.9rem,
+				height: 2.9rem
+			)
+		)
+    )
+)

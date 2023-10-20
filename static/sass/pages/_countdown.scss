@@ -1,0 +1,191 @@
+/***************************
+        countdown
+***************************/
+//countdown-default
+.countdown-default {
+    display: flex;
+    justify-content: center;
+    border-radius: .3rem;
+    overflow: hidden;
+    .countdown-row {
+        display: flex;
+        justify-content: center;
+        line-height: 1.5;
+    }
+    .countdown-amount {
+        font-size: 3rem;
+        color: $dark-color;
+        letter-spacing: -.025em;
+        line-height: 1;
+        padding-top: 10px;
+    }
+    .countdown-period {
+        font-size: 1.4rem;
+        text-transform: lowercase;
+        padding-bottom: 10px;    
+        color: #9A9A9A;
+    }
+    .countdown-section {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-sizing: content-box;
+        width: 73px;
+        margin: 10px 22px;
+        border: 1px solid transparent;
+    }
+    &:not(.ct-2-grid) {
+        @include mq(sm) {
+            .countdown-section:not(:first-child)::before {
+                content: ':';
+                position: absolute;
+                color: #9A9A9A;
+                font-size: 3rem;
+                margin-right: 19px;
+                top: 50%;
+                left: calc(0% - 25px);
+                transform: translateY(-50%);
+            }
+        }
+        @include mq(sm ,max) {
+            .countdown-row {
+                display: grid;
+                grid-template-columns: repeat(2, calc(100% / 2));
+            }
+        }
+    } 
+}
+//split border
+.border-split .countdown-row{
+    position: relative;
+    &::before,
+    &:after {
+        position: absolute;
+        content: '';
+    }
+    &:before {
+        left: 0;
+        right: 0;
+        border-top: 1px solid rgba(255,255,255,.1);
+        top: 50%;
+    }
+    &::after {
+        top: 0;
+        bottom: 0;
+        border-left: 1px solid rgba(255,255,255,.1);
+        left: 50%;
+    }
+}
+
+.countdown-type1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #313439;
+    padding: 1.4rem 5rem;
+    border-radius: .3rem;
+    .banner-title {
+        font-size: 24px;
+        line-height: 1.2
+    }
+    .banner-subtitle {
+        font-size: 18px;
+        line-height: 1.2;
+    }
+    .countdown-content-center {
+        margin-left: auto;
+        margin-right: auto;
+        .countdown-section{
+            background-color: #414449;
+        }
+        .countdown-amount {
+            color: $white-color;
+        }
+    }
+    .btn {
+        position: relative;
+        color: $white-color;
+        transition: color .2s;
+        &:after {
+            position: absolute;
+            content: '';
+            top: 100%;
+            border-bottom: 2px solid;
+            width: 100%;
+            padding-top: 6px;
+        }
+        &:hover {
+            color: $primary-color;
+        }
+    }
+    @include mq(xl ,max) {
+        flex-direction: column;
+        align-items: unset;
+        .countdown-content-right {
+            text-align: right;
+        } 
+    }
+    @include mq(sm ,max) {
+        .countdown-content-left {
+            flex-direction: column;
+            text-align: center;
+        }
+        padding: 1.4rem;
+        align-items: center;
+    }
+}
+//border of countdown section
+.cd-section-border {
+    .countdown-section {
+        border: 1px solid #ccc;
+    }
+}
+//countdown-type2
+.countdown-type2 {
+    padding: 1rem;
+    .countdown {
+        background-color: #f5f5f5;
+        padding: 1.3rem 1rem;
+    }
+}
+//countdown-type3
+.countdown-type3 {
+    padding: 1rem;
+    .countdown {
+        display: flex;
+        padding: 22px 25px;
+        background-size: cover;
+        justify-content: flex-start;
+    }
+    .countdown-row {
+        display: grid;
+        grid-template-columns: repeat(2, calc(100% / 2));
+    }
+    .countdown-section {
+        padding: 0 5px; 
+        margin: 1rem;
+        border-radius: .3rem;
+    }
+    .countdown-1 {
+        background-image: url(../images/elements/count/2-2.jpg);
+        .countdown-section {
+            background-color: #6e6e6c;
+        }
+        .countdown-amount {
+            color: $white-color;
+        }
+        .countdown-period {
+            color: $light-color;
+        }
+    }
+    .countdown-2 {
+        background-image: url(../images/elements/count/3-2.jpg);
+        .countdown-amount {
+            color: $white-color;
+        }
+        .countdown-period {
+            color: #FFFFFFA6;
+        }
+    }
+}

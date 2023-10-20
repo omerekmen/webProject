@@ -1,0 +1,149 @@
+/******************************
+        banner effect
+******************************/
+
+.title-descri {
+    margin-left: auto;
+    margin-right: auto;
+    width: 65rem;
+    max-width: 90%;
+}
+.entrance-banner {
+    .banner img{
+        border-radius: 1rem;
+        min-height: 500px;
+        object-fit: cover;
+    }
+    .banner-slide1 {
+        .banner-content {
+            bottom: 13.2%;
+            left: 8.6%;
+        }
+        .banner-title {
+            font-size: 6em;
+            font-weight: 800;
+        }
+        .banner-descri {
+            font-size: 2em;
+            line-height: 1.2;
+        }
+        
+        @include mq(sm ,max) {
+            .banner-title >span {
+                display: block;
+            }
+        }
+    }
+    .banner-slide2 {
+        .banner-content {
+            right: 13.5%;
+        }
+        .banner-title { 
+            font-size: 5em;
+        }
+        .banner-subtitle {
+            font-size: 1.8em;
+        }
+        .banner-descri {
+            color: #EB5B50;
+            font-size: 2em;
+        }
+    }
+    
+}
+.kenburns-banner {
+    img {
+        min-height: 400px;
+        max-height: 800px;
+        object-fit: cover;
+    }
+    .banner {
+        overflow: hidden;
+        @include mq(md, max) {
+            font-size: 6px;
+        }
+    }
+    .banner-content {
+        position: absolute;
+        bottom: 12.5%;
+    }
+    .banner-subtitle {
+        font-size: 3.6em; 
+        color: #a6c76c;
+    }
+    .banner-title {
+        margin-left: -2px;
+        font-size: 8em;
+        font-weight: 800;
+    }
+    .banner-descri {
+        font-size: 3em; 
+    }
+}
+.hover-banner {
+    .banner {
+        margin-bottom: 20px;
+        border-radius: 1rem;
+        overflow: hidden;
+        h2 {
+            font-size: 20px;
+        }
+    }
+}
+// niche Slider
+.niche-slider {
+	figure img {
+        height: calc(100vh - 103px);
+        min-height: 450px;
+		object-fit: cover;
+		object-position: top;
+	}
+	.banner-subtitle {
+		margin-bottom: .7rem;
+		font-size: 4em;
+		letter-spacing: 1px;
+	}
+	.banner-title { font-size: 6em; }
+	p { 
+		font-size: 1.8em;
+		margin-bottom: 3.3rem;
+	}
+	.btn { 
+		padding: 1.25em 2.85em; 
+		border-radius: 3px;
+	}
+	
+	.h-divider {
+		display: block;
+		width: 4.9rem;
+		height: 4px;
+		color: $white-color;
+		margin-bottom: 2.2rem;
+	}
+
+	.banner-content {
+		margin-top: 2px;
+	}
+	.duration {
+		animation-duration: 30s;
+	}
+}
+.niche-slide1 {
+    .banner-content { left: 16.2%; }
+    overflow: hidden;
+    .h-divider {
+        background-color: #20C7D9;
+    }
+    .banner-subtitle {
+        color: #20C7D9;
+    }
+    @include mq(sm ,max) {
+        .banner-content {
+            left: 8%;
+        }
+    }
+}
+.niche-slide2 {
+	background-position: 75%;
+	.banner-content { right: 10.45%; }
+}

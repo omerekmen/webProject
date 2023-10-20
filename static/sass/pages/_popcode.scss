@@ -1,0 +1,115 @@
+/********************************
+        popup code-console
+********************************/
+.show-code {
+    position: absolute;
+    padding: 3px  10px;
+    visibility: hidden;
+    opacity: 0;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -10px);
+    z-index: 100;
+    border-radius: 3px;
+    color: $white-color;
+    background-color: $primary-color;
+    overflow: hidden;
+    transition: visibility 0.35s,opacity 0.35s, transform .35s;
+}
+.code-template {
+    position: relative;
+    .show-code >i {
+        font-size: 14px;    
+    }
+    .code-style {
+        display: none;
+    }
+    &:hover {
+        .show-code {
+            cursor: pointer;
+            visibility: visible;
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+    }
+}
+.code-popup {
+    border-radius: 5px;
+    width: 1000px; 
+    max-width: 100%;
+    z-index: 4000;
+}
+
+.code-console {
+    border-radius: 5px;
+    .CodeMirror {
+        background-color: #f4f4f4;
+        padding: 2rem 1rem 1rem 2rem;
+        height: 580px;
+        max-height: 80vh;
+        color: $body-color;
+    }
+    .CodeMirror-vscrollbar {
+        &::-webkit-scrollbar{
+            width: 5px;    
+        }
+        &::-webkit-scrollbar-thumb{
+            margin-right: 2px;
+            background: rgba(#000, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background .3s;
+        }
+    }
+    .CodeMirror-hscrollbar {
+        &::-webkit-scrollbar{
+            height: 5px;    
+        }
+        &::-webkit-scrollbar-thumb{
+            margin-bottom: 2px;
+            background: rgba(#000, 0.3);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background .3s;
+        }
+    }
+    .code-text {
+        display: block !important;
+        opacity: 0;
+        padding: 0;
+        border: none;
+        height: 1px;
+    }
+    .tooltiptext {
+        padding: 9px;
+        top: 165%;
+        left: 48%;
+        height: 29px;
+        z-index: 999;
+        font-size: 12px;
+        white-space: nowrap;
+        border-radius: 5px;
+    }
+    .code-copy {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $text-grey-color;
+        font-weight: 600;
+        padding: 2rem;
+        box-shadow: 0 15px 15px -15px rgba(#000, 0.1);
+    }
+}
+.copy-icon {
+    position: relative;
+    font-size: 21px;
+    &:hover {
+        cursor: pointer;
+        color: $primary-color;
+        transition: color .35s;
+        .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+}

@@ -1,0 +1,672 @@
+/* Demo Food */
+
+//base 
+.title-wrapper {
+    text-align: center;
+    margin-bottom: 27px;
+
+    .title {
+        font-size: 3rem;
+        font-weight: 600;
+        letter-spacing: -.025em;
+        line-height: 1.8;
+        margin-bottom: 0;
+    }
+
+    span.title-info {
+        display: flex;
+        direction: ltr;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        font-size: 16px;
+        margin: 0 auto;
+        line-height: 1;
+        letter-spacing: .3px;
+
+        &::before {
+            display: inline-block;
+            content: "";
+            border-bottom: 0;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            border-top: 2px solid #e1e1e1;
+            margin-right: 20px;
+            max-width: 6rem;
+        }
+        &::after {
+            display: inline-block;
+            content: "";
+            border-bottom: 0;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            border-top: 2px solid #e1e1e1;
+            margin-left: 20px;
+            max-width: 6rem;
+        }
+    }
+
+    &.title-white {
+        .title {
+            color: #fff;
+        }
+        span.title-info {
+            color: #fff;
+            opacity: .6;
+            &::before, &::after {
+                border-top-color: rgba(255, 255, 255 , .6);
+            }
+        }
+    }
+
+    &.title-underline {
+        border-bottom: 1px solid #e1e1e1;
+        .title {
+            padding: 0px 0px 14px 0px;
+            color: #444444;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: left;
+        }
+    }
+}
+
+
+h1, h2, h3, h4, h5, h6, p, .btn {
+    font-family: 'Jost';
+}
+
+.product-details > .btn-wishlist {
+    top: 1.8rem;
+}
+
+//header
+.menu-active-underline>li>a::before {
+    bottom: 1rem;
+}
+.header-top {
+    .header-left {
+        position: relative;
+        overflow: hidden;
+        i {
+            font-size: 1.7rem;
+        }
+    }
+
+    .welcome-msg {
+        padding: 1.2rem 0 1.1rem;
+        letter-spacing: -.025em;
+
+        .contact {
+            margin-right: 22px;
+        }
+    }
+}
+
+.header-middle {
+    .header-search i {
+        font-size: 20px;
+    }
+    .divider {
+        height: 1.9rem;
+        background-color: #4E4E4E;
+    }
+
+    .search-toggle i {
+        color: rgb(255,255, 255, .9);;
+    }
+}
+
+.cart-dropdown.type3 .cart-toggle {
+    padding: 17px 13px 16px;
+
+    i {
+        font-size: 1.3rem;
+        margin-right: 7px;
+    }
+
+    &:hover {
+        color: #fff;
+    }
+}
+
+.shape-divider {
+    position: relative;
+    z-index: 1;
+
+    .shape1, .shape2 {
+        svg {
+            position: absolute;
+        }
+    }
+
+    .shape1 svg {
+        transform: translateY(-70.5%);
+        width: 100vw;
+    }
+
+    .shape2 svg {
+        transform: translateY(-99%);
+        width: 100vw;
+    }
+}
+
+// intro slide
+.intro-section {
+    overflow: hidden;
+}
+.intro-slider {
+    figure img {
+        min-height: 734px;
+        object-fit: cover;
+    }
+    .banner-content {
+        position: absolute;
+        margin: 0 20px;
+        top: 25.5%;
+    }
+
+    &.owl-carousel .owl-nav {
+        button {
+            font-size: 48px;
+            color: #6E6C6C;
+            font-weight: 400;
+            width: 1em;
+            height: 1em;
+            border: none;
+             
+            i {
+                display: none;
+            }
+    
+            &.owl-prev {
+                font-family: 'riode';
+                left: 5%;
+                &::before {
+                    content: "\e982";
+                }
+            }
+            &.owl-next {
+                font-family: 'riode';
+                right: 5%;
+                &::before {
+                    content: "\e983";
+                }
+            }
+            &:hover {
+                color: $primary-color !important;
+                background-color: transparent !important;
+            }
+        }
+    }
+}
+.intro-slide1, .parallax {
+    .banner-content {
+        text-align: center;
+    }
+    .banner-subtitle {
+        font-size: 3rem;
+        letter-spacing: -.75px;
+        line-height: 1;
+        font-weight: 400;
+        color: #40484A;
+        margin-bottom: 9px;
+    }
+    .banner-title {
+        font-size: 5.5em;
+        line-height: 1;
+        letter-spacing: -2.45px;
+    } 
+    p {
+        color: #666666;
+        font-size: 2em;
+        font-weight: 400;
+        line-height: 1.8em;
+        letter-spacing: -.1px;
+        margin-bottom: 3.8rem;
+    }
+}
+
+.intro-slide1 .banner-content {
+    left: 0;
+    right: 0;
+}
+.intro-slide2 {
+    .banner-content {
+        position: relative;
+        left: 1.4%;
+        top: 25%;
+    }
+    .banner-subtitle {
+        font-size: 3.6em;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: -.9px;
+        margin-bottom: 5.1rem;
+    }
+    .banner-title {
+        font-size: 6em;
+        line-height: 1;
+        letter-spacing: -3px;
+        margin-bottom: 1.7rem;
+    }
+    p {
+        color: #666666;
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 1em;
+        margin-bottom: 1.8rem;
+    }
+
+    .custom-single-image {
+        position: absolute;
+        top: -28px;
+        right: 2.3%;
+        min-width: 50rem;
+        z-index: -1;
+    }
+}
+
+//Service List
+.service-list-section {
+    z-index: 3;
+    margin-top: -16.4rem;
+
+    .owl-stage-outer {
+        padding: 3rem;
+        margin: -3rem;
+    }
+}
+
+.home .icon-box-side {
+    padding: 6.5rem 1rem 3.5rem;
+    background-color: #FFF;
+    border-radius: 3px;
+    box-shadow: 5px 5px 30px 0px rgba(0,0,0,0.05);
+    
+    .icon-box-icon {
+        font-size: 4rem;
+        height: 3.7rem;
+        color: #222;
+    }
+
+    .d-icon-card {
+        font-size: 4.8rem;
+    }
+
+    .d-icon-truck {
+        font-size: 5.4rem;
+    }
+
+    p {
+        font-size: 1.6rem;
+        line-height: 1.45em;
+    }
+    .icon-box-title {
+        font-size: 1.8rem;
+        margin-bottom: 4px;
+    }
+}
+
+// banners group
+.banners-group {
+    .height-x2 {
+        height: 34rem;
+    }
+
+    .height-x1 {
+        height: 24rem;
+    }
+
+    .banner-title {
+        font-size: 2rem;
+        color: #222;
+        font-weight: 400;
+        letter-spacing: -.5px;
+        line-height: 1.2;
+        margin-bottom: 1.7rem;
+    }
+
+    .banner {
+        position: relative;
+        margin-bottom: 1.7rem;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .banner-content {
+        position: absolute;
+        left: 7%;
+        margin-top: 1px;
+    }
+
+    .btn {
+        letter-spacing: -.025em;
+    }
+}
+
+// parallax section
+.shape-divider2, .shape-divider3, .shape-divider4 {
+    overflow: hidden;
+    svg {
+        position: absolute;
+        left: 0;
+        width: 100vw;
+        z-index: 1;
+    }
+}
+
+.shape-divider2 svg {
+    top: 0;
+}
+
+.shape-divider3 svg {
+    bottom: -3px;
+}
+
+.parallax-section {
+    .parallax {
+        min-height: 68.9rem;
+    }
+
+    .container {
+        height: 100%;
+    }
+
+    .banner-content {
+        position: absolute;
+    }
+}
+
+// banner section
+.banner-section {
+    overflow: hidden;
+    z-index: 3;
+    padding-bottom: 10rem;
+
+    .banner-image-wrapper {
+        position: relative;
+        margin: -8px 0 0 -1.8rem;
+    }
+
+    .banner-image1, .banner-image2 {
+        position: absolute;
+    }
+
+    .banner-image1 {
+        left: -7%;
+        top: 3%;
+    }
+
+    .banner-image2 {
+        left: 68%;
+        bottom: -12%;
+    }
+
+    .banner-image3 {
+        position: relative;
+        z-index: 2;
+
+        img {
+            width: auto;
+        }
+    }
+    .banner-subtitle {
+        font-size: 2.4rem;
+        font-weight: 400;
+        line-height: 1;
+        letter-spacing: -.6px;
+        margin-bottom: 7px;
+    }
+    .banner-title {
+        font-size: 4em;
+        line-height: 1.25;
+        letter-spacing: -2px;
+        margin-bottom: 37px;
+    }
+
+    .textwidget {
+        display: flex;
+
+        h3 {
+            margin-top: -6px;
+            letter-spacing: -1.75px;
+            width: 4.5rem;
+        }
+
+        h5 {
+            letter-spacing: -.1px;
+            line-height: 1.2;
+        }
+
+        p {
+            color: #999;
+            font-size: 1.6rem;
+            line-height: 1.5;
+            letter-spacing: .1px;
+        }
+    }
+}
+
+.parallax-section2 {
+    .parallax {
+        min-height: 50.1rem;
+    }
+}
+
+.shape-divider4 svg {
+    top: -24%;
+}
+
+//blog section
+.blog-section {
+    position: relative;
+    z-index: 2;
+    margin-top: -30rem;
+
+    .title-wrapper span.title-info {
+        letter-spacing: -.022em;
+        
+        &:before, &::after {
+            border-color: #CBCBCB;
+        }
+    }
+    .shape-divider {
+        position: static;
+    }
+
+    .owl-stage-outer {
+        margin: -25px;
+        padding: 25px;
+    }
+
+    .post-frame {
+        background-color: #fff;
+        box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.05);
+        box-shadow: 5px;
+
+        .post-details {
+            padding: 2.3rem 0 2.2rem;
+        }
+
+        .btn {
+            font-size: 1.3rem;
+            letter-spacing: -.025em;
+        }
+
+        .post-content {
+            margin-bottom: 2rem;
+        }
+    }
+}
+
+//brand section
+.brand-section {
+    img {
+        box-shadow: 0 0 20px 4px rgba(0, 0, 0, .04);
+    }
+}
+
+//minipopup
+.minipopup-box .btn.btn-sm {
+    font-size: 1.3rem;
+}
+
+// Footer
+.footer-middle {
+    .logo-footer {
+        margin-bottom: 3.1rem;
+    }
+
+    .widget-info li {
+        margin-bottom: 1.6rem;
+    }
+}
+
+// shop page
+.shop {
+    .page-header {
+       .breadcrumb {
+           font-family: 'Jost';
+           font-size: 1.6rem;
+           padding-top: 7px;
+           padding-bottom: 2px;
+       }
+    }
+
+    .delimiter {
+        font-size: 1.8rem;
+    }
+
+    .sidebar li {
+        font-size: 1.5rem;
+        padding-top: 1.4rem;
+    }
+
+    .select-menu ul {
+		width: 21rem;
+
+		li {
+			display: flex;
+		}
+
+		a {
+			padding-left: 0;
+		}
+
+		.count {
+			margin-left: auto;
+		}
+	}
+}
+
+//product page
+.single-product {
+    .card-header a, li, td, .breadcrumb {
+        font-family: 'Jost';
+    }
+
+    .title {
+        font-size: 2.4rem;
+    }
+}
+.accordion {
+    .card-header {
+        .collapse {
+           color: #222;
+        }
+
+        a {
+            padding: 2.7rem 0;
+
+            &:after {
+                content: '\e952';
+            }
+            
+            &.collapse:after {
+                content: '\e953';
+            }
+        }
+    }
+
+    .description-title {
+        font-size: 1.6rem;
+    }
+
+    .card-body {
+        padding: 0;
+    }
+
+    ul {
+        padding-inline-start: 0;
+
+        li {
+            list-style: none;
+        }
+    }
+
+    #product-tab-description .description-title ~ p, .card-description .description-title ~ p {
+        line-height: 1.6;
+    }
+}
+
+@include mq(xl, max) {
+    .main-nav {
+        .menu {
+            > li {
+                margin-right: 2.9rem;
+            }
+        }
+    }
+}
+
+@include mq(lg, max) {
+    .header-middle {
+        .header-left, .header-right {
+            flex: none;
+            margin-left: unset;
+        }
+    }
+
+    .intro-slide2 .custom-single-image {
+        transform: translateX(50%);
+    }
+
+    .parallax-section .parallax-section2 {
+        .parallax {
+            min-height: 40rem;
+        }
+    }
+
+    .banner-section {
+        padding-bottom: 4rem;
+    }
+}
+
+@include mq(sm, max) {
+    .header-top .wishlist {
+        display: none;
+    }
+    .welcome-msg {
+        transform: translateX(0);
+        animation: 6s linear 2s 1 show_msg_first, 12s linear 8s infinite show_msg;
+    }
+    .intro-slider .banner {
+        font-size: .9rem;
+    }
+
+    .intro-slider figure img {
+        min-height: 65rem;
+    }
+
+    .intro-slide2, .intro-slide1 {
+        .banner-content {
+            top: 17%;
+        }
+    }
+}
+
+@include mq(xs, max) {
+}

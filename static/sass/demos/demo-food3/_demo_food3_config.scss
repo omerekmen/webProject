@@ -1,0 +1,109 @@
+@include set (
+    (
+        base: (
+            title: (
+                font-size: 2.6rem,
+                font-weight: 400,
+                letter-spacing: -.025em,
+                font-family: $second-font-family,
+            ),
+        ),
+        header: (
+            background: #191919,
+            middle: (
+                background: transparent,
+                font-size: 1.4rem,
+                border: none,
+                logo: (
+                    margin-right: 0,
+                    margin-bottom: 0,
+                    margin-top: 1px,
+                ),
+                login: (
+                    icon: (
+                        font-size: 2.2rem,
+                    ),
+                ),
+            ),
+            main-nav: (
+                margin: 0,
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 2.2rem,
+                ),
+            ),
+            cart: (
+                toggle: (
+                    padding: .7rem 0 .6rem,
+                )
+            ),
+        ),
+        menu: (
+            ancestor: (
+                font-weight: 600,
+            ),
+        ),
+        product: (
+            body: (
+                padding-top: 1.6rem,
+                padding-bottom: 1.8rem,
+            ),
+            name: (
+                margin-bottom: .4rem,
+            ),
+            rating: (
+                margin-bottom: 1.8rem,
+            )
+        ),
+        post: (
+            detail: (
+                padding: 1.3rem 1.7rem 2.3rem 2rem,
+            ),
+            content: (
+                _row-count: 2,
+            ),
+            title: (
+                letter-spacing: -.025em,
+            )
+        ),
+        footer: (
+            middle: (
+                padding: 7.1rem 0 3.3rem,
+                    widget: (
+                    title: (
+                        margin-bottom: 1rem,
+                    )
+                )
+            ),
+            bottom: (
+                padding: 3.4rem 0 3.3rem,
+            ),
+            about: (
+                p:(
+                    color: #666,
+                    margin-bottom: 2.6rem,
+                ),
+            ),
+            social-link: (
+                border: 1px solid #999,
+            ),
+        ),
+        product-single: (
+            name: (
+                margin: 1px 0 19px 2px,
+                font-size: 2.4rem,
+                letter-spacing: 0,
+            ),
+            rating: (
+                review-color: $body-color,
+            ),
+        ),
+        form: (                                       
+            input-group: (
+                color: $grey-color,
+                border-color: $border-color,
+            )
+        )
+    )
+);

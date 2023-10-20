@@ -1,0 +1,138 @@
+/* 
+Demo 20 Variables
+*/
+@include set(
+	(
+		base: (
+			body: (
+				letter-spacing: -.025em
+			),
+			title: (
+                font-size: 2.4rem,
+                font-weight: 700,
+                line-height: 1,
+                letter-spacing: 0,
+                text-transform: none,
+				margin-bottom: 4.5rem,
+				color: #333
+            )
+		),
+		header: (
+            border-bottom: 1px solid #dadada,
+
+            top: (
+                border-bottom: 1px solid #dadada,
+                font-size: 1.3rem,
+                _links-gap: 2.5rem,
+                color: rgba(102,102,102,0.8),
+                background-color: transparent,
+
+                wishlist: (
+                    margin-right: 0,
+                    icon: (
+                        font-size: 1.4rem,
+                        margin-right: .9rem
+                    )
+                ),
+                login: (
+                    icon: (
+                        margin-right: .8rem,
+                        font-size: 1.4rem
+                    )
+                )
+            ),
+            middle: (
+                padding-top: 2.5rem,
+                padding-bottom: 2.6rem,
+                letter-spacing: 0,
+                background-color: transparent,
+
+                logo: (
+                    margin-bottom: 0,
+                )
+            ),
+            contact: (
+                icon: (
+                    font-size: 1.6rem,
+                )
+            ),
+            help: (
+                icon: (
+                    font-size: 1.6rem,
+                    margin-left: 3px
+                )
+            ),
+            call: (
+                letter-spacing: -.1px,
+                label: (
+                    _gap: 0,
+                    font-size: false,
+                    font-weight: inherit,
+                    line-height: false,
+                    text-transform: capitalize,
+                    margin-right: .3rem
+                ),
+                icon: (
+                    margin: 0 1rem 0 0,
+                    font-size: 1.4rem
+                )
+            ),
+            sticky: (
+                padding-top: 1.8rem,
+                padding-bottom: 1.7rem
+            )
+        ),
+        menu: (
+            ancestor: (
+                _gap: 2.9rem,
+                padding: 1.5rem 0,
+                font-family: false,
+                font-size: 14px,
+                font-weight: 700,
+                letter-spacing: 0,
+                line-height: 1.2,
+                text-transform: capitalize,
+                color: false,
+                _active-color: false,
+            ),
+        ),
+		product: (
+            margin-bottom: 20px,
+			price: (
+				margin-bottom: .3rem
+			),
+			body: (
+				padding-bottom: 2rem
+			),
+		),
+		post: (
+			title: (
+				text-transform: none,
+				font-size: 1.8rem,
+				font-weight: 700,
+				letter-spacing: -.025em,
+				line-height: 1.5,
+			),
+			content: (
+				margin-bottom: 2rem,
+				_row-count: 3,
+			),
+			caldendar: (
+				background-color: rgba(255,255,255,0.9)
+			)
+		),
+		footer: (
+            bottom: (
+                padding: 2.6rem 0 2.9rem
+            ),
+            middle: (
+				letter-spacing: 0,
+				widget: (
+					title: (
+						color: #ccc
+					)
+				)
+			),
+        )
+	)
+)

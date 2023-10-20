@@ -1,0 +1,126 @@
+/* 
+Demo 22 Variables
+*/
+@include set(
+	(
+		base: (
+			title: (
+				font-size: 2rem,
+				font-weight: 700,
+				padding-bottom: 1.8rem,
+				text-transform: none,
+				letter-spacing: 0,
+				line-height: 1.2,
+				border: (
+					width: 1px
+				)
+			)
+		),
+		header: (
+			search: (
+				simple: (
+					color: #e1e1e1,
+				)
+			),
+			top: (
+				padding-bottom: 1px,
+			),
+			middle: (
+				padding-top: 2.7rem,
+				padding-bottom: 2.6rem,
+				logo: (
+					margin-right: 8.2rem
+				)
+			),
+			bottom: (
+				color: #fff,
+				background: #333,
+				font-weight: 600
+			),
+			sticky: (
+				padding-top: 1.5rem,
+				padding-bottom: 1.4rem,
+			),
+			category: (
+				toggle: (
+					padding: 1.5rem 1.55rem 1.4rem
+				)
+			),
+			mmenu-toggle: (
+				color: #222
+			)
+		),
+		menu: (
+			ancestor: (
+				padding: 2rem 0,
+				font-weight: false,
+				_gap: 3.1rem,
+			),
+		),
+        category-menu: (
+			background: transparent,
+			title: (
+				padding: 0.7rem 0rem 0.7rem,
+				margin-left: 2px
+			),
+            ancestor: ( 
+                _split-line: 1px solid #e4e5e5,
+                padding: 1.6rem 2px 1.5rem 0rem,
+                min-height: 4.4rem,
+                line-height: 1,
+                font-size: 1.3rem,
+                text-transform: none,
+                font-weight: 400,
+                color: #222
+            ),
+            icon: (
+                margin-right: 1rem,
+                color: #666
+            )
+		),
+		product: (
+			body: (
+				padding-top: .6rem
+			)
+		),
+		post: (
+			body: (
+				padding: 1.9rem 0 1.5rem,
+			),
+			info: (
+				margin-bottom: .7rem,
+				letter-spacing: 0
+			),
+			title: (
+				text-transform: none,
+				margin-bottom: 1.7rem,
+				margin-left: -2px,
+				padding-left: 2px,
+				font-size: 1.6rem,
+				letter-spacing: 0,
+			),
+			btn: (
+				_icon-gap: 6px
+			),
+			detail: (
+				padding: 1.7rem 0 1.7rem
+			),
+			meta: (
+				margin-bottom: .5rem
+			)
+		),
+		footer: (
+            bottom: (
+                padding: 2.7rem 0 2.8rem
+            ),
+            middle: (
+                letter-spacing: 0
+			),
+			newsletter: (
+				title: (
+					color: #e1e1e1
+				)
+			)
+        )
+	)
+)

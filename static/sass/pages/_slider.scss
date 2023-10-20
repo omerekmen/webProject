@@ -1,0 +1,91 @@
+/***************************
+        slider
+***************************/
+
+.big-slider {
+    .banner-subtitle {
+        font-size: 1.4em;
+        font-weight: 400;
+        line-height: 2em;
+        letter-spacing: 2.3px;
+    }
+
+    .banner-title {
+        position: relative;
+        margin: 0px 0px 30px -5px;
+        font-size: 3.6em;
+        line-height: 1.1em;
+        letter-spacing: -.025em;
+
+        &::after {
+            content: ' ';
+            position: absolute;
+            left: 0;
+            height: 4px;
+            width: 4.9rem;
+            top: 115%;
+            background: #faca2a;
+        }
+    }
+
+    P {
+        font-size: 1.1em;
+        font-weight: 400;
+        line-height: 1.8em;
+        letter-spacing: -0.01em;
+    }
+
+    .banner img { 
+        min-height: 444px; object-fit: cover; 
+    }
+
+    &.owl-carousel .owl-nav {
+        button {
+            &.owl-prev {
+                left: 4.5%;
+            }
+            &.owl-next {
+                right: 4.5%;
+            }
+        }
+    }
+}
+.big-slide1 {
+    .banner-content {
+        left: 16.1%;
+    }
+    .ls-super  {
+        letter-spacing: 8px;
+    }
+}
+
+.big-slide2 {
+    .banner-content {
+        position: absolute;
+        right: 17.5%;
+        left: auto;
+        transform: translate(0,-50%);
+    }
+    .banner-title::after {
+        background-color: $primary-color;
+        margin-bottom: 40px;
+    }
+    p {
+        font-size: 14px;
+    }
+    .btn {
+        border-radius: .3rem;
+        padding: 0.92em 1.61em;
+    }
+}
+//slide-effect
+.slide-effect {
+    img {
+        max-width: 573px;
+    }
+    .slider-name {
+        text-align: center;
+        font-size: 20px;
+        margin-top: 25px;
+    }
+}

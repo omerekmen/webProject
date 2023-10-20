@@ -1,0 +1,89 @@
+/*******************
+        hotspot
+*******************/
+// hotspot
+.hotspot-section,
+.hotspot-section .banner-content {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+.banner-hotspot {
+    > figure img {
+        object-fit: cover;
+        min-height: 60rem;
+        border-radius: 10px;
+    }
+}
+.hotspot-container,
+.hotspot-container .hotspot {
+    position: absolute;
+}
+.hotspot-container {
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    > figure {
+        position: relative;
+        z-index: -1;
+    }
+    .hotspot-type4:not(:hover) a:before{
+        color: #fff;
+    }
+}
+//style-section
+.style-section {
+    background-color: #f8f8f8;
+    padding: 7.5rem 0 7rem;
+    .hotspot-style {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin: 0 -.5rem;
+        @include mq(xl, max) {
+            justify-content: space-around;
+        }
+    }
+    .hotspot-type {
+        width: 220px;
+        min-width: 220px;
+        height: 122px;
+        margin: 1rem;
+        border: 6px solid $border-color-light;
+        background-color: $bg-secondary-white-color;
+    }
+    i {
+        color: #fff;
+    }
+    .hotspot-type,
+    .hotspot-type a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    } 
+    a{
+        width: 4rem;
+        height: 4rem;
+        margin: .5rem;
+        border-radius: 100%;
+    }
+    .hotspot-type1,
+    .hotspot-type2,
+    .hotspot-type3 {
+        .no-hover {
+            background-color: $dark-color;
+        }
+        .hover {
+            background-color: $primary-color;
+        }
+    }
+    .hotspot-type4 {
+        .no-hover i {
+            color: $dark-color;
+        }
+        .hover i {
+            color: $primary-color;
+        }
+    }
+}

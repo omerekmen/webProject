@@ -1,0 +1,376 @@
+/* 
+Demo 13
+*/
+// Header
+.mobile-menu-toggle {
+    color: #fff;
+}
+.header {
+    &:not(.header-transparent) {
+        .header-top, .header-middle {
+            background: #282828;
+        }
+    }
+}
+.header-middle {
+    .main-nav {
+        margin-right: 2rem;
+    }
+    .divider {
+        height: 2.5rem;
+        opacity: .2;
+        margin-right: 2rem;
+    }
+    .search-toggle {
+        padding: 1.5rem 0 0.7rem;
+        i {
+            font-size: 20px;
+        }
+    }
+}
+// Intro Slider
+.intro-slider {
+    figure img {
+        min-height: 700px;
+        object-fit: cover;
+    }
+    .banner-content { 
+        position: absolute;
+        max-width: 58rem; 
+    }
+    p { font-size: 1.8em; }
+    .btn i {
+        margin-left: 9px;
+    }
+}
+.intro-slide1 {
+    .banner-content {
+        top: 61.3%;
+    }
+    .banner-subtitle { font-size: 3.6em; }
+    .banner-title {
+        margin-left: -2px;
+        font-size: 8em;
+        font-weight: 800;
+    }
+    p { font-size: 3em; }
+    .duration {
+        animation-duration: 30s;
+    }
+}
+.intro-slide2 {
+    .banner-content {
+        margin: 0 20px;
+        top: 54% !important;
+        right: -7.5%;
+        width: auto;
+        max-width: 55rem;
+    }
+    .banner-subtitle {
+        font-size: 3em;
+        line-height: 48.9px;
+        letter-spacing: -1.5px;
+    }
+    .banner-title { 
+        font-size: 5em;
+        letter-spacing: -0.85px;
+    }
+    p {
+        color: #444442;
+        font-size: 2em;
+        font-weight: 600;
+        line-height: 1.33em;
+        letter-spacing: -0.18px;
+    }
+}
+.intro-slide3 {
+    .banner-subtitle { font-size: 3em; }
+    .banner-title {
+        margin-bottom: 2.4rem;
+        font-size: 5em;
+    }
+    p {
+        max-width: 55rem;
+        margin-bottom: 3.8rem;
+        line-height: 1.67;
+    }
+}
+// Product wrapper
+.product-wrapper {
+    .nav-tabs.nav-tabs-products {
+        .nav-item {
+            margin-right: 0;
+            padding: 0 12.5px;
+        }  
+        .nav-item {
+            .nav-link {
+                position: relative;
+                padding: 13px 0px 12px 0px;
+                font-size: 2rem;
+                font-weight: 700;
+                letter-spacing: -0.5px;
+                color: #999999;
+                border-bottom-width: 0;
+    
+                &::before {
+                    content: '';
+                    position: absolute;
+                    display: block;
+                    width: 100%;
+                    transition: transform .35s;
+                    border-bottom: 8px solid $primary-color;
+                    bottom: -2px;
+                    transform: scale(0);
+                }
+            }
+            
+            &:hover .nav-link, .nav-link.active {
+                color: #333;
+    
+                &::before {
+                    transform: scale(0.5);
+                }
+            }
+        } 
+    }
+    .tab-content { padding: 0; }
+
+    .owl-carousel {
+        .owl-dots {
+            bottom: -66px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+
+            span {
+                background-color: #999999;
+                border-color: #999999;
+            }
+        }
+    }
+}
+// Banner Group
+.banner-group {
+    .height-x1 { height: 250px; }
+    .height-x2 { height: 500px; }
+    .banner-title,
+    p {
+        font-size: 2.4em;
+        line-height: 1.25;
+    }
+    p { margin-bottom: 1.3rem; }
+    .banner-subtitle {
+        font-size: 1.6em;
+    }
+    .btn {
+        letter-spacing: -.3px;
+    }
+}
+.banner1 {
+    .banner-title { 
+        color: #444;
+        font-size: 1.8em; 
+    }
+    .banner-content { background-color: rgba(255,255,255,.8); }
+}
+.banner2,
+.banner4 {
+    .banner-content { padding: 0 1.5rem 0 6.67%; }
+}
+.banner3 {
+    .banner-content {
+        bottom: 6.25%;
+        padding: 0 1.5rem 0 7.36%;
+    }
+    .btn {
+        padding: 1.08em 2em 1.08em 2em;
+    }
+}
+.banner5 {  
+    .banner-subtitle {
+        font-size: 2.6em;
+        letter-spacing: 2px;
+    }
+    .btn {
+        padding: 0.83em 1.86em 0.83em 1.86em;
+    }
+}
+// Title
+.title {
+    display: flex;
+    align-items: center;
+    .divider {
+        margin: 0 1.5rem;
+        height: 1.9rem; 
+    }
+    a { 
+        line-height: 28px;
+        margin-bottom: -4px;
+        i { 
+            font-size: 13px;
+            margin-bottom: .2rem;
+            margin-left: .7rem; 
+        }
+    }
+}
+// Banner CTA
+.banner-cta {
+    padding: 9.5rem 0 9.9rem;
+    .banner-subtitle { font-size: 2.4rem; }
+    .banner-title { font-size: 3.4rem; }
+}
+// Blog
+.blog {
+    .title {
+        letter-spacing: -.4px;
+    }
+}
+.post-list {
+    .post-title {
+        white-space: normal;
+        color: #222;
+        font-weight: 700;
+    }
+    .btn {
+        padding: 0;
+        font-weight: 400;
+        text-transform: none;
+    }
+}
+.post-mask {
+    .post-title {
+        font-size: 1.4rem;
+        letter-spacing: .013em;
+        a:hover { color: $primary-color; }
+    }
+    .post-details {
+        left: 2rem;
+        right: 2rem;
+        bottom: 1.7rem;
+    }
+    .post-meta {
+        margin-bottom: .7rem;
+        letter-spacing: -.025em;
+        a:hover { color: $primary-color; }
+    }
+    &::before { background: linear-gradient(to bottom, rgba(125,185,232,0) 0%, rgba(0,0,0,.1) 100%); }
+}
+
+// Brands
+.brand-carousel {
+    padding: 2.3rem 0;
+}
+
+// Footer
+.footer-top .logo-footer {
+    margin-top: 3px;
+}
+.footer-middle .widget-instagram .widget-title { margin-bottom: 1rem; }
+.footer-middle {
+    .widget-contact {
+        label {
+            font-weight: 400;
+            letter-spacing: normal;
+            color: #e1e1e1;
+            margin-right: -1px;
+        }
+    }
+}
+
+//sticky footer
+.sticky-footer {
+    .cart-dropdown .cart-toggle {
+        padding: 0;
+    }
+}
+
+.tag {
+    padding: 0.2rem 1.3rem;
+    margin: .5rem 1rem 1rem 0;
+}
+
+// Responsive
+@include mq(xxl, max) {
+    .header-middle .header-right {
+        > *:not(:last-child):not(.mobile-link) { margin-right: 1.2rem; }
+    }
+    .header .cart-dropdown .cart-label { display: none; }
+    .post-list {
+        .post-title, .post-content { margin-bottom: .5rem; }
+        .post-content { -webkit-line-clamp: 2; }
+    }
+
+    .intro-slide2 .banner-content {
+        right: 0;
+    }
+}
+@include mq(lg, max)  {
+    .header .wishlist { display: none; }
+    .banner { font-size: .9rem; }
+    .post-list {
+        .post-title,
+        .post-content {
+            margin-bottom: 1.5rem;
+        }
+    }
+}
+@include mq(md, max)  {
+    .intro-slide2 .banner-content {
+        width: 95%;
+        margin: 0;
+        right: auto;
+        left: 50%;
+        transform: translate(-50%, -50%) !important;
+    }
+    .intro-slide3 .banner-content {
+        width: 88%;
+    }
+    .banner { font-size: .8rem; }
+}
+@include mq(sm, max)  {
+    .banner { font-size: .6rem; }
+    .banner-group .banner { font-size: .8rem; }
+}
+
+// Shop page
+.header-border {
+    border-bottom-color: rgba(255,255,255,.1);
+}
+.page-header {
+    height: 335px;
+    padding-top: 101px;
+
+    .page-title {
+        letter-spacing: -1px;
+    }
+    .page-subtitle { font-size: 1.6rem; opacity: .8; }
+}
+.shop, .single-product {
+    .product {
+        margin-bottom: 2rem;
+    }
+    .product-details {
+        padding-bottom: 2rem;
+    }
+}
+
+// Product page
+.single-product {
+    .title {
+        display: block;
+        font-size: 2.4rem;
+        margin-bottom: 2.6rem;
+        color: #222;
+    }
+}
+@include mq(md) {
+    .product-gallery {
+        position: sticky;
+        top: 20px;
+    }
+}
+@include mq(lg) {
+    .product-gallery {
+        top: 90px;
+    }
+}

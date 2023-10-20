@@ -1,0 +1,70 @@
+/* 
+Demo 24 Variables
+*/
+@include set(
+	(
+		base: (
+			title: (
+				margin-bottom: 2.5rem,
+				line-height: 1,
+				font-size: 3rem,
+				letter-spacing: 0,
+				text-transform: none,
+				desc: (
+					margin-bottom: 1.9rem,
+					letter-spacing: -.025em,
+				)
+			)
+		),
+		header: (
+			color: #444,
+			middle: (
+				padding-top: 27.5px,
+				padding-bottom: 27.5px,
+				font-size: 1.4rem,
+				font-weight: 400,
+				border-bottom: 1px solid #e1e1e1
+			),
+			bottom: (
+				padding-bottom: 0,
+				font-weight: 700
+			)
+		),
+		menu: (
+			ancestor: (
+				_gap: 2.5rem,
+				padding: 2rem 0,
+				font-weight: 600,
+				letter-spacing: 0
+			)
+		),
+		footer: (
+			middle: (
+				padding: 81px 0px 34px 0px,
+				letter-spacing: -.016em,
+				border-bottom: 1px solid #333,
+				widget: (
+					margin-bottom: 2.6rem,
+					title: (
+						letter-spacing: 0,
+						margin-bottom: 1.1rem
+					),
+					body: (
+						padding: .9rem 0 0
+					)
+				)
+			),
+			bottom: (
+				padding: 2.8rem 0 2.7rem
+			),
+			copyright: (
+				letter-spacing: -.01em
+			),
+			about: (
+                logo: (
+                    margin-bottom: 2rem,
+                )
+            )
+		)
+	)
+)

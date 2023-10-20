@@ -1,0 +1,205 @@
+/* -------------------------------------------
+    Compare
+    - Compre default
+    - Compare Empty
+---------------------------------------------- */
+@include set-default (
+    (
+        compare: (
+            list-background: (
+                background-color: #f8f8f8,
+            )
+        )
+    ),
+);
+//compare-page
+.compare-page {
+    border-top: 1px solid $border-color;   
+}
+.compare-default {
+    padding-bottom: 60px;
+    .container {
+        overflow-x: auto;
+        > div:nth-child(2n) {
+            .compare-col {
+                @include print_css(compare, list-background);
+            }
+        }
+    }
+    .riode-compare-table .compare-value:nth-child(2) .to-left, .riode-compare-table .compare-value:last-child .to-right {
+        pointer-events: none;
+        color: $border-color;
+    }    
+    .compare-row {
+        display: flex;
+        width: 100%;
+    }
+    .compare-col {
+        flex: 0 0 20%;
+        max-width: 20%;
+        padding: 25px 0;
+        @include mq(xl , max) {
+            flex: 0 0 25%;
+            max-width: 25%;            
+        }
+        @include mq('810px' , max) {
+            flex: 0 0 45%;
+            max-width: 45%;            
+        }
+        @include mq(sm , max) {
+            flex: 0 0 63%;
+            max-width: 63%;            
+        }
+    }
+    .compare-field {
+        color: $grey-color;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: right;
+        padding-right: 5rem;
+    }
+    .compare-basic {
+        .compare-field {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .compare-value{
+            padding-right: 0;
+        }
+    } 
+    .compare-value {
+        position: relative;
+        padding-right: 1rem;
+        padding-left: 2rem;
+        color: $dark-color;
+    }   
+    @include mq(sm, max) {
+        .compare-field {
+            padding-right: 2rem;
+        }
+        .compare-value {
+            padding-left: 10px;
+        }   
+    }
+    .btn-product-icon {
+        line-height: 34px;
+        display: block;
+        width: 36px;
+        height: 36px;
+    }
+    .btn-default {
+        margin:0 5px 5px;
+        color: $grey-color;
+        border: 1px solid $border-color;
+        border-radius: 3px;
+        transition: border-color 0.3s,color 0.3s,background-color 0.3s;
+        overflow: hidden;
+        &.btn-cart:hover,
+        &:hover {
+            background-color: #344cef;
+            border-color: transparent;
+            color: $white-color;
+        }
+    }
+    .product:hover .btn-cart:not(.btn-default:hover){
+        background-color: $bg-secondary-white-color;
+        color: $grey-color;
+        border: 1px solid $border-color;
+        border-radius: 3px;
+    }
+    .btn-cart {
+        flex: unset;
+    }
+    .btn-wishlist {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible;
+        i {
+            line-height: 3.2rem;
+        }
+    }
+    .btn-moving {
+        position: absolute;
+        visibility: hidden;
+        opacity: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: opacity .2s , visibility .2s , left .2s, right .2s;
+    }
+    .btn-right {
+        right: 0px; 
+    }
+    .btn-left {
+        left: 0px;
+    }
+    .product-details {
+        padding-right: 0;
+        .product-action {
+            display: inline-flex;
+        }
+    }
+    .product:hover {
+        .btn-moving {
+            visibility: visible;
+            opacity: 1;
+        }
+        .btn-left {
+            left: -30px;
+        }
+        .btn-right {
+            right: -30px;
+        }
+    }
+    //compare title
+    .compare-title {
+        font-weight: 600;
+    }
+    //compare price
+    .product-price {
+        color: $primary-color;
+        font-size: inherit;
+        font-weight: 400;
+    }
+    .compare-availability {
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        .stock {
+            color: #b10001;
+        }
+        .in-stock {
+            color: #a8ce6e;
+            background-color: unset;
+        }
+    }
+    //rating
+    .compare-rating {
+        .ratings-container {
+            font-size: inherit;
+            margin: 0;
+        }
+        .rating-reviews {
+            font-size: inherit;
+        }
+    }
+}
+//compare Empty
+.compare-empty {
+    padding:  20px 0 70px;
+    .main-content {
+        text-align: center;
+    }
+    .compare-icon {
+        font-size: 80px;
+    }
+    .compare-descri {
+        font-size: 14px;
+        margin: 22px 0;
+    }
+    .btn {
+        width: 20rem;
+        margin-top: 1rem;
+    }
+}

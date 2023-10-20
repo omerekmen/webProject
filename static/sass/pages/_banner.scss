@@ -1,0 +1,110 @@
+/**************************
+        banner
+**************************/
+
+.banner-image {
+    figure { 
+        height: 63rem; 
+        overflow: hidden;
+        img {
+            height: 63rem;
+            object-fit: cover;
+        }
+    }
+
+    .btn { 
+        font-size: 1.4em; 
+        i { margin-left: .7rem;}
+    }
+
+    &.banner-fixed > .container {
+        z-index: 15;
+    }
+    .banner-content { 
+        left: 2.1%;  
+        margin-top: -.5rem;
+    }
+    .banner-subtitle { 
+        margin-bottom: 1.3rem;
+        font-family: 'Segoe Script';
+        font-size: 3em; 
+    }
+    .label-star { margin-left: 1.4rem; }
+    .banner-title { 
+        margin-left: -2px; 
+        font-size: 6.4em; 
+        margin-bottom: 0; 
+    }
+    h3 { 
+        margin: -0.7rem 0 0.6rem;
+        font-size: 5.6em; 
+    }
+    p { 
+        font-weight: 500;
+        font-size: 1.6rem;
+        line-height: 1.4; 
+    }
+}
+//banner-background
+.banner-background {
+    padding: 9.4rem 0 10.3rem;
+    background-color: #6b6b6b;
+    .banner-subtitle {
+        margin-bottom: 1.6rem;
+        font-family: 'Segoe Script', sans-serif;
+        font-size: 3em;
+        line-height: 1.6;
+    }
+    .banner-title {
+        margin-bottom: .7rem;
+        font-size: 5em;
+        letter-spacing: -.025em;
+    }
+    p {
+        margin-bottom: 2.8rem;
+        font-weight: 500;
+        font-size: 1.8em;
+    }
+    .input-wrapper {
+        max-width: 60rem;
+        width: 100%;
+        height: 4.8rem;
+        .form-control {
+            position: relative;
+            flex: 1;
+            padding-left: 2.4rem;
+            border: 1px solid #e7e7e7;
+            border-right: 0;
+            font-size: 1.2rem;
+        }
+        .btn { min-width: 12.3rem; }
+    }
+    .btn { 
+        padding: 1.22em 2.7em;
+        font-weight: 600;
+    }
+}
+// Video Banner
+.video-banner {
+    background-attachment: fixed;
+    .banner-content {
+        padding: 84px 0 85px;
+    }
+    .banner-title {
+        font-size: 3em; 
+        line-height: 1.4em;
+        letter-spacing: .03em;
+    }
+    .banner-subtitle {
+        font-size: 16px;
+        letter-spacing: -.025em;
+    }
+    .btn-play {
+        width: 61px;
+        height: 61px;
+    }
+    i {
+         font-size: 35px;
+         margin: 0;
+     }
+}

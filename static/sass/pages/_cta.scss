@@ -1,0 +1,357 @@
+/* -------------------------------------------
+    Call to Action
+
+        - Simple
+        - Newsletter
+        - One Column
+        - 2 Columns
+        - 3 Columns
+        - Full Parallax
+---------------------------------------------- */
+
+// Simple
+.cta-simple {
+    position: relative;
+    overflow: hidden;
+    background-color: #edeef0;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        padding-top: 50%;
+        background: linear-gradient( 135deg, #08c 0%, $primary-color 50%, transparent 50.1% );
+    }
+    .banner-content { 
+        position: relative;
+        margin: 1.5rem;
+        padding: 3.4rem 0;
+        z-index: 3;
+    }
+    .banner-header {
+        position: relative;
+        max-width: 29.1%;
+        flex: 0 0 29.1%;
+        text-align: right;
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY( -50% );
+            width: .5rem;
+            height: 9rem;
+            background-color: #edeef0;
+        }
+    }
+    .banner-text { flex-grow: 1; }
+    .banner-title {
+        margin-bottom: .2rem;
+        font-size: 3em;
+    }
+    .banner-subtitle {
+        margin-bottom: 0;
+        font-size: 2em;
+    }
+    .banner-text h4 {
+        font-size: 2em;
+        line-height: 1.3;
+    }
+    .btn {
+        position: relative;
+        margin-right: 5.2rem;
+        padding: 1.38em 2em;
+        min-width: 18rem;
+        overflow: hidden;
+        background: transparent;
+        transition: opacity .3s;
+        font-size: 1.3rem;
+        border: 0;
+        &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            left: -100%;
+            width: 200%;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
+            background: linear-gradient( 90deg, $primary-color, #08c , $primary-color );
+            transition: left .3s;
+        }
+        &:hover {
+            &::before {
+                left: 0;
+            }
+        }
+    }
+}
+// 2 Columns
+.banner-1 img,
+.banner-2 img {
+    min-height: 30rem;
+    object-fit: cover;
+}
+.banner-1 {
+    .banner-content {
+        width: 100%;
+    }
+    .banner-title {
+        font-size: 4em;
+    }
+    .banner-subtitle { 
+        white-space: nowrap;
+        font-size: 3em;
+    }
+    p {
+        margin-bottom: 2.4rem;
+        font-size: 2em;
+        line-height: 1.25;
+    }
+}
+.banner-2 {
+    .banner-content { width: 69%; }
+    p {
+        font-size: 1.6em;
+        line-height: 1.2;
+        color:  rgba($white-color , .6);
+    }
+    input.form-control {
+        border: none;
+        border-bottom: 2px solid rgba(255, 255, 255, .2);
+        color: rgba($white-color , .6);
+        font-size: 1.3rem;
+    }
+    .btn-dark:not(:hover) {
+        background-color: rgba($dark-color, .8);
+        border-color: rgba($dark-color, 0);
+    }
+}
+// 3 Columns
+.banner-group {
+    .banner-title {
+        font-size: 3em;
+        line-height: 1.2;
+        letter-spacing: -.02em;
+    }
+    .banner-subtitle {
+        margin-bottom: 1.8rem;
+        font-size: 1.4em;
+        line-height: 1.2;
+        letter-spacing: .01em;
+    }
+    img {
+        min-height: 22rem;
+        object-fit: cover;
+    }
+    .banner-divider {
+        width: 3.5rem;
+        height: 4px;
+        margin-bottom: 1.6rem;
+    }
+}
+.banner-3 .banner-content { left: 7.8%; }
+.banner-4 {
+    .banner-subtitle {
+        margin-bottom: -0.4rem;
+        letter-spacing: -.0428em;
+        line-height: 1.3;
+    }
+    .banner-title {
+        font-family: 'Segoe Script', $alt-font-family;
+        font-size: 3.6rem;
+    }
+}
+.banner-5 .banner-content { right: 10.5%; }
+// Newsletter
+.banner-newsletter {
+    border: 2px solid $primary-color;
+	.banner-content { padding: 1.8rem 0; }
+	.icon-box { justify-content: flex-start; }
+    .icon-box p {
+		line-height: 1.43;
+		letter-spacing: .01em;
+    }
+    .icon-box-icon {
+		margin: 0 2.4rem 0 0;
+        font-size: 4.5rem;
+    }
+    .icon-box-title {
+		font-size: 1.8rem;
+        line-height: .9;
+    }
+    .input-wrapper {
+        height: 4.8rem;
+        .form-control {
+            border: 1px solid #e4e4e4;
+            border-right: 0;
+        }
+        .btn { padding: 1em 2.7em; }
+    }
+}
+.banner-desc-container {
+    max-width: 50rem;
+    margin: 0 auto 4rem;
+    text-align: center;
+}
+// parallax
+.banner-background {
+    padding: 9.4rem 0 10.3rem;
+    .banner-title {
+        font-size: 3.6rem;
+    }
+    .input-wrapper {
+        max-width: 60rem;
+        width: 100%;
+        height: 4.8rem;
+        .form-control {
+            position: relative;
+            flex: 1;
+            padding-left: 2.4rem;
+            border: 1px solid #e7e7e7;
+            border-right: 0;
+            font-size: 1.2rem;
+        }
+        .btn { min-width: 12.3rem; }
+    }
+    .social-link:not(:hover) {
+        border: 2px solid rgba($white-color, .6);
+        background-color: rgba($white-color, .6);
+    }
+}
+// 1 Column
+.banner-one-col {
+    .banner {
+        position: absolute;
+    }
+    .banner-right-section {
+        position: relative;
+        min-height: 42.5rem;
+        z-index: 1;
+        .banner-content {
+            left: 41.5%;
+        }
+        .banner-title {
+            font-size: 3rem;
+        }
+        .banner-subtitle {
+            font-size: 1.8rem;
+        }
+        p {
+            font-size: 1.4rem;
+            letter-spacing: -.2px;
+        }
+    }
+    .banner-content {
+        position: absolute;
+    }
+    .banner-subtitle {
+        font-size: 2em;
+        letter-spacing: -.5px;
+        margin-bottom: .8rem;
+    }
+}
+.banner-left-section {
+    position: relative;
+    z-index: 2;
+    img {
+        min-height: 34rem;
+        object-fit: cover;
+    }
+}
+// Responsive
+@include mq( lg, max ) {
+    .cta-simple {
+        .banner-content { text-align: center; }
+        .banner-header {
+            max-width: 100%;
+            text-align: center;
+            &::after {
+                height: .5rem;
+                width: 80%;
+                top: 100%;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+        .banner-text {
+            max-width: 100%;
+            flex: 0 0 100%;
+        }
+        .btn { margin: 0; }
+    }
+    .banner-2 .banner-content {
+        width: 100%;
+        padding: 0 2rem;
+    }
+    .banner-newsletter .icon-box { justify-content: center; }
+}
+.element-cta {
+    @include mq( md ) {    
+        .banner-one-col {
+            display: flex;
+        }
+        .banner-left-section {
+            width: 35.77%;
+            .banner {
+                min-width: 43rem;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+        .banner-right-section {
+            width: 64.23%;
+        }
+    }
+    @include mq( lg) {      
+        .banner-left-section .banner {
+            min-width: 68rem;
+        }
+    }
+    @include mq(xl, max) {       
+        .banner-left-section img {
+            max-width: 56rem;
+        }
+    }
+    @include mq(lg, max) {       
+        .banner-left-section img {
+            max-width: 43rem;
+            width: 100%;
+        }
+    }
+    @include mq(md,max) {
+        .banner-4 .banner-content {
+            display: block !important; 
+        }
+        .banner-left-section img {
+            max-width: 100%;
+        }
+        .banner-one-col .banner{
+            position: static;
+        }
+        .banner-right-section .banner-content {
+            left: 1rem;
+            text-align: center;
+        }
+    }
+    @include mq( sm, max ) {
+        .banner { font-size: .9rem; }
+        .banner-group .banner { font-size: 1.2rem; }
+        .banner-newsletter {
+            .icon-box {
+                display: block;
+                text-align: center;
+            }
+            .icon-box-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            .icon-box-content { text-align: center; }
+        }
+    }
+    @include mq( xs, max ) {
+        .banner-group .banner { font-size: 1rem; }
+    }
+}

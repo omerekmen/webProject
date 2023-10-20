@@ -1,0 +1,133 @@
+/* 
+Demo 15
+Variables
+*/
+@include set(
+    (
+        base: (
+            _container-width: 1420px,
+            title: (
+                font-size: 3rem,
+                font-weight: 700,
+                line-height: 1,
+                letter-spacing: -.025em,
+                color: #333,
+                margin-bottom: 2.5rem
+            )
+        ),
+        header: (
+            middle: (
+                background: transparent,
+                color: #fff,
+                font-weight: 600,
+                letter-spacing: 0,
+                login: (
+                    icon: (
+                        font-size: 2.2rem
+                    )
+                )
+            ),
+            bottom: (
+                padding: 0,
+                font-size: 1.4rem,
+                font-family: $font-family,
+                color: #fff
+            ),
+            cart: (
+                label: (
+                    price: (
+                        color: inherit
+                    )
+                ),
+                icon: (
+                    color: inherit
+                ),
+                count: (
+                    color: inherit
+                )
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 2.2rem
+                )
+            )
+        ),
+        menu: (
+            ancestor: (
+                padding: .9rem 0,
+                font-weight: 600,
+                color: #d8d7d6 
+            )
+        ),
+        product: (
+            body: (
+                padding-top: 1.8rem,
+                padding-bottom: 0
+            )
+        ),
+        widget: (
+            title: (
+                border-bottom: none,
+                margin-bottom: 1.4rem
+            )
+        ),
+        footer: (
+            color: #999,
+            background: transparent,
+            _link-active-color: $primary-color,
+            top: (
+                border-top: 1px solid #eee,
+                border-bottom: 1px solid #eee,
+            ),
+            middle: (
+                padding: 4.2rem 0 2rem,
+                border-bottom: 1px solid #eee,
+                widget: (
+                    title: (
+                        color: #222,
+                        margin-bottom: 1rem,
+                        font-weight: 700
+                    ),
+                    body: (
+                        color: #666
+                    )
+                )
+            ),
+            bottom: (
+                padding: 2.6rem 0
+            ),
+            newsletter: (
+                title: (
+                    color: #222,
+                    text-transform: none,
+                    font-size: 2rem,
+                    font-family: $font-family,
+                    letter-spacing: -.3px,
+                ),
+                desc: (
+                    font-size: 1.4rem,
+                    letter-spacing: -.1px
+                ),
+                form: (
+                    max-width: 68rem,
+                ),
+                input: (
+                    background: $lighter-color,
+                    color: #999
+                )
+            ),
+            copyright: (
+                color: #666
+            ),
+            social-link: (
+                letter-spacing: .005em,
+                color: #999,
+                border: 2px solid #ebebeb,
+                background-color: #ebebeb,
+                hover: (
+                    color: #fff,
+                )
+            ),
+        )
+    )
+)

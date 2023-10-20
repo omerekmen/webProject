@@ -1,0 +1,110 @@
+/* 
+Demo 18 Variables
+*/
+@include set(
+    (   
+        base: (
+            _container-fluid-width: 1840px,
+        ),
+        header: (
+            letter-spacing: 0,
+            middle: (
+                padding-top: 2.6rem,
+                padding-bottom: 2.6rem,
+                background-color: #262626,
+                font-size: 1.6rem,
+                color: #fff,
+                logo: (
+                    margin-right: 0
+                ),
+                login: (
+                    icon: (
+                        font-size: 2.1rem,
+                        margin-top: 2px
+                    )
+                )
+            ),
+            cart: (
+                toggle: (
+                    padding: .6rem 3px .7rem 0,
+                )
+            ),
+            sticky: (
+                background: #222
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 2.3rem,
+                    margin-right: 0
+                )
+            ),
+            logo: (
+                max-width: 15.4rem
+            ),
+            mmenu-toggle: (
+                color: #fff
+            )
+        ),
+        menu: (
+            ancestor: (
+                font-size: 1.4rem,
+                font-weight: 600,
+                letter-spacing: -.013em,
+                padding-top: 1.2rem
+            )
+        ),
+        product: (
+            body: (
+                padding-top:1.6rem,
+                padding-left: 1px
+            ),
+            name: (
+                margin-bottom:4px,
+                color: #444,
+                letter-spacing: -.015em
+            ),
+            price: (
+                letter-spacing: -.04em
+            )
+        ),
+        footer: (
+            top: (
+                border-bottom: none,
+            ),
+            middle: (
+                padding: 8.6rem 0 0 0,
+                widget: (
+                    title: (
+                        letter-spacing: .009em
+                    ),
+                    body: (
+                        letter-spacing: -.004em
+                    )
+                ),
+            ),
+            about: (
+                logo: (
+                    margin-bottom: 2.1rem
+                ),
+                p: (
+                    margin-bottom: 2.6rem,
+                    letter-spacing: -.005em
+                )
+            ),
+            bottom: (
+                padding: 2.8rem 0
+            ),
+            copyright: (
+                font-size: 1.4rem,
+                font-weight: 500,
+                letter-spacing: -.009em,
+                padding-bottom: 2px
+            ),
+            social-link: (
+                font-size: 1.4rem,
+                width: 2.9rem,
+                height: 2.9rem,
+            )
+        )
+    )
+)

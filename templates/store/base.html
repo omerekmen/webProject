@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+{% load static%}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} | Entegrasyon Cloud</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}">
+        <!-- Preload Font -->
+        <link rel="preload" href="{% static 'fonts/riode.ttf?5gap68' %}" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-solid-900.woff2' %}" as="font" type="font/woff2"
+            crossorigin="anonymous">
+        <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-brands-400.woff2' %}" as="font" type="font/woff2"
+            crossorigin="anonymous">
+        <script>
+            WebFontConfig = {
+                google: { families: [ 'Poppins:300,400,500,600,700,800' ] }
+            };
+            ( function ( d ) {
+                var wf = d.createElement( 'script' ), s = d.scripts[ 0 ];
+                wf.src = '{% static "js/webfont.js" %}';
+                wf.async = true;
+                s.parentNode.insertBefore( wf, s );
+            } )( document );
+        </script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.min.css' %}">
+
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/magnific-popup/magnific-popup.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/owl-carousel/owl.carousel.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/sticky-icon/stickyicon.css' %}">
+
+    <!-- Main CSS File -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/demo13.min.css' %}">
+
+    {% block extra_head %}
+    <!-- Any extra head content goes here -->
+    {% endblock %}
+</head>
+
+
+<body>
+    <header>
+        {% include 'store/header.html' %}
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Your main content goes here -->
+        {% endblock %}
+    </main>
+
+
+    <footer>
+        {% include 'store/footer.html' %}
+    </footer>
+
+
+    {% block extra_scripts %}
+    <!-- Any extra scripts go here -->
+    {% endblock %}
+
+
+    <!-- sticky icons-->
+	<div class="sticky-icons-wrapper">
+		<div class="sticky-icon-links">
+			<ul>
+				<li><a href="#" class="demo-toggle"><i class="fas fa-home"></i><span>Demos</span></a></li>
+				<li><a href="documentation.html"><i class="fas fa-info-circle"></i><span>Documentation</span></a>
+				</li>
+				<li><a href="https://themeforest.net/downloads/"><i class="fas fa-star"></i><span>Reviews</span></a>
+				</li>
+				<li><a href="https://d-themes.com/buynow/riodehtml"><i class="fas fa-shopping-cart"></i><span>Buy
+							now!</span></a></li>
+			</ul>
+		</div>
+		<div class="demos-list">
+			<div class="demos-overlay"></div>
+			<a class="demos-close" href="#"><i class="close-icon"></i></a>
+			<div class="demos-content scrollable scrollable-light">
+				<h3 class="demos-title">Demos</h3>
+				<div class="demos">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Plugins JS File -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/parallax/parallax.min.js' %}"></script>
+    <script src="{% static 'vendor/elevatezoom/jquery.elevatezoom.min.js' %}"></script>
+    <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+    <script src="{% static 'vendor/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'js/main.min.js' %}"></script>
+
+</body>
+
+</html>

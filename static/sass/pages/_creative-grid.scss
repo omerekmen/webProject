@@ -1,0 +1,138 @@
+/*********************************
+            G R I D 
+*********************************/
+// grid Section
+.grid-section {
+
+	.banner-content { padding: 0 1.5rem; }
+	figure {
+		border-radius: 3px;
+		overflow: hidden;
+	}
+}
+// grid banner
+.grid-banner {
+	.banner-content { 
+		left: 5.2%;
+		right: 5.2%;
+		padding: 0;
+	}
+	.banner-title {
+		margin: 2px 0px 5px 0px;
+		color: #FFFFFF;
+		font-size: 4.2rem;
+		font-weight: 700;
+		letter-spacing: -1.5px;
+		line-height: 1.2;
+	}
+	.banner-subtitle { 
+		color: #AAAAAA;
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 2.14em;
+		letter-spacing: normal;
+	}
+	.banner-price {
+		color: #FFFFFF;
+		font-size: 14px;
+		font-weight: 700;
+		line-height: 1.42em;
+		letter-spacing: 0px;
+		span {
+			margin-left: 3px;
+			font-size: 24px;
+			color: #fec348;
+		}
+		sup {
+			font-size: 14px;
+		}
+	}
+}
+.grid-banner1 {
+	.banner-content { top: 13.4%; }
+	.banner-subtitle { 
+		margin: 0px 0px 13px 0px;
+		color: #222222;
+		font-size: 1.6rem;
+		font-weight: 400;
+		text-transform: uppercase;
+		line-height: 1em;
+		letter-spacing: -0.3px;
+	}
+	.banner-title { 
+		font-size: 2.6em; 
+		letter-spacing: -1px;
+	}
+}
+.grid-banner2,
+.grid-banner3 {
+	img { object-position: 20% center; }
+	.banner-content { padding-left: 8.5%; }
+}
+.grid-banner2 {
+	.banner-title {
+		font-size: 2.4em;
+		span { font-size: 1.25em; }
+	}
+	.banner-subtitle {
+		margin-bottom: 1.5rem;
+		font-size: 1.4rem;
+	}
+	.banner-price-info {
+		font-size: 1.8em;
+		ins { text-decoration: none; }
+		del { opacity: .5; }
+	}
+}
+.grid-banner3 {
+	.banner-subtitle { font-size: 1.8em; }
+	.banner-title {
+		margin-bottom: .3rem;
+		font-size: 2.6em;
+	}
+	.banner-desc {
+		font-size: 1.8rem;
+	}
+	p {
+		margin-bottom: 1.3rem;
+		opacity: .5;
+	}
+}
+//reorder-section
+.reorder-section {
+    background-color: #313439;
+    .height-x2 { height: 400px; }
+    .height-x1 { height: 200px; }
+    h2 {
+        color: rgb(255, 255, 255, .1);;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    .grid-item1 h2 {
+        font-size: 40em;
+    }
+    .grid-item2 h2,
+    .grid-item3 h2,
+    .grid-item4 h2{
+        font-size: 18em;
+    }
+    p {
+        color: #FFFFFF;
+        font-size: 2em;
+        margin: 0;
+        white-space: nowrap;
+        font-weight: 700;
+    }
+    .grid-item1 {
+        background-color: $primary-color;
+    }
+    .grid-item2 {
+        background-color: $success-color;
+    }
+    .grid-item3 {
+        background-color: $alert-color;
+    }
+    .grid-item4 {
+        background-color: $secondary-color;
+    }
+}

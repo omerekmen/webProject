@@ -1,0 +1,107 @@
+/*
+Demo 13 Variables
+*/
+@include set(
+    (
+        base: (
+            title: (
+                font-size: 2rem,
+                font-weight: 700,
+                letter-spacing: 0,
+                line-height: 28px,
+                color: #444
+            )
+        ),
+        header: (
+            middle: (
+                padding: 3.4rem 0 3.4rem,
+                color: #fff,
+                font-size: 1.3rem,
+                font-weight: 600,
+                background: transparent,
+                logo: (
+                    margin-right: 3.6rem
+                ),
+                login: (
+                    icon: (
+                        font-size: 2.7rem
+                    )
+                )
+            ),
+            sticky: (
+                padding-top: 1.8rem,
+                padding-bottom: 1.7rem
+            ),
+            main-nav: (
+                margin: 0,
+                padding: false,
+                background: false
+            ),
+            wishlist: (
+                icon: (
+                    margin-top: -2px,
+                    font-size: 2.8rem,
+                )
+            )
+        ),
+        menu: (
+            ancestor: (
+                padding: 1.1rem 0,
+                font-size: 1.4rem,
+                font-weight: 600,
+                letter-spacing: normal,
+                line-height: 1,
+                text-transform: uppercase
+            ),
+        ),
+        product: (
+            label: (
+            ),
+            name: (
+                margin-bottom: .2rem
+            ),
+            price: (
+                margin-bottom: .2rem,
+                color: $primary-color
+            ),
+            body: (
+                padding-bottom: 0
+            )
+        ),
+        post: (
+            title: (
+                margin-bottom: 1.3rem,
+                font-weight: 400,
+                letter-spacing: 0,
+                text-transform: none,
+                line-height: 1.5,
+                font-size: 1.6rem,
+                color: #444
+            ),
+            content: (
+                margin-bottom: 2.1rem,
+                _row-count: 3
+            ),
+            btn: (
+                _icon-gap: .6rem
+            )
+        ),
+        footer: (
+            middle: (
+                widget: (
+                    title: (
+                        color: #ccc
+                    )
+                )
+            ),
+            bottom: (
+                padding: 2.7rem 0 2.8rem
+            ),
+            newsletter: (
+                title: (
+                    color: #e1e1e1
+                )
+            )
+        )
+    )
+)

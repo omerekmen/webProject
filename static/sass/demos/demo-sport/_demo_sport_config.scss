@@ -1,0 +1,183 @@
+/*
+Demo Sport Variables
+*/
+@include set(
+    (
+        base: (
+            title: (
+                font-size: 2.4rem,
+                font-weight: 700,
+                letter-spacing: -.05em,
+                line-height: 1.2,
+                color: #222
+            )
+        ),
+        header: (
+            middle: (
+                padding: 2.5rem 0,
+                color: #fff,
+                font-size: 1.3rem,
+                font-weight: 600,
+                background: transparent,
+                border-bottom: 1px solid rgba(255, 255, 255, .1),
+                logo: (
+                    margin-right: 3.6rem,
+                    margin-bottom: 0
+                ),
+                login: (
+                    icon: (
+                        font-size: 2rem,
+                        margin-bottom: 1px
+                    )
+                )
+            ),
+            main-nav: (
+                margin: 0 0 0 1.4rem
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 2rem,
+                )
+            ),
+            call: (
+                label: (
+                    font-size: 14px,
+                    font-weight: 700,
+                    line-height: 1.6,
+                    letter-spacing: -.7px,
+                    text-transform: uppercase,
+                ),
+                icon: (
+                    margin: 0 5px 0 0,
+                    font-size: 2rem,
+                    color: #fff
+                )
+            ),
+        ),
+        menu: (
+            margin: 0 0 0 1.4rem,
+            ancestor: (
+                padding: 1.6rem 0,
+                color: #fff,
+                font-size: 14px,
+                font-weight: 700,
+                line-height: 1.2,
+                _gap: 30px,
+                _active-color: #fff,
+            )
+        ),
+        product: (
+            label: (
+                new: (
+                    background: $secondary-color
+                ),
+                sale: (
+                    background: $primary-color
+                )
+            ),
+            price: (
+                color: $primary-color
+            ),
+            body: (
+                padding-bottom: 0
+            )
+        ),
+        post: (
+            title: (
+                margin-bottom: 1.3rem,
+                font-weight: 400,
+                letter-spacing: 0,
+                text-transform: none,
+                line-height: 1.5,
+                font-size: 1.6rem,
+                color: #444
+            ),
+            content: (
+                margin-bottom: 2.1rem,
+                _row-count: 3
+            ),
+            btn: (
+                _icon-gap: .6rem
+            )
+        ),
+        footer: (
+            top: (
+                padding: 3.5rem 0 3.1rem,
+                border-bottom: false
+            ),
+            middle: (
+                border-bottom: false,
+                padding: 75px 0 26px,
+                widget: (    
+                    title: (
+                        text-transform: initial,
+                        padding: 0,
+                        font-size: 1.6rem,
+                        color: #fff,
+                        font-family: $font-family,
+                        letter-spacing: 0,
+                        font-weight: 600,
+                        margin-bottom: 2rem,
+                        line-height: 1.2
+                    ),
+                    label: (
+                        color: #777,
+                        font-family: $font-family,
+                        margin-bottom: .8rem,
+                        font-weight: 700,
+                        letter-spacing: 0,
+                        line-height: 1.2
+                    ),
+                    body: (
+                        font-size: 1.3rem,
+                        color: #a6a6a6,
+                        font-family: $font-family,
+                    ),
+                    list-item: (
+                        display: flex,
+                        flex-direction: column,
+                        color: #fff,
+                        margin-bottom: 15px,
+                        letter-spacing: normal,
+                        
+                    )
+                )
+            ),
+            newsletter: (
+                title: (
+                    margin-bottom: 2rem,
+                    font-size: 1.6rem,
+                    letter-spacing: 0,
+                    line-height: 1.2
+                ),
+                desc: (
+                    margin-bottom: 2rem,
+                    font-size: 1.3rem,
+                    letter-spacing: normal,
+                    line-height: 1.86,
+                    color: #a6a6a6,
+                )
+            ),
+            bottom: (
+                padding: 3.3rem 0 3.2rem 0,
+                border-top: 1px solid #333,
+            ),
+            social-link: (
+                display: flex,
+                align-items: center,
+                justify-content: center,
+                width: 4rem,
+                height: 4rem,
+                font-size: 1.6rem,
+                color: #999,
+                border-color: #666,
+                margin-right: 8px
+            ),
+            copyright: (
+                font-weight: 400,
+                color: #666,
+                letter-spacing: normal
+            ),
+        )
+    )
+)

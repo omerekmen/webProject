@@ -1,0 +1,38 @@
+/* Demo 2 */
+
+@include set (
+    (
+        header: (
+            search: (
+                simple: (
+
+                    color: #cbcbcb
+                )
+            )
+        ),
+        base: (
+            title: (
+                line-height: 1.2,
+                letter-spacing: -.025em
+            )
+        ),
+        footer: (
+            middle: (
+                padding: 8.6rem 0 4.6rem,
+                widget: (
+                    title: (
+                        color: #e1e1e1
+                    )
+                )
+            ),
+            about: (
+                p: (
+                    margin-bottom: 2.8rem
+                )
+            ),
+            bottom: (
+                padding: 2.8rem 0
+            )
+        )
+    )
+)

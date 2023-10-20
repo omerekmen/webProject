@@ -1,0 +1,136 @@
+/* 
+Demo 33 Variables
+*/
+@include set(
+	(
+		base: (
+			title: (
+				font-size: 3rem,
+				font-weight: 700,
+				margin-bottom: 2.3rem
+			),
+		),
+		header: (
+			top: (
+				letter-spacing: 0,
+				login: (
+					icon: (
+						font-size: 1.6rem
+					)
+				),
+				_links-gap: 1.7rem,
+			),
+			middle: (
+                color: #222,
+                font-weight: 600,
+                font-size: 1.4rem,
+                padding-top: 2.8rem,
+
+                login: (
+                    margin-right: 3.2rem,
+                    margin-top: .5rem,
+                    icon: (
+                        font-size: 2.7rem
+                    )
+                )
+            ),
+            bottom: (
+                color: #222,
+                border-top: 1px solid #e1e1e1,
+                font-weight: 700,
+                padding-bottom: 0,
+            ),
+            cart: (
+                toggle: (
+                    padding: 0.7rem 0 0.4rem
+                )
+            ),
+            sticky: (
+                padding-top: 0,
+                padding-bottom: 0
+            ),
+			mmenu-toggle: (
+				color: #222
+			),
+			search: (
+				round: (
+					width: 28rem
+				),
+				simple: (
+					color: #e1e1e1
+				)
+			)
+		),
+		menu: (
+            ancestor: (
+                padding: 2rem 0,
+                font-weight: 600,
+                color: #222,
+                _gap: 3.2rem
+            ),
+        ),
+		product: (
+			rating: (
+				_star-color: #ee8379,
+			),
+			name: (
+				margin-bottom: .2rem
+			),
+			price: (
+				margin-bottom: 3px
+			)
+		),
+		footer: (
+            font-family: $font-family,
+            top: (
+                padding: 4.8rem 0
+            ),
+            middle: (
+                padding: 7.5rem 0 2.7rem,
+                font-family: $font-family,
+                font-weight: 400,
+                border-color: #333,
+                widget: (
+                    margin-bottom: 2.9rem,
+                    title: (
+                        margin-bottom: 1.3rem,
+                        font-weight: 600,
+                    ),
+                    body: (
+                        padding: 0.4rem 0 0,
+                        color: #999,
+                        letter-spacing: -.01em
+                    ),
+                    list-item: (
+                        margin-bottom: 1.5rem
+                    ),
+                    label: (
+                        font-weight: 500,
+                        text-transform: none,
+                        color: #999
+                    )
+                ),
+            ),
+            bottom: (
+                padding: 3.5rem 0
+            ),
+            copyright: (
+                font-family: $font-family,
+                font-size: 1.2rem,
+                letter-spacing: 0,
+                font-weight: 400,
+                color: #666,
+            ),
+            social-link: (
+                width: 40px,
+                height: 40px,
+                font-size: 14px,
+                line-height: 40px,
+                color: #222,
+                background-color: #fff,
+                border: 0,
+                margin-right: 1rem
+            )
+        ),
+	)
+)

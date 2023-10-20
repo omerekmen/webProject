@@ -1,0 +1,96 @@
+/* 
+Demo 23 Variables
+*/
+
+@include set(
+	(
+		base: (
+			title: (
+				font-size: 2rem,
+				text-transform: uppercase,
+				margin-bottom: 2.3rem,
+				letter-spacing: -.3px,
+			)
+		),
+		header: (
+            bottom: (
+                padding: 0 2.2rem,
+                background: #313135,
+                color: #fff,
+                font-weight: 700,
+                letter-spacing:-.025em
+            ),
+            search: (
+                simple: (
+                    color: #e2e2e2
+                )
+			),
+			mmenu-toggle : (
+				color: #222
+			)
+        ),
+		menu: (
+            ancestor: (
+                padding: 2rem 1.6rem,
+                color: #fff,
+                font-weight: 700,
+                _gap: 5px,
+                _active-color: #fff,
+            )
+        ),
+		product: (
+			rating: (
+				_star-color: rgb(112, 112, 112)
+			),
+			body: (
+				padding-bottom: 2rem,
+				padding-top: 1.6rem
+			),
+			category: (
+				margin-bottom: .7rem
+			),
+			price: (
+				margin-bottom: 2px
+			)
+		),
+		post: (
+			body: (
+				padding: 1.9rem 0 1.8rem,
+			),
+			meta: (
+				margin-bottom: .8rem
+			),
+			info: (
+				margin-bottom: .7rem
+			),
+			title: (
+				text-transform: none,
+				margin-bottom: 1.3rem,
+				margin-left: -2px,
+				padding-left: 2px,
+				font-size: 1.6rem,
+				letter-spacing: 0,
+			),
+			icon: (
+				_gap: .6rem
+			),
+			detail: (
+				padding: 2.3rem 0 1.8rem
+			)
+		),
+		footer: (
+            bottom: (
+                padding: 2.7rem 0 2.8rem
+            ),
+            middle: (
+				letter-spacing: 0,
+				
+				widget: (
+					label: (
+						color: #e1e1e1
+					)
+				)
+            )
+        )
+	)
+)

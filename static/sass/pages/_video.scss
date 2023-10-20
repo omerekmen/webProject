@@ -1,0 +1,129 @@
+/**********************************
+            Video
+**********************************/
+// popup-video  
+.popup-video {
+    .banner-content {
+        padding: 97px 0;
+    }
+    .banner-title {
+        font-size: 3em; 
+        line-height: 1.4em;
+        letter-spacing: -.025em;
+    }
+    .banner-subtitle {
+        font-size: 16px;
+        letter-spacing: -.01em;
+    }
+    .btn-play {
+        border: none;
+        width: 77px;
+        height: 78px;
+    }
+    i {
+         font-size: 35px;
+         margin: 0;
+     }
+     video {
+         max-width: 100%;
+         height: auto;
+     }
+}
+/* video Slider */
+.video-slider .banner {
+    img, video {
+        height: 63rem;
+        object-fit: cover;
+    }
+
+    figure { 
+        height: 63rem; 
+        overflow: hidden;
+    }
+
+    .btn { 
+        font-size: 14px; 
+        i { margin-left: .7rem;}
+    }
+}
+
+.video-slide1 {    
+    &.banner-fixed > .container {
+        z-index: 15;
+    }
+    .banner-content { 
+        left: 2.1%;  
+        margin-top: -.5rem;
+    }
+    .banner-subtitle { 
+        margin-bottom: 1.3rem;
+        font-family: 'Segoe Script';
+        font-size: 3em; 
+    }
+    .label-star { margin-left: 1.4rem; }
+    .banner-title { 
+        margin-left: -2px; 
+        font-size: 6.4em; 
+        margin-bottom: 0; 
+    }
+    h3 { 
+        margin: -0.7rem 0 0.6rem;
+        font-size: 5.6em; 
+    }
+    p { 
+        font-weight: 500;
+        font-size: 1.6rem;
+        line-height: 1.4; 
+    }
+}
+
+.video-slide2 {
+    img { object-position: 80%; }
+    .banner-content { 
+        max-width: 38rem; 
+        right: 5.5%; 
+        margin-top: -0.3rem;
+    }
+    .banner-subtitle { 
+        font-size: 2.4em; 
+        line-height: 1.1;
+    }
+    .banner-subtitle strong { font-size: 1.67em; line-height: .98; }
+    .banner-title { font-size: 10em; margin-right: -2px; }
+    p { font-size: 1.8em; line-height: 1.33; }
+}
+
+.video-slide3 {
+    .banner-subtitle { font-size: 3em; }
+    .banner-title { font-size: 6em; }
+
+    p {
+        font-weight: 300; 
+        opacity: .8;
+        font-size: 1.8em;
+        line-height: 1.4;
+    }
+    video {
+        display: block;
+        width: 100%;
+    }
+    figure::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: rgba(43, 151, 223, 0.3);
+        z-index: 1;
+    }
+}
+//inner-video
+.inner-video {
+    figure:hover {
+        .video-play {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+}

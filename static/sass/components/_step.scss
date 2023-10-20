@@ -1,0 +1,175 @@
+/******************************
+            step
+******************************/
+
+@include set-default(
+    (
+        step: (
+            padding: 57px 0,
+            item: (
+                width: 120px,
+                height: 120px,
+                _bg_color: #454545,
+                _progress_color: #fabf00,
+                _progress_width: 3px,
+            ),
+            count: (
+                background-color: $bg-secondary-white-color,
+                border: 17px solid #151515,
+                name: (
+                    font-size: 24px,
+                    font-weight: 700,
+                    letter-spacing:-.025em,
+                    color: $white-color,
+                    line-height: 1.1,
+                ),
+                description: (
+                    font-size: 13px,
+                    font-weight: 700,
+                    letter-spacing:-.025em,
+                    color: $grey-color,
+                    text-transform: uppercase,
+                )
+            ),
+            content: (
+                text: (
+                    _padding_gap: 30px,
+                ),
+            ),
+            termAfter: (
+                font-size: 34px,
+                font-family: 'riode',
+                content: '\e984',
+                top: 100%,
+                left: 50%,
+                font-weight: 400,
+                color: #4a4a4a,
+            ),
+            title: (
+                font-size: 24px,
+                font-weight: 400,
+                font-family: $second-font-family,
+                color: $white-color,
+                text-transform: capitalize,
+                letter-spacing: -.025em,
+                margin-bottom: 6px,
+            ),
+            subtitle: (
+                font-size: 14px,
+                line-height: 1.8,
+                font-weight: 400,
+                color: $body-color,
+                letter-spacing: 0,
+            ),
+        )
+    )
+);
+//step
+.steps-order {
+    list-style: none;
+    .step-term {
+        display: flex;
+        align-items: center;
+    }
+    .step {
+        position: relative;
+        @include print_css(step);
+    }
+    .step-item,
+    .step-content,
+    .step,
+    .step-count {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .step-item {
+        position: relative;
+        border-radius: 100%;
+        @include print_css(step , item);
+        background: conic-gradient(#{get(step, item ,  _progress_color)} 0deg, #{get(step, item , _progress_color)} 360deg);
+        &.step-div3-1 {
+            background: conic-gradient(#{get(step, item ,  _bg_color)} 0deg,#{get(step, item ,  _bg_color)} 240deg,#{get(step, item , _progress_color)} 241deg,#{get(step, item , _progress_color)} 360deg);
+        }
+        &.step-div3-2 {
+            background: conic-gradient(#{get(step, item ,  _bg_color)} 0deg,#{get(step, item ,  _bg_color)} 120deg,#{get(step, item , _progress_color)} 121deg,#{get(step, item , _progress_color)} 360deg);
+        }
+        &.step-div4-1 {
+            background: conic-gradient(#{get(step, item ,  _bg_color)} 0deg,#{get(step, item ,  _bg_color)} 270deg,#{get(step, item , _progress_color)} 271deg,#{get(step, item , _progress_color)} 360deg);
+        }
+        &.step-div4-2 {
+            background: conic-gradient(#{get(step, item ,  _bg_color)} 0deg,#{get(step, item ,  _bg_color)} 180deg,#{get(step, item , _progress_color)} 181deg,#{get(step, item , _progress_color)} 360deg);
+        }
+        &.step-div4-3 {
+            background: conic-gradient(#{get(step, item ,  _bg_color)} 0deg,#{get(step, item ,  _bg_color)} 90deg,#{get(step, item , _progress_color)} 91deg,#{get(step, item , _progress_color)} 360deg);
+        }
+    }
+    .step-count {
+        position: relative;
+        z-index: 3;
+        border-radius: 100%;
+        flex-direction: column;
+        width: calc(100% - #{get(step, item ,  _progress_width)} * 2 );
+        height:  calc(100% - #{get(step, item ,  _progress_width)} * 2 );
+        @include print_css(step, count);
+        .step-name {
+            @include print_css(step, count, name);
+        }
+        .step-descri {
+            @include print_css(step, count, description);
+        }
+    }
+    .step-title {
+        @include print_css(step, title);
+    }
+    .step-subtitle {
+        @include print_css(step, subtitle);
+    }
+
+    .step-term:not(:last-child) .step {   
+        &:after {
+            position: absolute;
+            z-index: 3;
+            transform: translate(-50% , -50%);
+            @include print_css(step, termAfter);
+        }
+    }
+}
+//zigzag vertical-direction
+ .step-serration {
+    @include mq(md) {
+        .step-term {
+            position: relative;
+            justify-content: center; 
+        }
+        .step-content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+        .step-content-text {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: calc( 50% - #{get(step, item , width)}/2 );
+        }
+        >li .step-content-text {
+            padding-left: #{get(step, content, text , _padding_gap)};
+            padding-right: #{get(step, content, text , _padding_gap)};
+        }
+        >li:not(:nth-child(2)) {
+            .step-content-text {         
+                left: calc( 50% + #{get(step, item , width)}/2);
+            }
+        }
+        >li:nth-child(2) {
+            .step-content-text {   
+                float: right;
+                right: calc( 50% + #{get(step, item , width)}/2);
+                text-align: right;
+            }
+        }  
+    }
+}

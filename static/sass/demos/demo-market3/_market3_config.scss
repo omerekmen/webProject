@@ -1,0 +1,124 @@
+@include set (
+    (
+        base: (
+               _container-fluid-width: 1880px,
+               title: (
+                margin-bottom: 2rem,
+                padding: 0 0 1.7rem .2rem,
+                font-size: 2.2rem,
+                letter-spacing: -.025em,
+                border: (
+                    _height: 1px
+                )
+            )
+        ),
+        header: (
+            middle: (
+                padding-bottom: 2.6rem,
+                font-size: 1.4rem,
+                background: transparent,
+                color: $white-color,
+                font-weight: 600,
+                border-bottom: 1px solid rgb(255 255 255 / 20%),
+                logo: (
+                    margin-bottom: 0,
+                    margin-top: 1px,
+                    margin-right: 6rem,
+                ),
+                login: (
+                    padding-bottom: 0,
+                    icon: (
+                        font-size: 2.1rem,
+                    ),
+                ),
+            ),
+            main-nav: (
+                margin: 0,
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 2.2rem,
+                ),
+            ),
+            cart: (
+                toggle: (
+                    padding: .7rem 0 .6rem,
+                )
+            ),
+            
+            mmenu-toggle: (
+                color: $white-color,
+            ),
+        ), 
+        menu: (
+            ancestor: (
+                font-weight: 500,
+            )
+        ),
+        product: (
+            body: (
+                padding-top: 18px,
+            ),
+            name: (
+                margin-bottom: 7px,
+            ),
+            rating: (
+                margin-bottom: .3rem,
+            )
+        ),
+        footer: (
+            background: $dark-color,
+            middle: (
+                padding: 5rem 0 2.7rem,
+                border-bottom: 1px solid #333,
+                widget: (
+                    title: (
+                        font-size: 1.5rem,
+                        color: #fff
+                    ),
+                    body: (
+                        color: #777
+                    )
+                )
+            ),
+            bottom: (
+                padding: 3.5rem 0 3.4rem,
+            ),
+            copyright: (
+                font-family: $font-family,
+                color: #777,
+                letter-spacing: 0
+            ),
+            newsletter: (
+                title: (
+                    margin-bottom: 0,
+                    font-size: 1.8rem,
+                    letter-spacing: -.01em,
+                    line-height: 1,
+                    font-family: $font-family,
+                    font-weight: 700,
+                    color: #fff
+                ),
+                desc: (
+                    line-height: 1.8,
+                    letter-spacing: 0,
+                    font-family: $font-family,
+                    color: #777,
+                ),
+                form: (
+                    max-width: 55.3rem,
+                ),
+                input: (
+                    padding: 0 0 0 2.3rem,
+                    background: $white-color,
+                    color: $body-color
+                )
+            )
+        ),
+        post: (
+            detail: (
+                padding: 2.3rem 1rem 2rem,
+            ),
+        )
+    )
+);

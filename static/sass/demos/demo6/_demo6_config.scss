@@ -1,0 +1,96 @@
+/* 
+Demo 6
+*/
+@include set(
+    (
+        header: (
+            middle: (
+                padding-top: 2.8rem,
+                padding-bottom: 2.6rem,
+                font-size: 1.6rem,
+                font-weight: 600,
+                color: $secondary-color,
+                login: (
+                    padding-bottom: 0
+                ),
+                logo: (
+                    margin-right: 0,
+                    margin-bottom: 0
+                )
+            ),
+            main-nav: (
+                margin-left: 0
+            ),
+            cart: (
+                count: (
+                    font-size: 1.6rem,
+                    hover: (
+                        color: $primary-color
+                    )
+                ),
+                label: (
+                    padding-top: .3rem,
+                    text-transform: none
+                )
+            )
+        ),
+        menu: (
+            ancestor: (
+                font-size: 1.6rem,
+                font-weight: 600,
+                text-transform: none,
+                _gap: 2.2rem
+            )
+        ),
+        product: (
+            body: (
+                padding-top: 1.7rem,
+                padding-bottom: 1.7rem
+            ),
+            name: (
+                margin-bottom: .6rem
+            ),
+            price: (
+                font-weight: 400
+            )
+        ),
+        footer: (
+            _link-active-color: $primary-color,
+            middle: (
+                padding: 3.9rem 0 2.8rem,
+                border-bottom: 1px solid #2a2a2a,
+                widget: (
+                    margin-bottom: 1.9rem,
+                    body: (
+                        display: flex,
+                        flex-wrap: wrap,
+                        justify-content: center,
+                        font-size: 1.4rem,
+                        color: #ccc,
+                        letter-spacing: 0.007em
+                    ),
+                    list-item: (
+                        margin-left: 1.3rem,
+                        margin-right: 1.3rem
+                    )
+                )
+            ),
+            bottom: (
+                padding-bottom: 2.5rem
+            ),
+            social-link: (
+                color: #ccc,
+                border-color: #ccc
+            ),
+            copyright: (
+                font-size: 1.2rem,
+                color: #777
+            )
+        ),
+        product-single: (
+            price: (
+                color: $primary-color
+            )
+        )
+    )
+) 

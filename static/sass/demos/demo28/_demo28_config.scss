@@ -1,0 +1,141 @@
+/* 
+Demo 28 Variables
+*/
+@include set(
+    (
+        base: (
+            title: (
+                padding-top: 3px,
+                margin-bottom: 4px,
+                font-size: 3rem,
+                text-transform: false,
+                letter-spacing: -0.025em,
+                line-height: 1.2,
+
+                desc: (
+                    color: false,
+                    line-height: 1.86
+                )
+            )
+        ),
+        header: (
+            font-family: $font-family,
+
+            top: (
+                background: $white-color,
+                border-bottom: false
+            ),
+            middle: (
+                padding: 0,
+                color: false,
+                background-color: #222,
+                font-size: 1.3rem,
+                font-weight: 600,
+                text-transform: uppercase,
+                logo: (
+                    margin-right: 5rem
+                )
+            ),
+            bottom: (
+                background-color: #353535,
+                text-transform: capitalize,
+                color: #fff,
+                font-size: 1.5rem,
+            ),
+            cart: (
+                toggle: (
+                    padding: 0.7rem 0 0.5rem,
+                ),
+                label: (
+                    margin: 0 1rem 0 0,
+
+                    price: (
+                        color: inherit,
+                    )
+                ),
+                icon: (
+                    color: $secondary-color,
+    
+                    hover: (
+                        color: $primary-color,
+                    )
+                ),
+                count: (
+                    color: inherit,
+                )
+            ),
+            wishlist: (
+                icon: (
+                    font-size: 3rem
+                )
+            ),
+            search: (
+                toggle: (
+                    padding: 1.5rem 0,
+                )
+            ),
+            login: (
+                label: (
+                    _gap: 0,
+                    line-height: 1.1
+                )
+            )
+        ),
+        menu: (
+            ancestor: (
+                _gap: 2rem,
+                display: block,
+                padding: 15px,
+                color: #aeaeae,
+                font-size: 1.4rem,
+                font-weight: 600,
+                line-height: 1.72,
+                text-transform: false,
+                letter-spacing: -.025em,
+                transition: opacity .3s,
+                white-space: nowrap
+
+            ),
+            submenu: (
+                text-transform: none,
+            )
+        ),
+        product: (
+            price: (
+                color: #222,
+            ),
+            rating: (
+                _star-color: #444,
+            )
+        ),
+        product-single: (
+            rating: (
+                _star-color: #444
+            )
+        ),
+        footer: (
+            top: (
+                padding: 2rem 0,
+                border-bottom: false,
+                background: #02BCB7
+            ),
+            middle: (
+                padding: 82px 0px 48px 0px,
+                letter-spacing: -0.015em,
+                border-bottom-width: 0,
+
+                widget: (
+                    body: (
+                        letter-spacing: normal
+                    )
+                )
+            ),
+            bottom: (
+                position: relative
+            ),
+            copyright: (
+                color: #777
+            )
+        )
+    )
+)

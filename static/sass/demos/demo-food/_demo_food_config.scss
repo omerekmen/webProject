@@ -1,0 +1,76 @@
+/* 
+Demo 4
+*/
+@include set(
+    (
+        header: (
+            top: (
+                border-bottom: 1px solid #eee
+            ),
+            middle: (
+                padding-top: 3.2rem,
+                padding-bottom: 3.3rem,
+                border-bottom: 1px solid #eee
+            ),
+            bottom: (
+                padding-top: 1.5rem
+            )
+        ),
+        base: (
+            title: (
+                font-size: 2rem,
+                font-weight: 700,
+                line-height: 1.2,
+                padding: 0 0 16px 0,
+                margin-bottom: false,
+                margin-right: auto,
+                letter-spacing: -.4px,
+                color: #333,
+                text-transform: none
+            )
+        ),
+        post: (
+            meta: (
+                margin-bottom: .5rem
+            ),
+            title: (
+                margin-bottom: 1.7rem,
+                line-height: 1.2
+            ),
+            btn: (
+                _icon-gap: .9rem
+            )
+        ),
+        widget: (
+            title: (
+                border-bottom: 1px solid $border-color-light
+            )
+        ),
+        footer: (
+			middle: (
+				padding: 82px 0px 40px 0px
+			),
+			bottom: (
+				padding: 2.8rem 0
+			),
+			about: (
+                logo: (
+					margin-top: -1px,
+                    margin-bottom: 2rem,
+                ),
+                p: (
+                    margin-bottom: 2.7rem,
+                    letter-spacing: -.015em
+                )
+            ),
+			copyright: (
+				color: #666,
+				letter-spacing: -.015em
+			),
+			social-link: (
+				width: 2.9rem,
+				height: 2.9rem
+			)
+		)
+    )
+);

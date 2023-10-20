@@ -1,0 +1,222 @@
+/* 
+Demo beauty
+*/
+@include set(
+    (
+        base: (
+            title: (
+                font-size: 30px,
+                font-weight: 700,
+                line-height: 1em,
+                letter-spacing: -0.75px,
+            )
+        ),
+        header: (
+            position: absolute,
+            background-color: transparent,
+            width: 100%,
+            z-index: 20,
+            border-bottom: 1px solid #dadada,
+
+            top: (
+                border-bottom: 1px solid #dadada,
+                font-size: 1.3rem,
+                _links-gap: 2.5rem,
+                color: rgba(102,102,102,0.8),
+                background-color: transparent,
+
+                wishlist: (
+                    margin-right: 0,
+                    icon: (
+                        font-size: 1.4rem,
+                        margin-right: .9rem
+                    )
+                ),
+                login: (
+                    icon: (
+                        margin-right: .8rem,
+                        font-size: 1.4rem
+                    )
+                )
+            ),
+            middle: (
+                padding-top: 2.5rem,
+                padding-bottom: 2.6rem,
+                letter-spacing: 0,
+                background-color: transparent,
+
+                logo: (
+                    margin-bottom: 0,
+                )
+            ),
+            contact: (
+                icon: (
+                    font-size: 1.6rem,
+                )
+            ),
+            help: (
+                icon: (
+                    font-size: 1.6rem,
+                    margin-left: 3px
+                )
+            ),
+            call: (
+                letter-spacing: -.1px,
+                label: (
+                    _gap: 0,
+                    font-size: false,
+                    font-weight: inherit,
+                    line-height: false,
+                    text-transform: capitalize,
+                    margin-right: .3rem
+                ),
+                icon: (
+                    margin: 0 1rem 0 0,
+                    font-size: 1.4rem
+                )
+            ),
+            sticky: (
+                padding-top: 1.7rem,
+                padding-bottom: 1.8rem
+            )
+        ),
+        menu: (
+            ancestor: (
+                _gap: 2.9rem,
+                padding: 1.5rem 0,
+                font-family: false,
+                font-size: 14px,
+                font-weight: 700,
+                letter-spacing: -.025em,
+                line-height: 1.2,
+                text-transform: capitalize,
+                color: false,
+                _active-color: false,
+            ),
+        ),
+        product: (
+            body: (
+                padding-top: 1.3rem,
+            ),
+            name: (
+            ),
+            price: (
+                letter-spacing: -.025em,
+            ),
+            rating: (
+            ),
+            label: (
+            )
+        ),
+        post: (
+            background-color: #fff,
+            meta: (
+                margin-bottom: .5rem
+            ),
+            title: (
+                margin-bottom: .5rem,
+                line-height: 1.5,
+                letter-spacing: -.025em,
+                font-size: 1.8rem,
+                font-weight: 700,
+                text-transform: none
+            ),
+            content: (
+                _row-count: 3,
+                font-size: 1.4rem,
+                letter-spacing: -.025em,
+                line-height: 1.7,
+                margin-bottom: 2rem
+            ),
+            calendar: (
+                background-color: rgba(120, 178, 68, 0.8),
+                color: #fff,
+                border-radius: 0
+            ),
+            btn: (
+                _icon-gap: .5rem,
+                font-size: 1.3rem
+            )
+        ),
+        footer: (
+            top: (
+                padding: 3.5rem 0 3.1rem,
+                border-bottom: false
+            ),
+            middle: (
+                border-bottom: false,
+                padding: 67px 0 18px,
+                widget: (    
+                    title: (
+                        text-transform: initial,
+                        padding: 0,
+                        font-size: 1.6rem,
+                        color: #fff,
+                        font-family: $font-family,
+                        letter-spacing: 0,
+                        font-weight: 600,
+                        margin-bottom: 1.6rem,
+                        line-height: 1.2
+                    ),
+                    label: (
+                        color: #777,
+                        font-family: $font-family,
+                        margin-bottom: 1rem,
+                        font-weight: 700,
+                        letter-spacing: 0,
+                        line-height: 1.2
+                    ),
+                    body: (
+                        font-size: 1.3rem,
+                        color: #a6a6a6,
+                        font-family: $font-family,
+                    ),
+                    list-item: (
+                        display: flex,
+                        flex-direction: column,
+                        color: #fff,
+                        margin-bottom: 20px,
+                        letter-spacing: normal,
+                        
+                    )
+                )
+            ),
+            newsletter: (
+                title: (
+                    margin-bottom: 2rem,
+                    font-size: 1.6rem,
+                    letter-spacing: 0,
+                    line-height: 1.2
+                ),
+                desc: (
+                    margin-top: -1px,
+                    margin-bottom: 2rem,
+                    font-size: 1.3rem,
+                    letter-spacing: normal,
+                    line-height: 2,
+                    color: #999,
+                )
+            ),
+            bottom: (
+                padding: 2.5rem 0 3.2rem 0,
+                border-top: 1px solid #333,
+            ),
+            social-link: (
+                display: flex,
+                align-items: center,
+                justify-content: center,
+                width: 4rem,
+                height: 4rem,
+                font-size: 1.6rem,
+                color: #999,
+                border-color: #666,
+                margin-right: 8px
+            ),
+            copyright: (
+                font-weight: 400,
+                color: #666,
+                letter-spacing: normal
+            ),
+        )
+    )
+);

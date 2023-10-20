@@ -1,0 +1,124 @@
+/* 
+Demo 16 Variables
+*/
+@include set(
+    (
+        base: (  
+            _grey-section-bg: $lighter-color,
+            title: (
+                font-size: 2rem,
+                line-height: 0.8,
+                letter-spacing: -0.18px,
+                text-transform: none
+            )
+        ),
+        header: (
+            _link-active-color: #ccc,
+            top: (
+                background: $primary-color,
+                border-bottom: 1px solid #6EA087,
+                color: #fff,
+                _links-gap: 2.5rem,
+            ),
+            middle: (
+                background: $primary-color,
+                padding-top: 2.7rem,
+                padding-bottom: 2.8rem
+            ),
+            bottom: (
+                font-weight: 700,
+                color: $primary-color-dark,
+                border-top: 1px solid #e1e1e1,
+                border-bottom: 1px solid #e1e1e1,
+            ),
+            cart: (
+                toggle: (
+                    padding: 1.35rem 0
+                ),
+                label: (
+                    text-transform: none,
+                    price: (
+                        color: inherit,
+                    )
+                ),
+                count: (
+                    color: inherit,
+                    hover: (
+                        color: $primary-color
+                    )
+                ),
+            ),
+            search: (
+                toggle: (
+                    padding: 1.6rem 0,
+                )
+            )
+        ),
+        menu: (
+            ancestor: (
+                padding: 1.9rem 0,
+                font-weight: 700,
+            )
+        ),
+        category-menu: (
+            padding: 0,
+            background: #f8f8f8,
+            list-style: none,
+            min-height: 498px,
+            title: (
+                padding: 1.8rem 0 1.7rem,
+                margin-bottom: .2rem,
+                color: #2c3737,
+                border-bottom: 1px solid #e1e1e1
+            ),
+            ancestor: ( 
+                padding: .3rem .2rem,
+                line-height: 2.9,
+                letter-spacing: normal,
+                _split-line: 1px solid #e1e1e1,
+                font-size: 1.3rem,
+                text-transform: none,
+                font-family: $font-family,
+                color: #687072
+            ),
+            submenu: (
+                padding: 0 2rem,
+                margin: 0,
+                background: transparent
+            )
+        ),
+        product: (
+            price: (
+                margin-bottom: .3rem,
+                letter-spacing: -.025em
+            ),
+            body: (
+                padding-top: 15px,
+                padding-bottom: 25px
+            ),
+            name: (
+                margin-bottom: .2rem
+            )
+        ),
+        post: (
+            meta: (
+                font-size: 1.2rem,
+                margin-bottom: .4rem
+            ),
+            title: (
+                letter-spacing: -0.18px,
+            )
+        ),
+        footer: (
+            bottom: (
+                padding: 2.8rem 0 2.7rem
+            ),
+            copyright: (
+                color: #4f4f4f
+            ),
+            middle: (
+                letter-spacing: 0
+            )
+        )
+    )
+)

@@ -1,0 +1,137 @@
+/************************
+    counter 
+*************************/
+.element-counter {
+    .count-to {
+        margin-bottom: 15px;
+        color: $primary-color;
+        letter-spacing: -.025em;
+        font-size: 48px;
+    }
+    .count-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+        line-height: 1.4em;
+        letter-spacing: -.01em;
+    }
+    @include mq(xl, max) {
+        .counter-part {
+            margin-bottom: 20px;
+        }
+    }
+}
+//counter-box
+.counter-box {
+    .counter {        
+        box-shadow: 5px 5px 20px 0px rgb(34 34 34 / 10%);
+        padding: 54px 10px 48px;
+    }
+    .count-title {
+        margin-bottom: 7px;
+    }
+}
+//counter-block
+.counter-block {
+    .counter {
+        display: flex;
+        justify-content: center;
+        border: 3px solid $border-color-light;
+        transition: background-color 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+        padding: 31px 0px 30px 0px;
+    }
+    .count-to {
+        padding-right: 2rem;
+        margin: 0;
+        border-right: 2px solid $border-color-light;
+        min-width: 130px;
+    }
+    .count-title {
+        margin-bottom: 0;
+    }
+    .counter-content {
+        padding-left: 20px;
+        text-align: left;
+    }
+}
+//counter-simple
+.counter-simple {
+    background-color: #f8f8f8;
+    .count-to {
+        color: $dark-color;
+        margin-bottom: 0;
+    }
+    .count-title {
+        margin-top: 5px;
+        color: $body-color;
+    }
+}
+//counter-background
+.counter-background {
+    background-color: #313439;
+    .count-to {
+        color: $white-color;
+        margin-bottom: 0;
+    }
+    .count-title {
+        padding-top: 5px;
+        color: rgba(255,255,255,.68);
+    }
+    figure {
+        margin-bottom: 3rem;
+        @include mq(xl, max) {
+            margin-bottom: 1rem;
+        }
+    }
+}
+//counter-seperate
+.counter-seperate {
+    background-color: rgb(248, 248, 248);;
+    .count-to {
+        margin: 5px 0 3px;
+    }
+    .count-title {
+        color: $body-color;
+    }
+}
+//counter-inline
+.counter-inline {
+    .row {
+        margin: 0 -20px;
+    }
+    .counter-part {
+        padding: 0 2rem;
+    }
+    .counter {
+        padding: 1.3rem 0 1.3rem 2rem;
+    }
+    .inline-count {
+        display: flex;
+        align-items: center;
+        color: $dark-color;
+    }
+    @include mq(xl,max) {
+        .row {
+            margin: 0 -10px;
+        }        
+        .counter-part {
+            padding: 0 1rem;
+        }
+        .counter {
+            padding-left: 1rem;
+        }
+    }
+    .count-to {
+        font-size: 14px;
+        margin: 0;
+    }
+    .border-dot .counter{
+        border: 1px dashed #848484;
+        .count-to {
+            font-weight: 400;
+        }
+    }
+    .border-solid .counter{
+        background-color: #444;
+        border-radius: .3rem;
+    }
+}

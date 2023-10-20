@@ -1,0 +1,122 @@
+/* 
+Demo 21 Variables
+*/
+@include set(
+	(
+		base: (
+			page-wrapper: (
+				margin-left: 60px
+			),
+			title: (
+				letter-spacing: -.02em
+			)
+		),
+		header: (
+			search: (
+				simple: (
+					color: #e1e1e1,
+				)
+			),
+			middle: (
+				padding-top: 2.7rem,
+				logo: (
+					margin-right: 7.8rem
+				)
+			),
+			mmenu-toggle: (
+				color: #222
+			)
+		),
+		product: (
+			body: (
+				padding-top: 1.4rem,
+				padding-bottom: 0
+			),
+			price: (
+				letter-spacing: -.025em
+			)
+		),
+		post: (
+			meta: (
+				margin-bottom: .4rem,
+				letter-spacing: 0
+			),
+			body: (
+				padding: 1.9rem 0 1.5rem,
+			),
+			info: (
+				margin-bottom: .7rem
+			),
+			title: (
+				text-transform: none,
+				margin-bottom: 1.2rem,
+				margin-left: -2px,
+				padding-left: 2px,
+				font-size: 1.8rem,
+				font-weight: 700,
+				line-height: 1.5,
+				letter-spacing: 0,
+			)
+		),
+		footer: (
+			middle: (
+				padding: 82px 0px 37px,
+				border-bottom: 1px solid #333,
+				widget: (
+					margin-bottom: 2.6rem,
+					title: (
+						letter-spacing: 0,
+						margin-bottom: 1.1rem,
+					),
+					body: (
+						padding: .9rem 0 0
+					)
+				)
+			),
+			bottom: (
+				padding: 2.7rem 0 2.8rem
+			),
+			about: (
+				logo: (
+					position: relative,
+					top: -2px
+				)
+			),
+			social-link: (
+				width: 2.9rem,
+				height: 2.9rem
+			)
+		),
+		category-menu: (
+            background: transparent,
+            _item-active-color: $secondary-color,
+            ancestor: (
+				padding: 2.5rem 0,
+                text-transform: none,
+                color: #fff,
+				font-size: 1.4rem,
+				font-weight: 400,
+                font-family: $font-family,
+				border-bottom: 1px solid #2e2e2e,
+				_split-line: 1px solid rgba(255,255,255,.05),
+			),
+			icon: (
+				margin-right: 1.5rem,
+				font-size: 2.4rem,
+				color: inherit
+			),
+            submenu: (
+                padding: .5rem 0,
+                color: #fff
+            )
+		),
+		minipopup: (
+			area: (
+				left: 90px,
+			)
+		),
+		sidebar: (
+			_page-move: 170px
+		)
+	)
+)

@@ -1,0 +1,149 @@
+/* -------------------------------------------
+    Error 404 Page
+---------------------------------------------- */
+.error-section {
+    background: #f7f7f7;
+    height: 694px;
+
+    h1 {
+        font-size: 3.4rem;
+    }
+    .btn {
+        padding: 1em 3.6em;
+    }
+}
+.error-default {
+    .banner-title {
+        font-size: 10em;
+        font-family: 'Segoe Script', poppins;
+    }
+    .banner-subtitle {
+        font-size: 2.4em;
+        line-height: 1.5;
+    }
+    .banner-descri {
+        font-size: 1.6em;
+    }    
+    img {
+
+    }
+}
+.banner {
+    @include mq(lg , max) {
+        font-size: 9px;
+    }
+    @include mq(xs , max) {
+        font-size: 8px;
+    }
+}    
+.error-section-1 {
+    > figure img {
+        object-fit: cover;   
+        @include mq(lg) {
+            min-height: 800px;            
+         }
+         @include mq(lg ,max) {
+            min-height: 1130px;
+         }
+         @include mq(md ,max) {
+            min-height: 900px;
+         }
+         @include mq(sm ,max) {
+            min-height: 800px;
+         }
+         @include mq('440px', max) {
+             min-height: 680px;
+         }
+    }
+    .banner-figure img{
+        max-width: 629px;
+        bottom: -17.5%;
+    }
+    @include mq(lg ,max) {
+        .banner-figure {
+            order: 2;
+        }
+        .banner-figure img{
+            max-width: 80%;
+            bottom: 0;
+        }
+    }
+    .error-content {
+        font-size: 35em;
+        right: 15.5%;
+        color: #f1f1f1;
+        background-image: linear-gradient(
+        180deg,#f7f7f7 0%, transparent);
+        z-index: -1;
+    }
+    .banner-content {
+        left: 4%;
+    }
+    .banner-title {
+        letter-spacing: .01em;
+    }
+}
+.error-section-2 {
+    > figure img {
+        object-fit: cover;
+        min-height: 601px;
+    }
+    .banner-content {
+        left: 1.7%;
+    }
+    .banner-title {
+        letter-spacing: .01em;
+    }
+}
+.error-section-3 {
+    overflow: hidden;
+    >figure img {
+        min-height: 400px;
+        object-fit: cover;
+    }
+    .banner-figure {
+        z-index: 2;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        img {
+            height: 100%;
+        }
+        .btn {
+            bottom: 12.5%;
+        }
+    }
+    .banner-title {
+        font-size: 38.1em;
+        font-style: italic;
+    }
+    .banner-subtitle {
+        font-size: 8em;
+    }
+    .banner-descri {
+        top: 48.5%;
+        left: -40%;
+        right: -40%;
+        font-size: 3em;
+        font-style: italic;
+        background-color: #313131;
+        line-height: 2.4;
+    }
+    &.banner {
+        @include mq('1600px', max) {
+            font-size: 8px;    
+        }
+        @include mq(xl, max) {
+            font-size: 6px;    
+            .banner-figure .btn {
+                bottom: 7%;
+            }
+        }
+        @include mq(sm, max) {
+            .banner-title {
+                font-size: 22em;
+            }
+        }
+    }
+}

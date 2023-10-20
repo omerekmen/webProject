@@ -1,0 +1,79 @@
+/* -------------------------------------------
+    Counter
+---------------------------------------------- */
+.count-to {
+    display: inline-block;
+    margin-bottom: 1.6rem;
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+
+    &::after {
+        content: '+';
+    }
+}
+
+.count-title {
+    color: $dark-color;
+    font-weight: 600;
+    line-height: 1.4em;
+    margin-bottom: .7rem;
+    font-size: 2rem;
+}
+.counter-descri {
+    line-height: 1.86em;
+    margin-bottom: 0;
+}
+.count-float:after {
+    content: 'K+';
+}
+.symbol-dollar {
+    &::after {
+        display: none;
+    }
+    &::before {
+        content: '$';
+    }
+}
+.symbol-percent:after {
+    content: '%';
+}
+//count-queue
+.count-queue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.queue-score {
+    .count-to {
+        &::after {
+            content: '';
+        }
+        &:not(:last-child) {
+            &::after {
+                display: inline-block;
+                content: ':';
+                width: 32px;
+            }
+        }
+    }
+}
+.queue-days {
+    .count-to {
+        &::after {
+            content: '';
+        }
+        &:not(:last-child) {
+            &::after {
+                display: inline-block;
+                content: '/';
+                font-weight: 400;
+                width: 25px;
+            }
+        }
+    }
+}
+//symbol-no
+.symbol-no:after {
+    display: none;
+}

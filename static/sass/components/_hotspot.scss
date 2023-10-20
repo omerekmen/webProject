@@ -1,0 +1,188 @@
+/* -------------------------------------------
+    Hotspot
+---------------------------------------------- */
+.hotspot {
+    position: relative;
+    > a {
+        display: flex;
+        width: 4rem;
+        height: 4rem;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        transition: background-color .35s, color .35s;
+        
+        &:before {
+            font-family: "Font Awesome 5 Free";
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #fff;
+        }
+    }
+    &.hotspotspread >a:after {
+        content: '';
+        position: absolute;
+        background-color: $bg-secondary-white-color;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        z-index: -1;
+        animation: hotspot-animate 2s infinite;
+    }        
+    &:after {
+        position: absolute;
+        display: block;
+        content: '';
+        height: 100%;
+        width: 100%;
+    }
+    &:hover {
+        .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    }
+    &.hotspot-type1 {
+        >a {
+            background-color: $dark-color;
+        }
+        >a:before {
+            content: "\f067";
+        }
+        &:hover >a {
+            background-color: $primary-color;
+        }
+    }
+    &.hotspot-type2 {
+        >a {
+            background-color: $dark-color;
+        }      
+        >a:before {
+            content: "\f111";
+        }
+        &:hover >a {
+            background-color: $primary-color;
+        }
+    }
+    &.hotspot-type3 {
+        >a {
+            background-color: $dark-color;
+        }
+        >a:before {
+            content: "\f111";
+            font-weight: 400;
+        }
+        &:hover >a {
+            background-color: $primary-color;
+        }
+    }
+    &.hotspot-type4 {
+        >a:before {
+            content: "\f067";
+            color: $dark-color;
+        }
+        &:hover >a:before {
+            color: $primary-color;
+        }
+    }
+    @keyframes spotFlash {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: .5;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    &.hotspot-style-flash > a{
+        animation-name: spotFlash;
+        animation-iteration-count: infinite;
+        animation-duration: 3s
+    }
+}
+.tooltip {
+    position: absolute;
+    display: block;
+    padding: 1rem;
+    background-color: $bg-secondary-white-color;
+    visibility: hidden;
+    opacity: 0;
+    width: 240px;
+    transition: opacity .3s;
+    box-shadow: 0 5px 14px 0 rgba(155, 155, 155, .1);
+    z-index: 11;
+    .tooltip-name {
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 3.6rem;
+        color: #444;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 0;
+    }
+    .tooltip-price {
+        font-size: 1.6rem;
+        font-weight: 400;
+        letter-spacing: -.025em;
+        color: $dark-color;
+        margin-bottom: .8rem;
+    }
+    .btn {
+        padding: .7em 3.78em;
+        border-radius: .3rem;
+    }
+    @include mq(md, max) {
+        display: none;
+    }
+}
+.hotspot-right {
+    .tooltip {
+        left: 130%;
+        top: -100%;
+    }
+    &:after {
+        top: 0;
+        left: 100%;
+    }
+}
+.hotspot-left {
+    .tooltip {
+        right: 130%;
+        top: -100%;
+    }
+    &:after {
+        top: 0;
+        right: 100%;
+    }
+}
+.hotspot-top {
+    .tooltip {
+        bottom: 130%;
+        right: -220%;
+    }
+    &:after {
+        bottom: 100%;
+    }
+}
+.hotspot-bottom {
+    .tooltip {
+        top: 130%;
+        right: -220%;
+    }
+    &:after {
+        top: 100%;
+    }
+}
+@keyframes hotspot-animate {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+}

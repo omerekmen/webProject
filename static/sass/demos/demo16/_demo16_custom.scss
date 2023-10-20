@@ -1,0 +1,523 @@
+/* 
+Demo 16
+*/
+// Header
+.header-top {
+    .dropdown,
+    .dropdown-expanded li {
+        &:hover,
+        &.show {
+            > a { color: #ccc; }
+        }
+
+        a {
+            text-transform: uppercase;
+            letter-spacing: 0;
+        }
+    }
+}
+.header {
+    .dropdown-expanded::before {
+        display: none;
+    }
+    .header-top .dropdown>a {
+        padding-top: 1rem;
+    
+        &:after {
+            margin-left: .5rem;
+        }
+    }
+    .logo {
+        max-width: 15.3rem;
+    }
+    .header-search {
+        span {
+            letter-spacing: 0;
+        }
+        .d-icon-search {
+            font-size: 2rem;
+            margin-right: .3rem;
+        }
+
+        .btn-search {
+            min-height: 4.5rem;
+            background-color: $lighter-color;
+            color: #222;
+            border-radius: 0;
+        }
+    }
+
+    .welcome-msg {
+        padding: 1.2rem 0 1rem;
+    }
+}
+
+.sticky-header.fixed {
+    padding-top: 0rem;
+}
+
+.menu > li {
+    margin-right: 3.1rem;
+}
+
+.header-middle .cart-dropdown:hover .cart-count { color: #fff; }
+
+// Intro Section 
+.intro-section {
+    .height-x1 { height: 178px; }
+    .height-x3 { height: 534px; }
+}
+@include mq(xl) {
+    .col-3-xl {
+        max-width: 30%;
+        flex: 0 0 30%;
+    }
+    .col-7-xl {
+        max-width: 70%;
+        flex: 0 0 70%;
+    }
+    .col-1-xl {
+        max-width: 10%;
+        flex: 0 0 10%;
+    }
+}
+.btn.btn-md { 
+    padding: 1.07em 2.15em;
+    font-size: 1.3rem;
+}
+.intro-slider {
+    .banner-content { padding: 0 1.5rem; }
+    p { line-height: 1.2; }
+
+    .owl-dots {
+        bottom: 5.5rem;    
+        transform: none;
+        left: calc(7.32% - .5rem);
+        .owl-dot {
+            span {
+                opacity: .3;
+            }
+        }
+    }
+}
+.intro-slide1 {
+    .banner-content {
+        bottom: 21.4%;
+        padding-left: 7.31%;
+    }
+    .banner-subtitle { font-size: 3em;}
+    .banner-title { font-size: 4.5em; font-weight: 800; letter-spacing: -1px;}
+    p {
+        margin-bottom: 2.2rem;
+        font-size: 1.8em;
+    }
+}
+.intro-slide2 {
+    .banner-content {
+        padding-left: 7.31%;;
+    }
+    .banner-subtitle { font-size: 3em; }
+    .banner-title { 
+        font-size: 4.6em; 
+        font-weight: 800}
+    p { font-size: 2.4em; }
+}
+.intro-slide3 {
+    .banner-content {
+        padding-right: 7.31%;
+    }
+    .banner-subtitle {
+        font-size: 2.4em;
+        color: #4b4b4c;
+    }
+    .banner-title {
+        margin-bottom: 1.7rem;
+        font-size: 4em;
+    }
+    p {
+        font-size: 2em;
+        color: #4b4b4c;
+    }
+    .banner-price-info {
+        margin-bottom: 3.8rem;
+        font-size: 3em;
+        color: #333;
+    }
+}
+.intro-banner1,
+.intro-banner2 {
+    .banner-title { font-size: 2em; letter-spacing: -.5px; }
+    .banner-subtitle { 
+        font-size: 1.6em; 
+        letter-spacing: 0;
+        opacity: .6;
+    }
+    .banner-content {
+        padding: 0 3rem 0 8.8%;
+        bottom: 16.6%;
+    }
+}
+.intro-banner2 {
+    .banner-subtitle {
+        opacity: .8;
+        margin-bottom: .4rem;
+    }
+
+    .banner-content { bottom: 17.7%; }
+}   
+.intro-banner3 {
+    .banner-content {
+        padding: 0 1.5rem 0 8.8%;
+    }
+    .banner-subtitle { margin-bottom: .4rem; font-size: 3em; font-weight: 800; margin-left: -2px;}
+    .banner-title {
+        margin-bottom: 1.5rem;
+        font-size: 2em;
+    }
+
+    i {
+        font-size: 1.6rem;
+    }
+}
+// Service List
+.service-list {
+    .icon-box-icon {
+        font-size: 3.7rem;
+    }
+    p {
+        font-family: $font-family;
+        line-height: 1.22;
+        letter-spacing: -.01em;
+        color: #777;
+    }
+    .icon-box-title {
+        letter-spacing: 0;
+        font-size: 1.5rem;
+        line-height: 1.22;
+        color: #323232;
+    }
+    .icon-box { padding: 3.2rem 0 3.3rem;}
+
+    .icon-box-title {
+        margin-bottom: .2rem;
+        line-height: 1;
+    }
+
+    .icon-box-side .icon-box-content {
+        margin-left: 5px;
+    }
+
+    .icon-box1 i { font-size: 4.6rem; }
+
+    .owl-stage-outer {
+        border: 1px solid #e1e1e1;
+    }
+    .owl-item:not(:last-child) .icon-box::after {
+        content: '';
+        height: 37px;
+        width: 1px;
+        background: $border-color;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+// Banner Group
+.banner-group {
+    // Heights
+    .height-x2 { height: 600px; }
+    .height-x1 { height: 300px; }
+
+    .banner-content { padding: 0 1.5rem; }
+}
+.banner1 {
+    .banner-content {
+        padding-left: 6.9%;
+        bottom: 7.93%;
+    }
+    .banner-title {
+        font-size: 2.4em;
+        line-height: 1.167;
+        letter-spacing: -.025em;
+    }
+    .banner-subtitle { font-size: 1.8em; }
+    .banner-price-info {
+        font-size: 2.4em;
+        line-height: 1;
+        span {
+            font-size: 3.34em;
+            margin-left: -2px;
+        }
+    }
+}
+.banner2,
+.banner3,
+.banner4 {
+    .banner-subtitle { font-size: 1.2rem; font-weight: 500;}
+    .banner-title {
+        font-size: 2rem;
+        letter-spacing: -.7px;
+    }
+}
+.banner2 {
+    .banner-content { top: 10.7%; }
+}
+.banner3 {
+    .banner-content { bottom: 10%; }
+}
+.banner4 {
+    .banner-content { bottom: 10%; }
+}
+.banner5 {
+    .banner-content { bottom: 10.7%; }
+    .banner-title { font-size: 3em; }
+    .banner-subtitle { font-size: 1.8em; }
+}
+.banner6 {
+    background-color: #f0f3f3;
+    align-items: center;
+    .banner-content { padding: 0 1.5rem; }
+    .banner-subtitle { font-size: 1.8em; opacity: .8; font-weight: 400; margin-bottom: 1.3rem;}
+    .banner-title {
+        font-size: 2em;
+        color: #333;
+        span {
+            margin-bottom: .3rem;
+            font-size: 1.2em;
+        }
+    }
+    h5 {
+        font-size: 2em;
+        letter-spacing: -.8px;
+        font-weight: 400;
+    }
+}
+.banner7 {
+    .banner-content { padding-left: 7%; }
+    .banner-subtitle {
+        font-size: 1.8em;
+        letter-spacing: -.6px;
+    }
+    .banner-title {
+        margin-bottom: .7rem;
+        font-size: 2.4em;
+    }
+    p {
+        font-size: 2em;
+        line-height: 1;
+    }
+}
+// Banner Newsletter
+.banner-newsletter {
+    border: 2px solid #e1e1e1;
+	.banner-content { padding: 3rem 7rem; }
+	.icon-box { justify-content: flex-start; }
+    .icon-box p {
+		line-height: 1.43;
+		letter-spacing: -.015em;
+    }
+    .icon-box-icon {
+		margin: 0 2.4rem 0 .2rem;
+        font-size: 4.5rem;
+    }
+    .icon-box-title {
+		font-size: 2rem;
+        line-height: .9;
+        letter-spacing: .3px;
+        margin-bottom: 2px;
+        margin-top: 3px;
+    }
+    .input-wrapper {
+        height: 4.8rem;
+        .form-control {
+            border-right: 0;
+            background-color: #f5f5f5;
+            border-radius: 5px 0 0 5px;
+
+            &::placeholder {
+                letter-spacing: -.025em;
+            }
+        }
+        .btn {
+            padding: 1em 1.8em;
+            border-radius: 0 5px 5px 0;
+
+            i {
+                font-size: 1.5rem;
+                margin-bottom: 3px;
+            }
+        }
+    }
+}
+// Blog
+.post-list {
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.92em 1.61em;
+    }
+
+    .post-media {
+        align-self: stretch;
+
+        img {
+            height: 100%;
+        }
+    }
+}
+
+.post-meta a {
+    text-transform: unset;
+}
+// Brand
+.brand-carousel {
+    .owl-item { padding: 1rem 0; }
+
+    .owl-nav {
+        .owl-prev,
+        .owl-next {
+            font-size: 3rem;
+            border: 0;
+            color: #999;
+            &:not(.disabled):hover {
+                background: transparent; 
+                color: $primary-color;
+            }
+        }
+    }
+}
+// Footer
+.footer {
+    .social-link {
+        width: 2.9rem;
+        height: 2.9rem;
+    }
+
+    .logo-footer {
+        position: relative;
+        margin-bottom: 1.4rem;
+        top: -.6rem;
+    }
+}
+
+// product page
+.accordion {
+    .card-header {
+        .collapse {
+           color: #222;
+        }
+
+        a {
+            padding: 2.7rem 0;
+
+            &:after {
+                content: '\e952';
+            }
+            
+            &.collapse:after {
+                content: '\e953';
+            }
+        }
+    }
+
+    .description-title {
+        font-size: 1.6rem;
+    }
+
+    .card-body {
+        padding: 0;
+    }
+
+    ul {
+        padding-inline-start: 0;
+
+        li {
+            list-style: none;
+        }
+    }
+
+    #product-tab-description .description-title ~ p, .card-description .description-title ~ p {
+        line-height: 1.6;
+    }
+}
+
+.product-gallery.product-gallery-sticky {
+    padding-bottom: 4.8rem;
+}
+
+.product-details .btn-cart i {
+    margin-bottom: .3rem;
+}
+
+// Responsive
+@include mq(lg) {
+    .service-list .icon-box-icon {
+        margin-right: 1rem;
+    }
+}
+
+@include mq(xl, max) {
+    .menu {
+        .dropdown-box { left: -6.5rem; }
+    }
+}
+
+@include mq(lg, max) {
+    .header-bottom { display: none; }
+    .banner { font-size: .9rem; }
+	.banner-newsletter .icon-box { justify-content: center; }
+}
+
+@include mq(md) {
+    .mobile-menu-toggle { color: $primary-color; }
+
+    .post-list {
+        .post-media {
+            width: calc(max(51.7%, 370px) - 2rem);
+        }
+
+        .post-details {
+            width: calc(100% - min(51.7%, 350px));
+        }
+    }
+}
+
+@include mq(md, max) {
+    .banner-group {    
+        .height-x2 { height: 400px; }
+        .height-x1 { height: 200px; }
+    }
+}
+
+@include mq(sm, max) {
+    .banner { font-size: .8rem; }
+    .banner-newsletter {
+        .banner-content {
+            padding: 3rem 2rem;
+        }
+
+        .input-wrapper .btn {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .icon-box {
+            display: block;
+            text-align: center;
+        }
+        .icon-box-icon {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+        .icon-box-content { text-align: center; }
+    }
+    
+    .banner6 .btn {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+// Shop page
+.product-wrap { margin-bottom: 3rem; }

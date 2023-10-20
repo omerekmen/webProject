@@ -1,0 +1,36 @@
+/* -------------------------------------------
+    Titles
+
+        - Make All Headings With This
+        - Various Cross Styles
+        - Various Underline Styles
+---------------------------------------------- */
+
+.title-desc-container {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 65rem;
+}
+.title-custom-cross {
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+    &.title-line::after,
+    &.title-right-line::before {
+        max-width: 6rem;
+    }
+}
+.title-underline-simple {
+    &.title-underline span::after {
+        content: none;
+    }
+}
+.title-custom-underline::after {
+    content: '';
+    position: absolute;
+    top: 3.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 4rem;
+    border: 2px solid $primary-color;
+}

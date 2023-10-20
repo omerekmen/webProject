@@ -1,0 +1,439 @@
+/* 
+Demo 17
+*/
+.header-top {
+    .icon-box {
+        padding: .9rem 0;
+    }
+    .icon-box-title {
+        text-transform: none;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: .015em;
+    }
+    .icon-box-icon {
+        color: #fff;
+        font-size: 2.6rem;
+    }
+}
+
+.search-toggle i {
+    font-size: 2rem;
+}
+
+.logo {
+    max-width: 15.4rem;
+}
+
+.currency-dropdown, .language-dropdown {
+    letter-spacing: .35px;
+
+    a {
+        font-weight: 400;
+
+        &:after {
+            margin-left: 6px;
+        }
+    }
+}
+
+.header-middle {
+    .header-search {
+        z-index: 10000;
+    }
+    .search-toggle {
+        position: relative;
+        top: 2px;
+    }
+
+    .wishlist {
+        margin-right: 1.8rem;
+    }
+
+    .header-left {
+        > *:not(:last-child) {
+            margin-right: 2.2rem;
+        }
+    }
+    .dropdown > a { font-weight: 600; } 
+}
+.header-bottom {
+    &:not(.fixed) {
+        .logo,
+        .cart-dropdown {
+            display: none;
+        }
+    }
+}
+.mobile-menu-toggle { color: $primary-color; }
+// Intro Slider
+.intro-slider {
+    .owl-dots { bottom: 6.5rem; }
+    img {
+        min-height: 50rem;
+        object-fit: cover;
+    }
+    .banner-subtitle { font-size: 3em; }
+    .banner-title { font-size: 5em; font-weight: 800; }
+    .btn { letter-spacing: -.35px; }
+
+    &.owl-carousel .owl-nav {
+        button {
+            font-size: 45px;
+            color: #fff;
+            font-weight: 400;
+            width: 1em;
+            height: 1em;
+            border: none;
+             
+            i {
+                display: none;
+            }
+
+            &.owl-prev {
+                font-family: 'riode';
+                left: 5%;
+                &::before {
+                    content: "\e982";
+                }
+            }
+            &.owl-next {
+                font-family: 'riode';
+                right: 5%;
+                &::before {
+                    content: "\e983";
+                }
+            }
+            &:hover {
+                color: $primary-color !important;
+                background-color: transparent !important;
+            }
+        }
+    }
+}
+.intro-slide2 {
+    p {
+        margin-bottom: 4.3rem;
+        font-size: 1.8em;
+        line-height: 1.2;
+    }
+}
+.intro-slide3 {
+    .banner-content {
+        position: absolute;
+        right: 3rem;
+    }
+    .banner-title {
+        margin-bottom: 1.3rem;
+        font-size: 6em;
+    }
+    p {
+        line-height: 1.72;
+        opacity: .5;
+    }
+}
+// Intro Banners
+.intro-banners {
+    overflow: hidden;
+    .height-x1 { height: 277px; }
+    .height-x2 { height: 554px; }
+}
+.category-banner {
+    .category-content {
+        display: block;
+        top: auto;
+        bottom: 8.8%;
+        width: 100%;
+
+        .btn {
+            left: auto;
+        }
+    }
+
+    img {
+        border-radius: 0;
+    }
+
+    &:hover {
+        .category-content {
+            top: auto;
+        }
+        .category-name { margin-bottom: 1px; }
+    }
+    .category-name {
+        margin-bottom: 3px;
+        font-size: 2.4em;
+        font-weight: 800;
+    }
+}
+.intro-banner1 {
+    align-items: center;
+    background-color: #272727;
+    .banner-content { padding: 0 1.5rem; }
+    .banner-subtitle { font-size: 2.4em; }
+    .banner-title { 
+        font-size: 3.6em;
+        font-weight: 700;
+        letter-spacing: -1px; 
+    }
+    p {
+        margin: 0 auto 3.3rem;
+        max-width: 40rem;
+        line-height: 1.72;
+        letter-spacing: -.3px;
+    }
+}
+.intro-banner2 {
+    .banner-content {
+        padding: 0 1.5rem 0 6.58%;
+        width: 100%;
+    }
+    .banner-subtitle { 
+        font-size: 1.8em; 
+        margin-bottom: .6rem;
+    }
+    .banner-title { 
+        font-size: 3em; 
+        letter-spacing: -.8px;
+    }
+    p {
+        margin-bottom: 2.3rem;
+        line-height: 1.2;
+    }
+    .btn { letter-spacing: -.25px; }
+}
+// Category List
+.category-icon {
+    padding: 2.4rem .5rem;
+    border-color: #e4eaec;
+    i {
+        margin-bottom: 1.5rem;
+        font-size: 4.2rem;
+        line-height: 1;
+    }
+    &:hover {
+        border-color: $primary-color;
+    }
+
+    .category-name {
+        letter-spacing: -.025em;
+    }
+}
+// Banner Group
+.banner-group {
+    overflow: hidden;
+    img {
+        min-height: 30rem;
+        object-fit: cover;
+    }
+}
+.banner1 {
+    align-items: center;
+    background-color: #222;
+    .banner-content { padding: 0 1.5rem; }
+    p {
+        @include text-block();
+        padding: 0 1rem;
+        line-height: 1.72;
+        margin-bottom: 2.3rem;
+    }
+    .banner-title {
+        margin-bottom: 1.8rem;
+        font-size: 3em;
+        font-weight: 700;
+        letter-spacing: -.025em;
+    }
+
+    .btn {
+        letter-spacing: -.025em;
+    }
+}
+@include mq(xl) {
+    .banner1 p { padding: 0 4rem; }
+}
+.banner2 {
+    img { object-position: 30%;}
+    .banner-content {
+        padding: 0 1.5rem 0 6.3%;
+        width: 100%;
+    }
+    .banner-subtitle, p {
+        font-size: 1.8em;
+        line-height: 1;
+    }
+
+    .banner-subtitle {
+        margin-bottom: .8rem;
+    }
+
+    .banner-title {
+        margin-bottom: 1.2rem;
+        font-size: 3em;
+        letter-spacing: -.02em;
+    }
+
+    p {
+        font-size: 2.4rem;
+    }
+
+    .btn {
+        letter-spacing: -.025em;
+    }
+}
+
+.rating-reviews {
+    letter-spacing: -.025em;
+}
+// Footer
+.footer {
+    .widget {
+        &:not(.widget-about) {
+            margin-top: .5rem;
+        }
+    }
+
+    .widget-about p {
+        margin-bottom: 2.7rem;
+    }
+
+    .social-link {
+        line-height: 3rem;
+        border-width: 1px;
+    }
+
+    .footer-info {
+        max-width: 48rem;
+    }
+}
+
+.logo-footer {
+    max-width: 15.4rem;
+}
+.widget-about {
+    label {
+        display: block;
+        margin-bottom: .5rem;
+        font-size: 1.4rem;
+    }
+    .widget-body {
+        margin-bottom: .6rem;
+        li { margin-bottom: 2.2rem; }
+    }
+}
+.widget-newsletter {
+    .footer & {
+        padding-top: .7rem;
+    }
+    p { margin-bottom: 2.5rem; line-height: 1.54; }
+    .input-wrapper {
+        height: 5rem;
+        input.form-control {
+            padding-left: 1.6rem;
+            letter-spacing: .005em;
+            color: #686865;
+            background-color: #2c2c2c;
+        }
+        .btn {
+            padding: 0 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 400;
+            font-family: $font-family;
+            letter-spacing: .005em;
+            border-top-left-radius: unset;
+            border-bottom-left-radius: unset;
+
+            i {
+                margin-left: .2rem;
+            }
+        }
+    }
+
+    input::placeholder {
+        color: #999
+    }
+}
+
+// shop page
+.breadcrumb-nav {
+    .breadcrumb {
+        padding: 1.6rem 0;
+    }
+}
+
+.toolbox.sticky-toolbox {
+    padding-top: 0;
+}
+
+.sticky-toolbox.fixed {
+    padding: 1rem 2rem 0;
+}
+
+.product-navigation {
+    padding-top: .2rem;
+    padding-bottom: .3rem;
+}
+
+.product-single {
+    .product-name {
+        margin-top: 1.3rem;
+    }
+
+    .product-price {
+        color: #e87951;
+    }
+}
+
+aside {
+    .service-list .icon-box-title {
+        font-size: 1.4rem;
+        margin-bottom: 3px;
+    }
+
+    .banner-content {
+        top: 10%;
+    }
+
+    .owl-nav-top .owl-nav {
+        top: -3.5rem;
+    }
+} 
+
+// Responsive
+@include mq(lg) {
+    .header-border {
+        border-bottom: none;
+    }
+}
+@include mq(lg, max) {
+    .header-middle {
+        .currency-dropdown,
+        .language-dropdown {
+            display: none;
+        }
+        .cart-dropdown { display: block;}
+
+        .login-link {
+            margin-right: 1.5rem;
+        }
+    }
+    .header-bottom { display: none; }
+    .banner { font-size: .9rem; }
+}
+@include mq(sm, max) {
+    .banner { font-size: .8rem; }
+    .intro-banner1 {
+        align-items: normal;
+        figure { height: 50%; }
+        .banner-content { padding: 2rem 1.5rem; }
+    }
+}
+@include mq(xs, max) {
+    .banner { font-size: .7rem; }
+    .intro-slide3 {
+        .banner-content {
+            right: 0;
+            width: 100%;
+        }
+        .banner-title { font-size: 6em; }
+    }
+}

@@ -1,0 +1,107 @@
+/* 
+Demo 7 
+*/
+@include set(
+    (
+        base: (
+            _container-width: 1480px,
+            _container-fluid-width: 100%,
+            title: (
+                margin-bottom: 2.8rem,
+                font-size: 3rem,
+                text-transform: uppercase,
+                line-height: 1.05,
+                letter-spacing: -.008em
+            )
+        ),
+        menu: (
+            ancestor: (
+                padding: 1.1rem 0 1.3rem,
+                font-size: 1.4rem,
+                font-weight: 600,
+                letter-spacing: .007em,
+                _gap: 3.4rem
+            )
+        ),
+        header: (
+            border-bottom: 1px solid #eee,
+            middle: (
+                padding: 2.8rem .2rem 2.6rem,
+                color: #333,
+                login: (
+                    padding-bottom: 0,
+                    icon: (
+                        font-size: 2.1rem
+                    )
+                )
+            ),
+            wishlist: (
+                icon: (
+                    padding-top: .2rem,
+                    font-size: 2.2rem
+                )
+            ),
+            cart: (
+                toggle: (
+                    padding-bottom: .5rem
+                )
+            ),
+            search: (
+                toggle: (
+                    padding: 1.2rem 0 1.1rem
+                )
+            ),
+            sticky: (
+                padding-top: 1.7rem,
+                padding-bottom: 1.5rem
+            )
+        ),
+        product: (
+            price: (
+                margin-bottom: .8rem
+            ),
+            rating: (
+                margin-bottom: 1.5rem
+            )
+        ),
+        post: (
+            detail: (
+                padding: 1.6rem 1rem 0px 1rem
+            ),
+            meta: (
+                margin-bottom: .4rem
+            ),
+            title: (
+                margin-bottom: .7rem,
+                font-size: 1.6rem,
+                text-transform: uppercase,
+                letter-spacing: -.025em
+            ),
+            content: (
+                margin-bottom: 1.1rem,
+                line-height: 1.68
+            )
+        ),
+        footer: (
+            background-color: #1a1f20,
+            bottom: (
+                padding: 3.4rem 1rem 3.2rem
+            ),
+            middle: (
+                padding: 8rem 0 2rem
+            ),
+            about: (
+                logo: (
+                    margin-top: -.5rem
+                ),
+                p: (
+                    margin-bottom: 2.7rem,
+                    letter-spacing: -.007em
+                )
+            ),
+            social-link: (
+                border: 1px solid $grey-color
+            )
+        )
+    )
+);

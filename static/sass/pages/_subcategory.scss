@@ -1,0 +1,56 @@
+/*****************************
+            subcategory
+*****************************/
+.element-subcategory {
+    // category column
+    .category-column{
+        padding: 35px 42px 20px;
+        border: 8px solid $border-color-light;
+        .category-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            margin-bottom: 2rem;
+        }
+        .category-name {
+            margin-bottom: 0;
+            margin-right: 2.4rem;
+            font-size: 1.4rem;
+            letter-spacing: 0;
+            color: $body-color;
+        } 
+        a {
+            display: inline-block;
+            position: relative;
+            margin-right: 2rem;
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: $grey-color;
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -1px;
+                width: 100%;
+                border-bottom: 1px solid;
+                transform: scaleX(0);
+                transition: transform 0.3s;
+            }
+            &:hover {
+                color: $primary-color;
+                &::before {
+                    transform: scale(1);
+                }
+            }
+            &:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                height: 14px;
+                margin-left: 1rem;
+                top: 50%;
+                border-left: 1px solid $grey-color;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}

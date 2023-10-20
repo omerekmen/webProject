@@ -1,0 +1,107 @@
+/* 
+Demo 5
+*/
+@include set(
+    (
+        header: (
+            top: (
+                padding: .1rem 0 .2rem,
+            ),
+            help: (
+                icon: (
+                    margin-top: .1rem
+                )
+            ),
+            contact: (
+                icon: (
+                    margin-top: .1rem
+                )
+            ),
+            middle: (
+                padding-top: 2.9rem,
+                padding-bottom: 2.9rem,
+                logo: (
+                    margin-right: 8.1rem
+                )
+            ),
+            search: (
+                round: (
+                    width: 52.1rem
+                )
+            ),
+            bottom: (
+                margin-top: -.5rem,
+                padding: .7rem 0,
+                font-weight: 600,
+                text-transform: uppercase,
+                background-color: #333,
+                color: #fff,
+                font-size: 1.3rem,
+            ),
+            mmenu-toggle: (
+                color: #222
+            )
+        ),
+        category-menu: (
+            padding: 0 1rem .2rem 0rem,
+            border-radius: .3rem,
+            submenu: (
+                padding: 0
+            ),
+            icon: (
+                margin-top: -.2rem
+            ),
+            ancestor: (
+                padding: 1.3rem 0 1.2rem
+            )
+        ),    
+        menu: (
+            megamenu: (
+                title: (
+                    padding: .7rem 0 .7rem 1rem,
+                    margin-bottom: .3rem,
+                    letter-spacing: 0,
+                )
+            ),
+            submenu: (
+                line-height: 1.4
+            ),
+            ancestor: (
+                font-weight: 600,
+                text-transform: uppercase,
+                _gap: 2.85rem,
+                white-space: nowrap
+            )
+        ), 
+        base: (
+            title: (
+                margin-bottom: 2.5rem,
+                font-size: 2.6rem,
+                letter-spacing: -.025em
+            )
+        ),
+        product: (
+            margin-bottom: 2rem,
+            body: (
+                padding-top: 1.8rem,
+                padding-bottom: 1.5rem,
+            )
+        ),
+        footer: (
+            middle: (
+                padding: 8.2rem 0 4.4rem
+            ),
+            bottom: (
+                padding: 2.8rem 0,
+            ),
+            about: (
+                logo: (
+                    margin: -.4rem 0 3rem
+                ),
+                p: (
+                    margin-bottom: 2.8rem
+                )
+            )
+        )
+    )
+);

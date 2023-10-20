@@ -1,0 +1,32 @@
+/********************************
+        b r e a d c r u m b
+********************************/
+.breadcrumb-element {
+    .default-breadcrumb {
+        justify-content: center;
+        padding: 23.5px 10px;
+    }
+    .dark-section {
+        border-radius: 1rem;
+        background-color: $bg-dark-color;
+    }
+    .bread-inline {
+        padding-left: 7rem;
+        padding-right: 7rem;
+        @include mq(lg) {        
+            flex-direction: row;    
+            justify-content: space-between;
+        }
+        @include mq(lg, max) {
+            align-items: flex-start;
+        }
+    }
+    .breadcrumb-resize-padding {
+        padding-left: 7rem;
+        padding-right: 7rem;
+        @include mq(sm, max) {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    }
+}

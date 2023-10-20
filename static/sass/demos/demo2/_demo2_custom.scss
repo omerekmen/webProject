@@ -1,0 +1,199 @@
+/* 
+Demo 2
+    - Index page
+    - Shop page
+    - Product page
+*/
+
+// Index page
+/* Header */
+.cart-dropdown.type2 .cart-count { background-color: $secondary-color; }
+
+
+/* Intro Section */
+.intro-slider img { min-height: 55rem; object-fit: cover; }
+@include mq('lg', 'max') {
+    .intro-slider img { min-height: 50rem;}
+}
+
+@include mq('md', 'max') {
+    .intro-slider img { min-height: 45rem;}
+}
+
+.intro-slide1 img { object-position: 20% center; }
+
+.intro-slide1 {
+    .banner-content { max-width: 64.5rem;}
+    .banner-subtitle { font-size: 3em; }
+    .banner-title { 
+        margin-bottom: .1rem;
+        font-weight: 800;
+        font-size: 8em; 
+        line-height: 1.1; 
+        letter-spacing: .2em;
+    }
+    h5 { font-size: 3em; }
+}
+
+.intro-slide2 {
+    .banner-content { left: 8.3%; }
+    .banner-subtitle { margin-bottom: .2rem; font-size: 3em; color: #FFFFFF99; }
+    .banner-title { margin-bottom: 1.7rem; font-size: 5em; }
+    h5 { font-size: 3em; }
+    p { 
+        font-size: 1.4em;
+        color: #FFFFFF99;
+        line-height: 1.5;
+    }
+    .btn { font-size: 1.4em; }
+}
+
+.intro-banner {
+    img { min-height: 18rem; object-fit: cover; }
+    .banner-content { margin-top: .2rem; }
+    .banner-subtitle { margin-bottom: .7rem; font-size: 1.8rem; }
+    .banner-title { 
+        margin-bottom: 2.4rem; 
+        font-size: 3em; 
+        line-height: .95; 
+    }
+    .btn i { margin-left: .9rem; }
+
+}
+
+.intro-banner1 .banner-content { right: 6%; }
+.intro-banner2 .banner-content { right: 8%; }
+
+/* Category Section */
+.category-section {
+    .title { margin-bottom: 2.7rem; }
+    .banner-content { padding: 3rem 0 2rem; }
+    .banner-title { font-size: 2.4rem; line-height: 1.5em; }
+    .banner-subtitle { font-size: 2.4rem; }
+    .btn-group a { 
+        text-transform: capitalize;
+        opacity: .9;
+        &:first-child { margin-right: .7rem; }
+    }
+    .category-content { bottom: 2rem; }
+}
+
+.height-x1 { height: 30rem; }
+.height-x2 { height: 60rem; }
+
+/* Banner Sale */
+.banner-sale { 
+    padding: 6.8rem 5.8rem 6.2rem;
+    .banner-subtitle { font-size: 2.6rem; }
+    .divider {
+        width: 19rem;
+        height: .2rem;
+        background-color: $white-color;
+        opacity: .2;
+    }
+    .banner-title {
+        font-size: 7.6rem;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: .05em;
+    }
+    .banner-price-info {
+        border: 3px solid rgba(255,255,255,.6);
+        border-radius: 50%;
+        width: 14em;
+        height: 14em;
+        text-indent: 18px;
+        h5 { 
+            font-size: 1.8em;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        span { font-size: 1.944em; font-weight: 800; }
+    }
+    .price-rotated {
+        position: absolute;
+        left: 23.7%;
+        top: -10%;
+        transform: rotate(-15deg);
+        @include mq('767px', max) {
+            top: 120%;
+            left: 8.7%;
+        }
+    }
+}
+
+/* Service List */
+.service-list {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    .icon-box-content { padding: 2.4rem 0; }
+    .icon-box-title { font-size: 1.6rem; }
+    p { line-height: 1.6; }
+}
+
+/* Footer */
+.widget.widget-about { margin-top: -.8rem; }
+
+/* Responsive */
+@include mq(1024px, max) {
+    .banner-sale { 
+        background-position: 0; 
+        .banner-price-info { left: 36%; }
+    }
+}
+@include mq(lg, max) {
+    .footer-middle {
+        padding: 7.6rem 0 4.6rem;
+    }
+}
+@include mq(md, max) {
+    .intro-slide1, .intro-slide2 { font-size: .7rem; }
+    .height-x1 { height: 22.5rem; }
+    .height-x2 { height: 45rem; }
+    .banner-sale {
+        padding: 3rem 2rem 17rem;
+        background-position: center;
+        .banner-price-info { left: 0; top: 100%; }
+    }
+}
+@include mq(sm, max) {
+    .intro-slide1 { 
+        font-size: .5rem; 
+        .banner-title { letter-spacing: 0; }
+    }
+    .intro-slide2 { font-size: .65rem; }
+}
+@include mq(xs,max) {
+    .intro-banner { font-size: .8rem; }
+    .intro-slide1 .banner-content { left: 1.5rem }
+}
+// Shop page
+.breadcrumb { line-height: 1.9; }
+.shop-banner {
+    padding: 5.2rem 0 5.1rem;
+    .banner-content { right: 8.5% }
+    .banner-title { margin-bottom: .4rem }
+    .banner-price-info { margin-bottom: 1.6rem }
+    .banner-subtitle,
+    .banner-price-info {
+        font-size: 2em;
+    }
+    .banner-title { font-size: 6em; }
+    p {
+        margin-bottom: 2.3rem;
+        padding: 0 1.1rem;
+        line-height: 3rem;
+    }
+}
+@include mq(xs, max) {
+    .shop-banner .banner-content { right: 1.5rem }
+}
+//Product page
+.product-details .product-navigation {
+    padding: 0rem 2px 1.2rem;
+}
+
+// Mobile menu
+.mobile-menu li > a:hover {
+    color: $secondary-color;
+}

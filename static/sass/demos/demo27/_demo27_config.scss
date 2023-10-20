@@ -1,0 +1,119 @@
+/* 
+Demo 27 Variables
+*/
+@include set(
+	(
+		base: (
+			_container-width: 1320px,
+			title: (
+				font-size: 20px,
+				margin-bottom: 1.9rem,
+				letter-spacing: -.3px,
+				border: (
+					width: 1px,
+					color: #e1e1e1
+				),
+				_grey-section-bg: #f7f8fc
+			),
+		),
+		header: (
+			_link-active-color: #fff,
+			top: (
+				background: $primary-color,
+				color: #fff,
+				border-bottom: 1px solid rgba(255,255,255,.15),
+				_links-gap: 2.5rem,
+			),
+			middle: (
+				padding-top: 2.5rem,
+				padding-bottom: 2.5rem,
+				font-weight: 600,
+				color: #fff,
+				background: $primary-color
+			),
+			bottom: (
+				padding-top: 2.2rem,
+				padding-bottom: 2.3rem,
+				font-size: 1.3rem,
+				color: #777,
+			),
+			search: (
+				round: (
+					width: 59.4rem
+				)
+			),
+			cart: (
+				label: (
+					color: #fff,
+					price: (
+						color: inherit
+					),
+				),
+				count: (
+					color: #fff,
+					hover: (
+						color: $primary-color
+					)
+				),
+				icon: (
+					color: inherit,
+					hover: (
+						border-color: #fff,
+						background: $white-color
+					)
+				)
+			)
+		),
+		post: (
+			body: (
+				padding: 1.9rem 0 1.5rem
+			),
+			info: (
+				margin-bottom: .7rem
+			),
+			title: (
+				margin-bottom: 1.5rem,
+				font-size: 1.4rem,
+				letter-spacing: 0
+			),
+			btn: (
+				_icon-gap: .6rem
+			)
+		),
+		product: (
+			price: (
+				color: $primary-color
+			),
+			name: (
+				color: #444
+			)
+		),
+		footer: (
+			letter-spacing: -.015em,
+			middle: (
+				padding: 82px 0px 39px 0px
+			),
+			bottom: (
+				padding: 2.8rem 0
+			),
+			about: (
+                logo: (
+					margin-top: .4rem,
+                    margin-bottom: 2rem,
+                ),
+                p: (
+                    margin-bottom: 2.7rem,
+                    letter-spacing: -.015em
+                )
+            ),
+			copyright: (
+				color: #666,
+				letter-spacing: -.015em
+			),
+			social-link: (
+				width: 2.9rem,
+				height: 2.9rem
+			)
+		)
+	)
+)

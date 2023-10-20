@@ -1,0 +1,365 @@
+/* 
+    Demo 5
+        - Home page
+        - Product page
+*/
+
+/* Header */
+.header-top .header-right { padding-top: .1rem; }
+.header-search {
+    &.hs-simple input.form-control {
+        border: 1px solid #cacaca;
+    }
+    .btn-search i { margin: 0 0.7rem 0.2rem 0; }
+}
+
+/* Intro Section */
+.intro-section {
+    .height-x2 { height: 528px; }
+    .height-x1 { height: 264px; }
+    .banner-radius { border-radius: .3rem; }
+}
+
+.megamenu {
+    .row {
+        & > * { padding: 1rem; }
+    }
+    .menu-title {
+        @include print_css ( menu, megamenu, title );
+    }
+}
+
+.category-menu .submenu .megamenu {
+    min-width: 61.8rem;
+}
+
+.menu-banner3 {
+    .banner-date {
+        top: .8rem;
+        right: 1.4rem;
+    }
+    h6 { font-size: 1rem; }
+    sup { font-size: .5rem; }
+    .banner-content.text-center {
+        top: 6.5rem;
+    }
+    .banner-subtitle { 
+        padding: .3rem .5rem .1rem;
+        font-size: 1.72rem; 
+    }
+    .banner-title { font-size: 2.866rem;  }
+    p { font-size: 1.3rem; }
+    .btn {
+        i {
+            color: inherit;
+            margin: 0 0 0 .6rem;
+        }
+        &:hover, &:active, &:focus {
+            color: $primary-color;
+        }
+    }
+}
+
+.intro-section .grid-item:first-child {
+    z-index: 1  ;
+}
+
+.intro-slider {
+    .banner-subtitle { 
+        margin-bottom: .9rem;
+        font-size: 1.6em; 
+    }
+    .banner-title { margin-bottom: 1.7rem; font-size: 3em; }
+    p { font-size: 1.6em; }
+
+    .owl-dots { bottom: 4rem; }
+
+    .owl-animated-out { animation-duration: .75s; }
+}
+
+.intro-slide1, .intro-slide3 {
+    .banner-content { left: 5%; margin-top: -.1rem; }
+}
+
+.intro-slide2 {
+    .banner-content { right: 10%; margin-top: -.3rem; }
+    p { margin-bottom: 1.9rem; }
+}
+
+.btn-shadow { box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.2); }
+
+.intro-banner {
+    .banner-content { left: 7%; }
+    .banner-title { font-size: 2em; line-height: 1.2; }
+    .btn i { margin: 0 0 .1rem .7rem; }
+}
+
+.intro-banner1, .intro-banner5 {
+    .banner-content { top: 8.5%; }
+    .banner-subtitle { margin-bottom: .3rem; font-size: 1.4rem; }
+    .banner-title { margin-bottom: 2.2rem; }
+}
+
+.intro-banner2 .banner-content { padding-top: 1.2rem;}
+
+.intro-banner3 {
+    .banner-content { left: 8.7%; padding-top: .7rem; }
+    .banner-subtitle { margin-bottom: .8rem; font-size: 2em;}
+    .banner-title { 
+        margin-bottom: 2.3rem; 
+        font-size: 2.4em; 
+        letter-spacing: -.0083em;
+    }
+}
+
+.intro-banner4 {
+    .banner-content { margin-top: -.2rem; }
+    .banner-title { margin-bottom: .8rem; font-size: 2.6em; }
+    p { color: #675545 }
+}
+
+.intro-banner5 .banner-content { bottom: 4.7%; top: auto; }
+
+/* Service list */
+.service-list {
+    .owl-carousel { box-shadow: 0 5px 30px rgba(0, 0, 0, 0.07); }
+    .owl-stage-outer { margin: 0 .1rem; }
+    .owl-stage { margin: 0 -.1rem; }
+    .icon-box { padding: 3rem 0 3.4rem; }
+    .owl-item:not(:last-child) .icon-box::after {
+        position: absolute;
+        content: '';
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 3.7rem;
+        background-color: $border-color;
+    }
+    .icon-box-icon {
+        font-size: 3.7rem;
+        &.d-icon-truck { font-size: 4.6rem; }
+    }
+    .icon-box-title { line-height: 1.3; }
+    p { line-height: 1.2; }
+}
+/* Product */
+.owl-nav-full .owl-nav {
+    .owl-prev, .owl-next { font-size: 2rem; }
+}
+
+.owl-carousel.owl-theme.owl-nav-full .owl-dots {
+    margin-top: -1rem;
+}
+
+/* Banner CTA */
+.banner-cta {
+    padding: 7.5rem 0 6.9rem;
+    .banner-title { font-size: 3.6em; letter-spacing: -.04em; }
+    strong { font-weight: 800; }
+    p { margin-bottom: 1.3rem; line-height: 1.72; }
+
+    .input-wrapper {
+        margin: 0 auto 2.8rem;
+        max-width: 51rem;
+        height: 4.9rem;
+        input.form-control {
+            padding-left: 2.2rem;
+            padding-right: 2.2rem;
+            border: 0;
+            font-size: 1.3rem;
+        }
+    }
+    .btn {
+        padding-left: 1.4em;
+        padding-right: 1.4em;
+        i {
+            margin-left: .6rem;
+            font-size: 1.6rem;
+        }
+    }
+
+    .social-link {
+        width: 2.9rem;
+        height: 2.9rem;
+        font-size: 1.4rem;
+        border-color: #fff;
+        background-color: #fff;
+        color: $grey-color;
+        &:hover {
+            background-color: $primary-color;
+            border-color: $primary-color;
+            color: $white-color;
+        }
+    }
+}
+
+/* Post frame */
+.post-frame {
+    .post-details { padding: 2.5rem .4rem 2.2rem; }
+    .btn i { font-size: 1.7rem; }
+}
+/* Instagram Section */
+.instagram-section {
+    margin-top: 3.8rem;
+    .height-x1 { height: 200px; }
+    .height-x2 { height: 400px; }
+    .instagram img { height: 100%; }
+}
+
+.testimonial-wrapper {
+    height: 100%;
+    padding-top: 3.9rem;
+    background: #FEF0E3;
+    .title {
+        font-size: 1.8rem;
+        letter-spacing: .0055em;
+        margin-bottom: 2.7rem;
+    }
+
+    .owl-nav.disabled + .owl-dots {
+        margin-top: 2.3rem;
+        .owl-dot {
+            span { border-color: #333; }
+
+            &.active span, &:hover span {
+                border-color: #333;
+                background-color: #333;
+            }
+        }
+    }
+}
+
+.testimonial {
+    padding: 0 2rem;
+    background-color: transparent;
+
+    .comment {
+        margin-bottom: 1.7rem;
+        max-width: 31.2rem;
+        word-break: break-all;
+    }
+
+    cite {
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #333;
+
+        span {
+            margin-top: 4px;
+            font-weight: 600;
+            color: #222;
+        }
+    }
+}
+.instagram {
+    a {
+        &::before {
+            background-color: $primary-color;
+        }
+    }
+}
+
+/* Footer */
+.footer-middle {
+    .widget:not(.widget-about) {
+        margin-top: .4rem;
+    }
+}
+
+@include mq(lg) {
+    .footer-middle .col-lg-4:not(:first-child) {
+        max-width: 22.22%;
+        flex: 0 0 22.22%;
+    }
+}
+
+/* MobileMenu */
+.mobile-menu {
+    .tab-pane {
+        color: $border-color;
+    }
+    i {
+        margin-right: .8rem;
+        line-height: 0;
+        vertical-align: middle;
+        font-size: 2.1rem;
+    }
+    >ul.active {
+        display: block;
+    }
+}
+
+/* Responsive */
+@include mq(xl, max) {
+    .header-search.hs-expanded {
+        width: 45rem;
+    }
+}
+
+@include mq(lg) {
+    .footer {
+        .col-lg-3:last-child .widget {
+            margin-left: 2rem;
+        }
+    }
+    .header-border {
+        border-bottom: none;
+    }
+}
+
+@include mq(lg, max) {
+    .service-list .owl-item:not(:last-child) .icon-box::after { content: none; }
+    .footer-middle { padding: 6.5rem 0 3.5rem; }
+}
+
+@media ( min-width: 992px ) and ( max-width: 1199px ), ( max-width: 479px ) {
+    .instagram-section .owl-dots { bottom: 2rem; }
+}
+
+// Shop
+.toolbox.sticky-toolbox { padding-top: 2rem; }
+.breadcrumb-nav .breadcrumb {
+    padding: 1.7rem 0 1.6rem;
+}
+.shop-banner {
+    padding: 6.4rem 1.5rem 6.6rem 8%;
+    background-position: 10%;
+    .banner-title {
+        display: flex;
+        align-items: center;
+        margin: 0 0 0 -5.3em;
+        font-size: 1em;
+        > strong {
+            font-size: 8em;
+        }
+        > span {
+            font-size: 3em;
+        }
+        sup {
+            display: inline-block;
+            padding-top: 8px;
+            font-size: .375em;
+            vertical-align: top;
+        }
+    }
+    .banner-subtitle {
+        margin-bottom: 2.4rem;
+        font-size: 2em;
+        line-height: 1.25;
+    }
+}
+
+@include mq(md, max) {
+    .shop-banner { padding-left: 15%; font-size: .7rem; }
+}
+
+@include mq(xs, max) {
+    .toolbox.sticky-toolbox.fixed { padding-top: 1rem; }
+}
+//Product Page
+.products .title { font-size: 2.4rem; }
+.card-description {
+    .description-title { margin: 1.4rem 0 1.7rem; font-size: 1.6rem; }
+    li { line-height: 1.86; }
+}
