@@ -6,7 +6,9 @@
 
 {% block content %}
 
+
 <main class="main home">
+    
     <div class="page-content">
 
         <!-- Slider -->
@@ -65,8 +67,11 @@
 
                 <div class="main-content">
                     
-                    <h1>Ürünler</h1>
-                    <nav class="toolbox sticky-toolbox sticky-content fix-top" style="">
+                    <div style="margin-top: 25px;">
+                        <h1>Ürünler</h1>
+                    </div>
+
+                    <nav class="toolbox sticky-toolbox sticky-content fix-top" >
 
                         <div class="toolbox-left">
 
@@ -122,7 +127,7 @@
                                     </a>
                                     <div class="product-label-group">
                                         <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
-                                        <label class="product-label label-sale">27% Off</label>
+                                        <label class="product-label label-sale">27% Off</label> <!-- PRODUCT LABEL from DB (according to discount) -->
                                     </div>
                                 </figure>
                                 <div class="product-details">
@@ -133,7 +138,8 @@
                                         <a href="product.html">Coast Pool Comfort Jacket</a> <!-- PRODUCT NAME from DB -->
                                     </h3>
                                     <div class="product-price">
-                                        <ins class="new-price">$199.00</ins><del class="old-price">$210.00</del> <!-- PRICE from DB -->
+                                        <ins class="new-price">$199.00</ins> <!-- NEW PRICE from DB -->
+                                        <del class="old-price">$210.00</del> <!-- OLD PRICE from DB -->
                                     </div>
 
                                     <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz

@@ -7,3 +7,9 @@ def index(request):
 
 def category(request):
     return render(request, 'category.html')
+
+def product(request):
+    return render(request, 'product.html')
+
+def combproduct(request):
+    return render(request, 'combproduct.html')
