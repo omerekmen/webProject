@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from .models import Products
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    products = Products.objects.all()
+    return render(request, 'index.html', {'products': products})
 
 def category(request):
     return render(request, 'category.html')
@@ -19,3 +21,4 @@ def signin(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
