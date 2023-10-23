@@ -1,0 +1,32 @@
+.intro-page{
+    background-image: url("../uploads/bahcesehir_intro.jpeg");
+}
+
+main{
+    background: none;
+    margin: 20 20 50 50;
+    vertical-align: middle;
+    justify-content: flex-end;
+}
+
+.intro-main{
+    display:block;
+}
+
+.login-popup{
+    background: #fff;
+}
+
+.logodiv{
+    position:sticky;
+    left: 100%;
+    margin: 4em;
+    display:inline;
+}
+
+.logo{
+    margin-left: auto;
+    height: 6lh;
+    align-items: center;
+
+}

@@ -22,4 +22,6 @@ urlpatterns = [
     path('kategori/', category, name='category' ),
     path('urun/', product, name='product' ),
     path('kombin/', combproduct, name='combproduct' ),
+    path('signin/', signin, name='signin' ),
+    path('signup/', signup, name='signup' ),
     ]
