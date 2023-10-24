@@ -1,11 +1,20 @@
 from django.shortcuts import render
-from products.views import products
+from products.models import *
+from products.views import *
+from datetime import datetime, timedelta
+
+
+# Functions to Manage Products
+products = Products.objects.all()
+
+def one_month_ago():
+    today = datetime.now().date()
+    return today - timedelta(days=30)
 
 # Create your views here.
 
 def index(request):
-    products = Products.objects.all()
-    return render(request, 'index.html', {'products': products})
+    return render(request, 'index.html', {'products': products, 'one_month_ago': one_month_ago()})
 
 def category(request):
     return render(request, 'category.html')

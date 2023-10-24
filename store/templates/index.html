@@ -125,10 +125,16 @@
                             <div class="product product-classic">
                                 <figure class="product-media">
                                     <a href="product.html">
-                                        <img src="{% static 'images/shop/13.jpg' %}" alt="product" width="280" height="315">
+                                        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
                                     </a>
                                     <div class="product-label-group">
-                                        <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
+                                        {% if product.product_created_at > one_month_ago %}
+                                            <label class="product-label label-new">NEW</label>
+                                        {% endif %}
+
+                                        {% if product.PriceID.DiscountRatio > 0 %}
+                                            <label class="product-label label-sale">{{ product.PriceID.DiscountRatio }}% </label>
+                                        {% endif %}
                                     </div>
                                 </figure>
                                 <div class="product-details">
@@ -139,10 +145,10 @@
                                         <a href="product.html">{{ product.product_name }}</a> <!-- PRODUCT NAME from DB -->
                                     </h3>
                                     <div class="product-price">
-                                        <ins class="new-price">{{ product.SalePrice }}₺</ins>
-                                        {% if product.StrikedPrice != 0 %}
-                                            <del class="old-price">{{ product.StrikedPrice }}₺</del>
-                                        {% endif %} <!-- PRICE from DB -->
+                                        <ins class="new-price">{{ product.PriceID.SalePrice }} ₺</ins>
+                                        {% if product.PriceID.StrikedPrice > 0 %}
+                                            <del class="old-price">{{ product.PriceID.StrikedPrice }} ₺</del>
+                                        {% endif %} 
                                     </div>
 
                                     <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
