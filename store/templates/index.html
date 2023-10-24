@@ -119,6 +119,8 @@
 
                     <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
 
+
+                        {% for product in products %}
                         <div class="product-wrap">
                             <div class="product product-classic">
                                 <figure class="product-media">
@@ -127,19 +129,20 @@
                                     </a>
                                     <div class="product-label-group">
                                         <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
-                                        <label class="product-label label-sale">27% Off</label> <!-- PRODUCT LABEL from DB (according to discount) -->
                                     </div>
                                 </figure>
                                 <div class="product-details">
                                     <div class="product-cat">
-                                        <a href="shop-default-3.html">Clothing</a> <!-- CATEGORY from DB -->
+                                        <a href="shop-default-3.html">{{ product.ProductCategoryID.CategoryName }}</a> <!-- CATEGORY from DB -->
                                     </div>
                                     <h3 class="product-name">
-                                        <a href="product.html">Coast Pool Comfort Jacket</a> <!-- PRODUCT NAME from DB -->
+                                        <a href="product.html">{{ product.product_name }}</a> <!-- PRODUCT NAME from DB -->
                                     </h3>
                                     <div class="product-price">
-                                        <ins class="new-price">$199.00</ins> <!-- NEW PRICE from DB -->
-                                        <del class="old-price">$210.00</del> <!-- OLD PRICE from DB -->
+                                        <ins class="new-price">{{ product.SalePrice }}₺</ins>
+                                        {% if product.StrikedPrice != 0 %}
+                                            <del class="old-price">{{ product.StrikedPrice }}₺</del>
+                                        {% endif %} <!-- PRICE from DB -->
                                     </div>
 
                                     <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
@@ -159,45 +162,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="product-wrap">
-                            <div class="product product-classic">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/13.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-label-group">
-                                        <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-default-3.html">Clothing</a> <!-- CATEGORY from DB -->
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Coast Pool Comfort Jacket</a> <!-- PRODUCT NAME from DB -->
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$199.00</ins><del class="old-price">$210.00</del> <!-- PRICE from DB -->
-                                    </div>
-
-                                    <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div> -->
-
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
 
                     </div>
 
