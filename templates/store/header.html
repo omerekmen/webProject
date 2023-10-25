@@ -88,10 +88,6 @@
                                 <a href="{% url 'category' %}">Kategori</a>
                             </li>
 
-                            <li {% if request.resolver_match.url_name == 'product' %} class="active"{% endif %}>
-                                <a href="{% url 'product' %}">Ürün</a>
-                            </li>
-                            
                             <li {% if request.resolver_match.url_name == 'combproduct' %} class="active"{% endif %}>
                                 <a href="{% url 'combproduct' %}">Kombin</a>
                             </li>

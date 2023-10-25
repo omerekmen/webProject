@@ -20,6 +20,7 @@ from django.urls import path, include
 ### Static files importing to url structure
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView
 
 
 urlpatterns = [

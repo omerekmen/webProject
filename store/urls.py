@@ -20,8 +20,13 @@ from .views import *
 urlpatterns = [
     path('', index, name='index'),
     path('kategori/', category, name='category' ),
-    path('urun/', product, name='product' ),
+
+    path('urun/', ProductList.as_view()),
+    path('urun/<int:pk>/', product, name='product' ),
+
     path('kombin/', combproduct, name='combproduct' ),
+
+    
     path('signin/', signin, name='signin' ),
     path('signup/', signup, name='signup' ),
     ]

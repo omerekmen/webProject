@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime, timedelta
 
 # Define the ProductCategory model
 class ProductCategory(models.Model):
@@ -21,13 +21,13 @@ class ProductCategorySizes(models.Model):
 # Define the ProductStock model
 class ProductStock(models.Model):
     StockID = models.AutoField(primary_key=True)
-    RealStock = models.IntegerField()
-    SaleStock = models.IntegerField()
-    ReservedStock = models.IntegerField()
-    AcceptStock = models.IntegerField()
-    ReturnStock = models.IntegerField()
-    CancelStock = models.IntegerField()
-    PreproductionStock = models.IntegerField()
+    RealStock = models.PositiveIntegerField()
+    SaleStock = models.PositiveIntegerField()
+    ReservedStock = models.PositiveIntegerField()
+    AcceptStock = models.PositiveIntegerField()
+    ReturnStock = models.PositiveIntegerField()
+    CancelStock = models.PositiveIntegerField()
+    PreproductionStock = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.StockID}"
@@ -36,9 +36,9 @@ class ProductStock(models.Model):
 class ProductPrice(models.Model):
     PriceID = models.AutoField(primary_key=True)
     SalePrice = models.DecimalField(max_digits=10, decimal_places=2)
-    StrikedPrice = models.IntegerField(null=True, blank=True)
-    DiscountRatio = models.IntegerField(null=True, blank=True)
-    DiscountPrice = models.IntegerField(null=True, blank=True)
+    StrikedPrice = models.PositiveIntegerField(null=True, blank=True)
+    DiscountRatio = models.PositiveIntegerField(null=True, blank=True)
+    DiscountPrice = models.PositiveIntegerField(null=True, blank=True)
     DiscountType = models.IntegerField(
         null=True, blank=True,
         choices=[
@@ -46,7 +46,14 @@ class ProductPrice(models.Model):
             (10, '10%'),
             (20, '20%'),]
     )
-    TaxPrice = models.CharField(max_length=100)
+    TaxPrice = models.CharField(
+        max_length=100,        
+        null=True, blank=True,
+        choices=[
+            (0, '0%'),
+            (10, '10%'),
+            (20, '20%'),]
+        )
     CombinePriceInfo = models.JSONField()
 
     def __str__(self):
@@ -64,9 +71,17 @@ class SetProduct(models.Model):
     SProductInfo = models.JSONField()
     SProductQuantity = models.IntegerField()
 
+class ProductSize(models.Model):
+    size_name = models.CharField(max_length=50)
+    size_stocks = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.size_name}"
+
 
 def upload_location(instance, filename):
     return f"product_files/{instance.product_name}/{filename}"
+
 
 # Define the Products model
 class Products(models.Model):
@@ -79,6 +94,7 @@ class Products(models.Model):
     ProductID = models.AutoField(primary_key=True)
     ProductCategoryID = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     CategorySizeID = models.ForeignKey(ProductCategorySizes, on_delete=models.CASCADE)
+    product_sizes = models.ManyToManyField(ProductSize)
     product_type = models.CharField(
         max_length=100,
         choices=PRODUCT_TYPE_CHOICES,
@@ -109,6 +125,14 @@ class Products(models.Model):
     product_last_update = models.DateTimeField(auto_now=True)
     product_season = models.DateField()
     product_change_limit = models.JSONField(null=True)
+
+    def get_label_attr(self):
+        today = datetime.now().date()
+        days_ago = today - timedelta(days=30)
+        return (self.product_created_at.date() > days_ago)
+
+    # Define the label attribute
+    label = property(get_label_attr)
 
     def __str__(self):
         return f"{self.product_name}"

@@ -19,8 +19,7 @@
             'nav': true,
             'dots': false,
             'animateIn': 'fadeIn',
-            'animateOut': 'fadeOut'
-        }">
+            'animateOut': 'fadeOut'}">
 
             <div class="niche-slide1 banner banner-fixed">
                 <figure class="kenBurnsToRight duration">
@@ -120,54 +119,45 @@
                     <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
 
 
-                        {% for product in products %}
-                        <div class="product-wrap">
-                            <div class="product product-classic">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
-                                    </a>
-                                    <div class="product-label-group">
-                                        {% if product.product_created_at > one_month_ago %}
-                                            <label class="product-label label-new">NEW</label>
-                                        {% endif %}
+                        {% for product in active_products %}
+                            <div class="product-wrap">
+                                <div class="product product-classic">
+                                    <figure class="product-media">
+                                        <a href="{% url 'product' product.ProductID %}">
+                                            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
+                                        </a>
+                                        <div class="product-label-group">
+                                            {% if product.label %}
+                                                <label class="product-label label-new">NEW</label>
+                                            {% endif %}
 
-                                        {% if product.PriceID.DiscountRatio > 0 %}
-                                            <label class="product-label label-sale">{{ product.PriceID.DiscountRatio }}% </label>
-                                        {% endif %}
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-default-3.html">{{ product.ProductCategoryID.CategoryName }}</a> <!-- CATEGORY from DB -->
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">{{ product.product_name }}</a> <!-- PRODUCT NAME from DB -->
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">{{ product.PriceID.SalePrice }} ₺</ins>
-                                        {% if product.PriceID.StrikedPrice > 0 %}
-                                            <del class="old-price">{{ product.PriceID.StrikedPrice }} ₺</del>
-                                        {% endif %} 
-                                    </div>
-
-                                    <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
+                                            {% if product.PriceID.DiscountRatio > 0 %}
+                                                <label class="product-label label-sale">{{ product.PriceID.DiscountRatio }}% </label>
+                                            {% endif %}
                                         </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div> -->
+                                    </figure>
+                                    <div class="product-details">
+                                        <div class="product-cat">
+                                            <a href="shop-default-3.html">{{ product.ProductCategoryID.CategoryName }}</a> <!-- CATEGORY from DB -->
+                                        </div>
+                                        <h3 class="product-name">
+                                            <a href="product.html">{{ product.product_name }}</a> <!-- PRODUCT NAME from DB -->
+                                        </h3>
+                                        <div class="product-price">
+                                            <ins class="new-price">{{ product.PriceID.SalePrice }} ₺</ins>
+                                            {% if product.PriceID.StrikedPrice > 0 %}
+                                                <del class="old-price">{{ product.PriceID.StrikedPrice }} ₺</del>
+                                            {% endif %} 
+                                        </div>
 
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
+                                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                            <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
 
                     </div>

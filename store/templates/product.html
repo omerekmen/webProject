@@ -18,8 +18,8 @@
                             <div class="product-single-carousel owl-carousel owl-theme owl-nav-inner row cols-1 gutter-no">
 
                                 <figure class="product-image">
-                                    <img src="{% static 'images/product/product-8-1-580x580.jpg' %}" 
-                                        data-zoom-image="{% static 'images/product/product-8-1-800x900.jpg' %}"
+                                    <img src="{{ product.product_image.url }}" 
+                                        data-zoom-image="{{ product.product_image.url }}"
                                         alt="Women's Brown Leather Backpacks" width="800" height="900"> <!-- DB den uygun görsel detayları-->
                                 </figure>
 

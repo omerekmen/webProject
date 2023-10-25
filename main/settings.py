@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -44,6 +45,18 @@ INSTALLED_APPS = [
     "members",
     "products",
 ]
+
+# Set the authentication backend:
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+# Configure the login and logout URLs:
+LOGIN_URL = 'signin'  # Replace 'login' with the URL name of your login view
+LOGOUT_URL = 'logout'  # Replace 'logout' with the URL name of your logout view
+LOGIN_REDIRECT_URL = '/'  # Replace '/' with the URL you want to redirect to after login
+
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -142,3 +155,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+JAZZMIN_SETTINGS = {
+    'site_title' : "Entegrasyon Cloud",
+    'site_brand' : "Entegrasyon Cloud",
+    'site_logo' : "images/logo-letter.png",
+    'copyright' : "Entegrasyon Cloud",
+    "navigation_expanded": True,
+    
+}
