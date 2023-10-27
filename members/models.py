@@ -55,5 +55,7 @@ class Members(models.Model):
     IPAddress = models.CharField(max_length=45)
     Season = models.DateField()
 
+    USERNAME_FIELD = 'Identification'
+
     def __str__(self):
         return f"{self.FirstName} {self.LastName}"

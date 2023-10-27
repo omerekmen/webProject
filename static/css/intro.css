@@ -1,5 +1,6 @@
 .intro-page{
     background-image: url("../uploads/bahcesehir_intro.jpeg");
+    background-attachment: fixed;
 }
 
 main{

@@ -26,6 +26,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView,
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
+    path("", include('members.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

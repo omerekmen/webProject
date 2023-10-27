@@ -39,7 +39,8 @@ class ProductPrice(models.Model):
     StrikedPrice = models.PositiveIntegerField(null=True, blank=True)
     DiscountRatio = models.PositiveIntegerField(null=True, blank=True)
     DiscountPrice = models.PositiveIntegerField(null=True, blank=True)
-    DiscountType = models.IntegerField(
+    DiscountType = models.CharField(
+        max_length=100,        
         null=True, blank=True,
         choices=[
             (0, '0%'),
@@ -50,11 +51,11 @@ class ProductPrice(models.Model):
         max_length=100,        
         null=True, blank=True,
         choices=[
-            (0, '0%'),
-            (10, '10%'),
-            (20, '20%'),]
+            ('0%', '0%'),
+            ('10%', '10%'),
+            ('20%', '20%'),]
         )
-    CombinePriceInfo = models.JSONField()
+    CombinePriceInfo = models.JSONField(null=True)
 
     def __str__(self):
         return f"{self.SalePrice}"

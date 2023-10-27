@@ -18,11 +18,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('kategori/', category, name='category' ),
+    path('signup/', signup_view, name='signup' ),
 
-    path('urun/', ProductList.as_view()),
-    path('urun/<int:pk>/', product, name='product' ),
-
-    path('kombin/', combproduct, name='combproduct' ),
+    #path('signup/', signup, name='signup' ),
+    path('signin/', signin, name='signin' ),
     ]

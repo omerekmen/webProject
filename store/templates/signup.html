@@ -65,8 +65,11 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active in" id="signin">
-                                        <form action="#">
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            {{ form.as_p }}
 
+                                            <!--
                                             <div class="form-group mb-2">
                                                 <label for="identity">Öğrenci TC Kimlik Numarası</label>
                                                 <input type="text" class="form-control" id="identity" name="identity" placeholder="Öğrenci TC Kimlik Numarası *" required="">
@@ -93,7 +96,9 @@
                                                     <label class="form-control-label" for="signin-remember">Kullanım Koşulları'nı okudum onaylıyorum</label>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-dark btn-block btn-rounded" type="submit">Login</button>
+
+                                            -->
+                                            <button class="btn btn-dark btn-block btn-rounded" type="submit">Üye Ol</button>
                                         </form>
                                     </div>
                                 </div>

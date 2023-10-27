@@ -29,10 +29,3 @@ def product(request, id):
 
 def combproduct(request):
     return render(request, 'combproduct.html')
-
-def signin(request):
-    return render(request, 'signin.html')
-
-def signup(request):
-    return render(request, 'signup.html')
-

@@ -2,9 +2,10 @@ from django.contrib import admin
 from .models import *
 
 class ProductsAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/product_change_list.html'
     list_display = [
-        'product_image',
         'product_name', 
+        'product_image',
         'product_type', 
         'product_production_name', 
         'product_color',
