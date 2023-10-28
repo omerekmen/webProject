@@ -1,25 +1,34 @@
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login, authenticate
+from django.shortcuts import redirect
+from django.contrib import messages
 from django.shortcuts import render
 from .forms import MemberRegisterForm
-from django.contrib.auth import login, authenticate
-from django.contrib import messages
+from .models import *
 
 
 # Create your views here.
 def signup_view(request):
 
     if request.method == "POST":
-        form = MemberRegisterForm(request.POST or None)
+        form = MemberRegisterForm(request.POST)
         if form.is_valid():
-            new_user = form.save()
-            fName = form.cleaned_data.get("FirstName")
-            messages.success(request, f"Merhaba {fName}, hesabın başarıyla oluşturuldu!")
-            new_user = authenticate(
-                username = form.cleaned_data["Email"],
-                password = form.cleaned_data["password1"],
+            new_user = Members.objects.create_user(
+                Identification = form.cleaned_data["Email"],
+                PhoneNumber = form.cleaned_data["PhoneNumber"],
+                FirstName = form.cleaned_data["FirstName"],
+                LastName = form.cleaned_data["LastName"],
+                BirthDate = form.cleaned_data["BirthDate"],
+                CampusID = form.cleaned_data["CampusID"],
+                Gender = form.cleaned_data["Gender"],
+                LevelID = form.cleaned_data["LevelID"],
+                ClassID = form.cleaned_data["ClassID"],
+                RegistrationState = form.cleaned_data["RegistrationState"],
+                PasswordHash = make_password(form.cleaned_data["password1"]),
             )
-
+            new_user.save()
             login(request, new_user)
-            return redirect('shop:index')
+            return redirect('store:index')
 
     else:
         form = MemberRegisterForm()
