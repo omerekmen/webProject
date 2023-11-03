@@ -1,0 +1,97 @@
+.intro-page{
+    background-image: url("../uploads/bahcesehir_intro.jpeg");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+main{
+    background: none;
+    margin: 20 20 50 50;
+    vertical-align: middle;
+    justify-content: flex-end;
+}
+
+.intro-main{
+    display:block;
+}
+
+.login-popup{
+    background: #fff;
+}
+
+.logodiv {
+    position: fixed;
+    width: 100%;
+    height: 100px; /* Adjust the height as needed */
+}
+
+.logo{
+    position: absolute;
+    margin: 1em 2em;
+    top: 0;
+    right: 0;
+}
+
+.logo-image{
+    height: 6lh;
+}
+
+.form-container {
+    display:flex;
+    margin: 2em;
+    margin-right: 5rem;
+    justify-content: space-between;
+    /* justify-content: flex-end; Align items to the right */
+    align-items: flex-end; /* Vertically center items */
+    height: auto; /* Set the container to the full viewport height */
+    width: auto;
+}
+
+.container {
+    flex: 3; /* Allow items to take equal space within the container */
+    margin: 10px; /* Add margin between items, adjust as needed */
+}
+
+
+@media screen and (max-width: 1200px) {
+    .form-container {
+        display:flex;
+        margin: 2em;
+        margin-right: 12%;
+        justify-content: space-between;
+        /* justify-content: flex-end; Align items to the right */
+        align-items: flex-end; /* Vertically center items */
+        height: auto; /* Set the container to the full viewport height */
+        width: auto;
+    }
+    
+    .container {
+        flex: 3; /* Allow items to take equal space within the container */
+        margin: 10px; /* Add margin between items, adjust as needed */
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .form-container {
+        display:flex;
+        right: 0;
+        flex-direction: column; /* For mobile, switch to a column layout */
+        align-items: flex-end; /* Align items to the bottom */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body, .nav-item, .delimiter, .tab-content {
+        font-size: 80%; /* Reduce font size by 20% */
+    }
+    
+    .logodiv{
+        z-index: 1;
+        position: relative;
+    }
+    .form-container {
+        flex-direction: column; /* For mobile, switch to a column layout */
+        align-items: flex-end; /* Align items to the bottom */
+        font-size: 50%;
+    }
+}
