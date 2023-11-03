@@ -53,8 +53,6 @@ class Products(models.Model):
     product_name = models.CharField(max_length=255)
     product_web_name = models.CharField(max_length=255)
     product_production_date = models.DateField()
-    SKU_code = models.CharField(max_length=100)
-    barcode = models.CharField(max_length=100)
     model_code = models.CharField(max_length=100)
     product_color = models.CharField(max_length=100) # CharField but we can create table of choices
     book_type = models.CharField(max_length=100, null=True, blank=True)    
@@ -157,6 +155,8 @@ class ProductImages(models.Model):
 class SizeBasedStocks(models.Model):
     products = models.ForeignKey('Products', on_delete=models.CASCADE)
     size = models.ForeignKey('ProductCategorySizes', on_delete=models.CASCADE)
+    SKU_code = models.CharField(max_length=100)
+    barcode = models.CharField(max_length=100)
     real_stock = models.IntegerField()
     sale_stock = models.IntegerField()
     reserved_stock = models.IntegerField()
