@@ -104,13 +104,6 @@
                                 </select>
                             </div>
 
-                            <!--  DİREKT GEREKSİZ BENCE
-                            <div class="toolbox-item toolbox-layout">
-                                <a href="shop-list-mode.html" class="d-icon-mode-list btn-layout"></a>
-                                <a href="shop.html" class="d-icon-mode-grid btn-layout active"></a>
-                            </div>
-                            -->
-
                         </div>
 
                     </nav>
@@ -118,42 +111,49 @@
 
                     <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
 
-
                         {% for product in active_products %}
                             <div class="product-wrap">
                                 <div class="product product-classic">
                                     <figure class="product-media">
                                         <a href="{% url 'product' product.ProductID %}">
-                                            <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
+                                            {% if product.productimages_set.first %}
+                                                <img src="{{ product.productimages_set.first.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
+                                            {% else %}
+                                                <img src="{% static 'images/products/no-image.png' %}" alt="{{ product.product_name }}" width="280" height="315">
+                                            {% endif %}
                                         </a>
                                         <div class="product-label-group">
                                             {% if product.label %}
-                                                <label class="product-label label-new">NEW</label>
+                                                <label class="product-label label-new">YENİ</label>
                                             {% endif %}
 
-                                            {% if product.PriceID.DiscountRatio > 0 %}
-                                                <label class="product-label label-sale">{{ product.PriceID.DiscountRatio }}% </label>
+                                            {% if product.productprices_set.first.DiscountRatio > 0 %}
+                                                <label class="product-label label-sale">{{ product.productprices_set.first.DiscountRatio }}% </label>
                                             {% endif %}
                                         </div>
                                     </figure>
                                     <div class="product-details">
                                         <div class="product-cat">
-                                            <a href="shop-default-3.html">{{ product.ProductCategoryID.CategoryName }}</a> <!-- CATEGORY from DB -->
+                                            <a href="shop-default-3.html">{{ product.ProductCategoryID.CategoryName }}</a> 
                                         </div>
                                         <h3 class="product-name">
-                                            <a href="product.html">{{ product.product_name }}</a> <!-- PRODUCT NAME from DB -->
+                                            <a href="product.html">{{ product.product_name }}</a>
                                         </h3>
                                         <div class="product-price">
-                                            <ins class="new-price">{{ product.PriceID.SalePrice }} ₺</ins>
-                                            {% if product.PriceID.StrikedPrice > 0 %}
-                                                <del class="old-price">{{ product.PriceID.StrikedPrice }} ₺</del>
-                                            {% endif %} 
+                                            <ins class="new-price">
+                                                {% if product.productprices_set.first %}
+                                                    {{ product.productprices_set.first.SalePrice }} ₺
+                                                {% endif %}
+                                            </ins>
+
+                                            {% if product.productprices_set.first and product.productprices_set.first.StrikedPrice > 0 %}
+                                                <del class="old-price">{{ product.productprices_set.first.StrikedPrice }} ₺</del>
+                                            {% endif %}
                                         </div>
 
                                         <div class="product-action">
                                             <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
                                             <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                            <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
                                         </div>
                                     </div>
                                 </div>
@@ -162,37 +162,12 @@
 
                     </div>
 
-                    <!-- Pagination olayı da bence boş iş (en azından ana sayfa için) --> <!--
-                    <nav class="toolbox toolbox-pagination">
-                        <p class="show-info">Showing <span>12 of 56</span> Products</p>
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                    <i class="d-icon-arrow-left"></i>Prev
-                                </a>
-                            </li>
-                            <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item page-item-dots"><a class="page-link" href="#">6</a></li>
-                            <li class="page-item">
-                                <a class="page-link page-link-next" href="#" aria-label="Next">
-                                    Next<i class="d-icon-arrow-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    --> 
-
                 </div>
 
             </div>
         </div>
-        <!-- End of Products -->
 
     </div>
-
 </main>
 
 
