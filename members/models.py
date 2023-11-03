@@ -91,7 +91,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
                         ('Kurum Admin', 'Kurum Admin'),
                         ('SuperUser', 'SuperUser'),
                         ]
-    user_type = models.CharField(_('Kullanıcı Tipi'), max_length=100, choices=USERTYPE_CHOICES)
+    user_type = models.CharField(_('Kullanıcı Tipi'), max_length=100, choices=USERTYPE_CHOICES, default='Öğrenci')
     user_gender = models.CharField("Cinsiyet", max_length=100, choices=[
                                                                         ('Erkek', 'Erkek'), 
                                                                         ('Kız', 'Kız')]

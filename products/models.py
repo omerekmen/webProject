@@ -1,5 +1,5 @@
 from django.db import models
-
+import datetime
 
 # Define the ProductCategory model
 class ProductCategory(models.Model):
@@ -30,7 +30,7 @@ class ProductStock(models.Model):
     PreproductionStock = models.IntegerField()
 
     def __str__(self):
-        return f"{self.StockID}"
+        return f"{self.SaleStock} / {self.RealStock}"
 
 # Define the ProductPrice model
 class ProductPrice(models.Model):
@@ -40,14 +40,14 @@ class ProductPrice(models.Model):
     DiscountRatio = models.IntegerField(null=True, blank=True)
     DiscountPrice = models.IntegerField(null=True, blank=True)
     DiscountType = models.IntegerField(
-        null=True, blank=True,
-        choices=[
-            (0, '0%'),
-            (10, '10%'),
-            (20, '20%'),]
-    )
-    TaxPrice = models.CharField(max_length=100)
-    CombinePriceInfo = models.JSONField()
+        null=True, blank=True)
+    TaxPrice = models.CharField(max_length=100,
+                                choices=[
+                                    (0, '0%'),
+                                    (10, '10%'),
+                                    (20, '20%'),],
+                                    null=True, blank=True)
+    CombinePriceInfo = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.SalePrice}"
@@ -94,21 +94,26 @@ class Products(models.Model):
     StockID = models.ForeignKey(ProductStock, on_delete=models.CASCADE)
     PriceID = models.ForeignKey(ProductPrice, on_delete=models.CASCADE)
     product_color = models.CharField(max_length=100) # CharField but we can create table of choices
-    book_type = models.CharField(max_length=100)    
+    book_type = models.CharField(max_length=100, null=True, blank=True)    
     product_state = models.CharField(
         max_length=100,
         choices=[('Aktif', 'Aktif'), ('Pasif', 'Pasif'),],
         default='Aktif'  # You can set the default choice
     )
-    product_genre = models.CharField(max_length=100)
-    product_class = models.CharField(max_length=100)
-    product_level = models.CharField(max_length=100)
+    product_genre = models.CharField(max_length=100,
+                                    choices=[('Kız', 'Kız'), 
+                                             ('Erkek', 'Erkek'),
+                                             ('Unisex', 'Unisex'),])
+    product_class = models.CharField(max_length=100, null=True, blank=True)
+    product_level = models.CharField(max_length=100, null=True, blank=True)
     product_image = models.FileField(upload_to=upload_location, null=True, blank=True)
     product_measure_unit = models.CharField(max_length=100)
     product_created_at = models.DateTimeField(auto_created=True)
     product_last_update = models.DateTimeField(auto_now=True)
-    product_season = models.DateField()
-    product_change_limit = models.JSONField(null=True)
+    
+    YEAR_CHOICES = [(r, r) for r in range(2000, datetime.date.today().year + 2)]
+    season = models.IntegerField("Sezon", choices=YEAR_CHOICES, default=datetime.date.today().year)
+    product_change_limit = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.product_name}"

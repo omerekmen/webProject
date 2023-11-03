@@ -81,6 +81,10 @@ main{
 }
 
 @media screen and (max-width: 768px) {
+    body, .nav-item, .delimiter, .tab-content {
+        font-size: 80%; /* Reduce font size by 20% */
+    }
+    
     .logodiv{
         z-index: 1;
         position: relative;
@@ -88,5 +92,6 @@ main{
     .form-container {
         flex-direction: column; /* For mobile, switch to a column layout */
         align-items: flex-end; /* Align items to the bottom */
+        font-size: 50%;
     }
 }
