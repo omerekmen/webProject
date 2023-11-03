@@ -1,11 +1,11 @@
 from django.db import models
-from members.models import Members  # Import the Members model
+from members.models import Member  # Import the Members model
 from products.models import Products  # Import the Products model
 
 # Define the Order model
 class Orders(models.Model):
     OrderID = models.AutoField(primary_key=True)
-    MemberID = models.ForeignKey(Members, on_delete=models.CASCADE)
+    MemberID = models.ForeignKey(Member, on_delete=models.CASCADE)
     OrderStatus = models.CharField(max_length=100)
     CargoStatus = models.CharField(max_length=100)
     WarehouseStatus = models.CharField(max_length=100)

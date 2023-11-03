@@ -1,5 +1,5 @@
 from django.db import models
-import datetime
+from datetime import datetime, timedelta
 
 # Define the ProductCategory model
 class ProductCategory(models.Model):
@@ -18,39 +18,6 @@ class ProductCategorySizes(models.Model):
     def __str__(self):
         return f"{self.ProductSize}"
 
-# Define the ProductStock model
-class ProductStock(models.Model):
-    StockID = models.AutoField(primary_key=True)
-    RealStock = models.IntegerField()
-    SaleStock = models.IntegerField()
-    ReservedStock = models.IntegerField()
-    AcceptStock = models.IntegerField()
-    ReturnStock = models.IntegerField()
-    CancelStock = models.IntegerField()
-    PreproductionStock = models.IntegerField()
-
-    def __str__(self):
-        return f"{self.SaleStock} / {self.RealStock}"
-
-# Define the ProductPrice model
-class ProductPrice(models.Model):
-    PriceID = models.AutoField(primary_key=True)
-    SalePrice = models.DecimalField(max_digits=10, decimal_places=2)
-    StrikedPrice = models.IntegerField(null=True, blank=True)
-    DiscountRatio = models.IntegerField(null=True, blank=True)
-    DiscountPrice = models.IntegerField(null=True, blank=True)
-    DiscountType = models.IntegerField(
-        null=True, blank=True)
-    TaxPrice = models.CharField(max_length=100,
-                                choices=[
-                                    (0, '0%'),
-                                    (10, '10%'),
-                                    (20, '20%'),],
-                                    null=True, blank=True)
-    CombinePriceInfo = models.JSONField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.SalePrice}"
 
 # Define the CombinationProduct model
 class CombinationProduct(models.Model):
@@ -64,9 +31,8 @@ class SetProduct(models.Model):
     SProductInfo = models.JSONField()
     SProductQuantity = models.IntegerField()
 
-
 def upload_location(instance, filename):
-    return f"product_files/{instance.product_name}/{filename}"
+    return f"product_files/{instance.products.product_name}/{filename}"
 
 # Define the Products model
 class Products(models.Model):
@@ -78,7 +44,6 @@ class Products(models.Model):
 
     ProductID = models.AutoField(primary_key=True)
     ProductCategoryID = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    CategorySizeID = models.ForeignKey(ProductCategorySizes, on_delete=models.CASCADE)
     product_type = models.CharField(
         max_length=100,
         choices=PRODUCT_TYPE_CHOICES,
@@ -91,8 +56,6 @@ class Products(models.Model):
     SKU_code = models.CharField(max_length=100)
     barcode = models.CharField(max_length=100)
     model_code = models.CharField(max_length=100)
-    StockID = models.ForeignKey(ProductStock, on_delete=models.CASCADE)
-    PriceID = models.ForeignKey(ProductPrice, on_delete=models.CASCADE)
     product_color = models.CharField(max_length=100) # CharField but we can create table of choices
     book_type = models.CharField(max_length=100, null=True, blank=True)    
     product_state = models.CharField(
@@ -106,14 +69,105 @@ class Products(models.Model):
                                              ('Unisex', 'Unisex'),])
     product_class = models.CharField(max_length=100, null=True, blank=True)
     product_level = models.CharField(max_length=100, null=True, blank=True)
-    product_image = models.FileField(upload_to=upload_location, null=True, blank=True)
     product_measure_unit = models.CharField(max_length=100)
     product_created_at = models.DateTimeField(auto_created=True)
     product_last_update = models.DateTimeField(auto_now=True)
     
-    YEAR_CHOICES = [(r, r) for r in range(2000, datetime.date.today().year + 2)]
-    season = models.IntegerField("Sezon", choices=YEAR_CHOICES, default=datetime.date.today().year)
+    YEAR_CHOICES = [(r, r) for r in range(2000, datetime.today().year + 2)]
+    season = models.IntegerField("Sezon", choices=YEAR_CHOICES, default=datetime.today().year)
     product_change_limit = models.JSONField(null=True, blank=True)
+
+    def get_label_attr(self):
+        today = datetime.now().date()
+        days_ago = today - timedelta(days=30)
+        return (self.product_created_at.date() > days_ago)
+
+    # Define the label attribute
+    label = property(get_label_attr)
+    school_management = models.CharField(max_length=100)
+
+
+    class Meta:
+        ordering = ['-product_created_at']
+        verbose_name = 'Ürünler'
+        verbose_name_plural = 'Ürünler'
+
+        permissions = [
+            ("view_bk_products", "Can view bkAdmin products"),
+            ("edit_bk_products", "Can edit bkAdmin products"),
+            ("view_girne_products", "Can view girneAdmin products"),
+            ("edit_girne_products", "Can edit girneAdmin products"),
+        ]
+
+
 
     def __str__(self):
         return f"{self.product_name}"
+    
+
+
+# Define the ProductPrice model
+class ProductPrices(models.Model):
+    products = models.ForeignKey('Products', on_delete=models.CASCADE)
+
+    SalePrice = models.DecimalField(max_digits=10, decimal_places=2)
+    StrikedPrice = models.IntegerField(null=True, blank=True)
+
+    DiscountRatio = models.IntegerField(null=True, blank=True)
+    DiscountPrice = models.IntegerField(null=True, blank=True)
+    DiscountType = models.IntegerField(null=True, blank=True)
+    
+    TaxPrice = models.CharField(max_length=100,
+                                choices=[
+                                    (0, '0%'),
+                                    (10, '10%'),
+                                    (20, '20%'),],
+                                    null=True, blank=True)
+    CombinePriceInfo = models.JSONField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Ürün Fiyat'
+        verbose_name_plural = 'Ürün Fiyat'
+
+    def save(self, *args, **kwargs):
+        # Calculate DiscountRatio and DiscountPrice if StrikedPrice is provided
+        if self.StrikedPrice:
+            self.DiscountPrice = self.StrikedPrice - self.SalePrice
+            if self.StrikedPrice > 0:
+                self.DiscountRatio = (self.DiscountPrice / self.StrikedPrice) * 100
+        else:
+            # If StrikedPrice is not provided, set DiscountRatio and DiscountPrice to None
+            self.DiscountPrice = None
+            self.DiscountRatio = None
+
+        super(ProductPrices, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.products} - {self.SalePrice}₺"
+
+
+class ProductImages(models.Model):
+    products = models.ForeignKey('Products', on_delete=models.CASCADE)
+    product_image = models.FileField(upload_to=upload_location, null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Ürün Görselleri'
+        verbose_name_plural = 'Ürün Görselleri'
+
+class SizeBasedStocks(models.Model):
+    products = models.ForeignKey('Products', on_delete=models.CASCADE)
+    size = models.ForeignKey('ProductCategorySizes', on_delete=models.CASCADE)
+    real_stock = models.IntegerField()
+    sale_stock = models.IntegerField()
+    reserved_stock = models.IntegerField()
+    accept_stock = models.IntegerField()
+    return_stock = models.IntegerField()
+    cancel_stock = models.IntegerField()
+    preproduction_stock = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Ürün Beden & Stok'
+        verbose_name_plural = 'Ürün Beden & Stok'
+
+    def __str__(self):
+        return f"{self.products} - {self.size} - {self.sale_stock}"

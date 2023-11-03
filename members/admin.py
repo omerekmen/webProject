@@ -14,17 +14,17 @@ class MemberAdmin(admin.ModelAdmin):
         'email',
     ]
 
-    fieldsets = (
-        ('User Info', {
-            'fields': ('first_name', 'last_name', 'user_type', 'user_gender', 'birth_date'),
-        }),
-        ('Login Details', {
-            'fields': ('username', 'password', 'last_login'),
-        }),
-        ('Contact Details', {
-            'fields': ('email', 'phone_number'),
-        }),
-    )
+    # fieldsets = (
+    #     ('User Info', {
+    #         'fields': ('first_name', 'last_name', 'user_type', 'user_gender', 'birth_date'),
+    #     }),
+    #     ('Login Details', {
+    #         'fields': ('username', 'password', 'last_login'),
+    #     }),
+    #     ('Contact Details', {
+    #         'fields': ('email', 'phone_number'),
+    #     }),
+    # )
 
 
 # Register your models here.

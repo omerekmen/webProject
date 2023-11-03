@@ -12,15 +12,15 @@ active_products = Products.objects.filter(product_state='Aktif')
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html', {'active_products': active_products})
+    return render(request, 'store/index.html', {'active_products': active_products})
 
 
 def category(request):
-    return render(request, 'category.html')
+    return render(request, 'store/category.html')
 
 def product(request):
-    return render(request, 'product.html')
+    return render(request, 'store/product.html')
 
 def combproduct(request):
-    return render(request, 'combproduct.html')
+    return render(request, 'store/combproduct.html')
 
