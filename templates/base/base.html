@@ -136,6 +136,22 @@
 
                                     <li {% if request.resolver_match.url_name == 'category' %} class="active"{% endif %}>
                                         <a href="{% url 'category' %}">Kategori</a>
+                                        <ul>
+                                            {% for category in categories %}
+                                                <li>
+                                                    <a href="{% url 'category' %}">{{ category.CategoryName }}</a>
+                                                    <ul>
+                                                        {% for subcat in subcategories %}
+                                                            {% if category.CategoryName == subcat.ProductCategory.CategoryName %}
+                                                            <li>
+                                                                <a href="{% url 'category' %}">{{ subcat.SubCategoryName }}</a>
+                                                            </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
                                     </li>
 
                                     <li {% if request.resolver_match.url_name == 'combproduct' %} class="active"{% endif %}>

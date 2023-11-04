@@ -1,4 +1,4 @@
-{% extends "store/base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 
 {% block title %}Kategori{% endblock %}
@@ -6,29 +6,79 @@
 
 {% block content %}
 
-<main class="main">
-    <div class="page-header"
-        style="background-image: url('images/shop/page-header-back.jpg'); background-color: #3C63A4;">
-        <h3 class="page-subtitle">Categories</h3>
-        <h1 class="page-title">Ajaxscroll</h1>
-        <ul class="breadcrumb">
-            <li><a href="demo1.html"><i class="d-icon-home"></i></a></li>
-            <li class="delimiter">/</li>
-            <li><a href="shop.html">Categories</a></li>
-            <li class="delimiter">/</li>
-            <li>Ajaxscroll </li>
-        </ul>
-    </div>
-    <!-- End PageHeader -->
-    <div class="page-content mb-10">
+
+<main class="main home">
+    
+    <div class="page-content">
+
+        <!-- Slider -->
+        <section class="big-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-nav-arrow row cols-1 gutter-no" data-owl-options="{
+            'items': 2,
+            'autoplay': false,
+            'loop': false,
+            'nav': true,
+            'dots': false,
+            'animateIn': 'fadeIn',
+            'animateOut': 'fadeOut'}">
+
+            <div class="niche-slide1 banner banner-fixed">
+                <figure class="kenBurnsToRight duration">
+                    <img src="{% static 'uploads/sliders/bahcesehir_slider1.png' %}" alt="niche-banner" width="1903" height="867" style="background-color: #2e2e31">
+                    <div class="snowfall particle-effect"></div>
+                </figure>
+                <div class="banner-content y-50">
+                    <h4 class="banner-subtitle d-flex align-items-center text-uppercase font-weight-bold slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s'}">
+                        Christmastide</h4>
+                    <h3 class="banner-title ls-m font-weight-bolder slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.3s'}">
+                        Fashion Collection</h3>
+                    <span class="h-divider ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}"></span>
+                    <p class="font-primary ls-s text-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}">
+                        Get Free Shipping on all orders over $75</p>
+                    <a href="shop.html" class="btn btn-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.5s'}">Shop
+                        now <i class="d-icon-arrow-right"></i></a>
+                </div>
+            </div>
+
+
+            <div class="niche-slide2 banner banner-fixed">
+                <figure class="kenBurnsToRight duration">
+                    <img src="{% static 'uploads/sliders/bahcesehir_slider2.png' %}" alt="niche-banner" width="1903" height="867" style="background-color: #2e2e31">
+                    <div class="snowfall particle-effect"></div>
+                </figure>
+                <div class="banner-content y-50">
+                    <h4 class="banner-subtitle d-flex align-items-center text-uppercase font-weight-bold slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s'}">
+                        Christmastide</h4>
+                    <h3 class="banner-title ls-m font-weight-bolder slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.3s'}">
+                        Fashion Collection</h3>
+                    <span class="h-divider ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}"></span>
+                    <p class="font-primary ls-s text-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}">
+                        Get Free Shipping on all orders over $75</p>
+                    <a href="shop.html" class="btn btn-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.5s'}">Shop
+                        now <i class="d-icon-arrow-right"></i></a>
+                </div>
+            </div>
+
+        </section>
+        
+        <!-- Products -->
         <div class="container">
-            <div class="row gutter-lg main-content-wrap">
+            <div class="row main-content-wrap gutter-lg">
+
                 <div class="main-content">
-                    <nav class="toolbox sticky-toolbox sticky-content fix-top">
+                    
+                    <div style="margin-top: 25px;">
+                        <h1>Ürünler</h1>
+                    </div>
+
+                    <nav class="toolbox sticky-toolbox sticky-content fix-top" >
+
                         <div class="toolbox-left">
-                            <a href="#" class="toolbox-item left-sidebar-toggle btn btn-outline btn-primary 
-                                btn-rounded btn-icon-right d-lg-none">Filter<i class="d-icon-arrow-right"></i></a>
-                            <div class="toolbox-item toolbox-sort select-box text-dark">
+
+                            <!-- FİLTRELEME BENCE TAMAMEN KALKMALI --> <!--
+                            <a href="#" class="toolbox-item left-sidebar-toggle btn btn-outline btn-primary btn-rounded btn-icon-right">Filter<i class="d-icon-arrow-right"></i></a>
+                            -->
+
+                            <div class="toolbox-item toolbox-sort select-box text-dark"> <!-- Sort by yapılacak kadar önemli değil bence ama nasıl istenirse -->
                                 <label>Sort By :</label>
                                 <select name="orderby" class="form-control">
                                     <option value="default">Default</option>
@@ -40,8 +90,11 @@
                                     <option value="">Clear custom sort</option>
                                 </select>
                             </div>
+
                         </div>
-                        <div class="toolbox-right">
+
+                        <div class="toolbox-right"> <!-- Bence Gereksiz bir kısım ama kullanılabilir istenirse -->
+
                             <div class="toolbox-item toolbox-show select-box text-dark">
                                 <label>Show :</label>
                                 <select name="count" class="form-control">
@@ -50,482 +103,76 @@
                                     <option value="36">36</option>
                                 </select>
                             </div>
-                            <div class="toolbox-item toolbox-layout">
-                                <a href="shop-list-mode.html" class="d-icon-mode-list btn-layout"></a>
-                                <a href="shop.html" class="d-icon-mode-grid btn-layout active"></a>
-                            </div>
+
                         </div>
+
                     </nav>
 
-                    <div class="row cols-2 cols-sm-4 product-wrapper scroll-load">
-                        <div class="product-wrap">
-                            <div class="product product-classic">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/13.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-label-group">
-                                        <label class="product-label label-new">new</label> <!-- PRODUCT LABEL from DB (according to date) -->
-                                        <label class="product-label label-sale">27% Off</label> <!-- PRODUCT LABEL from DB (according to discount) -->
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-default-3.html">Clothing</a> <!-- CATEGORY from DB -->
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Coast Pool Comfort Jacket</a> <!-- PRODUCT NAME from DB -->
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$199.00</ins> <!-- NEW PRICE from DB -->
-                                        <del class="old-price">$210.00</del> <!-- OLD PRICE from DB -->
+
+                    <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
+
+                        {% for product in active_products %}
+                            <div class="product-wrap">
+                                <div class="product product-classic">
+
+                                    <!-- Product Image and Labeling -->
+                                    <figure class="product-media">
+                                        <a href="{% url 'product' product.ProductID %}">
+                                            {% if product.productimages_set.first %}
+                                                <img src="{{ product.productimages_set.first.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
+                                            {% else %}
+                                                <img src="{% static 'images/products/no-image.png' %}" alt="{{ product.product_name }}" max-height='315' height="315" width="280" >
+                                            {% endif %}
+                                        </a>
+                                        <div class="product-label-group">
+                                            {% if product.label %}
+                                                <label class="product-label label-new">YENİ</label>
+                                            {% endif %}
+
+                                            {% if product.productprices_set.first.DiscountRatio > 0 %}
+                                                <label class="product-label label-sale">{{ product.productprices_set.first.DiscountRatio }}% </label>
+                                            {% endif %}
+                                        </div>
+                                    </figure>
+
+                                    <div class="product-details">
+                                        <div class="product-cat">
+                                            <a href="shop-default-3.html">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
+                                        </div>
+                                        <h3 class="product-name">
+                                            <a href="product.html">{{ product.product_web_name }}</a>
+                                        </h3>
+                                        <div class="product-price">
+                                            <ins class="new-price">
+                                                {% if product.productprices_set.first %}
+                                                    {{ product.productprices_set.first.SalePrice }} ₺
+                                                {% endif %}
+                                            </ins>
+
+                                            {% if product.productprices_set.first and product.productprices_set.first.StrikedPrice > 0 %}
+                                                <del class="old-price">{{ product.productprices_set.first.StrikedPrice }} ₺</del>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="product-action">
+                                            <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
+                                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                        </div>
                                     </div>
 
-                                    <!-- Burası muhtemelen silinecek, Review ve rating almıyorsak gereksiz
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div> -->
+                                </div>
+                            </div>
+                        {% endfor %}
 
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        <!-- BENCE GEREKSİZ <a href="#" class="btn-product-icon btn-quickview" title="Quick View"><i class="d-icon-search"></i></a> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/1.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">bags</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Fashionable Hooded Coat</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <span class="price">$35.00</span>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/2.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-
-                                    <div class="product-label-group">
-                                        <label class="product-label label-sale">27% off</label>
-                                    </div>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">bags</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Women's Fashion Handbag</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <span class="price">$19.00</span>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/4.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">Clothing</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Fashionable Padded Jacket</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/14.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">bags</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Cavin Fashion Suede Handbag</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/3.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">shoes</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Women's Fashion Hood</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/5.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">Watches</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Converse Blue Training Shoes</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/12.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">Watches</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Beyond OTP Jacket</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/15.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">Women’s</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Fashion Overnight Bag</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/7.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">shoes</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Fashion Brown Suede Shoes</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/8.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">Women’s</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Men's Fashion Jacket</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-wrap">
-                            <div class="product">
-                                <figure class="product-media">
-                                    <a href="product.html">
-                                        <img src="{% static 'images/shop/9.jpg' %}" alt="product" width="280" height="315">
-                                    </a>
-                                    <div class="product-action-vertical">
-                                        <a href="#" class="btn-product-icon btn-cart" data-toggle="modal"
-                                            data-target="#addCartModal" title="Add to cart"><i
-                                                class="d-icon-bag"></i></a>
-                                        <a href="#" class="btn-product-icon btn-wishlist"
-                                            title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                    </div>
-                                    <div class="product-action">
-                                        <a href="#" class="btn-product btn-quickview" title="Quick View">Quick
-                                            View</a>
-                                    </div>
-                                </figure>
-                                <div class="product-details">
-                                    <div class="product-cat">
-                                        <a href="shop-infinite-ajaxscroll.html">electronics</a>
-                                    </div>
-                                    <h3 class="product-name">
-                                        <a href="product.html">Fashion Cowboy Hat</a>
-                                    </h3>
-                                    <div class="product-price">
-                                        <ins class="new-price">$98.00</ins><del class="old-price">$210.00</del>
-                                    </div>
-                                    <div class="ratings-container">
-                                        <div class="ratings-full">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <a href="product.html" class="rating-reviews">( 6 reviews )</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
+
     </div>
-    
 </main>
+
 
 {% endblock %}

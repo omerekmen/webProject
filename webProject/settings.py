@@ -45,6 +45,15 @@ INSTALLED_APPS = [
     "store",
     "members",
     "products",
+    "orders",
+    "cart",
+
+    ##### OKULLAR #####
+    # "bahcesehir",
+    # "mektebim",
+    # "bil",
+    # "kavram",
+    # "girne",
 ]
 
 MIDDLEWARE = [
@@ -115,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Istanbul"
 
 USE_I18N = True
 

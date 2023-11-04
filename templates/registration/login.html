@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock %} | Entegrasyon Cloud</title>
+        <title>{% block title %}Giriş Yap{% endblock %} | Entegrasyon Cloud</title>
     
             <!-- Favicon -->
             <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}">
@@ -69,14 +69,22 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active in" id="signin">
-                                        <form action="#">
+                                        <form method="POST">
+                                            {% if form.errors %}
+                                                <div class="alert alert-btn">
+                                                    <strong> 
+                                                        {{ form.errors }}
+                                                    </strong>
+                                                </div>
+                                            {% endif %}
+                                            
                                             <div class="form-group mb-3">
+                                                {% csrf_token %}
                                                 {% for formitem in form %}
-                                                    {% csrf_token %}
                                                     {{ formitem.label }}
                                                     {{ formitem }}
-                                                    {{ form.errors }}
                                                 {% endfor %}
+                                                    {{ form.errors }}
                                             </div>
                                             
                                             <div class="form-footer right">

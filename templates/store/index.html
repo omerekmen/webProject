@@ -114,12 +114,14 @@
                         {% for product in active_products %}
                             <div class="product-wrap">
                                 <div class="product product-classic">
+
+                                    <!-- Product Image and Labeling -->
                                     <figure class="product-media">
                                         <a href="{% url 'product' product.ProductID %}">
                                             {% if product.productimages_set.first %}
                                                 <img src="{{ product.productimages_set.first.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
                                             {% else %}
-                                                <img src="{% static 'images/products/no-image.png' %}" alt="{{ product.product_name }}" width="280" height="315">
+                                                <img src="{% static 'images/products/no-image.png' %}" alt="{{ product.product_name }}" max-height='315' height="315" width="280" >
                                             {% endif %}
                                         </a>
                                         <div class="product-label-group">
@@ -132,12 +134,13 @@
                                             {% endif %}
                                         </div>
                                     </figure>
+
                                     <div class="product-details">
                                         <div class="product-cat">
-                                            <a href="shop-default-3.html">{{ product.ProductCategoryID.CategoryName }}</a> 
+                                            <a href="shop-default-3.html">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
                                         </div>
                                         <h3 class="product-name">
-                                            <a href="product.html">{{ product.product_name }}</a>
+                                            <a href="product.html">{{ product.product_web_name }}</a>
                                         </h3>
                                         <div class="product-price">
                                             <ins class="new-price">
@@ -156,6 +159,7 @@
                                             <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         {% endfor %}
