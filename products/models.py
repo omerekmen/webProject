@@ -62,21 +62,6 @@ class ProductCategorySizes(models.Model):
         return f"{self.ProductSize}"
 
 
-##########################################################################################
-##########################     COMBINATION AND SET PRODUCTS     ##########################
-##########################################################################################
-
-
-class CombinationProduct(models.Model):
-    CProductID = models.AutoField(primary_key=True)
-    SProductInfo = models.JSONField(null=True, blank=True)
-    CProductQuantity = models.IntegerField()
-
-class SetProduct(models.Model):
-    SetID = models.AutoField(primary_key=True)
-    SProductInfo = models.JSONField()
-    SProductQuantity = models.IntegerField()
-
 
 ##########################################################################################
 #################################        PRODUCTS      ###################################
@@ -151,9 +136,27 @@ class Products(models.Model):
     
     product_image.short_description = 'Ürün Resmi'
 
+
     def __str__(self):
         return f"{self.product_name}"
     
+
+
+##########################################################################################
+##########################     COMBINATION AND SET PRODUCTS     ##########################
+##########################################################################################
+
+
+class CombinationProduct(models.Model):
+    Product = models.ForeignKey('Products', on_delete=models.CASCADE)
+    CProductCategory = models.CharField(max_length=100)
+    CombinProducts = models.ManyToManyField('Products', related_name='combin_products', verbose_name='Ürün Seçimi', blank=True)
+
+class SetProduct(models.Model):
+    SetID = models.AutoField(primary_key=True)
+    SProductInfo = models.JSONField()
+    SProductQuantity = models.IntegerField()
+
 
 ##########################################################################################
 ########################       PRODUCT ATTRIBUTES         ################################

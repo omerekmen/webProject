@@ -134,11 +134,11 @@
                                         <!-- Django url structure href for home page-->
                                     </li>
 
-                                    <li {% if request.resolver_match.url_name == 'category' %} class="active"{% endif %}>
+                                    <li {% if request.resolver_match.url_name == 'category' %} class="active submenu" {% else %} class="submenu" {% endif %} >
                                         <a href="{% url 'category' %}">Kategori</a>
                                         <ul>
                                             {% for category in categories %}
-                                                <li>
+                                                <li class="submenu">
                                                     <a href="{% url 'category' %}">{{ category.CategoryName }}</a>
                                                     <ul>
                                                         {% for subcat in subcategories %}

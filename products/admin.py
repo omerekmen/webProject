@@ -1,5 +1,7 @@
 from django.contrib import admin
 from .models import *
+from django import forms
+from django.forms.widgets import CheckboxSelectMultiple
 
 
 class ProductSizeStockInline(admin.TabularInline):
@@ -27,9 +29,31 @@ class ProductDetailsInline(admin.StackedInline):
     extra = 1
 
 
+# class MyCustomCheckboxSelectMultiple(CheckboxSelectMultiple):
+#     # Override the JavaScript to select items by clicking
+#     class Media:
+#         js = ('my_custom_checkbox_select_multiple.js',)
+
+# class CombinationProductInlineForm(forms.ModelForm):
+#     class Meta:
+#         model = CombinationProduct
+#         widgets = {
+#             'CombinProducts': MyCustomCheckboxSelectMultiple,
+#         }
+#         fields = '__all__'
+
+class CombinationProductInline(admin.StackedInline):
+    model = CombinationProduct
+    verbose_name = 'Kombin Ürün Detaylar'
+    verbose_name_plural = 'Kombin Ürün Detaylar'
+    extra = 1
+    # form = CombinationProductInlineForm
+
+
+
 class ProductsAdmin(admin.ModelAdmin):
     change_list_template = 'admin/product_change_list.html' 
-    inlines = [ProductSizeStockInline, ProductPricesInline, ProductImagesInline, ProductDetailsInline]
+    inlines = [ProductSizeStockInline, ProductPricesInline, ProductImagesInline, ProductDetailsInline, CombinationProductInline]
     
     list_display = ('product_name', 'product_image', 'get_price', 'product_state', 'ProductSubCategoryID', 'product_type', 'product_genre', 'product_color', 'total_sale_stock')
     list_editable = ('product_state',)
