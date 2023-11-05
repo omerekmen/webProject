@@ -11,11 +11,17 @@ from django.utils.translation import gettext_lazy as _
 
 class ProductCategory(models.Model):
     ProductCategoryID = models.AutoField(primary_key=True)
-    CategoryName = models.CharField(max_length=255)  # You can adjust the max length as needed
+    CategoryName = models.CharField(_('Kategori Adı'), max_length=255)  # You can adjust the max length as needed
 
     def get_subcategories(self):
         subcategories = ProductSubCategory.objects.filter(ProductCategory=self.ProductCategoryID)
         return ", ".join([subcategory.SubCategoryName for subcategory in subcategories])
+    
+    get_subcategories.short_description = 'Alt Kategoriler'
+
+    class Meta:
+        verbose_name = 'Ürün Kategorileri'
+        verbose_name_plural = 'Ürün Kategorileri'
 
     def __str__(self):
         return f"{self.CategoryName}"
@@ -31,6 +37,10 @@ class ProductSubCategory(models.Model):
     
     get_category_name.short_description = 'Kategori Adı'
 
+    class Meta:
+        verbose_name = 'Ürün Alt Kategorileri'
+        verbose_name_plural = 'Ürün Alt Kategorileri'
+
     def __str__(self):
         return f"{self.ProductCategory.CategoryName} / {self.SubCategoryName}"
 
@@ -44,7 +54,7 @@ class ProductCategorySizes(models.Model):
     ProductSize = models.CharField(max_length=100)
 
     class Meta:
-        ordering = ['ProductSize']
+        ordering = ['CategorySizeID']
         verbose_name = 'Ürün Bedenleri'
         verbose_name_plural = 'Ürün Bedenleri'
 
@@ -77,18 +87,14 @@ def upload_location(instance, filename):
     return f"product_files/{instance.products.product_name}/{filename}"
 
 class Products(models.Model):
-    PRODUCT_TYPE_CHOICES = [
-        ('Set', 'Set'),
-        ('Kombin', 'Kombin'),
-        ('Tekil', 'Tekil'),
-    ]
+    PRODUCT_TYPE_CHOICES = [('Set', 'Set'), ('Kombin', 'Kombin'), ('Tekil', 'Tekil'),]
 
     ProductID = models.AutoField(_('Ürün ID'), primary_key=True)
     ProductSubCategoryID = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
     product_type = models.CharField(_('Ürün Türü'), 
         max_length=100,
         choices=PRODUCT_TYPE_CHOICES,
-        default='Tekil'  # You can set the default choice
+        default='Tekil'  
     )    
     product_production_name = models.CharField(_('Ürün Üretim Adı'), max_length=255)
     product_name = models.CharField(_('Ürün Adı'), max_length=255)
@@ -100,7 +106,7 @@ class Products(models.Model):
     product_state = models.CharField(_('Ürün Durumu'), 
         max_length=100,
         choices=[('Aktif', 'Aktif'), ('Pasif', 'Pasif'),],
-        default='Aktif'  # You can set the default choice
+        default='Aktif' 
     )
     product_genre = models.CharField(_('Cinsiyet'), max_length=100,
                                     choices=[('Kız', 'Kız'), 
@@ -121,10 +127,8 @@ class Products(models.Model):
         days_ago = today - timedelta(days=30)
         return (self.product_created_at.date() > days_ago)
 
-    # Define the label attribute
     label = property(get_label_attr)
     school_management = models.CharField(max_length=100)
-
 
     class Meta:
         ordering = ['-product_created_at']
@@ -144,6 +148,8 @@ class Products(models.Model):
         if product_image:
             return mark_safe(f'<img src="{product_image.product_image.url}" width="100" height="100" />')
         return None
+    
+    product_image.short_description = 'Ürün Resmi'
 
     def __str__(self):
         return f"{self.product_name}"
@@ -157,7 +163,7 @@ class Products(models.Model):
 class ProductPrices(models.Model):
     products = models.ForeignKey('Products', on_delete=models.CASCADE)
 
-    SalePrice = models.DecimalField(max_digits=10, decimal_places=2)
+    SalePrice = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
     StrikedPrice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     DiscountRatio = models.IntegerField(null=True, blank=True)
