@@ -43,6 +43,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
     path("user/", include('members.urls')), # Bu buradan silinip store.urls içine entegre edilecek
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     # path("bahcesehir/", include('bahcesehir.urls')),
     # path("mektebim/", include('mektebim.urls')),
     # path("bil/", include('bil.urls')),
