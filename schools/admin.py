@@ -19,6 +19,7 @@ class SchoolPagesInline(admin.StackedInline):
     verbose_name = 'Sayfalar'
     verbose_name_plural = 'Sayfalar'
     extra = 0
+    inline_classes = ('collapse', )
 
 class SchoolPopupInline(admin.StackedInline):
     model = SchoolPopup

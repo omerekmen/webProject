@@ -60,7 +60,7 @@ class SchoolCampus(models.Model):
         verbose_name_plural = _("Kampüsler")
 
     def __str__(self):
-        return f'{self.campus_name}'
+        return f'{self.school.school_name} / {self.campus_name}'
     
 
 ##########################################################################################
@@ -86,6 +86,9 @@ class SchoolSiteSettings(models.Model):
         verbose_name = _("Okul Ayarları")
         verbose_name_plural = _("Okul Ayarları")
 
+    def __str__(self):
+        return f'{self.school_header_title}'
+
 class SchoolSlider(models.Model):
     school = models.ForeignKey(Schools, on_delete=models.CASCADE)
     slider_image = models.ImageField(upload_to=upload_location_settings, null=True, blank=True)
@@ -95,6 +98,9 @@ class SchoolSlider(models.Model):
     class Meta:
         verbose_name = _("Okul Sliderları")
         verbose_name_plural = _("Okul Sliderları")
+
+    def __str__(self):
+        return f'{self.slider_title}'
 
 class SchoolPages(models.Model):
     school = models.ForeignKey(Schools, on_delete=models.CASCADE)
@@ -108,6 +114,9 @@ class SchoolPages(models.Model):
         verbose_name = _("Okul Sayfaları")
         verbose_name_plural = _("Okul Sayfaları")
 
+    def __str__(self):
+        return f'{self.page_title}'
+
 
 class SchoolPopup(models.Model):
     school = models.ForeignKey(Schools, on_delete=models.CASCADE)
@@ -119,3 +128,6 @@ class SchoolPopup(models.Model):
     class Meta:
         verbose_name = _("Popup Ayarları")
         verbose_name_plural = _("Popup Ayarları")
+
+    def __str__(self):
+        return f'{self.popup_title}'
