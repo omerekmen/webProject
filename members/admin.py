@@ -28,5 +28,4 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 # Register your models here.
-admin.site.register(Campus)
 admin.site.register(Member, MemberAdmin)

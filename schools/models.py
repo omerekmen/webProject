@@ -61,6 +61,27 @@ class SchoolCampus(models.Model):
 
     def __str__(self):
         return f'{self.school.school_name} / {self.campus_name}'
+
+
+# # Define the StudentLevels model
+# class StudentLevels(models.Model):
+#     level_id = models.AutoField(primary_key=True)
+#     LevelName = models.CharField(max_length=100)  # Adjust max_length as needed
+#     CampusID = models.ForeignKey('Campus', on_delete=models.CASCADE)
+
+#     def __str__(self):
+#         return f'{self.LevelName}'
+    
+
+
+# # Define the Class model
+# class Class(models.Model):
+#     class_id = models.AutoField(primary_key=True)
+#     ClassName = models.CharField(max_length=255)
+#     ClassDescription = models.TextField()
+
+#     def __str__(self):
+#         return f'{self.ClassName}'
     
 
 ##########################################################################################
