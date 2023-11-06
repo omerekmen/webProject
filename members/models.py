@@ -48,6 +48,9 @@ class Class(models.Model):
     def __str__(self):
         return f'{self.ClassName}'
 
+
+
+
 class CustomAccountManager(BaseUserManager):
 
     def create_superuser(self, email, username, password, **other_fields):
