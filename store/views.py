@@ -6,10 +6,10 @@ from products.views import *
 from members.urls import *
 from datetime import datetime, timedelta
 
-sm= 'bk'
+school= '1'
 
-active_products = Products.objects.filter(product_state='Aktif', school_management=sm)
-active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school_management=sm)
+active_products = Products.objects.filter(product_state='Aktif', school=school)
+active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
 
 categories = ProductCategory.objects.all()
 subcategories = ProductSubCategory.objects.all()

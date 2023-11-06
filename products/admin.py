@@ -84,7 +84,7 @@ class ProductsAdmin(admin.ModelAdmin):
             'fields': ('ProductSubCategoryID', 'product_type', 'product_state', 'product_production_name', 'product_name', 'product_web_name', 'model_code', 'product_color', 'book_type', 'product_genre', 'product_class', 'product_level', 'product_measure_unit', 'season', 'product_change_limit'),
         }),
         ('Ek Detaylar', {
-            'fields': ('school_management', 'product_production_date', 'product_created_at', 'product_last_update'),
+            'fields': ('school', 'product_production_date', 'product_created_at', 'product_last_update'),
         }),
     )
     readonly_fields = ('product_created_at', 'product_last_update')
@@ -124,13 +124,13 @@ class ProductsAdmin(admin.ModelAdmin):
 
     ############################  CUSTOM PERMISSIONS  ############################
 
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-        if request.user.has_perm('products.view_bk_products') and request.user.groups.filter(name='bkAdmin').exists():
-            return queryset.filter(school_management__contains='bk')
-        elif request.user.has_perm('products.view_girne_products') and request.user.groups.filter(name='girneAdmin').exists():
-            return queryset.filter(school_management__contains='girne')
-        return queryset
+    # def get_queryset(self, request):
+    #     queryset = super().get_queryset(request)
+    #     if request.user.has_perm('products.view_bk_products') and request.user.groups.filter(name='bkAdmin').exists():
+    #         return queryset.filter(school__contains='bahcesehir')
+    #     elif request.user.has_perm('products.view_girne_products') and request.user.groups.filter(name='girneAdmin').exists():
+    #         return queryset.filter(school__contains='girne')
+    #     return queryset
     
     ############################  CUSTOM PERMISSIONS  ############################
     

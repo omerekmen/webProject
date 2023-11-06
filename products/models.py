@@ -1,4 +1,5 @@
 from django.db import models
+from schools.models import Schools
 from datetime import datetime, timedelta
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -113,7 +114,7 @@ class Products(models.Model):
         return (self.product_created_at.date() > days_ago)
 
     label = property(get_label_attr)
-    school_management = models.CharField(max_length=100)
+    school = models.ForeignKey(Schools, on_delete=models.CASCADE, default=1)
 
     class Meta:
         ordering = ['-product_created_at']
