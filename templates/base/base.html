@@ -144,7 +144,7 @@
                                                         {% for subcat in subcategories %}
                                                             {% if category.CategoryName == subcat.ProductCategory.CategoryName %}
                                                             <li>
-                                                                <a href="{% url 'category' %}">{{ subcat.SubCategoryName }}</a>
+                                                                <a href="{% url 'category' %}#{{ subcat.ProductSubCategoryID }}">{{ subcat.SubCategoryName }}</a>
                                                             </li>
                                                             {% endif %}
                                                         {% endfor %}
