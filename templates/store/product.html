@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-// {% block title %}Ürün{% endblock %} <!-- DB den Ğrün Adı çekilecek -->
+// {% block title %}{{ product.product_web_name }}{% endblock %} 
 
 {% block content %}
 
@@ -16,12 +16,13 @@
 
                             <!-- Main Koca Ürün Görseli -->
                             <div class="product-single-carousel owl-carousel owl-theme owl-nav-inner row cols-1 gutter-no">
-
-                                <figure class="product-image">
-                                    <img src="{% static 'images/product/product-8-1-580x580.jpg' %}" 
-                                        data-zoom-image="{% static 'images/product/product-8-1-800x900.jpg' %}"
-                                        alt="Women's Brown Leather Backpacks" width="800" height="900"> <!-- DB den uygun görsel detayları-->
-                                </figure>
+                                {% for img in product.productimages_set.all %}
+                                    <figure class="product-image">
+                                        <img src="{{ img }}" 
+                                            data-zoom-image="{% static 'images/product/product-8-1-800x900.jpg' %}"
+                                            alt="Women's Brown Leather Backpacks" width="800" height="900"> <!-- DB den uygun görsel detayları-->
+                                    </figure>
+                                {% endfor %}
 
                                 <!-- Bu alanda alt taraf silinecek -->
                                 <figure class="product-image">
@@ -105,7 +106,7 @@
                                 
                             </div>
 
-                            <h1 class="product-name">Women’s Fashional Handbag</h1> <!-- Ürün Adı {{ product.name }} -->
+                            <h1 class="product-name">Ürün Adı: {{ product.product_web_name }} </h1> <!-- Ürün Adı {{ product.name }} -->
                             <div class="product-meta">
                                 SKU: <span class="product-sku">12345670</span> <!-- Ürün SKU {{ product.sku }} -->
                                 BRAND: <span class="product-brand">The Northland</span> <!-- Ürün Brand {{ product.brand }} -->

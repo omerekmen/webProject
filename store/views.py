@@ -28,8 +28,14 @@ def index(request):
 def category(request):
     return render(request, 'store/category.html', context)
 
-def product(request):
-    return render(request, 'store/product.html', context)
+def product(request, ProductID):
+    product = Products.objects.get(ProductID=ProductID)
+
+    pcontext = {
+        'product': product,
+    }
+
+    return render(request, 'store/product.html', {'product': product})
 
 def combproduct(request):
     return render(request, 'store/combproduct.html', context)
