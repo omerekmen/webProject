@@ -76,7 +76,7 @@ class Products(models.Model):
     PRODUCT_TYPE_CHOICES = [('Set', 'Set'), ('Kombin', 'Kombin'), ('Tekil', 'Tekil'),]
 
     ProductID = models.AutoField(_('Ürün ID'), primary_key=True)
-    ProductSubCategoryID = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
+    ProductSubCategoryID = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, related_name='product_subcategory')
     product_type = models.CharField(_('Ürün Türü'), 
         max_length=100,
         choices=PRODUCT_TYPE_CHOICES,
