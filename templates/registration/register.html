@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html>
+
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +42,7 @@
         <!-- Any extra head content goes here -->
         {% endblock %}
     </head>
+
     <body class="intro-page">
         
         <div class="logodiv">
@@ -58,6 +60,7 @@
                     <div class="login-popup">
                         <div class="form-box">
                             <div class="tab tab-nav-simple tab-nav-boxed form-tab">
+
                                 <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link border-no lh-1 ls-normal" href="{% url 'login' %}">Giriş Yap</a>
@@ -67,8 +70,17 @@
                                         <a class="nav-link border-no lh-1 ls-normal active" href="{% url 'register' %}">Kayıt Ol</a>
                                     </li>
                                 </ul>
+
                                 <div class="tab-content">
+                                    
                                     <div class="tab-pane active in" id="signin">
+                                        {% if form.errors %}
+                                        <div class="alert alert-btn">
+                                            <strong> 
+                                                {{ form.errors }}
+                                            </strong>
+                                        </div>
+                                        {% endif %}
                                         <form action="" method="POST">
                                             {% csrf_token %}
                                             {% for part in form %}
@@ -78,7 +90,7 @@
                                                 </div>
                                             {% endfor %}
                                                 
-                                            {{ form.errors }}
+                                            
                                             <div class="form-footer">
                                                 Kişisel verilerin işlenmesi hakkında Aydınlatma Metni'ne buradan Ulaşabilirsiniz. 
                                                 <br>  <br>
@@ -105,4 +117,5 @@
         <!-- Main JS File -->
         <script src="{% static 'js/main.min.js' %}"></script>
     </body>
+
 </html>

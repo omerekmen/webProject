@@ -21,11 +21,35 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+"""
+
+URL YAPILARINDA VE UYGULAMA YAPISINDA GENEL AMAÇ ŞU:
+
+Her okul için ayrı bir uygulama oluşturulacak. Bu uygulamaların içindeki url yapıları da ayrı olacak. 
+Bu url yapıları django subdomain yapısına uygun olacak şekilde oluşturulacak, 
+her bir uygulama store uygulamasını baz alacak. store uygulamasında sm değişkeni ile okul yönetimi belirlenecek.
+Bu sm değişkeni ile okul yönetimine ait ürünlerin listelenmesi sağlanacak. 
+Benzer şekilde bu değişken sayesinde giriş ekranı da okula göre seçilmiş olacak.
+
+Yeni bir okul kaydedilmek istendiğinde tek yapılması gereken yeni bir uygulama oluşturmak (store uygulaması kopyalanacak) 
+ve bu uygulamayı settings.py içindeki INSTALLED_APPS listesine eklemek olacak, 
+daha sonrasında sm değişkeni ile okul yönetimi belirlenecek ve okula özel url yapısı oluşturulacak.
+
+"""
+
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
-    path("user/", include('members.urls')),
+    path("user/", include('members.urls')), # Bu buradan silinip store.urls içine entegre edilecek
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    # path("bahcesehir/", include('bahcesehir.urls')),
+    # path("mektebim/", include('mektebim.urls')),
+    # path("bil/", include('bil.urls')),
+    # path("kavram/", include('kavram.urls')),
+    # path("girne/", include('girne.urls')),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

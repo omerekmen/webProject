@@ -41,10 +41,23 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "ckeditor",
+    "ckeditor_uploader",
+
     # Our Apps
     "store",
+    "schools",
     "members",
     "products",
+    "orders",
+    "cart",
+
+    ##### OKULLAR #####
+    # "bahcesehir",
+    # "mektebim",
+    # "bil",
+    # "kavram",
+    # "girne",
 ]
 
 MIDDLEWARE = [
@@ -115,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Istanbul"
 
 USE_I18N = True
 
@@ -138,6 +151,8 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 
 # Default primary key field type
