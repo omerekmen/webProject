@@ -1,5 +1,6 @@
 from django.db import models
 from schools.models import Schools
+from ckeditor.fields import RichTextField
 from datetime import datetime, timedelta
 from django.utils.html import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -234,14 +235,15 @@ class SizeBasedStocks(models.Model):
 
 class ProductDetails(models.Model):
     products = models.ForeignKey('Products', on_delete=models.CASCADE)
-    product_detail = models.CharField(max_length=255)
-    product_info = models.CharField(max_length=255)
-    product_size_table = models.CharField(max_length=255)
-    product_suggestions = models.CharField(max_length=255)
-    product_quality = models.CharField(max_length=255)
-    product_find_size = models.CharField(max_length=255)
-    product_measure = models.CharField(max_length=255)
-    product_video = models.CharField(max_length=255)
+    product_short_desc = RichTextField(null=True, blank=True)
+    product_detail = RichTextField(_('Ürün Bilgileri'), null=True, blank=True)
+    product_info = RichTextField(null=True, blank=True)
+    product_size_table = RichTextField(null=True, blank=True)
+    product_suggestions = RichTextField(null=True, blank=True)
+    product_quality = RichTextField(null=True, blank=True)
+    product_find_size = RichTextField(null=True, blank=True)
+    product_measure = RichTextField(null=True, blank=True)
+    product_video = RichTextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Ürün Detayları'

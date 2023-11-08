@@ -98,7 +98,13 @@
 
                                         <!-- Product Image and Labeling -->
                                         <figure class="product-media">
-                                            <a href="{% url 'product' product.ProductID %}">
+                                            <a href="
+                                                    {% if product.product_type == 'Tekil' %} 
+                                                        {% url 'product' product.ProductID %} 
+                                                    {% elif product.product_type == 'Kombin' %} 
+                                                        {% url 'combproduct' product.ProductID %} 
+                                                    {% endif %}
+                                                    ">
                                                 {% if product.productimages_set.first %}
                                                     <img src="{{ product.productimages_set.first.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
                                                 {% else %}
@@ -118,10 +124,18 @@
 
                                         <div class="product-details">
                                             <div class="product-cat">
-                                                <a href="shop-default-3.html">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
+                                                <a href="{% url 'category' %}#{{ product.ProductSubCategoryID.ProductSubCategoryID }}">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
                                             </div>
                                             <h3 class="product-name">
-                                                <a href="product.html">{{ product.product_web_name }}</a>
+                                                <a href="
+                                                    {% if product.product_type == 'Tekil' %} 
+                                                        {% url 'product' product.ProductID %} 
+                                                    {% elif product.product_type == 'Kombin' %} 
+                                                        {% url 'combproduct' product.ProductID %} 
+                                                    {% endif %}
+                                                    ">
+                                                    {{ product.product_web_name }}
+                                                </a>
                                             </h3>
                                             <div class="product-price">
                                                 <ins class="new-price">

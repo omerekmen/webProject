@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from store.views import *
 
 urlpatterns = [
     path('', index, name='index'),
@@ -8,5 +8,8 @@ urlpatterns = [
     path('urun/', product, name='product'),
     path('urun/<ProductID>/', product, name='product' ),
 
-    path('kombin/', combproduct, name='combproduct' ),
+    path('kombin/', combprod, name='combprod' ),
+    path('kombin/<ProductID>/', combproduct, name='combproduct' ),
+
+    path('sayfalar/<page_url>/', pages, name='pages' ),
     ]

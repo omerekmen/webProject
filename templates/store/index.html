@@ -4,6 +4,9 @@
 {% block title %}Ana Sayfa{% endblock %}
 
 
+{% include slider %}
+
+
 {% block content %}
 
 
@@ -11,54 +14,6 @@
     
     <div class="page-content">
 
-        <!-- Slider -->
-        <section class="big-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-nav-arrow row cols-1 gutter-no" data-owl-options="{
-            'items': 2,
-            'autoplay': false,
-            'loop': false,
-            'nav': true,
-            'dots': false,
-            'animateIn': 'fadeIn',
-            'animateOut': 'fadeOut'}">
-
-            <div class="niche-slide1 banner banner-fixed">
-                <figure class="kenBurnsToRight duration">
-                    <img src="{% static 'uploads/sliders/bahcesehir_slider1.png' %}" alt="niche-banner" width="1903" height="867" style="background-color: #2e2e31">
-                    <div class="snowfall particle-effect"></div>
-                </figure>
-                <div class="banner-content y-50">
-                    <h4 class="banner-subtitle d-flex align-items-center text-uppercase font-weight-bold slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s'}">
-                        Christmastide</h4>
-                    <h3 class="banner-title ls-m font-weight-bolder slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.3s'}">
-                        Fashion Collection</h3>
-                    <span class="h-divider ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}"></span>
-                    <p class="font-primary ls-s text-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}">
-                        Get Free Shipping on all orders over $75</p>
-                    <a href="shop.html" class="btn btn-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.5s'}">Shop
-                        now <i class="d-icon-arrow-right"></i></a>
-                </div>
-            </div>
-
-
-            <div class="niche-slide2 banner banner-fixed">
-                <figure class="kenBurnsToRight duration">
-                    <img src="{% static 'uploads/sliders/bahcesehir_slider2.png' %}" alt="niche-banner" width="1903" height="867" style="background-color: #2e2e31">
-                    <div class="snowfall particle-effect"></div>
-                </figure>
-                <div class="banner-content y-50">
-                    <h4 class="banner-subtitle d-flex align-items-center text-uppercase font-weight-bold slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s'}">
-                        Christmastide</h4>
-                    <h3 class="banner-title ls-m font-weight-bolder slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.3s'}">
-                        Fashion Collection</h3>
-                    <span class="h-divider ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}"></span>
-                    <p class="font-primary ls-s text-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.4s'}">
-                        Get Free Shipping on all orders over $75</p>
-                    <a href="shop.html" class="btn btn-dark ml-1 slide-animate" data-animation-options="{'name': 'fadeInUpShorter', 'duration': '1.2s', 'delay': '.5s'}">Shop
-                        now <i class="d-icon-arrow-right"></i></a>
-                </div>
-            </div>
-
-        </section>
         
         <!-- Products -->
         <div class="container">
@@ -117,7 +72,13 @@
 
                                     <!-- Product Image and Labeling -->
                                     <figure class="product-media">
-                                        <a href="{% url 'product' product.ProductID %}">
+                                        <a href="
+                                                    {% if product.product_type == 'Tekil' %} 
+                                                        {% url 'product' product.ProductID %} 
+                                                    {% elif product.product_type == 'Kombin' %} 
+                                                        {% url 'combproduct' product.ProductID %} 
+                                                    {% endif %}
+                                                    ">
                                             {% if product.productimages_set.first %}
                                                 <img src="{{ product.productimages_set.first.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
                                             {% else %}
@@ -137,10 +98,18 @@
 
                                     <div class="product-details">
                                         <div class="product-cat">
-                                            <a href="shop-default-3.html">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
+                                            <a href="{% url 'category' %}#{{ product.ProductSubCategoryID.ProductSubCategoryID }}">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
                                         </div>
                                         <h3 class="product-name">
-                                            <a href="product.html">{{ product.product_web_name }}</a>
+                                            <a href="
+                                                    {% if product.product_type == 'Tekil' %} 
+                                                        {% url 'product' product.ProductID %} 
+                                                    {% elif product.product_type == 'Kombin' %} 
+                                                        {% url 'combproduct' product.ProductID %} 
+                                                    {% endif %}
+                                                    ">
+                                                {{ product.product_web_name }}
+                                            </a>
                                         </h3>
                                         <div class="product-price">
                                             <ins class="new-price">
