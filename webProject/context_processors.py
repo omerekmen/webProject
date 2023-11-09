@@ -6,6 +6,7 @@ def get_school():
     school = 1
     return school
 
+
 def default(request, school=get_school()):
     path = request.path # For sublinks
     subdomain = request.get_host().split('.')[0] ### FOR SUBDOMAINs
@@ -26,8 +27,8 @@ def default(request, school=get_school()):
 
 
 
-    categories = ProductCategory.objects.all()
-    subcategories = ProductSubCategory.objects.all()
+    categories = ProductCategory.objects.filter(school_id=school)
+    subcategories = ProductSubCategory.objects.filter(school_id=school)
 
     active_products = Products.objects.filter(product_state='Aktif', school=school)
     active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
