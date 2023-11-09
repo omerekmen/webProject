@@ -22,6 +22,27 @@ from datetime import datetime, timedelta
 #         'subcategories': subcategories,
 #         }
 
+def school(request, school=1):
+    path = request.path # For sublinks
+    subdomain = request.get_host().split('.')[0] ### FOR SUBDOMAINs
+
+    # Define a mapping of subdomains to school IDs
+    subdomain_to_school = {
+        'bahcesehir': 1,
+        'mektebim': 2,
+        # Add more subdomains and their corresponding school IDs as needed
+    }
+
+    # Get the school ID based on the subdomain, default to 1 if not found
+    sc = subdomain_to_school.get(subdomain, 1)
+
+    parts = path.strip('/').split('/')
+    sublink = parts[0]
+    scl = subdomain_to_school.get(sublink, 1)
+
+    return scl
+
+
 def index(request):
     return render(request, 'store/index.html')
 
@@ -30,7 +51,7 @@ def category(request):
     return render(request, 'store/category.html')
 
 def product(request, ProductID):
-    product = Products.objects.get(ProductID=ProductID, product_type='Tekil')
+    product = Products.objects.get(school=school(request), ProductID=ProductID, product_type='Tekil')
 
     pcontext = {
         'product': product,
@@ -43,7 +64,7 @@ def combprod(request):
     return render(request, 'store/combproduct.html')
 
 def combproduct(request, ProductID):
-    product = Products.objects.get(ProductID=ProductID, product_type='Kombin')
+    product = Products.objects.get(school=school(request), ProductID=ProductID, product_type='Kombin')
 
     pcontext = {
         'product': product,

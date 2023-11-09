@@ -20,6 +20,7 @@ from django.urls import path, include
 ### Static files importing to url structure
 from django.conf import settings
 from django.conf.urls.static import static
+from schools.models import *
 
 """
 
@@ -37,12 +38,12 @@ daha sonrasında sm değişkeni ile okul yönetimi belirlenecek ve okula özel u
 
 """
 
-
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
-    path("user/", include('members.urls')), # Bu buradan silinip store.urls içine entegre edilecek
+    path("mektebim/", include('store.urls')),
+    path("bahcesehir/", include('store.urls')),
+    # path("user/", include('members.urls')), # Bu buradan silinip store.urls içine entegre edilecek
     path('ckeditor/', include('ckeditor_uploader.urls')),
     # path("bahcesehir/", include('bahcesehir.urls')),
     # path("mektebim/", include('mektebim.urls')),

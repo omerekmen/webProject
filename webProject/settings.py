@@ -171,6 +171,7 @@ JAZZMIN_SETTINGS = {
     
 }
 
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'members.Member'
 
