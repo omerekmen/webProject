@@ -51,13 +51,6 @@ INSTALLED_APPS = [
     "products",
     "orders",
     "cart",
-
-    ##### OKULLAR #####
-    # "bahcesehir",
-    # "mektebim",
-    # "bil",
-    # "kavram",
-    # "girne",
 ]
 
 MIDDLEWARE = [
