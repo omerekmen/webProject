@@ -2,8 +2,11 @@ from products.models import *
 import random
 
 
+def get_school():
+    school = 1
+    return school
 
-def default(request, school=1):
+def default(request, school=get_school()):
     path = request.path # For sublinks
     subdomain = request.get_host().split('.')[0] ### FOR SUBDOMAINs
 
@@ -26,13 +29,13 @@ def default(request, school=1):
     categories = ProductCategory.objects.all()
     subcategories = ProductSubCategory.objects.all()
 
-    active_products = Products.objects.filter(product_state='Aktif', school=scl)
-    active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=scl)
+    active_products = Products.objects.filter(product_state='Aktif', school=school)
+    active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
 
     random_products = list(active_products)
     random.shuffle(random_products)
 
-    schools = Schools.objects.get(school_id=scl)
+    schools = Schools.objects.get(school_id=school)
 
     return {
         'categories': categories,

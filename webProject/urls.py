@@ -41,16 +41,7 @@ daha sonrasında sm değişkeni ile okul yönetimi belirlenecek ve okula özel u
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
-    path("mektebim/", include('store.urls')),
-    path("bahcesehir/", include('store.urls')),
-    # path("user/", include('members.urls')), # Bu buradan silinip store.urls içine entegre edilecek
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    # path("bahcesehir/", include('bahcesehir.urls')),
-    # path("mektebim/", include('mektebim.urls')),
-    # path("bil/", include('bil.urls')),
-    # path("kavram/", include('kavram.urls')),
-    # path("girne/", include('girne.urls')),
-
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
