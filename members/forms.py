@@ -17,8 +17,8 @@ class LoginForm(AuthenticationForm):
     
 
     class Meta:
-        model = User
-        fields = ('username')
+        model = Member
+        fields = ('username',)
 
 
 class RegisterForm(UserCreationForm):
