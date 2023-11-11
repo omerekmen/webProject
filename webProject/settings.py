@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-y*q(!zvfa)k=-doo#0yvi&(sg-_usi6_+a!hthj1l8j&a!28ly
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '.localhost']
 
 
 # Application definition
@@ -51,13 +51,6 @@ INSTALLED_APPS = [
     "products",
     "orders",
     "cart",
-
-    ##### OKULLAR #####
-    # "bahcesehir",
-    # "mektebim",
-    # "bil",
-    # "kavram",
-    # "girne",
 ]
 
 MIDDLEWARE = [
@@ -81,6 +74,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'webProject.context_processors.default',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -170,8 +164,24 @@ JAZZMIN_SETTINGS = {
     
 }
 
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'members.Member'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'codeSnippet_theme': 'monokai',
+        'toolbar': 'all',
+        'extraPlugins': ','.join(
+            [
+                'codesnippet',
+                'widget',
+                'dialog',
+            ]
+        ),
+    }
+}
 
 LOGIN_REDIRECT_URL = ''
 LOGIN_URL = 'user/login'

@@ -55,9 +55,9 @@ class Member(AbstractBaseUser, PermissionsMixin):
                                                                         ('Kız', 'Kız')]
                                                                         )
 
-    campus_id = models.CharField(_(""), max_length=255, null=True, blank=True)
-    level_id = models.CharField(_(""), max_length=255, null=True, blank=True)
-    class_id = models.CharField(_(""), max_length=255, null=True, blank=True)
+    campus_id = models.CharField(max_length=255, null=True, blank=True)
+    level_id = models.CharField(max_length=255, null=True, blank=True)
+    class_id = models.CharField(max_length=255, null=True, blank=True)
 
     is_active = models.BooleanField(_('Aktiflik Durumu'), default=True)
     ip_address = models.CharField(_('IP Adres'), max_length=45)

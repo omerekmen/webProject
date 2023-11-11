@@ -1,118 +1,68 @@
+{% extends "base/reg.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Giriş Yap{% endblock %} | Entegrasyon Cloud</title>
-    
-            <!-- Favicon -->
-            <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}">
-            <!-- Preload Font -->
-            <link rel="preload" href="{% static 'fonts/riode.ttf' %}" as="font" type="font/woff2" crossorigin="anonymous">
-            <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-solid-900.woff2' %}" as="font" type="font/woff2"
-                crossorigin="anonymous">
-            <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-brands-400.woff2' %}" as="font" type="font/woff2"
-                crossorigin="anonymous">
-            <script>
-                WebFontConfig = {
-                    google: { families: [ 'Poppins:300,400,500,600,700,800' ] }
-                };
-                ( function ( d ) {
-                    var wf = d.createElement( 'script' ), s = d.scripts[ 0 ];
-                    wf.src = '{% static "js/webfont.js" %}';
-                    wf.async = true;
-                    s.parentNode.insertBefore( wf, s );
-                } )( document );
-            </script>
-    
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
-    
-        <!-- Plugins CSS File -->
-    
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/sticky-icon/stickyicon.css' %}">
-    
-        <!-- Main CSS File -->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/main.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/intro.css' %}">
-    
-        {% block extra_head %}
-        <!-- Any extra head content goes here -->
-        {% endblock %}
-    </head>
+{% block title %}Giriş Yap{% endblock %}
 
-    <body class="intro-page">
+
+
+{% block formcontent %}
+
+    <main class="main intro-main" >
         
-        <div class="logodiv">
-            <div class="logo">
-                <img class="logo-image" src="{% static 'uploads/bahcesehir_logo.png' %}" alt="">
-            </div>
-        </div>
-
-        <main class="main intro-main" >
-            
-            <div class="form-container">
-                <div class="container"></div>
-                <div class="container">
-                    <div class="login-popup">
-                        <div class="form-box">
-                            <div class="tab tab-nav-simple tab-nav-boxed form-tab">
-                                <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link border-no lh-1 ls-normal active" href="{% url 'login' %}">Giriş Yap</a>
-                                    </li>
-                                    <li class="delimiter">ya da</li>
-                                    <li class="nav-item">
-                                        <a class="nav-link border-no lh-1 ls-normal " href="{% url 'register' %}">Kayıt Ol</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane active in" id="signin">
-                                        <form method="POST">
-                                            {% if form.errors %}
-                                                <div class="alert alert-btn">
-                                                    <strong> 
-                                                        {{ form.errors }}
-                                                    </strong>
-                                                </div>
-                                            {% endif %}
-                                            
-                                            <div class="form-group mb-3">
-                                                {% csrf_token %}
-                                                {% for formitem in form %}
-                                                    {{ formitem.label }}
-                                                    {{ formitem }}
-                                                {% endfor %}
+        <div class="form-container">
+            <div class="container"></div>
+            <div class="container">
+                <div class="login-popup">
+                    <div class="form-box">
+                        <div class="tab tab-nav-simple tab-nav-boxed form-tab">
+                            <ul class="nav nav-tabs nav-fill align-items-center border-no justify-content-center mb-5" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link border-no lh-1 ls-normal active" href="{{ scl.school_subdomain }}{% url 'login' %}">Giriş Yap</a>
+                                </li>
+                                <li class="delimiter">ya da</li>
+                                <li class="nav-item">
+                                    <a class="nav-link border-no lh-1 ls-normal " href="{% url 'register' %}">Kayıt Ol</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active in" id="signin">
+                                    <form method="POST">
+                                        {% if form.errors %}
+                                            <div class="alert alert-danger alert-dark alert-round alert-inline">
+                                                <strong> 
                                                     {{ form.errors }}
+                                                </strong>
                                             </div>
-                                            
-                                            <div class="form-footer right">
-                                                <a href="#" class="lost-link">Şifremi Unuttum</a>
-                                            </div>
-                                            <button class="btn btn-dark btn-block btn-rounded" type="submit">Giriş Yap</button>
-                                        </form>
-                                        <script>
-                                            $(document).ready(function() {
-                                                // Add the "form-control" class to the username and password fields
-                                                $('#id_username').addClass('form-control');
-                                                $('#id_password').addClass('form-control');
-                                            });
-                                            </script>
-                                    </div>
+                                        {% endif %}
+                                        
+                                        <div class="form-group mb-3">
+                                            {% csrf_token %}
+                                            {% for formitem in form %}
+                                                {{ formitem.label }}
+                                                {{ formitem }}
+                                            {% endfor %}
+                                                {{ form.errors }}
+                                        </div>
+                                        
+                                        <div class="form-footer right">
+                                            <a href="#" class="lost-link">Şifremi Unuttum</a>
+                                        </div>
+                                        <button class="btn btn-dark btn-block btn-rounded" type="submit">Giriş Yap</button>
+                                    </form>
+                                    <script>
+                                        $(document).ready(function() {
+                                            // Add the "form-control" class to the username and password fields
+                                            $('#id_username').addClass('form-control');
+                                            $('#id_password').addClass('form-control');
+                                        });
+                                        </script>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
 
-
-        <!-- Plugins JS File -->
-
-        
-        <!-- Main JS File -->
-        <script src="{% static 'js/main.min.js' %}"></script>
-    </body>
-</html>
+{% endblock formcontent %}

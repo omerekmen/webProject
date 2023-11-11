@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from .models import Member
+from django.contrib.auth import authenticate
 
 
 class LoginForm(AuthenticationForm):
@@ -14,10 +15,26 @@ class LoginForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "current-password", "class": "form-control"}),
     )
-    
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    _("Lütfen geçerli bir kullanıcı adı ve şifre giriniz. Unutmayın, her iki alan da büyük/küçük harfe duyarlı olabilir."),
+                    code='invalid_login',
+                    params={'username': self.username_field.verbose_name},
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
 
     class Meta:
-        model = User
+        model = Member
         fields = ('username')
 
 

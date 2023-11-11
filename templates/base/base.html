@@ -7,10 +7,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock %} | Entegrasyon Cloud</title>
+        <title>{% block title %}{% endblock %} | {{ schools.schoolsitesettings_set.first.school_header_title }}</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}">
+        <link rel="icon" type="image/png" href="{{ schools.schoolsitesettings_set.first.school_logo_header.url }}">
         <!-- Preload Font -->
         <link rel="preload" href="{% static 'fonts/riode.ttf' %}" as="font" type="font/woff2" crossorigin="anonymous">
         <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-solid-900.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
@@ -54,58 +54,27 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block okul %} BAHÇEŞEHİR KOLEJİ GENEL MÜDÜRLÜK {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
+                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | (ŞUBE ADI) {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
                     </div>
                     <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block ogrenci %} Oğuzhan AKKOL {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
+                        <p class="welcome-msg text-uppercase">{% block ogrenci %} {{user.first_name}} {{user.last_name}} {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
                     </div>
                     <!--End.header-left-->
 
                     <div class="header-right">
-                        <!-- <div class="dropdown">
-                            <a href="#currency">USD</a>
-                            <ul class="dropdown-box">
-                                <li>
-                                    <a href="#USD">USD</a>
-                                </li>
-                                <li>
-                                    <a href="#USD">EUR</a>
-                                </li>
-                            </ul>
-                        </div> -->
-                        <!--End.dropdown-->
-
-                        <!-- <div class="dropdown ml-4">
-                            <a href="#language">ENG</a>
-                            <ul class="dropdown-box">
-                                <li>
-                                    <a href="#ENG">ENG</a>
-                                </li>
-                                <li>
-                                    <a href="#FRH">FRA</a>
-                                </li>
-                            </ul>
-                        </div> -->
-                        <!--End.dropdown-->
 
                         <span class="divider d-lg-show"></span>
                         <div class="dropdown dropdown-expanded d-md-show">
                             <a href="#dropdown">Links</a>
                             <ul class="dropdown-box">
                                 <li>
-                                    <a href="about-us.html">About</a>
-                                </li>
-                                <li>
-                                    <a href="blog-classic.html">Blog</a>
-                                </li>
-                                <li>
-                                    <a href="contact-us.html">Contact</a>
+                                    <a href="{% url 'index' %}">Kargom Nerede?</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'logout' %}">Logout</a>
                                 </li>
                                 <li>
-                                    <a href="wishlist.html">Wishlist</a>
+                                    <a href="tel:{{ schools.school_phone }}">İletişim No: {{ schools.school_phone }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -116,6 +85,7 @@
             </div>
             <!--End.header-top-->
 
+
             <div class="sticky-content-wrapper">
                 <div class="header-middle sticky-header fix-top sticky-content">
                     <div class="container">
@@ -124,7 +94,7 @@
                                 <i class="d-icon-bars2"></i>
                             </a>
                             <a href="{% url 'index' %}" class="logo">
-                                <img src="{% static 'images/logo.png' %}" alt="logo" width="154" height="43">
+                                <img src="{{ schools.schoolsitesettings_set.first.school_logo_header.url }}" alt="logo" style='max-height: 100px; margin-top:-25px; margin-bottom:-25px;' >
                             </a>
                             <nav class="main-nav">
                                 <ul class="menu"> 
@@ -154,7 +124,7 @@
                                         </ul>
                                     </li>
 
-                                    <li {% if request.resolver_match.url_name == 'combproduct' %} class="active"{% endif %}>
+                                    <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
                                         <a href="{% url 'combproduct' %}">Kombin</a>
                                     </li>
 
@@ -189,14 +159,9 @@
                             <!-- End of Divider -->
                         </div>
                         <div class="header-right">
-                            <div class="header-search hs-toggle d-xl-show mr-4">
-                                <a class="search-toggle" href="#">
-                                    <span class="sr-only">search</span>
-                                    <i class="d-icon-search"></i>
-                                </a>
-                                <form action="#" class="input-wrapper">
-                                    <input type="text" class="form-control" autocomplete="off" placeholder="Search..."
-                                        required>
+                            <div class="header-search hs-simple">
+                                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
+                                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
                                     <button class="btn btn-search" type="submit">
                                         <i class="d-icon-search"></i>
                                     </button>
@@ -395,12 +360,39 @@
 
 
         <main>
+
+            {% block slider %}
+                <section
+                class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
+                data-owl-options="{
+                    'items': 1,
+                    'loop': true,
+                    'responsive': {
+                        '992': {
+                            'dots': true,
+                            'nav': true
+                        }
+                    },
+                    'animateIn': 'fadeIn',
+                    'animateOut': 'fadeOut'}">
+                
+                    
+                    {% for slide in schools.schoolslider_set.all %}
+                        <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
+                            <figure class="kenBurnsToRight duration">
+                                <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
+                            </figure>
+                        </div>
+                    {% endfor %}
+
+                </section>
+            {% endblock slider %}
+
             {% block content %}
             <!-- Your main content goes here -->
-            {% endblock %}
+
+            {% endblock content %}
         </main>
-
-
 
 
 
@@ -414,120 +406,88 @@
                         <div class="col-lg-3 col-sm-6">
 
                             <div class="widget widget-about">
+                                {% for schoolsett in schools.schoolsitesettings_set.all %}
                                 <a href="demo21.html" class="logo-footer">
-                                    <img src="{% static 'images//logo-footer.png' %}" alt="logo-footer" width="153"
-                                        height="44" />
+                                    <img src="{{ schoolsett.school_logo_footer.url }}" alt="logo-footer" width="153" height="44" />
                                 </a>
 
                                 <div class="widget-contact-info widget-collapsible">
                                     <ul class="contact-info">
-                                        <li class="info phone"><label>PHONE:</label><a href="tel:#">Toll
-                                                Free (123) 456-7890</a></li>
-                                        <li class="info email"><label>EMAIL:</label><a
-                                                href="mailto:mail@Riode.com">mail@Riode.com</a></li>
-                                        <li class="info addr"><label>ADDRESS:</label><a href="#">123 Street Name, City,
-                                                England</a></li>
-                                        <li class="info work"><label>WORKING DAYS/HOURS:</label><a href="#">Mon - Sun
-                                                / 9:00 AM -
-                                                8:00 PM</a></li>
+                                        {{ schoolsett.school_footer_title }}
                                     </ul>
                                 </div>
-
+                                {% endfor %}
                             </div>
-                            <!-- End Widget -->
                         </div>
-
 
                         <div class="col-lg-3 col-sm-6">
 
                             <div class="widget widget-info">
-                                <h4 class="widget-title">About Us</h4>
+                                <h4 class="widget-title">Hesabım</h4>
                                 <ul class="widget-body">
                                     <li>
-                                        <a href="about-us.html">About Us</a>
+                                        <a href="about-us.html">Siparişlerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Order History</a>
+                                        <a href="#">İadelerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Returns</a>
+                                        <a href="#">Değişimlerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Custom Service</a>
+                                        <a href="#">Destek Taleplerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Terms &amp; Condition</a>
+                                        <a href="#">Faturalarım</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Adreslerim</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Hesap Bilgilerim</a>
                                     </li>
                                 </ul>
                             </div>
                             <!-- End Widget -->
                         </div>
 
+
+                        <div class="col-lg-3 col-sm-6">
+                            
+                            <div class="widget widget-service">
+                                <h4 class="widget-title">Sayfalar</h4>
+                                <ul class="widget-body">
+                                    {% for schoolpage in schools.schoolpages_set.all %}
+                                    {% if schoolpage.page_category == 'pages' %}
+                                    <li>
+                                        <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                                
+                        </div>
+                        
 
                         <div class="col-lg-3 col-sm-6">
 
                             <div class="widget widget-service">
-                                <h4 class="widget-title">Customer Service</h4>
+                                <h4 class="widget-title">Sözleşmeler</h4>
                                 <ul class="widget-body">
+                                    {% for schoolpage in schools.schoolpages_set.all %}
+                                    {% if schoolpage.page_category == 'contracts' %}
                                     <li>
-                                        <a href="#">Payment Methods</a>
+                                        <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
                                     </li>
-                                    <li>
-                                        <a href="#">Money-back Guarantee!</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Returns</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Custom Service</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Terms & Conditions</a>
-                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
                                 </ul>
                             </div>
-                            <!-- End Widget -->
                         </div>
-
-
-                        <div class="col-lg-3 col-sm-6">
-
-                            <div class="widget widget-instagram mb-0">
-                                <h4 class="widget-title">Instagram</h4>
-                                <figure class="widget-body row">
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/01.jpg' %}" alt="instagram 1" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/02.jpg' %}" alt="instagram 2" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/03.jpg' %}" alt="instagram 3" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/04.jpg' %}" alt="instagram 4" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/05.jpg' %}" alt="instagram 5" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/06.jpg' %}" alt="instagram 6" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/07.jpg' %}" alt="instagram 7" width="64" height="64" />
-                                    </div>
-                                    <div class="col-3">
-                                        <img src="{% static 'images/instagram/08.jpg' %}" alt="instagram 8" width="64" height="64" />
-                                    </div>
-                                </figure>
-                            </div>
-                            <!-- End Instagram -->
-                        </div>
-
 
                     </div>
                 </div>
-                <!-- End FooterMiddle -->
 
 
 
@@ -539,8 +499,10 @@
                     </div>
                     
                     <div class="footer-center">
-                        <figure class="payment">
-                            <img src="{% static 'images/payment.png' %}" alt="payment" width="159" height="29" />
+                        <figure class="" style='justify-content: space-between; align-items: flex-end;'>
+                            Ödeme Sağlayıcıları
+                            <img src="{% static 'images/payment/ma_symbol.svg' %}" alt="MasterCard" height="75" style='max-height:45px;' />
+                            <img src="{% static 'images/payment/visa.svg' %}" alt="payment" height="75" style='max-height:55px;' />
                         </figure>
                     </div>
 
@@ -581,13 +543,13 @@
                 <span>Account</span>
             </a>
             <div class="header-search hs-toggle dir-up">
-                <a href="#" class="search-toggle sticky-link">
+                {% comment %} <a href="#" class="search-toggle sticky-link">
                     <i class="d-icon-search"></i>
-                    <span>Search</span>
-                </a>
+                    <span>Ürün Arayın</span>
+                </a> {% endcomment %}
                 <form action="#" class="input-wrapper">
                     <input type="text" class="form-control" name="search" autocomplete="off"
-                        placeholder="Search your keyword..." required />
+                        placeholder="Ürün Arayın" required />
                     <button class="btn btn-search" type="submit" title="submit-button">
                         <i class="d-icon-search"></i>
                     </button>

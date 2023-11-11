@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}{{ school_pages.page_title }}{% endblock %}
+
+{% block slider %}
+{% endblock slider %}
+
+{% block content %}
+
+
+
+<main class="main home">
+    
+    <div class="page-content">
+        
+        <div class='text-center' style="margin-top: 50px; margin-bottom: 20px;">
+            <h1>{{ school_pages.page_title }}</h1>
+        </div>
+
+        <hr class="product-divider">
+
+        <div class="container content-center" style="margin-top: 10px; margin-bottom: 100px;">
+            {{ school_pages.page_content | safe }}
+        </div>
+
+    </div>
+</main>
+
+
+{% endblock content %}
