@@ -404,7 +404,11 @@
 
                             <div class="widget widget-about">
                                 {% for schoolsett in schools.schoolsitesettings_set.all %}
-                                <a href="demo21.html" class="logo-footer">
+                                {% if "playoff" in schoolsett.school_logo_footer.url|lower %}
+                                    <a href="https://playoff.com.tr/" class="logo-footer">
+                                {% else %}
+                                    <a href="{% url 'index' %}" class="logo-footer">
+                                {% endif %}
                                     <img src="{{ schoolsett.school_logo_footer.url }}" alt="logo-footer" width="153" height="44" />
                                 </a>
 
