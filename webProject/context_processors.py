@@ -1,4 +1,6 @@
 from products.models import *
+from schools.models import *
+from members.models import *
 import random
 
 
@@ -26,6 +28,7 @@ def default(request, school=get_school()):
     scl = subdomain_to_school.get(sublink, 1)
 
 
+    user = request.user.is_authenticated
 
     categories = ProductCategory.objects.filter(school_id=school)
     subcategories = ProductSubCategory.objects.filter(school_id=school)
@@ -46,6 +49,8 @@ def default(request, school=get_school()):
         'active_comb_products': active_comb_products, 
 
         'random_products': random_products,
+
+        'user': user,
 
         'schools': schools,
         'sc': scl,

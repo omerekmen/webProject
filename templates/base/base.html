@@ -57,7 +57,7 @@
                         <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | (ŞUBE ADI) {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
                     </div>
                     <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block ogrenci %} Oğuzhan AKKOL {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
+                        <p class="welcome-msg text-uppercase">{% block ogrenci %} {{user.first_name}} {{user.last_name}} {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
                     </div>
                     <!--End.header-left-->
 

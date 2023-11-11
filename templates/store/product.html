@@ -3,6 +3,18 @@
 
 {% block title %}{{ product.product_web_name }}{% endblock %} 
 
+{% block extra_head %}
+<style>
+    .product-variations .size.active{
+        background-color: #8ebf16;
+        color: #ffffff;
+        border-radius: 15px;
+        border-color: #8ebf16;
+    }
+</style>
+{% endblock extra_head %}
+
+
 {% block slider %}
 {% endblock slider %}
 
@@ -44,6 +56,16 @@
                                 <button class="thumb-down disabled"><i class="fas fa-chevron-right"></i></button>
                             </div>
 
+                            <div class="product-label-group">
+                                {% if product.label %}
+                                    <label class="product-label label-new">YENİ</label>
+                                {% endif %}
+
+                                {% if product.productprices_set.first.DiscountRatio > 0 %}
+                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333">- {{ product.productprices_set.first.DiscountRatio }}% </label>
+                                {% endif %}
+                            </div>
+
                         </div>
 
                     </div>
@@ -78,12 +100,15 @@
                                     <div class="product-variations">
                                         {% for ps in product.sizebasedstocks_set.all %}
                                             {% if ps.sale_stock == 0 %}
-                                                <a class="size" style="color:red;" href="">{{ ps.size }}</a>
+                                                <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
                                             {% else %}
                                                 <a class="size" href="#">{{ ps.size }}</a>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
+                                    <a href="#product-tab-size-table" class="size-guide link-to-tab ml-4">
+                                        <i class="d-icon-th-list"></i>Size Guide
+                                    </a>
                                 </div>
                             </div>
 
@@ -179,6 +204,7 @@
                     </div>
                 </div>
 
+                <hr class="product-divider" style="margin:25px">
 
                 <section class="pt-3 mt-2">
                     <h2 class="title justify-content-center">Benzer Ürünler</h2>

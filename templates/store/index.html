@@ -92,7 +92,7 @@
                                             {% endif %}
 
                                             {% if product.productprices_set.first.DiscountRatio > 0 %}
-                                                <label class="product-label label-sale">{{ product.productprices_set.first.DiscountRatio }}% </label>
+                                                <label class="product-label label-sale" style="color: #fff;background-color:#dd3333">- {{ product.productprices_set.first.DiscountRatio }}% </label>
                                             {% endif %}
                                         </div>
                                     </figure>
