@@ -9,27 +9,28 @@ from members.urls import *
 from datetime import datetime, timedelta
 
 
-
+@login_required
 def index(request):
     return render(request, 'store/index.html')
 
-
+@login_required
 def category(request):
     return render(request, 'store/category.html')
 
+@login_required
 def product(request, ProductID):
     product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Tekil')
 
+    related_products = Products.objects.filter(ProductSubCategoryID=product.ProductSubCategoryID).exclude(ProductID=ProductID)[:4]
+
     pcontext = {
         'product': product,
+        'related_products': related_products,
     }
 
-    return render(request, 'store/product.html', {'product': product})
+    return render(request, 'store/product.html', pcontext)
 
-def combprod(request):
-
-    return render(request, 'store/combproduct.html')
-
+@login_required
 def combproduct(request, ProductID):
     product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Kombin')
 
@@ -39,7 +40,7 @@ def combproduct(request, ProductID):
 
     return render(request, 'store/combproduct.html', {'product': product})
 
-
+@login_required
 def pages(request, page_url):
     school_pages = SchoolPages.objects.get(page_url=page_url) 
 
@@ -48,3 +49,17 @@ def pages(request, page_url):
     }
 
     return render(request, 'store/pages.html', page_context)
+
+
+@login_required
+def search(request):
+    query = request.GET.get('search')
+    products = Products.objects.filter(school=get_school(), product_web_name__icontains=query)
+
+    context = {
+        'search_products': products,
+        'query': query,
+    }
+
+    return render(request, 'store/search.html', context)
+

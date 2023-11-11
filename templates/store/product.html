@@ -8,7 +8,7 @@
     .product-variations .size.active{
         background-color: #8ebf16;
         color: #ffffff;
-        border-radius: 15px;
+        border-radius: 3px;
         border-color: #8ebf16;
     }
 </style>
@@ -62,7 +62,7 @@
                                 {% endif %}
 
                                 {% if product.productprices_set.first.DiscountRatio > 0 %}
-                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333">- {{ product.productprices_set.first.DiscountRatio }}% </label>
+                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333"><i class="d-icon-card"></i> {{ product.productprices_set.first.DiscountRatio }}% </label>
                                 {% endif %}
                             </div>
 
@@ -232,7 +232,7 @@
                     }">
 
                         <!-- (NOT: İstenilen görünüm seçilip ona göre bir related product şablonu oluiturulmalı) -->
-                        {% for product in random_products %}
+                        {% for product in related_products %}
                             <div class="product-wrap">
                                 <div class="product product-classic">
 

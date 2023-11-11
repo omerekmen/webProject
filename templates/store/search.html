@@ -1,10 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %}Ana Sayfa{% endblock %}
-
-
-{% include slider %}
+{% block title %}'{{ query }}' için Arama Sonuçları {% endblock %}
 
 
 {% block content %}
@@ -21,7 +18,7 @@
                 <div class="main-content">
                     
                     <div style="margin-top: 25px;">
-                        <h1>Ürünler</h1>
+                        <h1>'{{ query }}' için Arama Sonuçları </h1>
                     </div>
 
                     <nav class="toolbox sticky-toolbox sticky-content fix-top" >
@@ -65,7 +62,7 @@
 
                     <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
 
-                        {% for product in active_products %}
+                        {% for product in search_products %}
                             <div class="product-wrap">
                                 <div class="product product-classic">
 

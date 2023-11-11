@@ -10,8 +10,9 @@ urlpatterns = [
     path('urun/', product, name='product'),
     path('urun/<ProductID>/', product, name='product' ),
 
-    path('kombin/', combprod, name='combprod' ),
+    path('kombin/', combproduct, name='combproduct' ),
     path('kombin/<ProductID>/', combproduct, name='combproduct' ),
 
     path('sayfalar/<page_url>/', pages, name='pages' ),
+    path('search/', search, name='search'),
     ]

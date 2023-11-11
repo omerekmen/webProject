@@ -25,6 +25,9 @@ def register_view(request):
     return render(request, 'registration/register.html', {'form': form})   
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    
     if request.method == 'POST':
         form = LoginForm(request, data=request.POST)
         if form.is_valid():
