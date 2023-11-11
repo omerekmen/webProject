@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.conf.urls import handler404, handler500
 from store.views import *
 
 urlpatterns = [

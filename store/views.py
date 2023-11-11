@@ -62,4 +62,3 @@ def search(request):
     }
 
     return render(request, 'store/search.html', context)
-
