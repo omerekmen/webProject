@@ -3,8 +3,6 @@
 
 {% block title %}Giriş Yap{% endblock %}
 
-
-
 {% block formcontent %}
 
     <main class="main intro-main" >
@@ -21,27 +19,35 @@
                                 </li>
                                 <li class="delimiter">ya da</li>
                                 <li class="nav-item">
-                                    <a class="nav-link border-no lh-1 ls-normal " href="{% url 'register' %}">Kayıt Ol</a>
+                                    <a class="nav-link border-no lh-1 ls-normal" href="{% url 'register' %}">Kayıt Ol</a>
                                 </li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active in" id="signin">
                                     <form method="POST">
-                                        {% if form.errors %}
+                                        {% csrf_token %}
+                                        <!-- Displaying non-field errors -->
+                                        {% if form.non_field_errors %}
                                             <div class="alert alert-danger alert-dark alert-round alert-inline">
-                                                <strong> 
-                                                    {{ form.errors }}
-                                                </strong>
+                                                {% for error in form.non_field_errors %}
+                                                    <strong>{{ error }}</strong>
+                                                {% endfor %}
                                             </div>
                                         {% endif %}
                                         
+                                        <!-- Displaying each form field with its errors -->
                                         <div class="form-group mb-3">
-                                            {% csrf_token %}
                                             {% for formitem in form %}
                                                 {{ formitem.label }}
                                                 {{ formitem }}
+                                                {% if formitem.errors %}
+                                                    <div class="alert alert-danger">
+                                                        {% for error in formitem.errors %}
+                                                            {{ error }}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
                                             {% endfor %}
-                                                {{ form.errors }}
                                         </div>
                                         
                                         <div class="form-footer right">
@@ -51,11 +57,10 @@
                                     </form>
                                     <script>
                                         $(document).ready(function() {
-                                            // Add the "form-control" class to the username and password fields
                                             $('#id_username').addClass('form-control');
                                             $('#id_password').addClass('form-control');
                                         });
-                                        </script>
+                                    </script>
                                 </div>
                             </div>
                         </div>
