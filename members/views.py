@@ -5,6 +5,9 @@ from django.contrib import messages
 
 
 def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+    
     if request.method == 'POST':
         form = RegisterForm(request.POST or None)
         if form.is_valid():
@@ -22,6 +25,21 @@ def register_view(request):
     return render(request, 'registration/register.html', {'form': form})   
 
 def login_view(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+
+                return redirect('index')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid form input.")
+    else:
         form = LoginForm()
-        return render(request, 'registration/login.html', {'form': form})   
+
+    return render(request, 'registration/login.html', {'form': form})
