@@ -1,0 +1,615 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}{% endblock %} | {{ schools.schoolsitesettings_set.first.school_header_title }}</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="{{ schools.schoolsitesettings_set.first.school_logo_header.url }}">
+        <!-- Preload Font -->
+        <link rel="preload" href="{% static 'fonts/riode.ttf' %}" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-solid-900.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-brands-400.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
+        <script>
+            WebFontConfig = {
+                google: { families: [ 'Poppins:300,400,500,600,700,800' ] }
+            };
+            ( function ( d ) {
+                var wf = d.createElement( 'script' ), s = d.scripts[ 0 ];
+                wf.src = '{% static "js/webfont.js" %}';
+                wf.async = true;
+                s.parentNode.insertBefore( wf, s );
+            } )( document );
+        </script>
+
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.min.css' %}">
+
+        <!-- Plugins CSS File -->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/magnific-popup/magnific-popup.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/owl-carousel/owl.carousel.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/photoswipe/photoswipe.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/photoswipe/default-skin/default-skin.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/nouislider/nouislider.min.css' %}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/sticky-icon/stickyicon.css' %}">
+
+        <!-- Main CSS File -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.min.css' %}">
+
+        {% block extra_head %}
+        <!-- Any extra head content goes here -->
+        {% endblock %}
+    </head>
+
+
+    <body>
+
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | (ŞUBE ADI) {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
+                    </div>
+                    <div class="header-left">
+                        <p class="welcome-msg text-uppercase">{% block ogrenci %} {{user.first_name}} {{user.last_name}} {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
+                    </div>
+                    <!--End.header-left-->
+
+                    <div class="header-right">
+
+                        <span class="divider d-lg-show"></span>
+                        <div class="dropdown dropdown-expanded d-md-show">
+                            <a href="#dropdown">Links</a>
+                            <ul class="dropdown-box">
+                                <li>
+                                    <a href="{% url 'index' %}">Kargom Nerede?</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'logout' %}">Logout</a>
+                                </li>
+                                <li>
+                                    <a href="tel:{{ schools.school_phone }}">İletişim No: {{ schools.school_phone }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End.header-right-->
+                </div>
+                <!--End.container-->
+            </div>
+            <!--End.header-top-->
+
+
+            <div class="sticky-content-wrapper">
+                <div class="header-middle sticky-header fix-top sticky-content">
+                    <div class="container">
+                        <div class="header-left">
+                            <a href="#" class="mobile-menu-toggle mr-0">
+                                <i class="d-icon-bars2"></i>
+                            </a>
+                            <a href="{% url 'index' %}" class="logo">
+                                <img src="{{ schools.schoolsitesettings_set.first.school_logo_header.url }}" alt="logo" style='max-height: 100px; margin-top:-25px; margin-bottom:-25px;' >
+                            </a>
+                            <nav class="main-nav">
+                                <ul class="menu"> 
+                                    
+                                    <li {% if request.resolver_match.url_name == 'index' %} class="active" {% endif %}>
+                                        <a href="{% url 'index' %}">Ana Sayfa</a> <!-- Link yapısı db ye bağlanacak, şirket bilgileri için table oluşturulmalı-->
+                                        <!-- Django url structure href for home page-->
+                                    </li>
+
+                                    <li {% if request.resolver_match.url_name == 'category' %} class="active submenu" {% else %} class="submenu" {% endif %} >
+                                        <a href="{% url 'category' %}">Kategori</a>
+                                        <ul>
+                                            {% for category in categories %}
+                                                <li class="submenu">
+                                                    <a href="{% url 'category' %}">{{ category.CategoryName }}</a>
+                                                    <ul>
+                                                        {% for subcat in subcategories %}
+                                                            {% if category.CategoryName == subcat.ProductCategory.CategoryName %}
+                                                            <li>
+                                                                <a href="{% url 'category' %}#{{ subcat.ProductSubCategoryID }}">{{ subcat.SubCategoryName }}</a>
+                                                            </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+
+                                    <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
+                                        <a href="{% url 'combprod' %}">Kombin</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Ek Sayfalar</a>
+                                        <ul>
+                                            <li><a href="{% url 'login' %}">Giriş Yap</a></li>
+                                            <li><a href="{% url 'register' %}">Üye Ol</a></li>
+                                            <li><a href="about-us.html">About(NW)</a></li>
+                                            <li><a href="contact-us.html">Contact Us(NW)</a></li>
+                                            <li><a href="account.html">My Account(NW)</a></li>
+                                            <li><a href="wishlist.html">Wishlist(NW)</a></li>
+                                            <li><a href="faq.html">FAQs(NW)</a></li>
+                                            <li><a href="error-404.html">Error 404(NW)</a>
+                                                <ul>
+                                                    <li><a href="error-404.html">Error 404</a></li>
+                                                    <li><a href="error-404-1.html">Error 404-1</a></li>
+                                                    <li><a href="error-404-2.html">Error 404-2</a></li>
+                                                    <li><a href="error-404-3.html">Error 404-3</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="coming-soon.html">Coming Soon(NW)</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="">Blog</a>
+                                    </li>
+
+                                </ul>
+                            </nav>
+                            <!-- End of Divider -->
+                        </div>
+                        <div class="header-right">
+                            <div class="header-search hs-toggle d-xl-show mr-4">
+                                <a class="search-toggle" href="#">
+                                    <span class="sr-only">search</span>
+                                    <i class="d-icon-search"></i>
+                                </a>
+                                <form action="#" class="input-wrapper">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Search..."
+                                        required>
+                                    <button class="btn btn-search" type="submit">
+                                        <i class="d-icon-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            
+                            
+                            <div class="dropdown cart-dropdown type2 mr-0 mr-lg-2">
+                                <a href="#" class="cart-toggle link">
+                                    <i class="d-icon-bag">
+                                        <span class="cart-count">0</span>
+                                    </i>
+                                </a>
+                                <div class="dropdown-box">
+                                    <p class="d-flex justify-content-center m-0 text-body">No products in the cart.</p>
+                                </div>
+                            </div>
+
+                            <a class="login-link d-lg-show" href="{% url 'login' %}" data-toggle="login-modal"> <!-- Site Yapısı Tamamlanınca Bu Link Hesabım'a Yönlendirmeli !!! -->
+                                <span class="sr-only">login</span>
+                                <i class="d-icon-user"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MobileMenu -->
+        <div class="mobile-menu-wrapper">
+            <div class="mobile-menu-overlay">
+            </div>
+            <!-- End of Overlay -->
+
+            <a class="mobile-menu-close" href="#"><i class="d-icon-times"></i></a>
+            <!-- End of CloseButton -->
+
+            <div class="mobile-menu-container scrollable">
+                <form action="#" class="input-wrapper">
+                    <input type="text" class="form-control" name="search" autocomplete="off"
+                        placeholder="Search your keyword..." required />
+                    <button class="btn btn-search" type="submit" title="submit-button">
+                        <i class="d-icon-search"></i>
+                    </button>
+                </form>
+
+                <!-- End of Search Form -->
+                <ul class="mobile-menu mmenu-anim">
+                    <li>
+                        <a href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'category' %}" class="active">Categories</a>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Variations 1
+                                </a>
+                                <ul>
+                                    <li><a href="shop-classic-filter.html">Classic Filter</a></li>
+                                    <li><a href="shop-left-toggle-sidebar.html">Left Toggle Filter</a></li>
+                                    <li><a href="shop-right-toggle-sidebar.html">Right Toggle Sidebar</a></li>
+                                    <li><a href="shop-horizontal-filter.html">Horizontal Filter </a>
+                                    </li>
+                                    <li><a href="shop-navigation-filter.html">Navigation Filter</a></li>
+
+                                    <li><a href="shop-off-canvas-filter.html">Off-Canvas Filter </a></li>
+                                    <li><a href="shop-top-banner.html">Top Banner</a></li>
+                                    <li><a href="shop-inner-top-banner.html">Inner Top Banner</a></li>
+                                    <li><a href="shop-with-bottom-block.html">With Bottom Block</a></li>
+                                    <li><a href="shop-category-in-page-header.html">Category In Page Header</a>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Variations 2
+                                </a>
+                                <ul>
+                                    <li><a href="shop-grid-3cols.html">3 Columns Mode</a></li>
+                                    <li><a href="shop-grid-4cols.html">4 Columns Mode</a></li>
+                                    <li><a href="shop-grid-5cols.html">5 Columns Mode</a></li>
+                                    <li><a href="shop-grid-6cols.html">6 Columns Mode</a></li>
+                                    <li><a href="shop-grid-7cols.html">7 Columns Mode</a></li>
+                                    <li><a href="shop-grid-8cols.html">8 Columns Mode</a></li>
+                                    <li><a href="shop-list-mode.html">List Mode</a></li>
+                                    <li><a href="shop-pagination.html">Pagination</a></li>
+                                    <li><a href="shop-infinite-ajaxscroll.html">Infinite Ajaxscroll </a></li>
+                                    <li><a href="shop-loadmore-button.html">Loadmore Button</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Variations 3
+                                </a>
+                                <ul>
+                                    <li><a href="shop-category-grid-shop.html">Category Grid Shop</a></li>
+                                    <li><a href="shop-category+products.html">Category + Products</a></li>
+                                    <li><a href="shop-default-1.html">Shop Default 1 </a>
+                                    </li>
+                                    <li><a href="shop-default-2.html">Shop Default 2</a></li>
+                                    <li><a href="shop-default-3.html">Shop Default 3</a></li>
+                                    <li><a href="shop-default-4.html">Shop Default 4</a></li>
+                                    <li><a href="shop-default-5.html">Shop Default 5</a></li>
+                                    <li><a href="shop-default-6.html">Shop Default 6</a></li>
+                                    <li><a href="shop-default-7.html">Shop Default 7</a></li>
+                                    <li><a href="shop-default-8.html">Shop Default 8</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'product' %}">Products</a>
+                        <ul>
+                            <li>
+                                <a href="#">Product Pages</a>
+                                <ul>
+                                    <li><a href="product-simple.html">Simple Product</a></li>
+                                    <li><a href="product-featured.html">Featured &amp; On Sale</a></li>
+                                    <li><a href="product.html">Variable Product</a></li>
+                                    <li><a href="product-variable-swatch.html">Variation Swatch
+                                            Product</a></li>
+                                    <li><a href="product-grouped.html">Grouped Product </a></li>
+                                    <li><a href="product-external.html">External Product</a></li>
+                                    <li><a href="product-in-stock.html">In Stock Product</a></li>
+                                    <li><a href="product-out-stock.html">Out of Stock Product</a></li>
+                                    <li><a href="product-upsell.html">Upsell Products</a></li>
+                                    <li><a href="product-cross-sell.html">Cross Sell Products</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Product Layouts</a>
+                                <ul>
+                                    <li><a href="product-vertical.html">Vertical Thumb</a></li>
+                                    <li><a href="product-horizontal.html">Horizontal Thumb</a></li>
+                                    <li><a href="product-gallery.html">Gallery Type</a></li>
+                                    <li><a href="product-grid.html">Grid Images</a></li>
+                                    <li><a href="product-masonry.html">Masonry Images</a></li>
+                                    <li><a href="product-sticky.html">Sticky Info</a></li>
+                                    <li><a href="product-sticky-both.html">Left & Right Sticky</a></li>
+                                    <li><a href="product-left-sidebar.html">With Left Sidebar</a></li>
+                                    <li><a href="product-right-sidebar.html">With Right Sidebar</a></li>
+                                    <li><a href="product-full.html">Full Width Layout </a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Product Features</a>
+                                <ul>
+                                    <li><a href="product-sale.html">Sale Countdown</a></li>
+                                    <li><a href="product-hurryup.html">Hurry Up Notification </a></li>
+                                    <li><a href="product-attribute-guide.html">Attribute Guide </a></li>
+                                    <li><a href="product-sticky-cart.html">Add Cart Sticky</a></li>
+                                    <li><a href="product-thumbnail-label.html">Labels on Thumbnail</a>
+                                    </li>
+                                    <li><a href="product-more-description.html">More Description
+                                            Tabs</a></li>
+                                    <li><a href="product-accordion-data.html">Data In Accordion</a></li>
+                                    <li><a href="product-tabinside.html">Data Inside</a></li>
+                                    <li><a href="product-video.html">Video Thumbnail </a>
+                                    </li>
+                                    <li><a href="product-360-degree.html">360 Degree Thumbnail </a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul>
+                            <li><a href="{% url 'login' %}">About</a></li>
+                            <li><a href="{% url 'register' %}">Contact Us</a></li>
+                            <li><a href="{% url 'logout' %}">Login</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="error-404.html">Error 404</a>
+                                <ul>
+                                    <li><a href="error-404.html">Error 404-1</a></li>
+                                    <li><a href="error-404-1.html">Error 404-2</a></li>
+                                    <li><a href="error-404-2.html">Error 404-3</a></li>
+                                    <li><a href="error-404-3.html">Error 404-4</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="coming-soon.html">Coming Soon</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- End of MobileMenu -->
+                <!-- <ul class=" mobile-menu mmenu-anim">
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="cart.html">My Cart</a></li>
+                    <li><a href="wishlist.html">Wishlist</a></li>
+                </ul> -->
+                <!-- End of MobileMenu -->
+            </div>
+        </div>
+
+
+
+
+        <main>
+
+            {% block slider %}
+                <section
+                class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
+                data-owl-options="{
+                    'items': 1,
+                    'loop': true,
+                    'responsive': {
+                        '992': {
+                            'dots': true,
+                            'nav': true
+                        }
+                    },
+                    'animateIn': 'fadeIn',
+                    'animateOut': 'fadeOut'}">
+                
+                    
+                    {% for slide in schools.schoolslider_set.all %}
+                        <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
+                            <figure class="kenBurnsToRight duration">
+                                <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
+                            </figure>
+                        </div>
+                    {% endfor %}
+
+                </section>
+            {% endblock slider %}
+
+            {% block content %}
+            <!-- Your main content goes here -->
+
+            {% endblock content %}
+        </main>
+
+
+
+        <footer class="footer">
+            <div class="container">
+
+                <div class="footer-middle">
+                    <div class="row">
+                        
+                        
+                        <div class="col-lg-3 col-sm-6">
+
+                            <div class="widget widget-about">
+                                {% for schoolsett in schools.schoolsitesettings_set.all %}
+                                <a href="demo21.html" class="logo-footer">
+                                    <img src="{{ schoolsett.school_logo_footer.url }}" alt="logo-footer" width="153" height="44" />
+                                </a>
+
+                                <div class="widget-contact-info widget-collapsible">
+                                    <ul class="contact-info">
+                                        {{ schoolsett.school_footer_title }}
+                                    </ul>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6">
+
+                            <div class="widget widget-info">
+                                <h4 class="widget-title">Hesabım</h4>
+                                <ul class="widget-body">
+                                    <li>
+                                        <a href="about-us.html">Siparişlerim</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">İadelerim</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Değişimlerim</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Destek Taleplerim</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Faturalarım</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Adreslerim</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Hesap Bilgilerim</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Widget -->
+                        </div>
+
+
+                        <div class="col-lg-3 col-sm-6">
+                            
+                            <div class="widget widget-service">
+                                <h4 class="widget-title">Sayfalar</h4>
+                                <ul class="widget-body">
+                                    {% for schoolpage in schools.schoolpages_set.all %}
+                                    {% if schoolpage.page_category == 'pages' %}
+                                    <li>
+                                        <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                                
+                        </div>
+                        
+
+                        <div class="col-lg-3 col-sm-6">
+
+                            <div class="widget widget-service">
+                                <h4 class="widget-title">Sözleşmeler</h4>
+                                <ul class="widget-body">
+                                    {% for schoolpage in schools.schoolpages_set.all %}
+                                    {% if schoolpage.page_category == 'contracts' %}
+                                    <li>
+                                        <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- FooterBottom -->
+                <div class="footer-bottom">
+
+                    <div class="footer-left">
+                        <p class="copyright ls-normal"> &copy; <script>document.write(new Date().getFullYear())</script>. Tüm Hakları Saklıdır.</p> <!-- Yıl Otomatik Çekilecek -->
+                    </div>
+                    
+                    <div class="footer-center">
+                        <figure class="" style='justify-content: space-between; align-items: flex-end;'>
+                            Ödeme Sağlayıcıları    
+                            <img src="{% static 'images/payment/ma_symbol.svg' %}" alt="MasterCard" height="75" style='max-height:45px;' />
+                            <img src="{% static 'images/payment/visa.svg' %}" alt="payment" height="75" style='max-height:55px;' />
+                        </figure>
+                    </div>
+
+                    <!--
+                    <div class="footer-right">
+                        <div class="social-links">
+                            <a href="#" title="social-link" class="social-link social-facebook fab fa-facebook-f"></a>
+                            <a href="#" title="social-link" class="social-link social-twitter fab fa-twitter"></a>
+                            <a href="#" title="social-link" class="social-link social-linkedin fab fa-linkedin-in"></a>
+                        </div>
+                    </div>
+                    -->
+
+                </div>
+                <!-- End FooterBottom -->
+
+
+
+            </div>
+        </footer>
+
+        <!-- Sticky Footer -->
+        <div class="sticky-footer sticky-content fix-bottom">
+            <a href="demo3.html" class="sticky-link">
+                <i class="d-icon-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="demo3-shop.html" class="sticky-link">
+                <i class="d-icon-volume"></i>
+                <span>Categories</span>
+            </a>
+            <a href="wishlist.html" class="sticky-link">
+                <i class="d-icon-heart"></i>
+                <span>Wishlist</span>
+            </a>
+            <a href="account.html" class="sticky-link">
+                <i class="d-icon-user"></i>
+                <span>Account</span>
+            </a>
+            <div class="header-search hs-toggle dir-up">
+                <a href="#" class="search-toggle sticky-link">
+                    <i class="d-icon-search"></i>
+                    <span>Search</span>
+                </a>
+                <form action="#" class="input-wrapper">
+                    <input type="text" class="form-control" name="search" autocomplete="off"
+                        placeholder="Search your keyword..." required />
+                    <button class="btn btn-search" type="submit" title="submit-button">
+                        <i class="d-icon-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Scroll Top -->
+        <a id="scroll-top" href="#top" title="Top" role="button" class="scroll-top"><i class="d-icon-arrow-up"></i></a>
+
+
+        <!-- sticky icons-->
+        <div class="sticky-icons-wrapper">
+            <div class="sticky-icon-links">
+                <ul>
+                    <li><a href="#" class="demo-toggle"><i class="fas fa-home"></i><span>Demos</span></a></li>
+                    <li><a href="documentation.html"><i class="fas fa-info-circle"></i><span>Documentation</span></a>
+                    </li>
+                    <li><a href="https://themeforest.net/downloads/"><i class="fas fa-star"></i><span>Reviews</span></a>
+                    </li>
+                    <li><a href="https://d-themes.com/buynow/riodehtml"><i class="fas fa-shopping-cart"></i><span>Buy
+                                now!</span></a></li>
+                </ul>
+            </div>
+            <div class="demos-list">
+                <div class="demos-overlay"></div>
+                <a class="demos-close" href="#"><i class="close-icon"></i></a>
+                <div class="demos-content scrollable scrollable-light">
+                    <h3 class="demos-title">Demos</h3>
+                    <div class="demos">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plugins JS File -->
+        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'vendor/parallax/parallax.min.js' %}"></script>
+        <script src="{% static 'vendor/elevatezoom/jquery.elevatezoom.min.js' %}"></script>
+        <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+        <script src="{% static 'vendor/owl-carousel/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+        <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
+        <script src="{% static 'vendor/nouislider/nouislider.min.js' %}"></script>
+        
+        <!-- Main JS File -->
+        <script src="{% static 'js/main.min.js' %}"></script>
+
+
+        
+        {% block extra_scripts %}
+        <!-- Any extra scripts go here -->
+        {% endblock %}
+
+    </body>
+
+</html>
