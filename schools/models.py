@@ -40,6 +40,7 @@ class Schools(models.Model):
     #     return reverse("_detail", kwargs={"pk": self.pk})
 
 class SchoolCampus(models.Model):
+    capmus_id = models.AutoField(primary_key=True)
     school = models.ForeignKey(Schools, on_delete=models.CASCADE)
     campus_name = models.CharField(max_length=255)
     campus_phone = models.CharField(max_length=15)
@@ -60,7 +61,7 @@ class SchoolCampus(models.Model):
         verbose_name_plural = _("Kampüsler")
 
     def __str__(self):
-        return f'{self.school.school_name} / {self.campus_name}'
+        return f'{self.capmus_id} {self.school.school_name} / {self.campus_name}'
 
 
 # # Define the StudentLevels model

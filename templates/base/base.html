@@ -54,7 +54,7 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | (ŞUBE ADI) {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
+                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | {{ user.campus_id.campus_name }} {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
                     </div>
                     <div class="header-left">
                         <p class="welcome-msg text-uppercase">{% block ogrenci %} {{user.first_name}} {{user.last_name}} {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
@@ -125,19 +125,20 @@
                                     </li>
 
                                     <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
-                                        <a href="{% url 'combproduct' %}">Kombin</a>
+                                        <a href="{% url 'category' %}#12">Kombin</a>
                                     </li>
 
-                                    <li>
+                                    <li class="submenu"> 
                                         <a href="#">Ek Sayfalar</a>
                                         <ul>
                                             <li><a href="{% url 'login' %}">Giriş Yap</a></li>
                                             <li><a href="{% url 'register' %}">Üye Ol</a></li>
-                                            <li><a href="about-us.html">About(NW)</a></li>
-                                            <li><a href="contact-us.html">Contact Us(NW)</a></li>
-                                            <li><a href="account.html">My Account(NW)</a></li>
-                                            <li><a href="wishlist.html">Wishlist(NW)</a></li>
-                                            <li><a href="faq.html">FAQs(NW)</a></li>
+
+                                            {% for schoolpage in schools.schoolpages_set.all %}
+                                            <li>
+                                                <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
+                                            </li>
+                                            {% endfor %}                                           
                                             <li><a href="error-404.html">Error 404(NW)</a>
                                                 <ul>
                                                     <li><a href="error-404.html">Error 404</a></li>
@@ -148,10 +149,6 @@
                                             </li>
                                             <li><a href="coming-soon.html">Coming Soon(NW)</a></li>
                                         </ul>
-                                    </li>
-
-                                    <li>
-                                        <a href="">Blog</a>
                                     </li>
 
                                 </ul>

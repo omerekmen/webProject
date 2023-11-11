@@ -7,11 +7,11 @@ from django.contrib.auth import authenticate
 
 
 class LoginForm(AuthenticationForm):
-    username = UsernameField(
+    username = UsernameField(label='TC Kimlik Numarası', 
         widget=forms.TextInput(attrs={"autofocus": True, "class": "form-control"})
     )
     password = forms.CharField(
-        label=_("Password"),
+        label=_("Şifre"),
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "current-password", "class": "form-control"}),
     )
