@@ -30,8 +30,8 @@ def default(request, school=get_school()):
 
     user = request.user.is_authenticated
 
-    categories = ProductCategory.objects.filter(school_id=school)
-    subcategories = ProductSubCategory.objects.filter(school_id=school)
+    categories = ProductCategory.objects.filter()
+    subcategories = ProductSubCategory.objects.filter()
 
     active_products = Products.objects.filter(product_state='Aktif', school=school)
     active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)

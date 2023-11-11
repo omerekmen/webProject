@@ -13,7 +13,6 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ProductCategory(models.Model):
-    school = models.ForeignKey(Schools, on_delete=models.CASCADE, default=1)
     ProductCategoryID = models.AutoField(primary_key=True)
     CategoryName = models.CharField(_('Kategori Adı'), max_length=255)  # You can adjust the max length as needed
 
@@ -31,7 +30,6 @@ class ProductCategory(models.Model):
         return f"{self.CategoryName}"
 
 class ProductSubCategory(models.Model):
-    school = models.ForeignKey(Schools, on_delete=models.CASCADE, default=1)
     ProductSubCategoryID = models.AutoField(primary_key=True)
     ProductCategory = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     SubCategoryName = models.CharField(max_length=255)  # You can adjust the max length as needed
