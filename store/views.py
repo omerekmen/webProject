@@ -1,8 +1,11 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from webProject.context_processors import get_school
+from django.http import JsonResponse
 from django.views import generic
-from django.shortcuts import render
 from products.models import *
+from cart.models import *
 from schools.models import *
 from products.views import *
 from members.urls import *
@@ -47,6 +50,25 @@ def combproduct(request, ProductID):
 @login_required
 def cart(request):
     return render(request, 'store/cart.html')
+
+@login_required
+@require_POST
+def add_to_cart(request):
+    product_id = request.POST.get('product_id')
+    quantity = int(request.POST.get('quantity', 1))
+    size_id = request.POST.get('selected-size-id')
+
+    product = get_object_or_404(Products, ProductID=product_id)
+    cart, created = Cart.objects.get_or_create(member=request.user)
+
+    cart_item, created = CartItems.objects.get_or_create(
+        cart=cart, product=product, size_stock_id=size_id, defaults={'quantity': quantity})
+
+    if not created:
+        cart_item.quantity += quantity
+        cart_item.save()
+
+    return redirect('product', ProductID=product.ProductID)
 
 @login_required
 def checkout(request):

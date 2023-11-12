@@ -73,12 +73,6 @@
                     <div class="col-md-6">
                         <div class="product-details">
                             
-
-                            <!-- GET DETAILS -->
-                            <input type="hidden" value="{{ product.ProductID }}" id="product-id" class="p-id" >
-                            <input type="hidden" value="{{ product.product_web_name }}" id="product-title" class="p-title">
-                            <input type="hidden" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price">
-
                             <div class="product-navigation">
                                 <ul class="breadcrumb breadcrumb-lg">
                                     <li><a href="{% url 'index' %}"><i class="d-icon-home"></i></a></li>
@@ -108,7 +102,7 @@
                                             {% if ps.sale_stock == 0 %}
                                                 <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
                                             {% else %}
-                                                <a id="prodict-size" class="size" href="#">{{ ps.size }}</a>
+                                            <a class="size" onclick="selectSize('{{ ps.id }}');" href="#">{{ ps.size }}</a>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -125,13 +119,26 @@
 
                                     <div class="input-group mr-2">
                                         <button class="quantity-minus d-icon-minus"></button>
-                                        <input id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
+                                        <input name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
                                         <button class="quantity-plus d-icon-plus"></button>
                                     </div>
 
-                                    <button id="add-to-cart-button" class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold">
-                                        <i class="d-icon-bag"></i> Sepete Ekle
-                                    </button>
+
+                                    <form id="cart" action="{% url 'add_to_cart' %}" method="POST">
+                                        {% csrf_token %}
+                                        <!-- GET DETAILS -->
+                                        <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" >
+                                        {% comment %} <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title"> {% endcomment %}
+                                        {% comment %} <input type="hidden" name="product-sale-price" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price"> {% endcomment %}
+                                        
+                                        <input type="hidden" name="product-quantity" id="product-quantity" value="1">
+                                        {% comment %} <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000"> {% endcomment %}
+                                        <input type="" name="selected-size-id" id="selected-size-id" value="">
+                                        {% comment %} <input type="hidden" name="selected-size-id" class="selected-size-id" id="selected-size-id" value=""> {% endcomment %}
+                                        <button type="submit" id="add-to-cart-button" data-product-id="{{ product.ProductID }}" class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold">
+                                            <i class="d-icon-bag"></i>Sepete Ekle
+                                        </button>
+                                    </form>
 
                                 </div>
                             </div>
@@ -317,5 +324,48 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'js/function.js' %}"></script>   
+<script>
+    function selectSize(sizeId) {
+        document.getElementById('selected-size-id').value = sizeId;
+    }
+</script>
+<script src="{% static 'js/function.js' %}"></script>  
+
+<script>
+    $(document).ready(function() {
+        var selectedSizeId;
+
+        $('.product-size').click(function(e) {
+            e.preventDefault();
+            $('.product-size').removeClass('active');
+            $(this).addClass('active');
+            selectedSizeId = $(this).data('size-id');
+        });
+
+        $('#add-to-cart-button').click(function() {
+            var productId = $(this).data('product-id');
+            var quantity = $('#product-quantity').val();  // Set this based on your quantity input, if applicable
+            var size_id = $('.product-variations .size.active').val();  // Set this based on your quantity input, if applicable
+
+            $.ajax({
+                url: '{% url "add_to_cart" %}',
+                type: 'POST',
+                data: {
+                    'product_id': productId,
+                    'quantity': quantity,
+                    'size_id': size_id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(data) {
+                    if (data.status === 'success') {
+                        alert('Added to cart!');
+                    }
+                },
+                error: function() {
+                    alert('Error adding to cart.');
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
