@@ -14,6 +14,10 @@ urlpatterns = [
     path('kombin/', combproduct, name='combproduct' ),
     path('kombin/<ProductID>/', combproduct, name='combproduct' ),
 
+    path('cart/', cart, name='cart' ),
+    path('checkout/', checkout, name='checkout' ),
+    path('order/', order, name='order' ),
+
     path('sayfalar/<page_url>/', pages, name='pages' ),
     path('search/', search, name='search'),
     ]

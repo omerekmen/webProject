@@ -40,9 +40,29 @@ def combproduct(request, ProductID):
 
     return render(request, 'store/combproduct.html', {'product': product})
 
+
+
+
+
+@login_required
+def cart(request):
+    return render(request, 'store/cart.html')
+
+@login_required
+def checkout(request):
+    return render(request, 'store/checkout.html')
+
+@login_required
+def order(request):
+    return render(request, 'store/order.html')
+
+
+
+
+
 @login_required
 def pages(request, page_url):
-    school_pages = SchoolPages.objects.get(page_url=page_url) 
+    school_pages = SchoolPages.objects.get(school=get_school(), page_url=page_url) 
 
     page_context = {
         'school_pages': school_pages,
