@@ -53,45 +53,6 @@
                             <h1>{{ subcat.SubCategoryName }}</h1>
                         </div>
 
-                        <nav class="toolbox sticky-toolbox sticky-content fix-top" >
-
-                            <div class="toolbox-left">
-
-                                <!-- FİLTRELEME BENCE TAMAMEN KALKMALI --> <!--
-                                <a href="#" class="toolbox-item left-sidebar-toggle btn btn-outline btn-primary btn-rounded btn-icon-right">Filter<i class="d-icon-arrow-right"></i></a>
-                                -->
-
-                                <div class="toolbox-item toolbox-sort select-box text-dark"> <!-- Sort by yapılacak kadar önemli değil bence ama nasıl istenirse -->
-                                    <label>Sort By :</label>
-                                    <select name="orderby" class="form-control">
-                                        <option value="default">Default</option>
-                                        <option value="popularity" selected="selected">Most Popular</option>
-                                        <option value="rating">Average rating</option>
-                                        <option value="date">Latest</option>
-                                        <option value="price-low">Sort forward price low</option>
-                                        <option value="price-high">Sort forward price high</option>
-                                        <option value="">Clear custom sort</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                            <div class="toolbox-right"> <!-- Bence Gereksiz bir kısım ama kullanılabilir istenirse -->
-
-                                <div class="toolbox-item toolbox-show select-box text-dark">
-                                    <label>Show :</label>
-                                    <select name="count" class="form-control">
-                                        <option value="12">12</option>
-                                        <option value="24">24</option>
-                                        <option value="36">36</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                        </nav>
-
-
                         <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
 
                             {% for product in subcat.product_subcategory.all %}
