@@ -159,6 +159,10 @@ class CombinationProduct(models.Model):
     CProductCategory = models.CharField(max_length=100)
     CombinProducts = models.ManyToManyField('Products', related_name='combin_products', verbose_name='Ürün Seçimi', blank=True)
 
+    def __str__(self):
+        return f'{self.CProductCategory}'
+    
+
 class SetProduct(models.Model):
     SetID = models.AutoField(primary_key=True)
     SProductInfo = models.JSONField()

@@ -72,6 +72,12 @@
 
                     <div class="col-md-6">
                         <div class="product-details">
+                            
+
+                            <!-- GET DETAILS -->
+                            <input type="hidden" value="{{ product.ProductID }}" id="product-id" class="p-id" >
+                            <input type="hidden" value="{{ product.product_web_name }}" id="product-title" class="p-title">
+                            <input type="hidden" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price">
 
                             <div class="product-navigation">
                                 <ul class="breadcrumb breadcrumb-lg">
@@ -82,13 +88,13 @@
 
                             </div>
 
-                            <h1 class="product-name">{{ product.product_web_name }} </h1>
+                            <h1 class="product-name">{{ product.product_web_name }}</h1>
                             <div class="product-meta">
                                 SKU: <span class="product-sku">{{ product.sizebasedstocks_set.first.SKU_code }}</span> 
                                 BRAND: <span class="product-brand">PLAYOFF</span> 
                             </div>
                             <div class="product-price">{{ product.productprices_set.first.SalePrice }} ₺</div> 
-
+                            
                             
                             <p class="product-short-desc">
                                 {{ product.productdetails_set.first.product_short_desc | safe }}
@@ -102,7 +108,7 @@
                                             {% if ps.sale_stock == 0 %}
                                                 <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
                                             {% else %}
-                                                <a class="size" href="#">{{ ps.size }}</a>
+                                                <a id="prodict-size" class="size" href="#">{{ ps.size }}</a>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -119,13 +125,12 @@
 
                                     <div class="input-group mr-2">
                                         <button class="quantity-minus d-icon-minus"></button>
-                                        <input class="quantity form-control" type="number" min="1" max="1000000"> <!-- Min 1'de kalır, max için db'den stok adedine göre bir şeyler yazılır -->
+                                        <input id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
                                         <button class="quantity-plus d-icon-plus"></button>
                                     </div>
 
-                                    <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold">
-                                        <i class="d-icon-bag"></i>
-                                        Sepete Ekle
+                                    <button id="add-to-cart-button" class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold">
+                                        <i class="d-icon-bag"></i> Sepete Ekle
                                     </button>
 
                                 </div>
@@ -309,4 +314,8 @@
 </div>
 
 
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/function.js' %}"></script>   
 {% endblock %}
