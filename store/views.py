@@ -51,25 +51,45 @@ def combproduct(request, ProductID):
 def cart(request):
     return render(request, 'store/cart.html')
 
+
 @login_required
 @require_POST
 def add_to_cart(request):
-    product_id = request.POST.get('product_id')
-    quantity = int(request.POST.get('quantity', 1))
-    size_id = request.POST.get('selected-size-id')
+    product_id = request.POST.get('id')
+    product_title = request.POST.get('title')
+    product_size = request.POST.get('size')
+    quantity = int(request.POST.get('qty'))
+    price = request.POST.get('price')
 
+    # Fetch the product and size-based stock
     product = get_object_or_404(Products, ProductID=product_id)
+    size_stock = get_object_or_404(SizeBasedStocks, products=product, size__ProductSize=product_size)
+
+    # Retrieve or create a cart for the user
     cart, created = Cart.objects.get_or_create(member=request.user)
 
+    # Create or update CartItem
     cart_item, created = CartItems.objects.get_or_create(
-        cart=cart, product=product, size_stock_id=size_id, defaults={'quantity': quantity})
-
+        cart=cart, 
+        product=product, 
+        size_stock=size_stock,
+        defaults={'quantity': quantity}
+    )
     if not created:
         cart_item.quantity += quantity
         cart_item.save()
+    
+    cart_item.save()
 
-    return redirect('product', ProductID=product.ProductID)
+    # Prepare the response
+    response_data = {
+        'status': 'success',
+        'message': 'Product added to cart successfully',
+        'cart_total_items': cart.user_cart.count()  # Count total items in user's cart
+    }
+    return JsonResponse(response_data)
 
+    
 @login_required
 def checkout(request):
     return render(request, 'store/checkout.html')
