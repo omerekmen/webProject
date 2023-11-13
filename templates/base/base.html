@@ -187,7 +187,11 @@
                                         {% for prod in cartitems %}
                                         <div class="product product-cart">
                                             <figure class="product-media">
-                                                <a href="">
+                                            {% if prod.product.product_type == 'Tekil' %} 
+                                                <a href="{% url 'product' prod.product.ProductID %}">
+                                            {% elif prod.product.product_type == 'Kombin' %} 
+                                                <a href="{% url 'product' prod.product.ProductID %}">
+                                            {% endif %}
                                                     <img src="{{ prod.product.productimages_set.first.product_image.url }}" alt="product" width="100"
                                                         height="100" />
                                                 </a>
@@ -199,7 +203,7 @@
                                                 {% if prod.product.product_type == 'Tekil' %} 
                                                     <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
                                                 {% elif prod.product.product_type == 'Kombin' %} 
-                                                <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                                    <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
                                                 {% endif %}
                                                 <div class="price-box">
                                                     <span class="product-quantity">{{ prod.quantity }}</span>
@@ -623,7 +627,7 @@
                         <li><a href="{% url 'index' %}admin" style='background-color: #232323; border-radius:10px;'><i class="d-icon-filter-2"></i><span>Admin</span></a></li>
                     {% endif %}
                     {% comment %} <li><a href="https://themeforest.net/downloads/"><i class="fas fa-star"></i><span>Reviews</span></a></li> {% endcomment %}
-                    <li><a href="https://d-themes.com/buynow/riodehtml" style='background-color: #8ebf16; border-radius:10px;'><i class="d-icon-bag"></i><span>Sepet</span></a></li>
+                    <li><a href="{% url 'cart' %}" style='background-color: #8ebf16; border-radius:10px;'><i class="d-icon-bag"></i><span>Sepet</span></a></li>
                 </ul>
             </div>
         </div>

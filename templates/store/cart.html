@@ -25,41 +25,49 @@
                     <table class="shop-table cart-table">
                         <thead>
                             <tr>
-                                <th><span>Product</span></th>
+                                <th><span>Ürün</span></th>
                                 <th></th>
-                                <th><span>Price</span></th>
-                                <th><span>quantity</span></th>
-                                <th>Subtotal</th>
+                                <th><span>Fiyat</span></th>
+                                <th><span>Adet</span></th>
+                                <th>Toplam</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for prod in cartitems %}
                             <tr>
                                 <td class="product-thumbnail">
                                     <figure>
-                                        <a href="product-simple.html">
-                                            <img src="images/products/product18.jpg" width="100" height="100"
+                                        {% if prod.product.product_type == 'Tekil' %} 
+                                            <a href="{% url 'product' prod.product.ProductID %}">
+                                        {% elif prod.product.product_type == 'Kombin' %} 
+                                            <a href="{% url 'product' prod.product.ProductID %}">
+                                        {% endif %}
+                                            <img src="{{ prod.product.productimages_set.first.product_image.url }}" width="100" height="100"
                                                 alt="product">
                                         </a>
                                     </figure>
                                 </td>
                                 <td class="product-name">
                                     <div class="product-name-section">
-                                        <a href="product-simple.html">Converse Training Shoes</a>
+                                        {% if prod.product.product_type == 'Tekil' %} 
+                                            <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
+                                        {% elif prod.product.product_type == 'Kombin' %} 
+                                            <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                        {% endif %}
                                     </div>
                                 </td>
                                 <td class="product-subtotal">
-                                    <span class="amount">$129.99</span>
+                                    <span class="amount">{{ prod.single_price }} ₺</span>
                                 </td>
                                 <td class="product-quantity">
-                                    <div class="input-group">
+                                    <div class="input-group mr-2">
                                         <button class="quantity-minus d-icon-minus"></button>
-                                        <input class="quantity form-control" type="number" min="1"
-                                            max="1000000">
+                                        <input name="product-quantity" id="product-quantity" class="quantity form-control" value="{{ prod.quantity }}" type="number" min="1" max="10000">
                                         <button class="quantity-plus d-icon-plus"></button>
                                     </div>
                                 </td>
                                 <td class="product-price">
-                                    <span class="amount">$129.99</span>
+                                    <span class="amount">{{ prod.total_price }} ₺</span>
                                 </td>
                                 <td class="product-close">
                                     <a href="#" class="product-remove" title="Remove this product">
@@ -67,73 +75,49 @@
                                     </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="product-thumbnail">
-                                    <figure>
-                                        <a href="product-simple.html">
-                                            <img src="images/products/product19.jpg" width="100" height="100"
-                                                alt="product">
-                                        </a>
-                                    </figure>
-
-                                </td>
-                                <td class="product-name">
-                                    <div class="product-name-section">
-                                        <a href="product-simple.html">Women Beautiful Headgear</a>
-                                    </div>
-                                </td>
-                                <td class="product-subtotal">
-                                    <span class="amount">$98.00</span>
-                                </td>
-                                <td class="product-quantity">
-                                    <div class="input-group">
-                                        <button class="quantity-minus d-icon-minus"></button>
-                                        <input class="quantity form-control" type="number" min="1"
-                                            max="1000000">
-                                        <button class="quantity-plus d-icon-plus"></button>
-                                    </div>
-                                </td>
-                                <td class="product-price">
-                                    <span class="amount">$98.00</span>
-                                </td>
-                                <td class="product-close">
-                                    <a href="#" class="product-remove" title="Remove this product">
-                                        <i class="fas fa-times"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                     <div class="cart-actions mb-6 pt-4">
-                        <a href="shop.html" class="btn btn-dark btn-md btn-rounded btn-icon-left mr-4 mb-4"><i
-                                class="d-icon-arrow-left"></i>Continue Shopping</a>
+                        <a href="{% url 'index' %}" class="btn btn-dark btn-md btn-rounded btn-icon-left mr-4 mb-4"><i
+                                class="d-icon-arrow-left"></i>Alışverişe Devam Et
+                        </a>
                         <button type="submit"
-                            class="btn btn-outline btn-dark btn-md btn-rounded btn-disabled">Update
-                            Cart</button>
+                            class="btn btn-outline btn-dark btn-md btn-rounded btn-disabled">Sepeti Güncelle
+                        </button>
                     </div>
                     <div class="cart-coupon-box mb-8">
-                        <h4 class="title coupon-title text-uppercase ls-m">Coupon Discount</h4>
+                        <h4 class="title coupon-title text-uppercase ls-m">İndirim Kodu</h4>
                         <input type="text" name="coupon_code"
                             class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value=""
-                            placeholder="Enter coupon code here...">
-                        <button type="submit" class="btn btn-md btn-dark btn-rounded btn-outline">Apply
-                            Coupon</button>
+                            placeholder="İndirim kodunuzu giriniz...">
+                        <button type="submit" class="btn btn-md btn-dark btn-rounded btn-outline">İndirimi Uygula
+                        </button>
                     </div>
                 </div>
                 <aside class="col-lg-4 sticky-sidebar-wrapper">
                     <div class="sticky-sidebar" data-sticky-options="{'bottom': 20}">
                         <div class="summary mb-4">
-                            <h3 class="summary-title text-left">Cart Totals</h3>
+                            <h3 class="summary-title text-left">Sepet Detayları</h3>
                             <table class="shipping">
                                 <tr class="summary-subtotal">
                                     <td>
-                                        <h4 class="summary-subtitle">Subtotal</h4>
+                                        <h4 class="summary-subtitle">Ürün Toplamı</h4>
                                     </td>
                                     <td>
-                                        <p class="summary-subtotal-price">$426.99</p>
+                                        <p class="summary-subtotal-price">{{ cart.total_price }} ₺</p>
                                     </td>
                                 </tr>
-                                <tr class="sumnary-shipping shipping-row-last">
+
+                                <tr class="summary-subtotal">
+                                    <td>
+                                        <h4 class="summary-subtitle">İndirimler</h4>
+                                    </td>
+                                    <td>
+                                        <p class="summary-subtotal-price">0 ₺</p>
+                                    </td>
+                                </tr>
+                                {% comment %} <tr class="sumnary-shipping shipping-row-last">
                                     <td colspan="2">
                                         <h4 class="summary-subtitle">Calculate Shipping</h4>
                                         <ul>
@@ -164,8 +148,9 @@
                                             </li>
                                         </ul>
                                     </td>
-                                </tr>
+                                </tr> {% endcomment %}
                             </table>
+                            {% comment %} 
                             <div class="shipping-address">
                                 <label>Shipping to <strong>CA.</strong></label>
                                 <div class="select-box">
@@ -189,18 +174,19 @@
                                 <a href="#" class="btn btn-md btn-dark btn-rounded btn-outline">Update
                                     totals</a>
                             </div>
+                             {% endcomment %}
                             <table class="total">
                                 <tr class="summary-subtotal">
                                     <td>
-                                        <h4 class="summary-subtitle">Total</h4>
+                                        <h4 class="summary-subtitle">Toplam</h4>
                                     </td>
                                     <td>
-                                        <p class="summary-total-price ls-s">$426.99</p>
+                                        <p class="summary-total-price ls-s">{{ cart.total_price }} ₺</p>
                                     </td>
                                 </tr>
                             </table>
-                            <a href="checkout.html" class="btn btn-dark btn-rounded btn-checkout">Proceed to
-                                checkout</a>
+                            <a href="checkout.html" class="btn btn-dark btn-rounded btn-checkout">Ödeme Aşamasına Geç
+                            </a>
                         </div>
                     </div>
                 </aside>
