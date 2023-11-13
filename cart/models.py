@@ -29,6 +29,10 @@ class Cart(models.Model):
 
         return total
     
+    def total_products(self):
+        return sum(item.quantity for item in self.user_cart.all())
+    total_products.short_description = 'Toplam Ürün'
+    
     total_price.short_description = 'Toplam Fiyat'
 
     def __str__(self):

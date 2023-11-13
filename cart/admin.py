@@ -39,9 +39,7 @@ class CartAdmin(admin.ModelAdmin):
     search_fields = ['member__username', 'member__email']
     list_filter = ['created_at', 'updated_at']
 
-    def total_products(self, obj):
-        return sum(item.quantity for item in obj.user_cart.all())
-    total_products.short_description = 'Toplam Ürün'
+    
 
     # Display the cart total price in the list
     readonly_fields = ('total_products', 'total_price',)

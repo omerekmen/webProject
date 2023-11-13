@@ -87,9 +87,9 @@ def add_to_cart(request):
         'message': 'Product added to cart successfully',
         'cart_total_items': cart.user_cart.count()  # Count total items in user's cart
     }
-    return JsonResponse(response_data)
+    return JsonResponse(response_data), redirect('product', product_id)
 
-    
+
 @login_required
 def checkout(request):
     return render(request, 'store/checkout.html')

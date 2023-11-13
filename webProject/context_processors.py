@@ -1,6 +1,7 @@
 from products.models import *
 from schools.models import *
 from members.models import *
+from cart.models import *
 import random
 
 
@@ -12,7 +13,7 @@ def get_school():
 def default(request, school=get_school()):
     path = request.path # For sublinks
     subdomain = request.get_host().split('.')[0] ### FOR SUBDOMAINs
-
+    site = request.get_host()
     # Define a mapping of subdomains to school IDs
     subdomain_to_school = {
         'bahcesehir': 1,
@@ -36,12 +37,18 @@ def default(request, school=get_school()):
     active_products = Products.objects.filter(product_state='Aktif', school=school)
     active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
 
+    cart = Cart.objects.get(member=request.user)
+    cartitems = CartItems.objects.filter(cart=cart)
+
     random_products = list(active_products)
     random.shuffle(random_products)
 
     schools = Schools.objects.get(school_id=school)
 
     return {
+        'site': site,
+        'subdomain': subdomain,
+
         'categories': categories,
         'subcategories': subcategories,
 
@@ -50,10 +57,11 @@ def default(request, school=get_school()):
 
         'random_products': random_products,
 
+        'cart': cart,
+        'cartitems': cartitems,
+
         'user': user,
 
         'schools': schools,
         'sc': scl,
-        'subdomain': subdomain,
-
     }
