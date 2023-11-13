@@ -29,6 +29,33 @@ class Cart(models.Model):
 
         return total
     
+    def old_price(self):
+        total = 0
+        cart_items = CartItems.objects.filter(cart=self)
+
+        for item in cart_items:
+            product_price_obj = ProductPrices.objects.filter(products=item.product).first()
+            if product_price_obj:
+                if product_price_obj.DiscountPrice is not None:
+                    total += product_price_obj.StrikedPrice * item.quantity
+                else:
+                    total += product_price_obj.SalePrice * item.quantity
+
+        return total
+    
+    def total_discount(self):
+        total = 0
+        cart_items = CartItems.objects.filter(cart=self)
+
+        for item in cart_items:
+            product_price_obj = ProductPrices.objects.filter(products=item.product).first()
+            if product_price_obj and product_price_obj.DiscountPrice is not None:
+                total += product_price_obj.DiscountPrice * item.quantity
+            else:
+                total += 0
+
+        return total
+    
     def total_products(self):
         return sum(item.quantity for item in self.user_cart.all())
     total_products.short_description = 'Toplam Ürün'
@@ -58,7 +85,25 @@ class CartItems(models.Model):
             return sale_price
         return 0
     
+    def old_price(self):
+        # Retrieve the SalePrice from ProductPrices model
+        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        if product_price_obj and product_price_obj.StrikedPrice is not None:
+            sale_price = product_price_obj.StrikedPrice
+            return sale_price
+        return 0
+    
+    def discount(self):
+        # Retrieve the SalePrice from ProductPrices model
+        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        if product_price_obj:
+            sale_price = product_price_obj.DiscountPrice
+            return sale_price * self.quantity
+        return 0
+    
     single_price.short_description = 'Tekil Fiyat'
+    old_price.short_description = 'Eski Fiyat'
+    discount.short_description = 'İndirim'
 
     def total_price(self):
         # Retrieve the SalePrice from ProductPrices model
