@@ -168,5 +168,20 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = 'members.Member'
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'codeSnippet_theme': 'monokai',
+        'toolbar': 'all',
+        'extraPlugins': ','.join(
+            [
+                'codesnippet',
+                'widget',
+                'dialog',
+            ]
+        ),
+    }
+}
+
 LOGIN_REDIRECT_URL = ''
 LOGIN_URL = 'user/login'

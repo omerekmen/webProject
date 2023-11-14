@@ -14,6 +14,7 @@
 </style>
 {% endblock extra_head %}
 
+
 {% block slider %}
 {% endblock slider %}
 
@@ -61,7 +62,7 @@
                                 {% endif %}
 
                                 {% if product.productprices_set.first.DiscountRatio > 0 %}
-                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333">- {{ product.productprices_set.first.DiscountRatio }}% </label>
+                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333"><i class="d-icon-card"></i> {{ product.productprices_set.first.DiscountRatio }}% </label>
                                 {% endif %}
                             </div>
 
@@ -71,7 +72,7 @@
 
                     <div class="col-md-6">
                         <div class="product-details">
-
+                            
                             <div class="product-navigation">
                                 <ul class="breadcrumb breadcrumb-lg">
                                     <li><a href="{% url 'index' %}"><i class="d-icon-home"></i></a></li>
@@ -80,14 +81,13 @@
                                 </ul>
 
                             </div>
-
-                            <h1 class="product-name">{{ product.product_web_name }} </h1>
+                            <h1 class="product-name">{{ product.product_web_name }}</h1>
                             <div class="product-meta">
                                 SKU: <span class="product-sku">{{ product.sizebasedstocks_set.first.SKU_code }}</span> 
                                 BRAND: <span class="product-brand">PLAYOFF</span> 
                             </div>
                             <div class="product-price">{{ product.productprices_set.first.SalePrice }} ₺</div> 
-
+                            
                             
                             <p class="product-short-desc">
                                 {{ product.productdetails_set.first.product_short_desc | safe }}
@@ -101,7 +101,7 @@
                                             {% if ps.sale_stock == 0 %}
                                                 <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
                                             {% else %}
-                                                <a class="size" href="#">{{ ps.size }}</a>
+                                            <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -118,14 +118,23 @@
 
                                     <div class="input-group mr-2">
                                         <button class="quantity-minus d-icon-minus"></button>
-                                        <input class="quantity form-control" type="number" min="1" max="1000000"> <!-- Min 1'de kalır, max için db'den stok adedine göre bir şeyler yazılır -->
+                                        <input name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
                                         <button class="quantity-plus d-icon-plus"></button>
                                     </div>
 
-                                    <button class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold">
-                                        <i class="d-icon-bag"></i>
-                                        Sepete Ekle
-                                    </button>
+                                    <form id="cart" action="{% url 'add_to_cart' %}" method="POST">
+                                        {% csrf_token %}
+                                        <!-- GET DETAILS -->
+                                        <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" >
+                                        <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title">
+                                        <input type="hidden" name="product-sale-price" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price">
+                                        
+                                        <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
+                                        <input type="hidden" name="selected-size-id" class="selected-size-id" id="selected-size-id" value="">
+                                        <button type="submit" onclick="setTimeout(function(){ location.reload(); }, 1500);" id="add-to-cart-button" data-product-id="{{ product.ProductID }}" class="btn-product btn-cart text-normal ls-normal font-weight-semi-bold">
+                                            <i class="d-icon-bag"></i>Sepete Ekle
+                                        </button>
+                                    </form>
 
                                 </div>
                             </div>
@@ -231,7 +240,7 @@
                     }">
 
                         <!-- (NOT: İstenilen görünüm seçilip ona göre bir related product şablonu oluiturulmalı) -->
-                        {% for product in random_products %}
+                        {% for product in related_products %}
                             <div class="product-wrap">
                                 <div class="product product-classic">
 
@@ -308,4 +317,12 @@
 </div>
 
 
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function selectSize(sizeId) {
+        document.getElementById('selected-size-id').value = sizeId;
+    }
+</script>
 {% endblock %}

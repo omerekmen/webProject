@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from schools.models import *
 import datetime
 
 
@@ -55,7 +56,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
                                                                         ('Kız', 'Kız')]
                                                                         )
 
-    campus_id = models.CharField(max_length=255, null=True, blank=True)
+    campus_id = models.ForeignKey(SchoolCampus, on_delete=models.CASCADE, null=True, blank=True)
     level_id = models.CharField(max_length=255, null=True, blank=True)
     class_id = models.CharField(max_length=255, null=True, blank=True)
 

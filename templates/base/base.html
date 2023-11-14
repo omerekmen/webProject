@@ -54,7 +54,7 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | (ŞUBE ADI) {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
+                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | {{ user.campus_id.campus_name }} {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
                     </div>
                     <div class="header-left">
                         <p class="welcome-msg text-uppercase">{% block ogrenci %} {{user.first_name}} {{user.last_name}} {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
@@ -125,19 +125,20 @@
                                     </li>
 
                                     <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
-                                        <a href="{% url 'combprod' %}">Kombin</a>
+                                        <a href="{% url 'category' %}#12">Kombin</a>
                                     </li>
 
-                                    <li>
+                                    <li class="submenu"> 
                                         <a href="#">Ek Sayfalar</a>
                                         <ul>
                                             <li><a href="{% url 'login' %}">Giriş Yap</a></li>
                                             <li><a href="{% url 'register' %}">Üye Ol</a></li>
-                                            <li><a href="about-us.html">About(NW)</a></li>
-                                            <li><a href="contact-us.html">Contact Us(NW)</a></li>
-                                            <li><a href="account.html">My Account(NW)</a></li>
-                                            <li><a href="wishlist.html">Wishlist(NW)</a></li>
-                                            <li><a href="faq.html">FAQs(NW)</a></li>
+
+                                            {% for schoolpage in schools.schoolpages_set.all %}
+                                            <li>
+                                                <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
+                                            </li>
+                                            {% endfor %}                                           
                                             <li><a href="error-404.html">Error 404(NW)</a>
                                                 <ul>
                                                     <li><a href="error-404.html">Error 404</a></li>
@@ -150,40 +151,86 @@
                                         </ul>
                                     </li>
 
-                                    <li>
-                                        <a href="">Blog</a>
-                                    </li>
-
                                 </ul>
                             </nav>
                             <!-- End of Divider -->
                         </div>
                         <div class="header-right">
-                            <div class="header-search hs-toggle d-xl-show mr-4">
-                                <a class="search-toggle" href="#">
-                                    <span class="sr-only">search</span>
-                                    <i class="d-icon-search"></i>
-                                </a>
-                                <form action="#" class="input-wrapper">
-                                    <input type="text" class="form-control" autocomplete="off" placeholder="Search..."
-                                        required>
+                            <div class="header-search hs-simple">
+                                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
+                                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
                                     <button class="btn btn-search" type="submit">
                                         <i class="d-icon-search"></i>
                                     </button>
                                 </form>
                             </div>
                             
-                            
-                            <div class="dropdown cart-dropdown type2 mr-0 mr-lg-2">
-                                <a href="#" class="cart-toggle link">
-                                    <i class="d-icon-bag">
-                                        <span class="cart-count">0</span>
-                                    </i>
+                            <!-- HEADER CART -->
+                            <div class="dropdown cart-dropdown type2 off-canvas mr-0 mr-lg-2">
+                                <a href="" class="cart-toggle label-block link">
+                                    <div class="cart-label d-lg-show">
+                                        <span class="cart-name">Sepet Tutarı:</span>
+                                        <span class="cart-price">{{ cart.total_price }} ₺</span>
+                                    </div>
+                                    <i class="d-icon-bag"><span class="cart-count">{{ cart.total_products }}</span></i>
                                 </a>
-                                <div class="dropdown-box">
-                                    <p class="d-flex justify-content-center m-0 text-body">No products in the cart.</p>
+                                <div class="canvas-overlay"></div>
+                                <!-- End Cart Toggle -->
+                                <div id='cart-dropdown' class="dropdown-box">
+                                    <div id='cart-dropdown' class="canvas-header">
+                                        <h4 class="canvas-title">Sepetteki Ürünler</h4>
+                                        <a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">Kapat<i
+                                                class="d-icon-arrow-right"></i><span class="sr-only">Sepet</span></a>
+                                    </div>
+                                    <div class="products scrollable">
+
+                                        {% for prod in cartitems %}
+                                        <div class="product product-cart">
+                                            <figure class="product-media">
+                                            {% if prod.product.product_type == 'Tekil' %} 
+                                                <a href="{% url 'product' prod.product.ProductID %}">
+                                            {% elif prod.product.product_type == 'Kombin' %} 
+                                                <a href="{% url 'product' prod.product.ProductID %}">
+                                            {% endif %}
+                                                    <img src="{{ prod.product.productimages_set.first.product_image.url }}" alt="product" width="100"
+                                                        height="100" />
+                                                </a>
+                                                <button class="btn btn-link btn-close">
+                                                    <i class="fas fa-times"></i><span class="sr-only">Close</span>
+                                                </button>
+                                            </figure>
+                                            <div class="product-detail">
+                                                {% if prod.product.product_type == 'Tekil' %} 
+                                                    <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
+                                                {% elif prod.product.product_type == 'Kombin' %} 
+                                                    <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                                {% endif %}
+                                                <div class="price-box">
+                                                    <span class="product-quantity">{{ prod.quantity }}</span>
+                                                    <span class="product-price">{{ prod.product.productprices_set.first.SalePrice }} ₺</span>
+                                                </div>
+                                            </div>
+    
+                                        </div>
+                                        {% endfor %}
+
+                                        <!-- End of Cart Product -->
+                                    </div>
+                                    <!-- End of Products  -->
+                                    <div class="cart-total">
+                                        <label>Toplam:</label>
+                                        <span class="price">{{ cart.total_price }}₺</span>
+                                    </div>
+                                    <!-- End of Cart Total -->
+                                    <div class="cart-action">
+                                        <a href="{% url 'cart' %}" class="btn btn-dark btn-link">Sepeti Görüntüle</a>
+                                        <a href="{% url 'checkout' %}" class="btn btn-dark"><span>Ödeme Aşamasına Geç</span></a>
+                                    </div>
+                                    <!-- End of Cart Action -->
                                 </div>
+                                <!-- End Dropdown Box -->
                             </div>
+
 
                             <a class="login-link d-lg-show" href="{% url 'login' %}" data-toggle="login-modal"> <!-- Site Yapısı Tamamlanınca Bu Link Hesabım'a Yönlendirmeli !!! -->
                                 <span class="sr-only">login</span>
@@ -364,40 +411,62 @@
 
 
 
-        <main>
+        <div class="page-wrapper">
+            <main>
 
-            {% block slider %}
-                <section
-                class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
-                data-owl-options="{
-                    'items': 1,
-                    'loop': true,
-                    'responsive': {
-                        '992': {
-                            'dots': true,
-                            'nav': true
-                        }
-                    },
-                    'animateIn': 'fadeIn',
-                    'animateOut': 'fadeOut'}">
-                
+                {% block slider %}
+                <div class="page-content overflow-hidden">
+                    <section
+                    class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
+                    data-owl-options="{
+                        'items': 1,
+                        'loop': true,
+                        'autoplay': true,
+                        'autoplayTimeout': 5000,
+                        'responsive': {
+                            '0': {
+                                'dots': true,
+                                'nav': false,
+                                'items': 1
+                            },
+                            '480': {
+                                'dots': true,
+                                'nav': true,
+                                'items': 1
+                            },
+                            '740': {
+                                'dots': true,
+                                'nav': true,
+                                'items': 1
+                            },
+                            '992': {
+                                'dots': true,
+                                'nav': true,
+                                'items': 1
+                            }
+                        },
+                        'animateIn': 'fadeIn',
+                        'animateOut': 'fadeOut'}">
                     
-                    {% for slide in schools.schoolslider_set.all %}
-                        <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
-                            <figure class="kenBurnsToRight duration">
-                                <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
-                            </figure>
-                        </div>
-                    {% endfor %}
+                        
+                        {% for slide in schools.schoolslider_set.all %}
+                            <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
+                                <figure class="kenBurnsToRight duration">
+                                    <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
+                                </figure>
+                            </div>
+                        {% endfor %}
 
-                </section>
-            {% endblock slider %}
+                    </section>
+                </div>
+                {% endblock slider %}
 
-            {% block content %}
-            <!-- Your main content goes here -->
+                {% block content %}
+                <!-- Your main content goes here -->
 
-            {% endblock content %}
-        </main>
+                {% endblock content %}
+            </main>
+        </div>
 
 
 
@@ -412,7 +481,11 @@
 
                             <div class="widget widget-about">
                                 {% for schoolsett in schools.schoolsitesettings_set.all %}
-                                <a href="demo21.html" class="logo-footer">
+                                {% if "playoff" in schoolsett.school_logo_footer.url|lower %}
+                                    <a href="https://playoff.com.tr/" class="logo-footer">
+                                {% else %}
+                                    <a href="{% url 'index' %}" class="logo-footer">
+                                {% endif %}
                                     <img src="{{ schoolsett.school_logo_footer.url }}" alt="logo-footer" width="153" height="44" />
                                 </a>
 
@@ -505,7 +578,7 @@
                     
                     <div class="footer-center">
                         <figure class="" style='justify-content: space-between; align-items: flex-end;'>
-                            Ödeme Sağlayıcıları    
+                            Ödeme Sağlayıcıları
                             <img src="{% static 'images/payment/ma_symbol.svg' %}" alt="MasterCard" height="75" style='max-height:45px;' />
                             <img src="{% static 'images/payment/visa.svg' %}" alt="payment" height="75" style='max-height:55px;' />
                         </figure>
@@ -548,13 +621,13 @@
                 <span>Account</span>
             </a>
             <div class="header-search hs-toggle dir-up">
-                <a href="#" class="search-toggle sticky-link">
+                {% comment %} <a href="#" class="search-toggle sticky-link">
                     <i class="d-icon-search"></i>
-                    <span>Search</span>
-                </a>
+                    <span>Ürün Arayın</span>
+                </a> {% endcomment %}
                 <form action="#" class="input-wrapper">
                     <input type="text" class="form-control" name="search" autocomplete="off"
-                        placeholder="Search your keyword..." required />
+                        placeholder="Ürün Arayın" required />
                     <button class="btn btn-search" type="submit" title="submit-button">
                         <i class="d-icon-search"></i>
                     </button>
@@ -566,27 +639,18 @@
         <a id="scroll-top" href="#top" title="Top" role="button" class="scroll-top"><i class="d-icon-arrow-up"></i></a>
 
 
-        <!-- sticky icons-->
+        <!-- sticky icons -->
         <div class="sticky-icons-wrapper">
-            <div class="sticky-icon-links">
+            <div class="sticky-icon-links sticky">
                 <ul>
-                    <li><a href="#" class="demo-toggle"><i class="fas fa-home"></i><span>Demos</span></a></li>
-                    <li><a href="documentation.html"><i class="fas fa-info-circle"></i><span>Documentation</span></a>
-                    </li>
-                    <li><a href="https://themeforest.net/downloads/"><i class="fas fa-star"></i><span>Reviews</span></a>
-                    </li>
-                    <li><a href="https://d-themes.com/buynow/riodehtml"><i class="fas fa-shopping-cart"></i><span>Buy
-                                now!</span></a></li>
+                    <li> </li>
+                    <li><a href="{% url 'index' %}" style='background-color: #232323; border-radius:10px;'><i class="d-icon-home"></i><span>Home</span></a></li>
+                    {% if user.is_superuser %}
+                        <li><a href="{% url 'index' %}admin" style='background-color: #232323; border-radius:10px;'><i class="d-icon-filter-2"></i><span>Admin</span></a></li>
+                    {% endif %}
+                    {% comment %} <li><a href="https://themeforest.net/downloads/"><i class="fas fa-star"></i><span>Reviews</span></a></li> {% endcomment %}
+                    <li><a href="{% url 'cart' %}" style='background-color: #8ebf16; border-radius:10px;'><i class="d-icon-bag"></i><span>Sepet</span></a></li>
                 </ul>
-            </div>
-            <div class="demos-list">
-                <div class="demos-overlay"></div>
-                <a class="demos-close" href="#"><i class="close-icon"></i></a>
-                <div class="demos-content scrollable scrollable-light">
-                    <h3 class="demos-title">Demos</h3>
-                    <div class="demos">
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -604,7 +668,43 @@
         <!-- Main JS File -->
         <script src="{% static 'js/main.min.js' %}"></script>
 
-
+        <script>
+            $('#add-to-cart-button').on('click', function(){
+                let product_id = $('#product-id').val();
+                let product_title = $('#product-title').val();
+                let product_size = $('.product-variations .size.active').text();
+                let product_quantity = $('#product-quantity').val();
+                let product_price = $('#product-sale-price').val();
+                let this_val = $(this);
+            
+                console.log('Product Id', product_id);
+                console.log('Product Title', product_title);
+                console.log('Product Size', product_size);
+                console.log('Product Quantity', product_quantity);
+                console.log('Product Price', product_price);
+                console.log('Active Product', this_val);
+            
+                $.ajax({
+                    url: '{% url 'add_to_cart' %}',
+                    type: 'POST',
+                    data: {
+                        'id': product_id,
+                        'title': product_title,
+                        'size': product_size,
+                        'qty': product_quantity,
+                        'price': product_price,
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    dataType: 'json',
+                    success: function(response){
+                        if(response.status === 'success'){
+                            this_val.html('Item Added To Cart');
+                            console.log('Added Product to Cart...');
+                        }
+                    }
+                });        
+            })
+        </script>
         
         {% block extra_scripts %}
         <!-- Any extra scripts go here -->
