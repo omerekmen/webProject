@@ -92,6 +92,16 @@ class CartItems(models.Model):
             sale_price = product_price_obj.StrikedPrice
             return sale_price
         return 0
+
+    def cartitem_total(self):
+        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        if product_price_obj and product_price_obj.StrikedPrice is not None:
+            total = product_price_obj.StrikedPrice
+            return total * self.quantity
+        else:
+            total = product_price_obj.SalePrice
+            return total * self.quantity
+        return 0
     
     def discount(self):
         # Retrieve the SalePrice from ProductPrices model

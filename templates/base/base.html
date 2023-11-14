@@ -411,42 +411,62 @@
 
 
 
-        <main>
-            <div class="page-wrapper">
+        <div class="page-wrapper">
+            <main>
 
-            {% block slider %}
-                <section
-                class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
-                data-owl-options="{
-                    'items': 1,
-                    'loop': true,
-                    'responsive': {
-                        '992': {
-                            'dots': true,
-                            'nav': true
-                        }
-                    },
-                    'animateIn': 'fadeIn',
-                    'animateOut': 'fadeOut'}">
-                
+                {% block slider %}
+                <div class="page-content overflow-hidden">
+                    <section
+                    class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
+                    data-owl-options="{
+                        'items': 1,
+                        'loop': true,
+                        'autoplay': true,
+                        'autoplayTimeout': 5000,
+                        'responsive': {
+                            '0': {
+                                'dots': true,
+                                'nav': false,
+                                'items': 1
+                            },
+                            '480': {
+                                'dots': true,
+                                'nav': true,
+                                'items': 1
+                            },
+                            '740': {
+                                'dots': true,
+                                'nav': true,
+                                'items': 1
+                            },
+                            '992': {
+                                'dots': true,
+                                'nav': true,
+                                'items': 1
+                            }
+                        },
+                        'animateIn': 'fadeIn',
+                        'animateOut': 'fadeOut'}">
                     
-                    {% for slide in schools.schoolslider_set.all %}
-                        <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
-                            <figure class="kenBurnsToRight duration">
-                                <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
-                            </figure>
-                        </div>
-                    {% endfor %}
+                        
+                        {% for slide in schools.schoolslider_set.all %}
+                            <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
+                                <figure class="kenBurnsToRight duration">
+                                    <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
+                                </figure>
+                            </div>
+                        {% endfor %}
 
-                </section>
-            {% endblock slider %}
+                    </section>
+                </div>
+                {% endblock slider %}
 
-            {% block content %}
-            <!-- Your main content goes here -->
+                {% block content %}
+                <!-- Your main content goes here -->
 
-            {% endblock content %}
-            </div>
-        </main>
+                {% endblock content %}
+            </main>
+        </div>
 
 
 
