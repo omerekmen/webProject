@@ -37,8 +37,13 @@ def default(request, school=get_school()):
     active_products = Products.objects.filter(product_state='Aktif', school=school)
     active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
 
-    cart = Cart.objects.get(member=request.user)
-    cartitems = CartItems.objects.filter(cart=cart)
+    if user:
+        cart = Cart.objects.get(member=request.user)
+        cartitems = CartItems.objects.filter(cart=cart)
+    else:
+        cart = None
+        cartitems = None
+
 
     random_products = list(active_products)
     random.shuffle(random_products)
