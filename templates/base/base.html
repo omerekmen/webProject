@@ -190,7 +190,7 @@
                                             {% if prod.product.product_type == 'Tekil' %} 
                                                 <a href="{% url 'product' prod.product.ProductID %}">
                                             {% elif prod.product.product_type == 'Kombin' %} 
-                                                <a href="{% url 'product' prod.product.ProductID %}">
+                                                <a href="{% url 'combproduct' prod.product.ProductID %}">
                                             {% endif %}
                                                     <img src="{{ prod.product.productimages_set.first.product_image.url }}" alt="product" width="100"
                                                         height="100" />
@@ -203,7 +203,7 @@
                                                 {% if prod.product.product_type == 'Tekil' %} 
                                                     <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
                                                 {% elif prod.product.product_type == 'Kombin' %} 
-                                                    <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                                    <a href="{% url 'combproduct' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
                                                 {% endif %}
                                                 <div class="price-box">
                                                     <span class="product-quantity">{{ prod.quantity }}</span>

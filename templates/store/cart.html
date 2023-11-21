@@ -40,7 +40,7 @@
                                         {% if prod.product.product_type == 'Tekil' %} 
                                             <a href="{% url 'product' prod.product.ProductID %}">
                                         {% elif prod.product.product_type == 'Kombin' %} 
-                                            <a href="{% url 'product' prod.product.ProductID %}">
+                                            <a href="{% url 'combproduct' prod.product.ProductID %}">
                                         {% endif %}
                                             <img src="{{ prod.product.productimages_set.first.product_image.url }}" width="100" height="100"
                                                 alt="product">
@@ -52,7 +52,7 @@
                                         {% if prod.product.product_type == 'Tekil' %} 
                                             <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
                                         {% elif prod.product.product_type == 'Kombin' %} 
-                                            <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                            <a href="{% url 'combproduct' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
                                         {% endif %}
                                     </div>
                                 </td>
@@ -197,3 +197,24 @@
 </main>
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for a short period to ensure all scripts have run
+        setTimeout(function() {
+            // Get all the quantity input elements
+            var quantityInputs = document.querySelectorAll('.quantity.form-control');
+
+            quantityInputs.forEach(function(input) {
+                // Fetch the correct quantity from the corresponding hidden input (if you have one)
+                // Alternatively, you can rely on the initial value set by Django template if it's not overridden
+                var correctQuantity = document.querySelectorAll('.get-quantity').val();
+
+                // Update the quantity input with the correct value
+                input.value = correctQuantity;
+            });
+        }, 500); // Adjust the timeout duration if needed
+    });
+</script>
+{% endblock extra_scripts %}
