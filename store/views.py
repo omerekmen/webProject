@@ -36,12 +36,14 @@ def product(request, ProductID):
 @login_required
 def combproduct(request, ProductID):
     product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Kombin')
+    combproduct = CombinationProduct.objects.filter(Product=product)
 
     pcontext = {
         'product': product,
+        'combproduct': combproduct,
     }
 
-    return render(request, 'store/combproduct.html', {'product': product})
+    return render(request, 'store/combproduct.html', pcontext)
 
 
 
@@ -88,6 +90,22 @@ def add_to_cart(request):
         'cart_total_items': cart.user_cart.count()  # Count total items in user's cart
     }
     return JsonResponse(response_data), redirect('product', product_id)
+
+@login_required
+@require_POST
+def delete_from_cart(request):
+    cart_item_id = request.POST.get('cart_item_id')
+    print("Received request to delete cart item:", cart_item_id)
+    try:
+        cart_item = CartItems.objects.get(id=cart_item_id, cart__member=request.user)
+        cart_item.delete()
+        return JsonResponse({'deleted': True})
+    except CartItems.DoesNotExist:
+        return JsonResponse({'deleted': False}, status=404)
+    except Exception as e:
+        return JsonResponse({'deleted': False, 'error': str(e)}, status=500)
+
+
 
 
 @login_required

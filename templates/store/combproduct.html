@@ -43,7 +43,7 @@
                             </div>
 
                             <!-- Altta Görünen Minnak Ürün Görselleri -->
-                            <div class="product-thumbs-wrap">
+                            {% comment %} <div class="product-thumbs-wrap">
                                 <div class="product-thumbs">
                                     {% for product_image in product.productimages_set.all %}
                                     <div class="product-thumb active">
@@ -54,7 +54,7 @@
                                 </div>
                                 <button class="thumb-up disabled"><i class="fas fa-chevron-left"></i></button>
                                 <button class="thumb-down disabled"><i class="fas fa-chevron-right"></i></button>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div class="product-label-group">
                                 {% if product.label %}
@@ -106,7 +106,7 @@
                                         {% endfor %}
                                     </div>
                                     <a href="#product-tab-size-table" class="size-guide link-to-tab ml-4">
-                                        <i class="d-icon-th-list"></i>Size Guide
+                                        <i class="d-icon-th-list"></i>Beden Tablosu
                                     </a>
                                 </div>
                             </div>
@@ -162,153 +162,173 @@
                     </div>
                 </div>
 
-                <div class="tab tab-nav-simple product-tabs mb-4">
-                    <ul class="nav nav-tabs justify-content-center" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#product-tab-video">Video</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#product-tab-measure">Ölçü Alma</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#product-tab-find-size">Bedenimi Bul</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#product-tab-suggestions">Tavsiyeler</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#product-tab-quality">Kalite Testleri</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#product-tab-size-table">Beden Tablosu</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
 
-                        <div class="tab-pane active in" id="product-tab-video">
-                            {{ product.productdetails_set.first.product_video|safe }}
-                        </div>
+                <form action="#" class="form">
+                    <div class="row">
+                        <div class="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
+                            <div class="accordion accordion-dropshadow accordion-boxed accordion-plus accordion-gutter-sm">
 
-                        <div class="tab-pane" id="product-tab-measure">
-                            {{ product.productdetails_set.first.product_measure|safe }}
-                        </div>
-                        
-                        <div class="tab-pane" id="product-tab-find-size">
-                            {{ product.productdetails_set.first.product_find_size|safe }}
-                        </div>
-                        
-                        <div class="tab-pane" id="product-tab-suggestions">
-                            {{ product.productdetails_set.first.product_suggestions|safe }}
-                        </div>
-                        
-                        <div class="tab-pane" id="product-tab-quality">
-                            {{ product.productdetails_set.first.product_quality|safe }}
-                        </div>
-                        
-                        <div class="tab-pane" id="product-tab-size-table">
-                            {{ product.productdetails_set.first.product_size_table|safe }}
-                        </div>
-
-                    </div>
-                </div>
-
-                <hr class="product-divider" style="margin:25px">
-
-                <section class="pt-3 mt-2">
-                    <h2 class="title justify-content-center">Benzer Ürünler</h2>
-
-                    <div class="owl-carousel owl-theme owl-nav-full row cols-2 cols-md-3 cols-lg-4"
-                        data-owl-options="{
-                        'items': 5,
-                        'nav': false,
-                        'loop': false,
-                        'dots': true,
-                        'margin': 20,
-                        'responsive': {
-                            '0': {
-                                'items': 2
-                            },
-                            '768': {
-                                'items': 3
-                            },
-                            '992': {
-                                'items': 4,
-                                'dots': false,
-                                'nav': true
-                            }
-                        }
-                    }">
-
-                        <!-- (NOT: İstenilen görünüm seçilip ona göre bir related product şablonu oluiturulmalı) -->
-                        {% for product in related_products %}
-                            <div class="product-wrap">
-                                <div class="product product-classic">
-
-                                    <!-- Product Image and Labeling -->
-                                    <figure class="product-media">
-                                        <a href="
-                                                    {% if product.product_type == 'Tekil' %} 
-                                                        {% url 'product' product.ProductID %} 
-                                                    {% elif product.product_type == 'Kombin' %} 
-                                                        {% url 'combproduct' product.ProductID %} 
-                                                    {% endif %}
-                                                    ">
-                                            {% if product.productimages_set.first %}
-                                                <img src="{{ product.productimages_set.first.product_image.url }}" alt="{{ product.product_name }}" width="280" height="315">
-                                            {% else %}
-                                                <img src="{% static 'images/products/no-image.png' %}" alt="{{ product.product_name }}" max-height='315' height="315" width="280" >
-                                            {% endif %}
-                                        </a>
-                                        <div class="product-label-group">
-                                            {% if product.label %}
-                                                <label class="product-label label-new">YENİ</label>
-                                            {% endif %}
-
-                                            {% if product.productprices_set.first.DiscountRatio > 0 %}
-                                                <label class="product-label label-sale">{{ product.productprices_set.first.DiscountRatio }}% </label>
-                                            {% endif %}
+                                {% for combcat in combproduct %}
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a href="#collapse4-2" class="expand">{{ combcat.CProductCategory }}</a>
                                         </div>
-                                    </figure>
+                                        <div id="collapse4-2" class="collapsed">
+                                            <div class="card-body">
+                                                <div class="owl-carousel owl-nav-top" data-owl-options="{
+                                                    'items': 1,
+                                                    'loop': true,
+                                                    'nav': true,
+                                                    'dots': true }">
+                                                    <div class="products-col">
 
-                                    <div class="product-details">
-                                        <div class="product-cat">
-                                            <a href="{% url 'category' %}#{{ product.ProductSubCategoryID.ProductSubCategoryID }}">{{ product.ProductSubCategoryID.SubCategoryName }}</a> 
-                                        </div>
-                                        <h3 class="product-name">
-                                            <a href="
-                                                    {% if product.product_type == 'Tekil' %} 
-                                                        {% url 'product' product.ProductID %} 
-                                                    {% elif product.product_type == 'Kombin' %} 
-                                                        {% url 'combproduct' product.ProductID %} 
-                                                    {% endif %}
-                                                    ">
-                                                {{ product.product_web_name }}
-                                            </a>
-                                        </h3>
-                                        <div class="product-price">
-                                            <ins class="new-price">
-                                                {% if product.productprices_set.first %}
-                                                    {{ product.productprices_set.first.SalePrice }} ₺
-                                                {% endif %}
-                                            </ins>
+                                                        {% for product in combcat.CombinProducts.all %}
+                                                        <div class="product product-list-sm">
+                                                            <figure class="product-media">
+                                                                <img src="{{ product.productimages_set.first.product_image.url }}" alt="product" width="100" height="100">
+                                                            </figure>
 
-                                            {% if product.productprices_set.first and product.productprices_set.first.StrikedPrice > 0 %}
-                                                <del class="old-price">{{ product.productprices_set.first.StrikedPrice }} ₺</del>
-                                            {% endif %}
-                                        </div>
 
-                                        <div class="product-action">
-                                            <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
-                                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
+                                                            <div class="product-details">
+                                                                <h3 class="product-name">
+                                                                    {{ product.product_web_name }}
+                                                                </h3>
+                                                                <div class="product-price">
+                                                                    <span class="price">{{ product.productprices_set.first.SalePrice }} ₺</span>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <aside class="product-variations">
+                                                                {% for ps in product.sizebasedstocks_set.all %}
+                                                                    {% if ps.sale_stock == 0 %}
+                                                                    <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
+                                                                    {% else %}
+                                                                    <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </aside>
+                                                        </div>
+                                                        {% endfor %}
+                                                        
+                                                        {% for product in combcat.CombinProducts.all %}
+                                                        <div class="product-form-group">
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="item-media">
+                                                                        <a href="product.html">
+                                                                            <img src="{{ product.productimages_set.first.product_image.url }}"
+                                                                                alt="product thumbnail" style="max-height:100px;" />
+                                                                        </a>
+                                                                    </td>
+                                                                    <td class="item-name pr-0 pr-xl-10">{{ product.product_web_name }}</td>
+                                                                    <td class="item-price pr-4 pr-lg-10">{{ product.productprices_set.first.SalePrice }} ₺</td>
+                                                                    <td class="item-qty pl-xl-5">
+                                                                        <div class="input-group mr-0">
+                                                                            <button class="quantity-minus d-icon-minus"></button>
+                                                                            <input class="quantity form-control" type="number" min="1" max="1000000">
+                                                                            <button class="quantity-plus d-icon-plus"></button>
+                                                                        </div>
+                                                                    </td>
+                                                                    
+                                                                    <td>
+                                                                        {% for ps in product.sizebasedstocks_set.all %}
+                                                                            {% if ps.sale_stock == 0 %}
+                                                                            <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
+                                                                            {% else %}
+                                                                            <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </td>
+
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        {% endfor %}
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                {% endfor %}
 
+                            </div>
+                        </div>
+                        <aside class="col-lg-5 sticky-sidebar-wrapper">
+                            <div class="sticky-sidebar mt-1" data-sticky-options="{'bottom': 50}">
+                                <div class="summary pt-5">
+                                    <h3 class="title title-simple text-left text-uppercase">Seçilen Ürünler</h3>
+                                    <table class="order-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for combcat in combproduct %}
+                                            <tr>
+                                                <td class="product-name">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>{{ combcat.CProductCategory }}</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="product-name">Seçilen Ürün 
+                                                                <span class="product-quantity">|&nbsp;Seçilen Beden</span></td>
+                                                            <td class="product-total text-body">Seçilen Ürünün Satış Fiyatı</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            <tr class="summary-subtotal">
+                                                <td>
+                                                    <h4 class="summary-subtitle">Ürün Toplamı</h4>
+                                                </td>
+                                                <td class="summary-subtotal-price pb-0 pt-0">xxx ₺
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr class="summary-subtotal">
+                                                <td>
+                                                    <h4 class="summary-subtitle">Kombin İndirimi</h4>
+                                                </td>
+                                                <td class="summary-subtotal-price pb-0 pt-0">{{ product.productprices_set.first.DiscountPrice }} ₺
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr class="summary-total">
+                                                <td class="pb-0">
+                                                    <h4 class="summary-subtitle">Toplam</h4>
+                                                </td>
+                                                <td class=" pt-0 pb-0">
+                                                    <p class="summary-total-price ls-s text-primary">{{ product.productprices_set.first.SalePrice }} ₺</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <br>
+                                    <button type="submit" class="btn btn-dark btn-rounded btn-cart ls-normal">
+                                        <i class="d-icon-bag"></i>  Sepete Ekle
+                                    </button>
                                 </div>
                             </div>
-                        {% endfor %}
-
+                        </aside>
                     </div>
-                </section>
+                </form>
+
+
+
+
+                <hr class="product-divider" style="margin:25px">
 
             </div>
         </div>
