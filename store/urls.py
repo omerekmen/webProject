@@ -5,6 +5,7 @@ from store.views import *
 urlpatterns = [
     path('', index, name='index'),
     path("user/", include('members.urls')),
+    path("account/", account, name='account'),
 
     path('kategori/', category, name='category' ),
 

@@ -17,6 +17,10 @@ def index(request):
     return render(request, 'store/index.html')
 
 @login_required
+def account(request):
+    return render(request, 'store/account.html')
+
+@login_required
 def category(request):
     return render(request, 'store/category.html')
 
@@ -26,9 +30,16 @@ def product(request, ProductID):
 
     related_products = Products.objects.filter(ProductSubCategoryID=product.ProductSubCategoryID).exclude(ProductID=ProductID)[:4]
 
+    campus_based_price = product.productprices_set.filter(campusPrice=request.user.campus_id)
+    if campus_based_price.exists():
+        cb_price = campus_based_price.first()
+    else:
+        cb_price = product.productprices_set.first()
+
     pcontext = {
         'product': product,
         'related_products': related_products,
+        'cb_price': cb_price,
     }
 
     return render(request, 'store/product.html', pcontext)
@@ -38,9 +49,16 @@ def combproduct(request, ProductID):
     product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Kombin')
     combproduct = CombinationProduct.objects.filter(Product=product)
 
+    campus_based_price = product.productprices_set.filter(campusPrice=request.user.campus_id)
+    if campus_based_price.exists():
+        cb_price = campus_based_price.first()
+    else:
+        cb_price = product.productprices_set.first()
+
     pcontext = {
         'product': product,
         'combproduct': combproduct,
+        'cb_price': cb_price,
     }
 
     return render(request, 'store/combproduct.html', pcontext)

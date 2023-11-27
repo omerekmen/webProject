@@ -208,7 +208,7 @@
                                                 {% endif %}
                                                 <div class="price-box">
                                                     <span class="product-quantity">{{ prod.quantity }}</span>
-                                                    <span class="product-price">{{ prod.product.productprices_set.first.SalePrice }} ₺</span>
+                                                    <span class="product-price">{{ prod.single_price }} ₺</span>
                                                 </div>
                                             </div>
     
@@ -233,8 +233,8 @@
                             </div>
 
 
-                            <a class="login-link d-lg-show" href="{% url 'login' %}" data-toggle="login-modal"> <!-- Site Yapısı Tamamlanınca Bu Link Hesabım'a Yönlendirmeli !!! -->
-                                <span class="sr-only">login</span>
+                            <a class="login-link d-lg-show" href="{% url 'account' %}" data-toggle="login-modal"> <!-- Site Yapısı Tamamlanınca Bu Link Hesabım'a Yönlendirmeli !!! -->
+                                <span class="sr-only">Hesabım</span>
                                 <i class="d-icon-user"></i>
                             </a>
 

@@ -30,12 +30,26 @@ def default(request, school=get_school()):
 
 
     user = request.user.is_authenticated
+    campus_id = request.user.campus_id
 
     categories = ProductCategory.objects.filter()
     subcategories = ProductSubCategory.objects.filter()
 
-    active_products = Products.objects.filter(product_state='Aktif', school=school)
+    active_products = Products.objects.filter(
+        product_state='Aktif', 
+        school=school
+        ).prefetch_related('productprices_set')
     active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
+
+
+    for product in active_products:
+        campus_price = product.productprices_set.filter(campusPrice=campus_id).first()
+        if campus_price:
+            product.display_price = campus_price
+        else:
+            product.display_price = product.productprices_set.first()
+
+
 
     if user:
         cart = Cart.objects.get(member=request.user)
@@ -58,6 +72,7 @@ def default(request, school=get_school()):
 
         'active_products': active_products, 
         'active_comb_products': active_comb_products, 
+
 
         'random_products': random_products,
 

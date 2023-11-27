@@ -16,7 +16,7 @@ class ProductImagesInline(admin.TabularInline):
     verbose_name_plural = 'Ürün Görselleri'
     extra = 3
 
-class ProductPricesInline(admin.StackedInline):
+class ProductPricesInline(admin.TabularInline):
     model = ProductPrices
     verbose_name = 'Ürün Fiyat'
     verbose_name_plural = 'Ürün Fiyat'

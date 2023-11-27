@@ -86,8 +86,17 @@
                                 SKU: <span class="product-sku">{{ product.sizebasedstocks_set.first.SKU_code }}</span> 
                                 BRAND: <span class="product-brand">PLAYOFF</span> 
                             </div>
-                            <div class="product-price">{{ product.productprices_set.first.SalePrice }} ₺</div> 
-                            
+
+                            {% comment %} {% for price in product.productprices_set.all %}
+                                {% if user.campus_id != price.campusPrice %}
+                                <div class="product-price">{{ price.SalePrice }} ₺</div> 
+                                {% else %}
+                                <div class="product-price">{{ price.first.SalePrice }} ₺</div> 
+                                {% endif %}
+                            {% endfor %} {% endcomment %}
+
+
+                            <div class="product-price">{{ cb_price.SalePrice }} ₺</div>
                             
                             <p class="product-short-desc">
                                 {{ product.productdetails_set.first.product_short_desc | safe }}
@@ -127,7 +136,7 @@
                                         <!-- GET DETAILS -->
                                         <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" >
                                         <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title">
-                                        <input type="hidden" name="product-sale-price" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price">
+                                        <input type="hidden" name="product-sale-price" value="{{ cb_price.SalePrice }}" id="product-sale-price" class="p-price">
                                         
                                         <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
                                         <input type="hidden" name="selected-size-id" class="selected-size-id" id="selected-size-id" value="">

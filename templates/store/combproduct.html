@@ -86,14 +86,14 @@
                                 SKU: <span class="product-sku">{{ product.sizebasedstocks_set.first.SKU_code }}</span> 
                                 BRAND: <span class="product-brand">PLAYOFF</span> 
                             </div>
-                            <div class="product-price">{{ product.productprices_set.first.SalePrice }} ₺</div> 
+                            <div class="product-price">{{ cb_price.SalePrice }} ₺</div>
                             
                             
                             <p class="product-short-desc">
                                 {{ product.productdetails_set.first.product_short_desc | safe }}
                             </p> 
                             
-                            <div class="product-form product-size">
+                            {% comment %} <div class="product-form product-size">
                                 <label>Size:</label>
                                 <div class="product-form-group">
                                     <div class="product-variations">
@@ -109,7 +109,7 @@
                                         <i class="d-icon-th-list"></i>Beden Tablosu
                                     </a>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
 
                             <hr class="product-divider">
 
@@ -127,7 +127,7 @@
                                         <!-- GET DETAILS -->
                                         <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" >
                                         <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title">
-                                        <input type="hidden" name="product-sale-price" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price">
+                                        <input type="hidden" name="product-sale-price" value="{{ cb_price.SalePrice }}" id="product-sale-price" class="p-price">
                                         
                                         <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000">
                                         <input type="hidden" name="selected-size-id" class="selected-size-id" id="selected-size-id" value="">
@@ -163,55 +163,32 @@
                 </div>
 
 
-                <form action="#" class="form">
-                    <div class="row">
-                        <div class="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
-                            <div class="accordion accordion-dropshadow accordion-boxed accordion-plus accordion-gutter-sm">
-
-                                {% for combcat in combproduct %}
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <a href="#collapse4-2" class="expand">{{ combcat.CProductCategory }}</a>
-                                        </div>
-                                        <div id="collapse4-2" class="collapsed">
-                                            <div class="card-body">
-                                                <div class="owl-carousel owl-nav-top" data-owl-options="{
-                                                    'items': 1,
-                                                    'loop': true,
-                                                    'nav': true,
-                                                    'dots': true }">
-                                                    <div class="products-col">
-
-                                                        {% for product in combcat.CombinProducts.all %}
-                                                        <div class="product product-list-sm">
-                                                            <figure class="product-media">
-                                                                <img src="{{ product.productimages_set.first.product_image.url }}" alt="product" width="100" height="100">
-                                                            </figure>
+                <div class="row">
 
 
-                                                            <div class="product-details">
-                                                                <h3 class="product-name">
-                                                                    {{ product.product_web_name }}
-                                                                </h3>
-                                                                <div class="product-price">
-                                                                    <span class="price">{{ product.productprices_set.first.SalePrice }} ₺</span>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <aside class="product-variations">
-                                                                {% for ps in product.sizebasedstocks_set.all %}
-                                                                    {% if ps.sale_stock == 0 %}
-                                                                    <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
-                                                                    {% else %}
-                                                                    <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </aside>
-                                                        </div>
-                                                        {% endfor %}
-                                                        
-                                                        {% for product in combcat.CombinProducts.all %}
-                                                        <div class="product-form-group">
+                    <!-- SELECT ITEMS FROM CATS -->
+                    <div class="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
+
+                        <div class="accordion accordion-dropshadow accordion-boxed accordion-plus accordion-gutter-sm">
+
+                            {% for combcat in combproduct %}
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="#collapse4-2" class="expand">{{ combcat.CProductCategory }}</a>
+                                    </div>
+                                    <div id="collapse4-2" class="collapsed">
+                                        <div class="card-body">
+                                            <div class="owl-carousel owl-nav-top" data-owl-options="{
+                                                'items': 1,
+                                                'loop': false,
+                                                'nav': false,
+                                                'dots': false }">
+                                                <div class="products-col">
+                                                    
+                                                    {% for product in combcat.CombinProducts.all %}
+                                                    {{ product.ProductID }}
+                                                    <a class="sproduct" onclick="selectProduct('{{ product.ProductID }}');" href="">{{ ps.size }}
+                                                        <div class="product-form-group" >
                                                             <table>
                                                                 <tr>
                                                                     <td class="item-media">
@@ -221,109 +198,126 @@
                                                                         </a>
                                                                     </td>
                                                                     <td class="item-name pr-0 pr-xl-10">{{ product.product_web_name }}</td>
-                                                                    <td class="item-price pr-4 pr-lg-10">{{ product.productprices_set.first.SalePrice }} ₺</td>
-                                                                    <td class="item-qty pl-xl-5">
-                                                                        <div class="input-group mr-0">
-                                                                            <button class="quantity-minus d-icon-minus"></button>
-                                                                            <input class="quantity form-control" type="number" min="1" max="1000000">
-                                                                            <button class="quantity-plus d-icon-plus"></button>
-                                                                        </div>
-                                                                    </td>
+                                                                    {% comment %} <td class="item-price pr-4 pr-lg-10">{{ product.productprices_set.first.SalePrice }} ₺</td> {% endcomment %}
                                                                     
                                                                     <td>
-                                                                        {% for ps in product.sizebasedstocks_set.all %}
-                                                                            {% if ps.sale_stock == 0 %}
-                                                                            <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
-                                                                            {% else %}
-                                                                            <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
-                                                                            {% endif %}
-                                                                        {% endfor %}
+                                                                        {% comment %} <label>Size:</label> {% endcomment %}
+                                                                        <div class="product-form-group">
+                                                                            <div class="product-variations">
+                                                                                {% for ps in product.sizebasedstocks_set.all %}
+                                                                                    {% if ps.sale_stock == 0 %}
+                                                                                        <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
+                                                                                    {% else %}
+                                                                                    <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div>
                                                                     </td>
 
                                                                 </tr>
                                                             </table>
                                                         </div>
-                                                        {% endfor %}
-                                                        
-                                                    </div>
+                                                    </a>
+                                                    {% endfor %}
                                                     
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
-                                {% endfor %}
+                                </div>
+                            {% endfor %}
 
-                            </div>
                         </div>
-                        <aside class="col-lg-5 sticky-sidebar-wrapper">
-                            <div class="sticky-sidebar mt-1" data-sticky-options="{'bottom': 50}">
-                                <div class="summary pt-5">
-                                    <h3 class="title title-simple text-left text-uppercase">Seçilen Ürünler</h3>
-                                    <table class="order-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                    </div>
 
-                                            {% for combcat in combproduct %}
-                                            <tr>
-                                                <td class="product-name">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>{{ combcat.CProductCategory }}</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="product-name">Seçilen Ürün 
-                                                                <span class="product-quantity">|&nbsp;Seçilen Beden</span></td>
-                                                            <td class="product-total text-body">Seçilen Ürünün Satış Fiyatı</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
+                    <!-- SELECTED PRODUCTS -->
+                    <aside class="col-lg-5 sticky-sidebar-wrapper">
+                        <div class="sticky-sidebar mt-1" data-sticky-options="{'bottom': 50}">
+                            <div class="summary pt-5">
+                                <h3 class="title title-simple text-left text-uppercase">Seçilen Ürünler</h3>
+                                <table class="order-table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                            <tr class="summary-subtotal">
-                                                <td>
-                                                    <h4 class="summary-subtitle">Ürün Toplamı</h4>
-                                                </td>
-                                                <td class="summary-subtotal-price pb-0 pt-0">xxx ₺
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr class="summary-subtotal">
-                                                <td>
-                                                    <h4 class="summary-subtitle">Kombin İndirimi</h4>
-                                                </td>
-                                                <td class="summary-subtotal-price pb-0 pt-0">{{ product.productprices_set.first.DiscountPrice }} ₺
-                                                </td>
-                                            </tr>
-                                            
-                                            <tr class="summary-total">
-                                                <td class="pb-0">
-                                                    <h4 class="summary-subtitle">Toplam</h4>
-                                                </td>
-                                                <td class=" pt-0 pb-0">
-                                                    <p class="summary-total-price ls-s text-primary">{{ product.productprices_set.first.SalePrice }} ₺</p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                        {% for combcat in combproduct %}
+                                        <tr>
+                                            <td class="product-name">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{ combcat.CProductCategory }}</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="product-name">Seçilen Ürün 
+                                                            <span class="product-quantity">|&nbsp;Seçilen Beden</span></td>
+                                                        <td class="product-total text-body">Seçilen Ürünün Satış Fiyatı</td>
+                                                    </tr>
+                                                </tbody>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
 
-                                    <br>
-                                    <button type="submit" class="btn btn-dark btn-rounded btn-cart ls-normal">
+                                        <tr class="summary-subtotal">
+                                            <td>
+                                                <h4 class="summary-subtitle">Ürün Toplamı</h4>
+                                            </td>
+                                            <td class="summary-subtotal-price pb-0 pt-0">xxx ₺
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr class="summary-subtotal">
+                                            <td>
+                                                <h4 class="summary-subtitle">Kombin İndirimi</h4>
+                                            </td>
+                                            <td class="summary-subtotal-price pb-0 pt-0">{{ product.productprices_set.first.DiscountPrice }} ₺
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr class="summary-total">
+                                            <td class="pb-0">
+                                                <h4 class="summary-subtitle">Toplam</h4>
+                                            </td>
+                                            <td class=" pt-0 pb-0">
+                                                <p class="summary-total-price ls-s text-primary">{{ product.productprices_set.first.SalePrice }} ₺</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <br>
+                                <form id="cart" method="POST">
+                                    {% csrf_token %}
+                                    <!-- GET DETAILS -->
+                                    <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" > <!-- OK -->
+                                    <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title"> <!-- OK -->
+                                    <input type="hidden" name="product-sale-price" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price"> <!-- OK -->
+                                    
+                                    <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000"> <!-- OK -->
+                                    {% for combcat in combproduct %}
+                                        <input type="hidden" name="selected-product-{{ combcat.CProductCategory }}" class="selected-product-{{ combcat.CProductCategory }}" id="selected-product-{{ combcat.CProductCategory }}" value="">
+                                        <input type="hidden" name="selected-size-id" class="selected-size-id" id="selected-size-id" value="">
+                                    {% endfor %}
+                                    <button id="add-to-cart-button" type="submit" class="btn btn-dark btn-rounded btn-cart ls-normal">
                                         <i class="d-icon-bag"></i>  Sepete Ekle
                                     </button>
-                                </div>
+                                </form>
                             </div>
-                        </aside>
-                    </div>
-                </form>
+                        </div>
+                    </aside>
+
+                </div>
+
+
+                
 
 
 
@@ -343,6 +337,9 @@
 <script>
     function selectSize(sizeId) {
         document.getElementById('selected-size-id').value = sizeId;
+    }
+    function selectProduct(pId) {
+        document.getElementById('selected-size-id').value = pId;
     }
 </script>
 {% endblock %}

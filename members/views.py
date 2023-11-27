@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
+from cart.models import *
 
 
 def register_view(request):
@@ -17,6 +18,7 @@ def register_view(request):
             new_user = authenticate(username= form.cleaned_data['username'],
                                     password= form.cleaned_data['password1'])
             login(request, new_user)
+            Cart.objects.get_or_create(member=request.user)
             return redirect("index")
 
     else:
