@@ -22,7 +22,57 @@ def account(request):
 
 @login_required
 def category(request):
-    return render(request, 'store/category.html')
+    return render(request, 'store/category-list.html')
+
+@login_required
+def category_m(request, ProductCategoryID):
+    campus_id = request.user.campus_id
+    cat = ProductCategory.objects.get(ProductCategoryID=ProductCategoryID)
+    subcat_ids = ProductSubCategory.objects.filter(ProductCategory=cat).values_list('ProductSubCategoryID', flat=True)
+    active_products_by_cat = Products.objects.filter(
+        product_state='Aktif', 
+        school=get_school(),
+        ProductSubCategoryID__in=subcat_ids
+        ).prefetch_related('productprices_set')
+    
+    for product in active_products_by_cat:
+        campus_price = product.productprices_set.filter(campusPrice=campus_id).first()
+        if campus_price:
+            product.display_price = campus_price
+        else:
+            product.display_price = product.productprices_set.first()
+
+    context = {
+        'active_products_by_cat': active_products_by_cat,
+        'cat': cat,
+    }
+
+    return render(request, 'store/category.html', context)
+
+@login_required
+def category_p(request, ProductSubCategoryID):
+    campus_id = request.user.campus_id
+    subcat = ProductSubCategory.objects.get(ProductSubCategoryID=ProductSubCategoryID)
+    active_products_by_cat = Products.objects.filter(
+        product_state='Aktif', 
+        school=get_school(),
+        ProductSubCategoryID=subcat
+        ).prefetch_related('productprices_set')
+    
+    for product in active_products_by_cat:
+        campus_price = product.productprices_set.filter(campusPrice=campus_id).first()
+        if campus_price:
+            product.display_price = campus_price
+        else:
+            product.display_price = product.productprices_set.first()
+
+    context = {
+        'active_products_by_cat': active_products_by_cat,
+        'subcat': subcat,
+    }
+
+    return render(request, 'store/category.html', context)
+    
 
 @login_required
 def product(request, ProductID):

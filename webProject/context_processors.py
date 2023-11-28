@@ -30,7 +30,10 @@ def default(request, school=get_school()):
 
 
     user = request.user.is_authenticated
-    campus_id = request.user.campus_id
+    if user:
+        campus_id = request.user.campus_id
+    else:
+        campus_id = None
 
     categories = ProductCategory.objects.filter()
     subcategories = ProductSubCategory.objects.filter()
@@ -39,6 +42,7 @@ def default(request, school=get_school()):
         product_state='Aktif', 
         school=school
         ).prefetch_related('productprices_set')
+    
     active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
 
 

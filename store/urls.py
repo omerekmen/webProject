@@ -8,6 +8,8 @@ urlpatterns = [
     path("account/", account, name='account'),
 
     path('kategori/', category, name='category' ),
+    path('kategoriler/<ProductCategoryID>', category_m, name='category_m' ),
+    path('kategori/<ProductSubCategoryID>', category_p, name='category_p' ),
 
     path('urun/', product, name='product'),
     path('urun/<ProductID>/', product, name='product' ),
