@@ -28,6 +28,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '.localhost', '127.0.0.1']
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'testwebproject@outlook.com'  # Replace with your actual email
+EMAIL_HOST_PASSWORD = 'WebProjectAdmin.1234'
+EMAIL_FROM_ADDRESS = 'testwebproject@outlook.com'
+DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
+
 
 # Application definition
 
