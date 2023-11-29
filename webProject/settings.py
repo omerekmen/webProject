@@ -42,6 +42,7 @@ DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 
 INSTALLED_APPS = [
     "jazzmin",
+    "widget_tweaks",
 
     "django.contrib.admin",
     "django.contrib.auth",
