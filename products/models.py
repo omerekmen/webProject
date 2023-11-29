@@ -1,5 +1,5 @@
 from django.db import models
-from schools.models import Schools
+from schools.models import Schools, SchoolCampus
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from datetime import datetime, timedelta
@@ -177,6 +177,7 @@ class SetProduct(models.Model):
 class ProductPrices(models.Model):
     products = models.ForeignKey('Products', on_delete=models.CASCADE)
 
+    campusPrice = models.ForeignKey(SchoolCampus, on_delete=models.CASCADE, null=True, blank=True)
     SalePrice = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
     StrikedPrice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
@@ -210,7 +211,7 @@ class ProductPrices(models.Model):
         super(ProductPrices, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.products} - {self.SalePrice}₺"
+        return f"{self.products} - {self.campusPrice} - {self.SalePrice}₺"
 
 
 class ProductImages(models.Model):

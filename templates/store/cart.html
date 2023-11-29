@@ -40,7 +40,7 @@
                                         {% if prod.product.product_type == 'Tekil' %} 
                                             <a href="{% url 'product' prod.product.ProductID %}">
                                         {% elif prod.product.product_type == 'Kombin' %} 
-                                            <a href="{% url 'product' prod.product.ProductID %}">
+                                            <a href="{% url 'combproduct' prod.product.ProductID %}">
                                         {% endif %}
                                             <img src="{{ prod.product.productimages_set.first.product_image.url }}" width="100" height="100"
                                                 alt="product">
@@ -52,7 +52,7 @@
                                         {% if prod.product.product_type == 'Tekil' %} 
                                             <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
                                         {% elif prod.product.product_type == 'Kombin' %} 
-                                            <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                            <a href="{% url 'combproduct' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
                                         {% endif %}
                                     </div>
                                 </td>
@@ -67,7 +67,7 @@
                                 <td class="product-quantity">
                                     <div class="input-group mr-2">
                                         <button class="quantity-minus d-icon-minus"></button>
-                                        <input name="product-quantity" id="product-quantity" class="quantity form-control" value="{{ prod.quantity }}" type="number" min="1" max="10000">
+                                        <input name="product-quantity" id="product-quantity" class="quantity-new form-control" value="{{ prod.quantity }}" type="number" min="1" max="10000">
                                         <button class="quantity-plus d-icon-plus"></button>
                                     </div>
                                 </td>
@@ -75,11 +75,24 @@
                                     <span class="amount">{{ prod.total_price }} ₺</span>
                                 </td>
                                 <td class="product-close">
-                                    <a href="#" class="product-remove" title="Remove this product">
+                                    <button class="product-remove" onclick="setTimeout(function(){ location.reload(); }, 250);" title="Sepetten Kaldır" data-product="{{ prod.id }}">
                                         <i class="fas fa-times"></i>
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
+                            {% if prod.product.product_type == 'Kombin' %}
+                                {% for item in prod.combinedproductchoice_set.all %}
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td class="product-name">{{ item.selected_product.product_web_name }} 
+                                            <spanclass="product-quantity">|&nbsp;{{ item.size_stock.size }}</span>
+                                        </td>
+                                        <td class="product-total text-body">$110.00</td>
+                                    </tr>
+                                </tbody>
+                                {% endfor %}
+                            {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
@@ -87,8 +100,8 @@
                         <a href="{% url 'index' %}" class="btn btn-dark btn-md btn-rounded btn-icon-left mr-4 mb-4"><i
                                 class="d-icon-arrow-left"></i>Alışverişe Devam Et
                         </a>
-                        <button type="submit"
-                            class="btn btn-outline btn-dark btn-md btn-rounded btn-disabled">Sepeti Güncelle
+                        <button type="submit" class="btn btn-outline btn-dark btn-md btn-rounded btn-disabled">
+                            Sepeti Güncelle
                         </button>
                     </div>
                     <div class="cart-coupon-box mb-8">
@@ -162,18 +175,6 @@
                                     </td>
                                     <td class="product-total text-body">0 ₺</td>
                                 </tr>
-
-                                {% comment %} {% for prod in cartitems %}
-                                {% if prod.discount > 0 %}
-                                <tr>
-                                    <td class="product-name">
-                                        <span class="product-quantity">{{ prod.quantity }}&nbsp;×</span>
-                                        {{ prod.product.product_web_name }} 
-                                    </td>
-                                    <td class="product-total text-body">-{{ prod.discount }} ₺</td>
-                                </tr>
-                                {% endif %}
-                                {% endfor %} {% endcomment %}
                             </table>
                             <table class="total">
                                 <tr class="summary-subtotal">
@@ -197,3 +198,53 @@
 </main>
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wait for a short period to ensure all scripts have run
+        setTimeout(function() {
+            // Get all the quantity input elements
+            var quantityInputs = document.querySelectorAll('.quantity.form-control');
+
+            quantityInputs.forEach(function(input) {
+                // Fetch the correct quantity from the corresponding hidden input (if you have one)
+                // Alternatively, you can rely on the initial value set by Django template if it's not overridden
+                var correctQuantity = document.querySelectorAll('.get-quantity').val();
+
+                // Update the quantity input with the correct value
+                input.value = correctQuantity;
+            });
+        }, 500); // Adjust the timeout duration if needed
+    });
+</script>
+<script>
+    $('.product-remove').on('click', function(){
+        let cart_item_id = $(this).attr("data-product")
+        let this_val = $(this)
+
+        console.log("Product ID:", cart_item_id);
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "delete_from_cart" %}',
+            data: {
+                "cart_item_id" : cart_item_id,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                // Handle the response, such as removing the row from the table
+                if(response.deleted) {
+                    $(this).closest('tr').remove();
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error handling
+                console.error('AJAX error:', status, error);
+                console.error('Response:', xhr.responseText);
+                alert('Error in deleting item: ' + xhr.responseText);
+            }
+        });
+    });
+</script>
+{% endblock extra_scripts %}

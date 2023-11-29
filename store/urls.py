@@ -5,8 +5,11 @@ from store.views import *
 urlpatterns = [
     path('', index, name='index'),
     path("user/", include('members.urls')),
+    path("account/", account, name='account'),
 
     path('kategori/', category, name='category' ),
+    path('kategoriler/<ProductCategoryID>', category_m, name='category_m' ),
+    path('kategori/<ProductSubCategoryID>', category_p, name='category_p' ),
 
     path('urun/', product, name='product'),
     path('urun/<ProductID>/', product, name='product' ),
@@ -16,6 +19,7 @@ urlpatterns = [
 
     path('cart/', cart, name='cart' ),
     path('add-to-cart/', add_to_cart, name='add_to_cart'),
+    path('delete-from-cart/', delete_from_cart, name='delete_from_cart'),
     path('checkout/', checkout, name='checkout' ),
     path('order/', order, name='order' ),
 

@@ -41,11 +41,10 @@
                                                 {{ formitem.label }}
                                                 {{ formitem }}
                                             {% endfor %}
-                                                {{ form.errors }}
                                         </div>
                                         
                                         <div class="form-footer right">
-                                            <a href="#" class="lost-link">Şifremi Unuttum</a>
+                                            <a href="{% url 'password_reset' %}" class="lost-link">Şifremi Unuttum</a>
                                         </div>
                                         <button class="btn btn-dark btn-block btn-rounded" type="submit">Giriş Yap</button>
                                     </form>

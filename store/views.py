@@ -17,8 +17,62 @@ def index(request):
     return render(request, 'store/index.html')
 
 @login_required
+def account(request):
+    return render(request, 'store/account.html')
+
+@login_required
 def category(request):
-    return render(request, 'store/category.html')
+    return render(request, 'store/category-list.html')
+
+@login_required
+def category_m(request, ProductCategoryID):
+    campus_id = request.user.campus_id
+    cat = ProductCategory.objects.get(ProductCategoryID=ProductCategoryID)
+    subcat_ids = ProductSubCategory.objects.filter(ProductCategory=cat).values_list('ProductSubCategoryID', flat=True)
+    active_products_by_cat = Products.objects.filter(
+        product_state='Aktif', 
+        school=get_school(),
+        ProductSubCategoryID__in=subcat_ids
+        ).prefetch_related('productprices_set')
+    
+    for product in active_products_by_cat:
+        campus_price = product.productprices_set.filter(campusPrice=campus_id).first()
+        if campus_price:
+            product.display_price = campus_price
+        else:
+            product.display_price = product.productprices_set.first()
+
+    context = {
+        'active_products_by_cat': active_products_by_cat,
+        'cat': cat,
+    }
+
+    return render(request, 'store/category.html', context)
+
+@login_required
+def category_p(request, ProductSubCategoryID):
+    campus_id = request.user.campus_id
+    subcat = ProductSubCategory.objects.get(ProductSubCategoryID=ProductSubCategoryID)
+    active_products_by_cat = Products.objects.filter(
+        product_state='Aktif', 
+        school=get_school(),
+        ProductSubCategoryID=subcat
+        ).prefetch_related('productprices_set')
+    
+    for product in active_products_by_cat:
+        campus_price = product.productprices_set.filter(campusPrice=campus_id).first()
+        if campus_price:
+            product.display_price = campus_price
+        else:
+            product.display_price = product.productprices_set.first()
+
+    context = {
+        'active_products_by_cat': active_products_by_cat,
+        'subcat': subcat,
+    }
+
+    return render(request, 'store/category.html', context)
+    
 
 @login_required
 def product(request, ProductID):
@@ -26,9 +80,16 @@ def product(request, ProductID):
 
     related_products = Products.objects.filter(ProductSubCategoryID=product.ProductSubCategoryID).exclude(ProductID=ProductID)[:4]
 
+    campus_based_price = product.productprices_set.filter(campusPrice=request.user.campus_id)
+    if campus_based_price.exists():
+        cb_price = campus_based_price.first()
+    else:
+        cb_price = product.productprices_set.first()
+
     pcontext = {
         'product': product,
         'related_products': related_products,
+        'cb_price': cb_price,
     }
 
     return render(request, 'store/product.html', pcontext)
@@ -36,12 +97,21 @@ def product(request, ProductID):
 @login_required
 def combproduct(request, ProductID):
     product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Kombin')
+    combproduct = CombinationProduct.objects.filter(Product=product)
+
+    campus_based_price = product.productprices_set.filter(campusPrice=request.user.campus_id)
+    if campus_based_price.exists():
+        cb_price = campus_based_price.first()
+    else:
+        cb_price = product.productprices_set.first()
 
     pcontext = {
         'product': product,
+        'combproduct': combproduct,
+        'cb_price': cb_price,
     }
 
-    return render(request, 'store/combproduct.html', {'product': product})
+    return render(request, 'store/combproduct.html', pcontext)
 
 
 
@@ -88,6 +158,22 @@ def add_to_cart(request):
         'cart_total_items': cart.user_cart.count()  # Count total items in user's cart
     }
     return JsonResponse(response_data), redirect('product', product_id)
+
+@login_required
+@require_POST
+def delete_from_cart(request):
+    cart_item_id = request.POST.get('cart_item_id')
+    print("Received request to delete cart item:", cart_item_id)
+    try:
+        cart_item = CartItems.objects.get(id=cart_item_id, cart__member=request.user)
+        cart_item.delete()
+        return JsonResponse({'deleted': True})
+    except CartItems.DoesNotExist:
+        return JsonResponse({'deleted': False}, status=404)
+    except Exception as e:
+        return JsonResponse({'deleted': False, 'error': str(e)}, status=500)
+
+
 
 
 @login_required

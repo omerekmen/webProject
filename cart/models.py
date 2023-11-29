@@ -19,42 +19,28 @@ class Cart(models.Model):
     #     return f"{self.cart_id} - {self.member} - {self.product} - {self.quantity} - {self.created_at} - {self.updated_at}"
 
     def total_price(self):
-        total = 0
-        cart_items = CartItems.objects.filter(cart=self)
-
-        for item in cart_items:
-            product_price_obj = ProductPrices.objects.filter(products=item.product).first()
-            if product_price_obj:
-                total += product_price_obj.SalePrice * item.quantity
-
+        total = sum(item.single_price() * item.quantity for item in self.user_cart.all())
         return total
     
     def old_price(self):
         total = 0
-        cart_items = CartItems.objects.filter(cart=self)
-
-        for item in cart_items:
-            product_price_obj = ProductPrices.objects.filter(products=item.product).first()
-            if product_price_obj:
-                if product_price_obj.DiscountPrice is not None:
-                    total += product_price_obj.StrikedPrice * item.quantity
-                else:
-                    total += product_price_obj.SalePrice * item.quantity
-
+        for item in self.user_cart.all():
+            product_price_obj = item.get_campus_based_price()
+            if product_price_obj and product_price_obj.StrikedPrice is not None:
+                total += product_price_obj.StrikedPrice * item.quantity
+            else:
+                # Use SalePrice if StrikedPrice is not available
+                total += item.single_price() * item.quantity
         return total
     
     def total_discount(self):
-        total = 0
-        cart_items = CartItems.objects.filter(cart=self)
-
-        for item in cart_items:
-            product_price_obj = ProductPrices.objects.filter(products=item.product).first()
+        total_discount = 0
+        for item in self.user_cart.all():
+            product_price_obj = item.get_campus_based_price()
             if product_price_obj and product_price_obj.DiscountPrice is not None:
-                total += product_price_obj.DiscountPrice * item.quantity
-            else:
-                total += 0
-
-        return total
+                discount_per_item = product_price_obj.StrikedPrice - product_price_obj.SalePrice
+                total_discount += discount_per_item * item.quantity
+        return total_discount
     
     def total_products(self):
         return sum(item.quantity for item in self.user_cart.all())
@@ -77,9 +63,20 @@ class CartItems(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_campus_based_price(self):
+        # Assuming member has a 'campus' field
+        campus_id = self.cart.member.campus_id
+        prices = ProductPrices.objects.filter(products=self.product, campusPrice=campus_id)
+
+        if prices.exists():
+            return prices.first()
+        else:
+            # Fallback to general price if no campus-based price is found
+            return ProductPrices.objects.filter(products=self.product).first()
+
     def single_price(self):
         # Retrieve the SalePrice from ProductPrices model
-        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        product_price_obj = self.get_campus_based_price()
         if product_price_obj:
             sale_price = product_price_obj.SalePrice
             return sale_price
@@ -87,14 +84,14 @@ class CartItems(models.Model):
     
     def old_price(self):
         # Retrieve the SalePrice from ProductPrices model
-        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        product_price_obj = self.get_campus_based_price()
         if product_price_obj and product_price_obj.StrikedPrice is not None:
             sale_price = product_price_obj.StrikedPrice
             return sale_price
         return 0
 
     def cartitem_total(self):
-        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        product_price_obj = self.get_campus_based_price()
         if product_price_obj and product_price_obj.StrikedPrice is not None:
             total = product_price_obj.StrikedPrice
             return total * self.quantity
@@ -105,7 +102,7 @@ class CartItems(models.Model):
     
     def discount(self):
         # Retrieve the SalePrice from ProductPrices model
-        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        product_price_obj = self.get_campus_based_price()
         if product_price_obj:
             sale_price = product_price_obj.DiscountPrice
             return sale_price * self.quantity
@@ -117,7 +114,7 @@ class CartItems(models.Model):
 
     def total_price(self):
         # Retrieve the SalePrice from ProductPrices model
-        product_price_obj = ProductPrices.objects.filter(products=self.product).first()
+        product_price_obj = self.get_campus_based_price()
         if product_price_obj:
             sale_price = product_price_obj.SalePrice
             return sale_price * self.quantity
