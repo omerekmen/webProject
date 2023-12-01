@@ -9,6 +9,14 @@ def get_school():
     school = 1
     return school
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
 
 def default(request, school=get_school()):
     path = request.path # For sublinks
@@ -30,6 +38,7 @@ def default(request, school=get_school()):
 
 
     user = request.user.is_authenticated
+    user_ip = get_client_ip(request)
     if user:
         campus_id = request.user.campus_id
     else:
@@ -84,6 +93,7 @@ def default(request, school=get_school()):
         'cartitems': cartitems,
 
         'user': user,
+        'user_ip': user_ip,
 
         'schools': schools,
         'sc': scl,

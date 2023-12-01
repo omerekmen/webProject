@@ -171,8 +171,42 @@ JAZZMIN_SETTINGS = {
     "login_logo" : "images/logo-admin-login.png",
     'copyright' : "Entegrasyon Cloud",
     "navigation_expanded": True,
-    
+    "order_with_respect_to": ["auth", 
+                              "members", 
+                              "schools", "schools.schools",
+                              "products", "products.products", "products.CombinationProduct", "products.SetProduct", "products.ProductCategory", "products.ProductSubCategory", 
+                              "orders", "orders.orders",
+                              "cart", "cart.cart",
+                            ],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.Group": "fas fa-users",
+        "members.member": "fas fa-user",
+        "products.products": "fas fa-bread-slice",
+        "products.CombinationProduct": "fas fa-boxes",
+        "products.ProductCategory": "fas fa-columns",
+        "products.ProductSubCategory": "fas fa-list-alt",
+        "products.SizeBasedStocks": "fas fa-pencil-ruler",
+        "products.ProductCategorySizes": "fas fa-ruler",
+        "products.ProductPrices": "fas fa-tag",
+        "products.SetProduct": "fas fa-book",
+        "orders.orders": "fas fa-bars",
+        "orders.OrderProducts": "fas fa-grip-horizontal",
+        "schools.schools": "fas fa-building",
+        "schools.schools": "fas fa-building",
+        "schools.SchoolCampus": "far fa-building",
+        "cart.cart": "fas fa-shopping-basket",
+        "cart.cartitems": "fas fa-grip-horizontal",
+    },  
+    # "related_modal_active": True,
 }
+
+JAZZMIN_UI_TWEAKS = {
+    "body_small_text": True,
+    "actions_sticky_top": True,
+    "sidebar_nav_legacy_style": True,
+}
+
 
 SITE_ID = 1
 

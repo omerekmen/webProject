@@ -39,6 +39,7 @@ class LoginForm(AuthenticationForm):
 
 
 class RegisterForm(UserCreationForm):
+
     email = forms.EmailField(label='E-Mail', max_length=254, required=True, help_text='Bu alan zorunludur. Lütfen geçerli bir mail adresi giriniz.',
                              widget=forms.EmailInput(attrs={"class": "form-control"}))
     username = forms.CharField(label='Öğrenci TC Kimlik Numarası', max_length=11, required=True,
@@ -52,10 +53,12 @@ class RegisterForm(UserCreationForm):
     birth_date = forms.DateField(label='Doğum Tarihi', required=True, 
                                  widget=forms.DateInput(attrs={"autofocus": True, "class": "form-control", 'type': 'date', 'placeholder': '2000-01-01'})
                                  )
+    ip_address = forms.CharField(widget=forms.HiddenInput(), required=False)
     
     password1 = forms.CharField(label='Şifre', widget=forms.PasswordInput(attrs={"autofocus": True, "class": "form-control"}))
     password2 = forms.CharField(label='Şifre Tekrar', widget=forms.PasswordInput(attrs={"autofocus": True, "class": "form-control"}))
 
+
     class Meta:
         model = Member
-        fields = ('username', 'phone_number', 'first_name', 'last_name', 'birth_date', 'email', 'password1', 'password2', )
+        fields = ('username', 'phone_number', 'first_name', 'last_name', 'birth_date', 'email', 'password1', 'password2', 'ip_address' )

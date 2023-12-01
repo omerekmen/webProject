@@ -61,8 +61,8 @@
                                     <label class="product-label label-new">YENİ</label>
                                 {% endif %}
 
-                                {% if product.productprices_set.first.DiscountRatio > 0 %}
-                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333"><i class="d-icon-card"></i> {{ product.productprices_set.first.DiscountRatio }}% </label>
+                                {% if cb_price.DiscountRatio > 0 %}
+                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333"><i class="d-icon-card"></i> {{ cb_price.DiscountRatio }}% </label>
                                 {% endif %}
                             </div>
 
@@ -86,7 +86,13 @@
                                 SKU: <span class="product-sku">{{ product.sizebasedstocks_set.first.SKU_code }}</span> 
                                 BRAND: <span class="product-brand">PLAYOFF</span> 
                             </div>
-                            <div class="product-price">{{ cb_price.SalePrice }} ₺</div>
+                            <div class="product-price">
+                                {{ cb_price.SalePrice }} ₺
+
+                                {% if cb_price and cb_price.StrikedPrice > 0 %}
+                                    <del class="old-price">{{ cb_price.StrikedPrice }} ₺</del>
+                                {% endif %}
+                            </div>
                             
                             
                             <p class="product-short-desc">
@@ -198,7 +204,7 @@
                                                                         </a>
                                                                     </td>
                                                                     <td class="item-name pr-0 pr-xl-10">{{ product.product_web_name }}</td>
-                                                                    {% comment %} <td class="item-price pr-4 pr-lg-10">{{ product.productprices_set.first.SalePrice }} ₺</td> {% endcomment %}
+                                                                    {% comment %} <td class="item-price pr-4 pr-lg-10">{{ cb_price.SalePrice }} ₺</td> {% endcomment %}
                                                                     
                                                                     <td>
                                                                         {% comment %} <label>Size:</label> {% endcomment %}
@@ -278,7 +284,7 @@
                                             <td>
                                                 <h4 class="summary-subtitle">Kombin İndirimi</h4>
                                             </td>
-                                            <td class="summary-subtotal-price pb-0 pt-0">{{ product.productprices_set.first.DiscountPrice }} ₺
+                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cb_price.DiscountPrice }} ₺
                                             </td>
                                         </tr>
                                         
@@ -287,7 +293,7 @@
                                                 <h4 class="summary-subtitle">Toplam</h4>
                                             </td>
                                             <td class=" pt-0 pb-0">
-                                                <p class="summary-total-price ls-s text-primary">{{ product.productprices_set.first.SalePrice }} ₺</p>
+                                                <p class="summary-total-price ls-s text-primary">{{ cb_price.SalePrice }} ₺</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -299,7 +305,7 @@
                                     <!-- GET DETAILS -->
                                     <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" > <!-- OK -->
                                     <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title"> <!-- OK -->
-                                    <input type="hidden" name="product-sale-price" value="{{ product.productprices_set.first.SalePrice }}" id="product-sale-price" class="p-price"> <!-- OK -->
+                                    <input type="hidden" name="product-sale-price" value="{{ cb_price.SalePrice }}" id="product-sale-price" class="p-price"> <!-- OK -->
                                     
                                     <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000"> <!-- OK -->
                                     {% for combcat in combproduct %}

@@ -4,6 +4,7 @@ from store.views import *
 
 urlpatterns = [
     path('', index, name='index'),
+    path("", include('schools.urls')),
     path("user/", include('members.urls')),
     path("account/", account, name='account'),
 

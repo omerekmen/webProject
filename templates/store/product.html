@@ -61,8 +61,8 @@
                                     <label class="product-label label-new">YENİ</label>
                                 {% endif %}
 
-                                {% if product.productprices_set.first.DiscountRatio > 0 %}
-                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333"><i class="d-icon-card"></i> {{ product.productprices_set.first.DiscountRatio }}% </label>
+                                {% if cb_price.DiscountRatio > 0 %}
+                                    <label class="product-label label-sale" style="color: #fff;background-color:#dd3333"><i class="d-icon-card"></i> {{ cb_price.DiscountRatio }}% </label>
                                 {% endif %}
                             </div>
 
@@ -96,7 +96,13 @@
                             {% endfor %} {% endcomment %}
 
 
-                            <div class="product-price">{{ cb_price.SalePrice }} ₺</div>
+                            <div class="product-price">
+                                {{ cb_price.SalePrice }} ₺
+
+                                {% if cb_price and cb_price.StrikedPrice > 0 %}
+                                    <del class="old-price">{{ cb_price.StrikedPrice }} ₺</del>
+                                {% endif %}
+                            </div>
                             
                             <p class="product-short-desc">
                                 {{ product.productdetails_set.first.product_short_desc | safe }}
@@ -273,7 +279,7 @@
                                                 <label class="product-label label-new">YENİ</label>
                                             {% endif %}
 
-                                            {% if product.productprices_set.first.DiscountRatio > 0 %}
+                                            {% if product.display_price.DiscountRatio > 0 %}
                                                 <label class="product-label label-sale">{{ product.productprices_set.first.DiscountRatio }}% </label>
                                             {% endif %}
                                         </div>
@@ -297,12 +303,11 @@
                                         <div class="product-price">
                                             <ins class="new-price">
                                                 {% if product.productprices_set.first %}
-                                                    {{ product.productprices_set.first.SalePrice }} ₺
+                                                    {{ product.display_price.SalePrice }} ₺
                                                 {% endif %}
                                             </ins>
-
-                                            {% if product.productprices_set.first and product.productprices_set.first.StrikedPrice > 0 %}
-                                                <del class="old-price">{{ product.productprices_set.first.StrikedPrice }} ₺</del>
+                                            {% if product.display_price and product.display_price.StrikedPrice > 0 %}
+                                                <del class="old-price">{{ product.display_price.StrikedPrice }} ₺</del>
                                             {% endif %}
                                         </div>
 

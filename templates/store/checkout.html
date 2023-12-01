@@ -10,7 +10,6 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.min.css' %}">
 {% endblock extra_head%}
 
-
 {% block content %}
 
 <main class="main checkout">
@@ -40,7 +39,7 @@
             </div>
             <form action="#" class="form">
                 <div class="row">
-                    <div class="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
+                    <div class="col-lg-6 mb-6 mb-lg-0 pr-lg-4">
                         <h3 class="title title-simple text-left text-uppercase">Billing Details</h3>
                         <div class="row">
                             <div class="col-xs-6">
@@ -107,75 +106,55 @@
                         <textarea class="form-control pb-2 pt-2 mb-0" cols="30" rows="5"
                             placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
                     </div>
-                    <aside class="col-lg-5 sticky-sidebar-wrapper">
+                    <aside class="col-lg-6 sticky-sidebar-wrapper">
                         <div class="sticky-sidebar mt-1" data-sticky-options="{'bottom': 50}">
                             <div class="summary pt-5">
-                                <h3 class="title title-simple text-left text-uppercase">Your Order</h3>
+                                <h3 class="title title-simple text-left text-uppercase">Sipariş Özeti</h3>
                                 <table class="order-table">
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
+                                            <th>Ürünler</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for prod in cartitems %}
                                         <tr>
-                                            <td class="product-name">Fashionable Overnight Bag <span
-                                                    class="product-quantity">×&nbsp;1</span></td>
-                                            <td class="product-total text-body">$110.00</td>
+                                            <td class="product-name">
+                                                <div class="product-name-section">
+                                                    {% if prod.product.product_type == 'Tekil' %} 
+                                                        <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
+                                                    {% elif prod.product.product_type == 'Kombin' %} 
+                                                        <a href="{% url 'combproduct' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
+                                                    {% endif %}
+                                                </div>
+                                                <span class="product-quantity">
+                                                    ×&nbsp;{{ prod.quantity }}
+                                                </span>
+                                            </td>
+                                            <td class="product-total text-body">{{ prod.total_price }} ₺</td>
                                         </tr>
-                                        <tr>
-                                            <td class="product-name">Mackintosh Poket backpack <span
-                                                    class="product-quantity">×&nbsp;1</span></td>
-                                            <td class="product-total text-body">$180.00</td>
-                                        </tr>
+                                        {% endfor %}
                                         <tr class="summary-subtotal">
                                             <td>
-                                                <h4 class="summary-subtitle">Subtotal</h4>
+                                                <h4 class="summary-subtitle">Ürün Toplamı</h4>
                                             </td>
-                                            <td class="summary-subtotal-price pb-0 pt-0">$290.00
+                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cart.total_price }} ₺
                                             </td>
                                         </tr>
                                         <tr class="sumnary-shipping shipping-row-last">
-                                            <td colspan="2">
-                                                <h4 class="summary-subtitle">Calculate Shipping</h4>
-                                                <ul>
-                                                    <li>
-                                                        <div class="custom-radio">
-                                                            <input type="radio" id="flat_rate" name="shipping"
-                                                                class="custom-control-input" checked>
-                                                            <label class="custom-control-label"
-                                                                for="flat_rate">Flat rate</label>
-                                                        </div>
-                                                    </li>
-
-                                                    <li>
-                                                        <div class="custom-radio">
-                                                            <input type="radio" id="free-shipping"
-                                                                name="shipping" class="custom-control-input">
-                                                            <label class="custom-control-label"
-                                                                for="free-shipping">Free
-                                                                shipping</label>
-                                                        </div>
-                                                    </li>
-
-                                                    <li>
-                                                        <div class="custom-radio">
-                                                            <input type="radio" id="local_pickup"
-                                                                name="shipping" class="custom-control-input">
-                                                            <label class="custom-control-label"
-                                                                for="local_pickup">Local pickup</label>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                            <td>
+                                                <h4 class="summary-subtitle">Kargo Ücreti</h4>
+                                            </td>
+                                            <td class="summary-subtotal-price pb-0 pt-0">210.00 ₺
                                             </td>
                                         </tr>
                                         <tr class="summary-total">
                                             <td class="pb-0">
-                                                <h4 class="summary-subtitle">Total</h4>
+                                                <h4 class="summary-subtitle">Toplam Tutar</h4>
                                             </td>
                                             <td class=" pt-0 pb-0">
-                                                <p class="summary-total-price ls-s text-primary">$290.00</p>
+                                                <p class="summary-total-price ls-s text-primary">{{ cart.total_price }} ₺</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -185,20 +164,33 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <a href="#collapse1"
-                                                class="collapse text-body text-normal ls-m">Check payments
+                                                class="collapse text-body text-normal ls-m">Kart ile öde
                                             </a>
                                         </div>
                                         <div id="collapse1" class="expanded" style="display: block;">
                                             <div class="card-body ls-m">
-                                                Please send a check to Store Name, Store Street,
-                                                Store Town, Store State / County, Store Postcode.
+                                                <br>
+
+                                                <label>Kart Üzerindeki İsim *</label>
+                                                <input type="text" class="form-control" name="cartHolder" name="cartHolder" required="" placeholder="Ad Soyad" />
+                                                <label>Kredi Kartı Numarası *</label>
+                                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" required="" placeholder="Kredi Kartı Numarası" maxlength="19" />
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <label>SKT *</label>
+                                                        <input type="text" class="form-control" id="cardExpiry" name="expiry" required="" placeholder="MM/YY" maxlength="5" />
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <label>CVV *</label>
+                                                        <input type="number" class="form-control" id="cardCVV" name="cvv" placeholder="123" required="" maxlength="4" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card">
                                         <div class="card-header">
-                                            <a href="#collapse2" class="expand text-body text-normal ls-m">Cash
-                                                on delivery</a>
+                                            <a href="#collapse2" class="expand text-body text-normal ls-m">Havale/EFT ile öde</a>
                                         </div>
                                         <div id="collapse2" class="collapsed">
                                             <div class="card-body ls-m">
@@ -211,12 +203,19 @@
                                     <input type="checkbox" class="custom-checkbox" id="terms-condition"
                                         name="terms-condition" />
                                     <label class="form-control-label" for="terms-condition">
-                                        I have read and agree to the website <a href="#">terms and conditions
-                                        </a>*
+                                        <a href="javascript:void(0);" onclick="openPopup('Mesafeli Satış Sözleşmesi')">Mesafeli Satış Sözleşmesi</a>'ni okudum, onaylıyorum. *
                                     </label>
                                 </div>
-                                <button type="submit" class="btn btn-dark btn-rounded btn-order">Place
-                                    Order</button>
+                                <div class="form-checkbox mt-4 mb-5">
+                                    <input type="checkbox" class="custom-checkbox" id="terms-condition"
+                                        name="terms-condition" />
+                                    <label class="form-control-label" for="terms-condition">
+                                        <a href="javascript:void(0);" onclick="openPopup('Ön Bilgilendirme Formu')">Ön Bilgilendirme Formu</a>'nu okudum, onaylıyorum. *
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-dark btn-rounded btn-order">
+                                    Siparişi Oluştur
+                                </button>
                             </div>
                         </div>
                     </aside>
@@ -228,3 +227,56 @@
 </main>
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script>
+    function openPopup(pageTitle) {
+        // Make AJAX request to Django view
+        fetch(`/get-page-content/?page_title=${encodeURIComponent(pageTitle)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.content) {
+                    // Assuming you have a function to show popup
+                    showPopup(data.content); // Implement this function to display the content in a popup
+                } else {
+                    console.error('Error fetching page content');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function showPopup(content) {
+        // Example: Simple popup - you might want to use a more sophisticated approach
+        var popupWindow = window.open("", "Popup", "width=600,height=400,scrollbars=yes,resizable=yes");
+        popupWindow.document.write(content);
+    }
+</script>
+
+<script>
+    document.getElementById('cardExpiry').addEventListener('input', function (e) {
+        var input = e.target.value;
+        var month = input.substring(0, 2);
+        var year = input.substring(2, 4);
+
+        if (input.length > 2 && input.indexOf('/') === -1) {
+            e.target.value = month + '/' + year;
+        } else if (input.length === 2 && e.data && !e.inputType.includes('delete')) {
+            e.target.value = month + '/';
+        }
+    });
+</script>
+<script>
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        var value = e.target.value.replace(/\s+/g, ''); // Remove existing spaces
+        var formattedValue = '';
+        for (var i = 0; i < value.length; i++) {
+            if (i > 0 && i % 4 === 0) {
+                formattedValue += ' '; // Add a space every 4 digits
+            }
+            formattedValue += value[i];
+        }
+        e.target.value = formattedValue;
+    });
+</script>
+
+{% endblock extra_scripts %}
