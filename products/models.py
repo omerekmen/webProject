@@ -160,13 +160,21 @@ class CombinationProduct(models.Model):
     CombinProducts = models.ManyToManyField('Products', related_name='combin_products', verbose_name='Ürün Seçimi', blank=True)
 
     def __str__(self):
-        return f'{self.CProductCategory}'
+        return f'{self.Product} | {self.CProductCategory}'
+    
+    class Meta:
+        verbose_name = 'Kombin Ürünler'
+        verbose_name_plural = 'Kombin Ürünler'
     
 
 class SetProduct(models.Model):
     SetID = models.AutoField(primary_key=True)
     SProductInfo = models.JSONField()
     SProductQuantity = models.IntegerField()
+
+    class Meta:
+        verbose_name = 'Set Ürünler'
+        verbose_name_plural = 'Set Ürünler'
 
 
 ##########################################################################################

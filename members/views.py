@@ -3,7 +3,16 @@ from .forms import LoginForm, RegisterForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from cart.models import *
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
+from webProject.context_processors import get_client_ip
 
+
+@receiver(user_logged_in)
+def update_user_ip(sender, request, user, **kwargs):
+    user_ip = get_client_ip(request)  # Use the function to get the client's IP address
+    user.ip_address = user_ip
+    user.save()
 
 def register_view(request):
     if request.user.is_authenticated:
@@ -22,7 +31,8 @@ def register_view(request):
             return redirect("index")
 
     else:
-        form = RegisterForm()
+        initial_ip = get_client_ip(request)
+        form = RegisterForm(initial={'ip_address': initial_ip})
 
     return render(request, 'registration/register.html', {'form': form})   
 
