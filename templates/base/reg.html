@@ -56,7 +56,9 @@
 
 
         <!-- Plugins JS File -->
-
+        {% block extra_scripts %}
+        <!-- Any extra scripts go here -->
+        {% endblock %}
         
         <!-- Main JS File -->
         <script src="{% static 'js/main.min.js' %}"></script>

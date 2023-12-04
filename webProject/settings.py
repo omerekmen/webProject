@@ -198,13 +198,15 @@ JAZZMIN_SETTINGS = {
         "cart.cart": "fas fa-shopping-basket",
         "cart.cartitems": "fas fa-grip-horizontal",
     },  
-    # "related_modal_active": True,
+    # "show_ui_builder": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
     "body_small_text": True,
     "actions_sticky_top": True,
     "sidebar_nav_legacy_style": True,
+    "sidebar_fixed": True,
+
 }
 
 

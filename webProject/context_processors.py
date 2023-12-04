@@ -2,6 +2,7 @@ from products.models import *
 from schools.models import *
 from members.models import *
 from cart.models import *
+from store.models import *
 import random
 
 
@@ -36,6 +37,9 @@ def default(request, school=get_school()):
     sublink = parts[0]
     scl = subdomain_to_school.get(sublink, 1)
 
+    cities = City.objects.all()
+    levels = StudentLevels.objects.all()
+
 
     user = request.user.is_authenticated
     user_ip = get_client_ip(request)
@@ -43,6 +47,13 @@ def default(request, school=get_school()):
         campus_id = request.user.campus_id
     else:
         campus_id = None
+    
+    if user:
+        delivery_address = MemberAddress.objects.filter(member=request.user, AddressType='Delivery').first()
+        invoice_address = MemberAddress.objects.filter(member=request.user, AddressType='Invoice').first()
+    else:
+        delivery_address = None
+        invoice_address = None
 
     categories = ProductCategory.objects.filter()
     subcategories = ProductSubCategory.objects.filter()
@@ -75,8 +86,14 @@ def default(request, school=get_school()):
     random.shuffle(random_products)
 
     schools = Schools.objects.get(school_id=school)
+    genders = []
 
     return {
+        'user': user,
+        'user_ip': user_ip,
+        'delivery_address': delivery_address, 
+        'invoice_address': invoice_address,
+
         'site': site,
         'subdomain': subdomain,
 
@@ -86,15 +103,14 @@ def default(request, school=get_school()):
         'active_products': active_products, 
         'active_comb_products': active_comb_products, 
 
-
         'random_products': random_products,
 
         'cart': cart,
         'cartitems': cartitems,
 
-        'user': user,
-        'user_ip': user_ip,
-
         'schools': schools,
+        'cities': cities,
+        'levels': levels,
+        'genders': genders,
         'sc': scl,
     }

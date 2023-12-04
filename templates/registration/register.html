@@ -68,3 +68,25 @@
     </main>
 
 {% endblock formcontent %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var levelSelect = document.getElementById('id_level_id');  // Adjust the ID if necessary
+        var classSelect = document.getElementById('id_class_id');  // Adjust the ID if necessary
+
+        levelSelect.addEventListener('change', function() {
+            var levelId = this.value;
+            fetch(`get-classes-for-level/?level_id=${levelId}`)
+                .then(response => response.json())
+                .then(data => {
+                    classSelect.innerHTML = '<option value="">Sınıf Seçiniz</option>';
+                    data.forEach(function(cls) {
+                        var option = new Option(cls.ClassName, cls.id);
+                        classSelect.add(option);
+                    });
+                });
+        });
+    });
+</script>
+{% endblock extra_scripts %}

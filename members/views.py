@@ -1,11 +1,13 @@
-from django.shortcuts import redirect, render
-from .forms import LoginForm, RegisterForm
-from django.contrib.auth import login, authenticate, logout
-from django.contrib import messages
-from cart.models import *
 from django.contrib.auth.signals import user_logged_in
-from django.dispatch import receiver
+from django.contrib.auth import login, authenticate, logout
 from webProject.context_processors import get_client_ip
+from django.shortcuts import redirect, render
+from django.dispatch import receiver
+from .forms import LoginForm, RegisterForm
+from django.http import JsonResponse
+from django.contrib import messages
+from schools.models import *
+from cart.models import *
 
 
 @receiver(user_logged_in)
@@ -63,3 +65,13 @@ def login_view(request):
 def custom_logout(request):
     logout(request)
     return redirect('login')
+
+
+def get_classes_for_level(request):
+    level_id = request.GET.get('level_id')
+    try:
+        level = StudentLevels.objects.get(pk=level_id)
+        classes = Class.objects.filter(LevelName=level).values('id', 'ClassName')
+        return JsonResponse(list(classes), safe=False)
+    except StudentLevels.DoesNotExist:
+        return JsonResponse({'error': 'Level not found'}, status=404)

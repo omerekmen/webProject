@@ -46,3 +46,5 @@ class SchoolsAdmin(admin.ModelAdmin):
 
 admin.site.register(Schools, SchoolsAdmin)
 admin.site.register(SchoolCampus)
+admin.site.register(StudentLevels)
+admin.site.register(Class)
