@@ -207,6 +207,7 @@
                                         <tr>
                                             <th>Ürünler</th>
                                             <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -220,6 +221,8 @@
                                                         <a href="{% url 'combproduct' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
                                                     {% endif %}
                                                 </div>
+                                            </td>
+                                            <td>
                                                 <span class="product-quantity">
                                                     ×&nbsp;{{ prod.quantity }}
                                                 </span>
@@ -231,6 +234,7 @@
                                             <td>
                                                 <h4 class="summary-subtitle">Ürün Toplamı</h4>
                                             </td>
+                                            <td></td>
                                             <td class="summary-subtotal-price pb-0 pt-0">{{ cart.prod_total_price }} ₺
                                             </td>
                                         </tr>
@@ -238,21 +242,22 @@
                                             <td>
                                                 <h4 class="summary-subtitle">Kargo Ücreti</h4>
                                             </td>
+                                            <td></td>
                                             <td class="summary-subtotal-price pb-0 pt-0">{{ cart.shipping_cost }} ₺
                                             </td>
                                         </tr>
-
+                                        
                                         <tr class="sumnary-shipping">
                                             <td>
                                                 <h4 class="summary-subtitle">İndirimler</h4>
                                             </td>
-                                            {% comment %} <td class="summary-subtotal-price pb-0 pt-0">{{ cart.shipping_cost }} ₺</td> {% endcomment %}
                                         </tr>
                                         <tr>
                                             <td class="product-name">
                                                 <span class="product-quantity">Kargo İndirimi</span>
                                                 {{ prod.product.product_web_name }} 
                                             </td>
+                                            <td></td>
                                             {% if cart.shipping_cost != 0 %}
                                             <td class="product-total text-body">{{ cart.shipping_cost }} ₺</td>
                                             {% else %}
@@ -265,16 +270,18 @@
                                                 <span class="product-quantity">İndirim Kuponu</span>
                                                 {{ prod.product.product_web_name }} 
                                             </td>
+                                            <td></td>
                                             <td class="product-total text-body">- {{ cart.discount_coupon }} ₺</td>
                                         </tr>
                                         {% endif %}
-
+                                        
                                         <tr class="summary-total shipping-row-last"></tr>
-
+                                        
                                         <tr class="summary-total">
                                             <td class="pb-0">
                                                 <h4 class="summary-subtitle">Toplam Tutar</h4>
                                             </td>
+                                            <td></td>
                                             <td class=" pt-0 pb-0">
                                                 <p class="summary-total-price ls-s text-primary">{{ cart.total_price }} ₺</p>
                                             </td>
@@ -342,7 +349,7 @@
                                 <button type="submit" class="btn btn-dark btn-rounded btn-order">
                                     Siparişi Oluştur
                                 </button>
-                                
+
                             </div>
                         </div>
                     </aside>

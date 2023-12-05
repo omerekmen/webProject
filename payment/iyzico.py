@@ -1,18 +1,10 @@
 import iyzipay
+import json
 
 options = {
     'api_key': 'sandbox-tfN7DEgH65CokZxaZmt2Y2I6Fd74wdkn',
     'secret_key': 'sandbox-lrz2JNdFJOdkWWfBaUHzSDP48qsRe6VQ',
     'base_url': 'sandbox-api.iyzipay.com'
-}
-
-payment_card = {
-    'cardHolderName': 'John Doe',
-    'cardNumber': '5400010000000004',
-    'expireMonth': '12',
-    'expireYear': '2030',
-    'cvc': '123',
-    'registerCard': '0'
 }
 
 buyer = {
@@ -70,17 +62,19 @@ request = {
     'locale': 'tr',
     'conversationId': '123456789',
     'price': '1',
-    'paidPrice': '1.2',
-    'currency': 'TRY',
-    'installment': '1',
     'basketId': 'B67832',
-    'paymentChannel': 'WEB',
     'paymentGroup': 'PRODUCT',
-    'paymentCard': payment_card,
+    "callbackUrl": "https://glowing-sniffle-r44gwgw5j9qqfpwxq-8000.app.github.dev/checkout/",
+    "enabledInstallments": ['2', '3', '6', '9'],
     'buyer': buyer,
     'shippingAddress': address,
     'billingAddress': address,
     'basketItems': basket_items
 }
 
-payment = iyzipay.Payment().create(request, options)
+bkm_initialize = iyzipay.BkmInitialize().create(request, options)
+
+json_bkm = bkm_initialize.read().decode('utf-8')
+
+print(json_bkm)
+# print(json_bkm[1][1])
