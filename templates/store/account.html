@@ -424,13 +424,6 @@
 
                     <!-- ACCOUNT -->
                     <div class="tab-pane" id="account">
-                        {% if messages %}
-                        <ul class="messages">
-                            {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
                         <form action="{% url 'account_details_update' %}" method="post" class="form">
                             {% csrf_token %}
                             <label>TC Kimlik Numarası *</label>
@@ -662,7 +655,29 @@
     };
 </script>
 {% endif %}
+
 <script>
+    document.querySelectorAll('.nav-tabs .nav-link').forEach(tab => {
+        tab.addEventListener('click', function(event) {
+            // Prevent the default anchor behavior
+            event.preventDefault();
+    
+            // Get the hash from the href attribute of the clicked tab
+            var hash = this.getAttribute('href');
+    
+            // Use the history API to update the URL without reloading the page
+            history.pushState(null, null, hash);
+    
+            // Activate the tab normally (you might need to adjust this
+            // depending on how your tab activation code is set up)
+            // This is just an example and might not work out of the box
+            document.querySelector('.nav-tabs .nav-link.active').classList.remove('active');
+            this.classList.add('active');
+            document.querySelector('.tab-content .tab-pane.active').classList.remove('active');
+            document.querySelector(hash).classList.add('active');
+        });
+    });
+    
     document.addEventListener('DOMContentLoaded', function() {
         // Check if there is a hash in the URL
         var hash = window.location.hash;

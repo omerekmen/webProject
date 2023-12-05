@@ -3,9 +3,16 @@
 
 {% block title %}Ana Sayfa{% endblock %}
 
+{% block extra_head %}
+<style>
+    .product .product-classic {
+        background-color: #f5f5f5;
+        box-shadow: 100 10 10 10 rgba(36, 36, 36, 0.9);
+    }
+</style>
+{% endblock extra_head %}
 
 {% include slider %}
-
 
 {% block content %}
 
@@ -24,7 +31,7 @@
                         <h1>Ürünler</h1>
                     </div>
 
-                    <nav class="toolbox sticky-toolbox sticky-content fix-top" >
+                    {% comment %} <nav class="toolbox sticky-toolbox sticky-content fix-top" >
 
                         <div class="toolbox-left">
 
@@ -60,7 +67,7 @@
 
                         </div>
 
-                    </nav>
+                    </nav> {% endcomment %}
 
 
                     <div class="row cols-2 cols-md-3 cols-lg-4 product-wrapper">
@@ -122,10 +129,12 @@
                                             {% endif %}
                                         </div>
 
+                                        {% comment %} <!-- Add to Cart -->
                                         <div class="product-action">
                                             <a href="#" class="btn-product btn-cart" data-toggle="modal" data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i><span>Add to cart</span></a>
                                             <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"><i class="d-icon-heart"></i></a>
-                                        </div>
+                                        </div> {% endcomment %}
+
                                     </div>
 
                                 </div>
