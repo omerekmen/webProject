@@ -113,6 +113,7 @@
                         </button>
                     </div>
                 </div>
+                
                 <aside class="col-lg-4 sticky-sidebar-wrapper">
                     <div class="sticky-sidebar" data-sticky-options="{'bottom': 20}">
                         <div class="summary mb-4">
@@ -131,7 +132,7 @@
                                         <h4 class="summary-subtitle">Kargo</h4>
                                     </td>
                                     <td>
-                                        <p class="summary-subtotal-price">29.90 ₺</p>
+                                        <p class="summary-subtotal-price">{{ cart.shipping_cost }} ₺</p>
                                     </td>
                                 </tr>
                                 {% comment %} {% for prod in cartitems %}
@@ -149,7 +150,7 @@
                                         <h4 class="summary-subtitle">İndirimler</h4>
                                     </td>
                                     <td>
-                                        <p class="summary-subtotal-price">-{{ cart.total_discount }} ₺</p>
+                                        <p class="summary-subtotal-price">-{{ cart.total_disconts_after_snd }} ₺</p>
                                     </td>
                                 </tr>
                                 {% if cart.total_discount > 0 %}
@@ -166,15 +167,23 @@
                                         <span class="product-quantity">Kargo İndirimi</span>
                                         {{ prod.product.product_web_name }} 
                                     </td>
-                                    <td class="product-total text-body">- 29.90 ₺</td>
+                                    {% if cart.shipping_cost != 0 %}
+                                    <td class="product-total text-body">{{ cart.shipping_cost }} ₺</td>
+                                    {% else %}
+                                    <td class="product-total text-body">- {{ cart.shipping }} ₺</td>
+                                    {% endif %}
                                 </tr>
+
+                                {% if cart.discount_coupon != 0 %}
                                 <tr>
                                     <td class="product-name">
                                         <span class="product-quantity">İndirim Kuponu</span>
                                         {{ prod.product.product_web_name }} 
                                     </td>
-                                    <td class="product-total text-body">0 ₺</td>
+                                    <td class="product-total text-body">- {{ cart.discount_coupon }} ₺</td>
                                 </tr>
+                                {% endif %}
+
                             </table>
                             <table class="total">
                                 <tr class="summary-subtotal">

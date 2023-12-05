@@ -13,7 +13,6 @@
 
 {% block content %}
 <main class="main checkout">
-    {{ delivery_address.District }}{{ delivery_address.District.id }}
     <div class="page-content pt-7 pb-10 mb-10">
         <div class="step-by pr-4 pl-4">
             <h3 class="title title-simple title-step"><a href="{% url 'cart' %}">1. Sepet</a></h3>
@@ -202,6 +201,7 @@
                         <div class="sticky-sidebar mt-1" data-sticky-options="{'bottom': 50}">
                             <div class="summary pt-5">
                                 <h3 class="title title-simple text-left text-uppercase">Sipariş Özeti</h3>
+
                                 <table class="order-table">
                                     <thead>
                                         <tr>
@@ -231,16 +231,46 @@
                                             <td>
                                                 <h4 class="summary-subtitle">Ürün Toplamı</h4>
                                             </td>
-                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cart.total_price }} ₺
+                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cart.prod_total_price }} ₺
                                             </td>
                                         </tr>
                                         <tr class="sumnary-shipping shipping-row-last">
                                             <td>
                                                 <h4 class="summary-subtitle">Kargo Ücreti</h4>
                                             </td>
-                                            <td class="summary-subtotal-price pb-0 pt-0">210.00 ₺
+                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cart.shipping_cost }} ₺
                                             </td>
                                         </tr>
+
+                                        <tr class="sumnary-shipping">
+                                            <td>
+                                                <h4 class="summary-subtitle">İndirimler</h4>
+                                            </td>
+                                            {% comment %} <td class="summary-subtotal-price pb-0 pt-0">{{ cart.shipping_cost }} ₺</td> {% endcomment %}
+                                        </tr>
+                                        <tr>
+                                            <td class="product-name">
+                                                <span class="product-quantity">Kargo İndirimi</span>
+                                                {{ prod.product.product_web_name }} 
+                                            </td>
+                                            {% if cart.shipping_cost != 0 %}
+                                            <td class="product-total text-body">{{ cart.shipping_cost }} ₺</td>
+                                            {% else %}
+                                            <td class="product-total text-body">- {{ cart.shipping }} ₺</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% if cart.discount_coupon != 0 %}
+                                        <tr>
+                                            <td class="product-name">
+                                                <span class="product-quantity">İndirim Kuponu</span>
+                                                {{ prod.product.product_web_name }} 
+                                            </td>
+                                            <td class="product-total text-body">- {{ cart.discount_coupon }} ₺</td>
+                                        </tr>
+                                        {% endif %}
+
+                                        <tr class="summary-total shipping-row-last"></tr>
+
                                         <tr class="summary-total">
                                             <td class="pb-0">
                                                 <h4 class="summary-subtitle">Toplam Tutar</h4>
@@ -251,6 +281,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+
                                 <div class="payment accordion radio-type">
                                     <h4 class="summary-subtitle ls-m pb-3">Payment Methods</h4>
                                     <div class="card">
@@ -291,6 +322,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="form-checkbox mt-4 mb-5">
                                     <input type="checkbox" class="custom-checkbox" id="terms-condition"
                                         name="terms-condition" />
@@ -298,6 +330,7 @@
                                         <a href="javascript:void(0);" onclick="openPopup('Mesafeli Satış Sözleşmesi')">Mesafeli Satış Sözleşmesi</a>'ni okudum, onaylıyorum. *
                                     </label>
                                 </div>
+
                                 <div class="form-checkbox mt-4 mb-5">
                                     <input type="checkbox" class="custom-checkbox" id="terms-condition"
                                         name="terms-condition" />
@@ -305,9 +338,11 @@
                                         <a href="javascript:void(0);" onclick="openPopup('Ön Bilgilendirme Formu')">Ön Bilgilendirme Formu</a>'nu okudum, onaylıyorum. *
                                     </label>
                                 </div>
+
                                 <button type="submit" class="btn btn-dark btn-rounded btn-order">
                                     Siparişi Oluştur
                                 </button>
+                                
                             </div>
                         </div>
                     </aside>
