@@ -9,16 +9,16 @@ class Cart(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    shipping = 210
 
     class Meta:
         verbose_name = 'Sepet'
         verbose_name_plural = 'Sepetler'
         ordering = ['-created_at']
 
-    # def __str__(self):
-    #     return f"{self.cart_id} - {self.member} - {self.product} - {self.quantity} - {self.created_at} - {self.updated_at}"
 
-    def total_price(self):
+    ##### Prices Before Shipping and Discount #####
+    def prod_total_price(self):
         total = sum(item.single_price() * item.quantity for item in self.user_cart.all())
         return total
     
@@ -41,12 +41,44 @@ class Cart(models.Model):
                 discount_per_item = product_price_obj.StrikedPrice - product_price_obj.SalePrice
                 total_discount += discount_per_item * item.quantity
         return total_discount
-    
+
     def total_products(self):
         return sum(item.quantity for item in self.user_cart.all())
-    total_products.short_description = 'Toplam Ürün'
     
-    total_price.short_description = 'Toplam Fiyat'
+    old_price.short_description = 'Toplam Ürün Fiyatı (İndirimsiz)'
+    prod_total_price.short_description = 'SEPET ÜRÜN TOPLAMI'
+    total_discount.short_description = 'Toplam Ürün İndirimleri'
+    total_products.short_description = 'Toplam Ürün'
+
+
+    ##### Shipping & Discount Coupon #####
+    def shipping_cost(self):
+        shipping_cost = self.shipping
+        if self.prod_total_price() > 2500:
+            shipping_cost = 0
+        return shipping_cost
+
+    def discount_coupon(self):
+
+        return 10
+    
+    def total_disconts_after_snd(self):
+        total = self.total_discount()
+        if self.shipping_cost() == 0:
+            total += self.shipping
+        if self.discount_coupon() != 0:
+            total += self.discount_coupon()
+        return total
+    
+    def total_price(self):
+        total = self.old_price() - self.total_disconts_after_snd()
+        return total
+    
+    shipping_cost.short_description = 'Kargo Ücreti'
+    discount_coupon.short_description = 'İndirim Kuponu'
+    total_disconts_after_snd.short_description = 'İNDİRİMLER TOPLAMI'
+    total_price.short_description = 'SEPET TUTARI'
+    
 
     def __str__(self):
         return f'{self.member}'

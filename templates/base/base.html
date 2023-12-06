@@ -126,7 +126,7 @@
                                     </li>
 
                                     <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
-                                        <a href="{% url 'category' %}#12">Kombin</a>
+                                        <a href="{% url 'category' %}12">Kombin</a>
                                     </li>
 
                                     <li class="submenu"> 
@@ -420,25 +420,25 @@
                                 <h4 class="widget-title">Hesabım</h4>
                                 <ul class="widget-body">
                                     <li>
-                                        <a href="about-us.html">Siparişlerim</a>
+                                        <a href="{% url 'account' %}#orders">Siparişlerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">İadelerim</a>
+                                        <a href="{% url 'account' %}#returns">İadelerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Değişimlerim</a>
+                                        <a href="{% url 'account' %}#changes">Değişimlerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Destek Taleplerim</a>
+                                        <a href="{% url 'account' %}#support">Destek Taleplerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Faturalarım</a>
+                                        <a href="{% url 'account' %}#invoices">Faturalarım</a>
                                     </li>
                                     <li>
-                                        <a href="#">Adreslerim</a>
+                                        <a href="{% url 'account' %}#address">Adreslerim</a>
                                     </li>
                                     <li>
-                                        <a href="#">Hesap Bilgilerim</a>
+                                        <a href="{% url 'account' %}#account">Hesap Bilgilerim</a>
                                     </li>
                                 </ul>
                             </div>

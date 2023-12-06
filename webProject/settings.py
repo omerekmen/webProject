@@ -32,15 +32,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'testwebproject@outlook.com'  # Replace with your actual email
+EMAIL_HOST_USER = 'testwebproject@outlook.com'
 EMAIL_HOST_PASSWORD = 'WebProjectAdmin.1234'
 EMAIL_FROM_ADDRESS = 'testwebproject@outlook.com'
 DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 
+# Iyzico Payment Login: Mail: testwebproject@outlook.com ||| Password: 102938 @ https://sandbox-merchant.iyzipay.com/
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jet_django',
     "jazzmin",
     "widget_tweaks",
 
@@ -130,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "tr-tr"
 
 TIME_ZONE = "Europe/Istanbul"
 
@@ -163,6 +165,10 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+JET_PROJECT = 'entegrasyoncloud'
+JET_TOKEN = 'f902cf72-0469-4ff4-a7ef-27f1a8dc1050'
 
 JAZZMIN_SETTINGS = {
     'site_title' : "Entegrasyon Cloud",
@@ -198,13 +204,15 @@ JAZZMIN_SETTINGS = {
         "cart.cart": "fas fa-shopping-basket",
         "cart.cartitems": "fas fa-grip-horizontal",
     },  
-    # "related_modal_active": True,
+    # "show_ui_builder": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
     "body_small_text": True,
     "actions_sticky_top": True,
     "sidebar_nav_legacy_style": True,
+    "sidebar_fixed": True,
+
 }
 
 

@@ -15,7 +15,7 @@ class OrderAdressInline(admin.TabularInline):
 
 class OrdersAdmin(admin.ModelAdmin):
     # change_list_template = 'admin/order_change_list.html' 
-    list_display = ('OrderID', 'Member', 'OrderStatus', 'OrderDate')  # Customize the fields you want to display
+    list_display = ('OrderID', 'Member', 'memberName', 'memberCampus', 'OrderStatus', 'OrderDate')  # Customize the fields you want to display
     list_editable = ('OrderStatus',)
     inlines = [OrderProductsInline, OrderAdressInline]
 

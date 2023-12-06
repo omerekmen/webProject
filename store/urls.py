@@ -1,12 +1,17 @@
 from django.urls import path, include
 from django.conf.urls import handler404, handler500
 from store.views import *
+from store.account import *
 
 urlpatterns = [
     path('', index, name='index'),
     path("", include('schools.urls')),
     path("user/", include('members.urls')),
+
     path("account/", account, name='account'),
+    path('account/address/update/', address_update, name='address_update'),
+    path('account/details/update/', account_details_update, name='account_details_update'),
+    path('account/password/update/', password_update, name='password_update'),
 
     path('kategori/', category, name='category' ),
     path('kategoriler/<ProductCategoryID>', category_m, name='category_m' ),
@@ -26,4 +31,7 @@ urlpatterns = [
 
     path('sayfalar/<page_url>/', pages, name='pages' ),
     path('search/', search, name='search'),
+
+    path('get-districts/', get_districts, name='get_districts'),
+    path('get-student-class/', get_student_class, name='get_student_class'),
     ]

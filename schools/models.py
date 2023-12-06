@@ -61,28 +61,34 @@ class SchoolCampus(models.Model):
         verbose_name_plural = _("Kampüsler")
 
     def __str__(self):
-        return f'{self.capmus_id} {self.school.school_name} / {self.campus_name}'
+        return f'{self.school.school_name} / {self.campus_name}'
 
 
-# # Define the StudentLevels model
-# class StudentLevels(models.Model):
-#     level_id = models.AutoField(primary_key=True)
-#     LevelName = models.CharField(max_length=100)  # Adjust max_length as needed
-#     CampusID = models.ForeignKey('Campus', on_delete=models.CASCADE)
+# Define the StudentLevels model
+class StudentLevels(models.Model):
+    level_id = models.AutoField(primary_key=True)
+    LevelName = models.CharField(max_length=255)
+    LevelDescription = models.TextField(null=True, blank=True)
 
-#     def __str__(self):
-#         return f'{self.LevelName}'
+    def __str__(self):
+        return f'{self.LevelName}'
     
+    class Meta:
+        verbose_name = _("Seviye")
+        verbose_name_plural = _("Seviyeler")
 
+# Define the Class model
+class Class(models.Model):
+    LevelName = models.ForeignKey(StudentLevels, on_delete=models.CASCADE)
+    ClassName = models.CharField(max_length=255)
+    ClassDescription = models.TextField(null=True, blank=True)
 
-# # Define the Class model
-# class Class(models.Model):
-#     class_id = models.AutoField(primary_key=True)
-#     ClassName = models.CharField(max_length=255)
-#     ClassDescription = models.TextField()
-
-#     def __str__(self):
-#         return f'{self.ClassName}'
+    def __str__(self):
+        return f'{self.ClassName}'
+    
+    class Meta:
+        verbose_name = _("Sınıf")
+        verbose_name_plural = _("Sınıflar")
     
 
 ##########################################################################################

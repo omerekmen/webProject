@@ -7,8 +7,10 @@ from django.views import generic
 from products.models import *
 from cart.models import *
 from schools.models import *
+from members.models import *
 from products.views import *
 from members.urls import *
+from store.models import *
 from datetime import datetime, timedelta
 
 
@@ -16,9 +18,6 @@ from datetime import datetime, timedelta
 def index(request):
     return render(request, 'store/index.html')
 
-@login_required
-def account(request):
-    return render(request, 'store/account.html')
 
 @login_required
 def category(request):
@@ -210,3 +209,9 @@ def search(request):
     }
 
     return render(request, 'store/search.html', context)
+
+
+def get_districts(request):
+    city_id = request.GET.get('city_id')
+    districts = District.objects.filter(city_id=city_id).values('id', 'name')
+    return JsonResponse(list(districts), safe=False)

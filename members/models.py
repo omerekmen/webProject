@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from schools.models import *
+from store.models import * 
 import datetime
 
 
@@ -37,7 +38,7 @@ class Member(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(_('Staff Durumu'), default=False)
 
     email = models.EmailField(_('Email'), unique=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    phone_number = models.IntegerField(null=True, blank=True)
     username = models.CharField(_('Username'), max_length=100, unique=True) # Öğrenci tarafında TC No alınacak
     first_name = models.CharField(_('Ad'), max_length=150, blank=True)
     last_name = models.CharField(_('Soyad'), max_length=150, blank=True)
@@ -50,15 +51,14 @@ class Member(AbstractBaseUser, PermissionsMixin):
                         ('Kurum Admin', 'Kurum Admin'),
                         ('SuperUser', 'SuperUser'),
                         ]
+    USER_GENDER_CHOICES = [('Erkek', 'Erkek'), 
+                            ('Kız', 'Kız')]
     user_type = models.CharField(_('Kullanıcı Tipi'), max_length=100, choices=USERTYPE_CHOICES, default='Öğrenci')
-    user_gender = models.CharField("Cinsiyet", max_length=100, choices=[
-                                                                        ('Erkek', 'Erkek'), 
-                                                                        ('Kız', 'Kız')]
-                                                                        )
+    user_gender = models.CharField("Cinsiyet", max_length=100, choices=USER_GENDER_CHOICES)
 
     campus_id = models.ForeignKey(SchoolCampus, on_delete=models.CASCADE, null=True, blank=True)
-    level_id = models.CharField(max_length=255, null=True, blank=True)
-    class_id = models.CharField(max_length=255, null=True, blank=True)
+    level_id = models.ForeignKey(StudentLevels, on_delete=models.CASCADE, null=True, blank=True)
+    class_id = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, blank=True)
 
     is_active = models.BooleanField(_('Aktiflik Durumu'), default=True)
     ip_address = models.CharField(_('IP Adres'), max_length=45)
@@ -78,3 +78,32 @@ class Member(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f'{self.username}'
+    
+
+class MemberAddress(models.Model):
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    AddressType = models.CharField(max_length=100, choices=[('Delivery', 'Teslimat'), ('Invoice', 'Fatura')])
+    
+    recipient_name = models.CharField(max_length=255)
+    recipient_lastname = models.CharField(max_length=255)
+
+    Country = models.CharField(max_length=100, default="Türkiye")
+    City = models.ForeignKey(City, on_delete=models.CASCADE)
+    District = models.ForeignKey(District, on_delete=models.CASCADE)
+    FullAddress = models.TextField()
+    PostalCode = models.PositiveIntegerField(null=True, blank=True)
+
+    PhoneNumber = models.IntegerField()
+    EMail = models.EmailField()
+
+    comp_name = models.CharField(max_length=255, null=True, blank=True)
+    tax_office = models.CharField(max_length=255, null=True, blank=True)
+    tax_no = models.PositiveBigIntegerField(null=True, blank=True)
+
+    CreatedAt = models.DateTimeField(auto_now_add=True)
+    UpdatedAt = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"""{self.recipient_name} {self.recipient_lastname}
+            {self.PhoneNumber} / {self.EMail}
+            {self.FullAddress} , {self.District.name}/{self.City.name}"""

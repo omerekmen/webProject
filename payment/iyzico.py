@@ -1,86 +1,127 @@
 import iyzipay
+# import json
 
-options = {
-    'api_key': 'sandbox-tfN7DEgH65CokZxaZmt2Y2I6Fd74wdkn',
-    'secret_key': 'sandbox-lrz2JNdFJOdkWWfBaUHzSDP48qsRe6VQ',
-    'base_url': 'sandbox-api.iyzipay.com'
-}
+class IyzicoPayment:
 
-payment_card = {
-    'cardHolderName': 'John Doe',
-    'cardNumber': '5400010000000004',
-    'expireMonth': '12',
-    'expireYear': '2030',
-    'cvc': '123',
-    'registerCard': '0'
-}
+    def __init__(self):
+        self.api_key = 'sandbox-FyQyhVIRqs3nYwyg4VsuLTDwJprgvXaY'
+        self.secret_key = 'sandbox-3Y8kBMkCimM5Kf7lLBhekNO0ixl4fhve'
+        self.base_url = 'sandbox-api.iyzipay.com'
 
-buyer = {
-    'id': 'BY789',
-    'name': 'John',
-    'surname': 'Doe',
-    'gsmNumber': '+905350000000',
-    'email': 'email@email.com',
-    'identityNumber': '74300864791',
-    'lastLoginDate': '2015-10-05 12:43:35',
-    'registrationDate': '2013-04-21 15:12:09',
-    'registrationAddress': 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-    'ip': '85.34.78.112',
-    'city': 'Istanbul',
-    'country': 'Turkey',
-    'zipCode': '34732'
-}
+    def iyzipay_options(self):
+        options = {
+            'api_key': self.api_key,
+            'secret_key': self.secret_key,
+            'base_url': self.base_url
+        }
+        return options
+    
+    def create_payment_card(self, card_holder_name, card_number, expire_month, expire_year, cvc):
+        payment_card = {
+            'cardHolderName': card_holder_name,
+            'cardNumber': card_number,
+            'expireMonth': expire_month,
+            'expireYear': expire_year,
+            'cvc': cvc,
+            'registerCard': '0'
+        }
+        return payment_card
+    
+    def create_buyer(self, buyerid, name, surname, gsm_number, email, identity_number, registration_date, registration_address, city, country, zip_code, ip):
+        buyer = {
+            'id': buyerid,
+            'name': name,
+            'surname': surname,
+            'gsmNumber': gsm_number,
+            'email': email,
+            'identityNumber': identity_number,
+            'registrationDate': registration_date,
+            'registrationAddress': registration_address,
+            'ip': ip,
+            'city': city,
+            'country': country,
+            'zipCode': zip_code,
+        }
+        return buyer
+    
+    def create_address(self, contact_name, city, country, address, zip_code):
+        address = {
+            'contactName': contact_name,
+            'city': city,
+            'country': country,
+            'address': address,
+            'zipCode': zip_code
+        }
+        return address
+    
+    def create_basket_items(self, name, category1, category2, item_type, price):
+        basket_items = [
+            {
+                'name': name,
+                'category1': category1,
+                'category2': category2,
+                'itemType': item_type,
+                'price': price
+            },
+        ]
+        return basket_items
+    
+    def create_request(self, payment_card, buyer, address, basket_items, locale='tr'):
+        request = {
+            'locale': locale,
+            'conversationId': '123456789', # must be unique for each request conversationId
+            'price': '1', # must be string type for decimal points 
+            'paidPrice': '1.2', # must be string type for decimal points 
+            'currency': 'TRY',
+            'installment': '1',  # must be string type for decimal points 
+            'basketId': 'B67832',   # must be unique for each request basketId
+            'paymentChannel': 'WEB',
+            'paymentGroup': 'PRODUCT',
+            'paymentCard': payment_card,
+            'buyer': buyer,
+            'shippingAddress': address,
+            'billingAddress': address,
+            'basketItems': basket_items
+        }
+        return request  
 
-address = {
-    'contactName': 'Jane Doe',
-    'city': 'Istanbul',
-    'country': 'Turkey',
-    'address': 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-    'zipCode': '34732'
-}
+    def create_payment(self, payment_card, buyer, address, basket_items):
+        request = {
+            'locale': 'tr',
+            'conversationId': '123456789', # must be unique for each request conversationId
+            'price': '1', # must be string type for decimal points 
+            'paidPrice': '1.2', # must be string type for decimal points 
+            'currency': 'TRY',
+            'installment': '1',  # must be string type for decimal points 
+            'basketId': 'B67832',   # must be unique for each request basketId
+            'paymentChannel': 'WEB',
+            'paymentGroup': 'PRODUCT',
+            'paymentCard': payment_card,
+            'buyer': buyer,
+            'shippingAddress': address,
+            'billingAddress': address,
+            'basketItems': basket_items
+        }
+        payment = iyzipay.Payment().create(request, self.iyzipay_options())
+        return payment
 
-basket_items = [
-    {
-        'id': 'BI101',
-        'name': 'Binocular',
-        'category1': 'Collectibles',
-        'category2': 'Accessories',
-        'itemType': 'PHYSICAL',
-        'price': '0.3'
-    },
-    {
-        'id': 'BI102',
-        'name': 'Game code',
-        'category1': 'Game',
-        'category2': 'Online Game Items',
-        'itemType': 'VIRTUAL',
-        'price': '0.5'
-    },
-    {
-        'id': 'BI103',
-        'name': 'Usb',
-        'category1': 'Electronics',
-        'category2': 'Usb / Cable',
-        'itemType': 'PHYSICAL',
-        'price': '0.2'
-    }
-]
+
+# iyzico = IyzicoPayment()
+# api_test = iyzipay.ApiTest().retrieve(iyzico.iyzipay_options())
+
+# print(api_test.read().decode('utf-8'))
 
 request = {
     'locale': 'tr',
-    'conversationId': '123456789',
-    'price': '1',
-    'paidPrice': '1.2',
-    'currency': 'TRY',
-    'installment': '1',
-    'basketId': 'B67832',
-    'paymentChannel': 'WEB',
-    'paymentGroup': 'PRODUCT',
-    'paymentCard': payment_card,
-    'buyer': buyer,
-    'shippingAddress': address,
-    'billingAddress': address,
-    'basketItems': basket_items
+    'conversationId': '123456789', # must be unique for each request conversationId
+    'price': '1', # must be string type for decimal points 
+    'paidPrice': '1.2', # must be string type for decimal points 
 }
 
-payment = iyzipay.Payment().create(request, options)
+print(request)
+
+request['currency'] = 'TRY'
+
+
+
+print(request)

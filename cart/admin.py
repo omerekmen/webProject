@@ -35,13 +35,13 @@ class CartAdmin(admin.ModelAdmin):
     inlines = [CartItemsInline]
 
     # List display options for Cart
-    list_display = ['member', 'created_at', 'updated_at', 'total_products', 'total_price']
+    list_display = ['member', 'created_at', 'updated_at', 'total_products', 'prod_total_price', 'shipping_cost']
     search_fields = ['member__username', 'member__email']
     list_filter = ['created_at', 'updated_at']
 
     
 
     # Display the cart total price in the list
-    readonly_fields = ('total_products', 'total_price',)
+    readonly_fields = ('total_products', 'old_price', 'prod_total_price', 'total_discount', 'shipping_cost', 'discount_coupon', 'total_disconts_after_snd', 'total_price' )
 
 

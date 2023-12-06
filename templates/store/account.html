@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}Hesap{% endblock %} 
 
@@ -8,6 +9,7 @@
 
 {% block content %}
 <main class="main account">
+
     <nav class="breadcrumb-nav">
         <div class="container">
             <ul class="breadcrumb">
@@ -16,10 +18,13 @@
             </ul>
         </div>
     </nav>
+
     <div class="page-content mt-4 mb-10 pb-6">
         <div class="container">
             <h2 class="title title-center mb-10">{{ user.first_name }} {{ user.last_name }}</h2>
             <div class="tab tab-vertical gutter-lg">
+
+                <!-- TAB NAVS -->
                 <ul class="nav nav-tabs mb-4 col-lg-3 col-md-4" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" href="#dashboard">Dashboard</a>
@@ -47,6 +52,8 @@
                     </li>
                 </ul>
                 <div class="tab-content col-lg-9 col-md-8">
+
+                    <!-- DASHBOARD -->
                     <div class="tab-pane active" id="dashboard">
                         <p class="mb-0">
                             Hello <span>User</span> (not <span>User</span>? <a href="#" class="text-primary">Log
@@ -62,7 +69,14 @@
                         <a href="shop.html" class="btn btn-dark btn-rounded">Go To Shop<i
                                 class="d-icon-arrow-right"></i></a>
                     </div>
+
+
+
+                    <!-- ORDERS -->
                     <div class="tab-pane" id="orders">
+                        <h4>
+                            Siparişlerim
+                        </h4>
                         <table class="order-table">
                             <thead>
                                 <tr>
@@ -125,7 +139,14 @@
                             </tbody>
                         </table>
                     </div>
+
+
+
+                    <!-- RETURNS -->
                     <div class="tab-pane" id="returns">
+                        <h4>
+                            İadelerim
+                        </h4>
                         <table class="order-table">
                             <thead>
                                 <tr>
@@ -148,7 +169,14 @@
                             </tbody>
                         </table>
                     </div>
+
+
+
+                    <!-- CHANGES -->
                     <div class="tab-pane" id="changes">
+                        <h4>
+                            Değişimlerim
+                        </h4>
                         <table class="order-table">
                             <thead>
                                 <tr>
@@ -171,114 +199,506 @@
                             </tbody>
                         </table>
                     </div>
+
+
+
+                    <!-- SUPPORT -->
                     <div class="tab-pane" id="support">
                         <p class="mb-4 text-body">No downloads available yet.</p>
                         <a href="#" class="btn btn-primary btn-link btn-underline">Browser Products<i
                                 class="d-icon-arrow-right"></i></a>
                     </div>
+
+
+
+                    <!-- ADDRESS -->
                     <div class="tab-pane" id="address">
-                        <p class="mb-2">The following addresses will be used on the checkout page by default.
+                        <p class="mb-2">Teslimat ve fatura adreslerinizi bu sekmede görüntüleyebilir ve güncelleyebilirsiniz.
                         </p>
                         <div class="row">
+
+                            <!-- Teslimat Adresi -->
                             <div class="col-sm-6 mb-4">
                                 <div class="card card-address">
                                     <div class="card-body">
-                                        <h5 class="card-title text-uppercase">Billing Address</h5>
-                                        <p>John Doe<br>
-                                            Riode Company<br>
-                                            Steven street<br>
-                                            El Carjon, CA 92020
-                                        </p>
-                                        <a href="#" class="btn btn-link btn-secondary btn-underline">Edit <i
-                                                class="far fa-edit"></i></a>
+                                        <h5 class="card-title text-uppercase">Teslimat Adresi</h5>
+
+                                        {% if delivery_address %}
+                                            {{ delivery_address.recipient_name }} {{ delivery_address.recipient_lastname }}<br>
+                                            0 {{ delivery_address.PhoneNumber|format_phone }}<br>
+                                            {{ delivery_address.EMail }}<br>
+
+                                            
+
+                                            {{ delivery_address.FullAddress }}<br>
+                                            {{ delivery_address.District }}/{{ delivery_address.City }}, {{ delivery_address.PostalCode }}<br>
+                                        {% else %}
+                                            <p>Henüz bir teslimat adresi oluşturmamışsınız.</p>
+                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Fatura Adresi -->
                             <div class="col-sm-6 mb-4">
                                 <div class="card card-address">
                                     <div class="card-body">
-                                        <h5 class="card-title text-uppercase">Shipping Address</h5>
-                                        <p>You have not set up this type of address yet.</p>
-                                        <a href="#" class="btn btn-link btn-secondary btn-underline">Edit <i
-                                                class="far fa-edit"></i></a>
+                                        <h5 class="card-title text-uppercase">Fatura Adresi</h5>
+                                        {% if invoice_address %}
+                                            {{ invoice_address.recipient_name }} {{ invoice_address.recipient_lastname }} | {{ invoice_address.comp_name }}<br>
+                                            0 {{ invoice_address.PhoneNumber|format_phone }}<br>
+                                            {{ invoice_address.EMail }}<br>
+
+                                            {{ invoice_address.FullAddress }}<br>
+                                            {{ invoice_address.District }}/{{ invoice_address.City }}, {{ invoice_address.PostalCode }}<br>
+                                            {{ invoice_address.tax_office }} | {{ invoice_address.tax_no }}
+                                        {% else %}
+                                            <p>Fatura adresiniz bulunmamaktadır, vaarsayılan olarak teslimat adresiniz kullanılacak.</p>
+                                        {% endif %}
+                                        <br>
                                     </div>
                                 </div>
                             </div>
+
+                            <a href="#" id="editAddressLink" class="btn btn-link btn-secondary btn-underline">Adreslerimi Düzenle <i class="far fa-edit"></i></a>
+                            
+                            <br><br><br>
+
+                            <!-- Adress Editor -->
+                            <div id="addressEditor" class="adress-editor" style="display:none;">
+                                <form action="{% url 'address_update' %}" method="post" class="form">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-12 mb-6 mb-lg-1 pr-lg-4">
+                                            
+                                            <h5 class=" title-simple text-left text-uppercase">Teslimat Adresi</h5>
+
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <label>Alıcı Adı *</label>
+                                                    <input type="text" class="form-control" name="first-name" id="first-name" required="" 
+                                                    value="{% if delivery_address %}{{ delivery_address.recipient_name }}{% endif %}" />
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>Alıcı Soyadı *</label>
+                                                    <input type="text" class="form-control" name="last-name" id="last-name" required="" 
+                                                    value="{% if delivery_address %}{{ delivery_address.recipient_lastname }}{% endif %}" />
+                                                </div>
+                                            </div>
+                                            
+                                            <label style="display: none;">Ülke *</label>
+                                            <input id="country" type="text" class="form-control" name="country"  value="Türkiye" style="display: none;" />
+
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <label>İl *</label>
+                                                    <div class="select-box">
+                                                        <select id="citySelect" name="city" class="form-control" >
+                                                            {% if delivery_address %}
+                                                            <option value="{{ delivery_address.City.id }}">{{ delivery_address.City }}</option>
+                                                            {% else %}
+                                                            <option value="choice-city">İl Seçiniz</option>
+                                                            {% endif %}
+                    
+                                                            {% for city in cities %}
+                                                            <option value="{{ city.id }}">{{ city.name }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <label>İlçe *</label>
+                                                    <div class="select-box">
+                                                        <select id="districtSelect" name="district" class="form-control">
+                                                            {% if delivery_address %}
+                                                            <option selected value="{{ delivery_address.District }}">{{ delivery_address.District }}</option>
+                                                            {% else %}
+                                                            <option>İlçe Seçiniz</option>
+                                                            {% endif %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                    
+                                            <label>Teslimat Adresi *</label>
+                                                <textarea class="form-control" id="delivery-address" name="delivery-address"  required=""
+                                                placeholder="" >{{ delivery_address.FullAddress }}</textarea>
+                                            
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>ZIP *</label>
+                                                    <input type="numeric" class="form-control" name="zip" id="zip" required maxlength="5" value="{{ delivery_address.PostalCode }}" />
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <label>Phone *</label>
+                                                    <input type="text" class="form-control phone-input" name="phone" id="phone" required placeholder="(5__) ___ __ __" value="{{ delivery_address.PhoneNumber|format_phone }}" />
+                                                </div>
+                                            </div>
+                    
+                                            <label>Email Address *</label>
+                                            <input type="email" class="form-control" name="email-address" id="email-address" required="" value="{{ delivery_address.EMail }}" />
+                                            
+                                            
+                                            <div class="form-checkbox mb-6">
+                                                <input type="checkbox" class="custom-checkbox" id="different-address"
+                                                    name="different-address">
+                                                <label class="form-control-label ls-s" for="different-address">
+                                                    Fatura Adresim Farklı
+                                                </label>
+                                            </div>
+                                            
+                    
+                    
+                                            <!-- Invoice Address Section -->
+                                            <div id="invoiceAddressSection" style="display:none;">
+                                                <h5 class="title-simple text-left text-uppercase">Fatura Adresi</h5>
+                                                
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <label>İl *</label>
+                                                        <div class="select-box">
+                                                            <select id="invoicecitySelect" name="invoice-city" class="form-control" value="Şehir Seçiniz">
+                                                                {% if invoice_address %}
+                                                                <option selected value="{{ invoice_address.City.id }}">{{ invoice_address.City }}</option>
+                                                                {% else %}
+                                                                <option value="choice-city">İl Seçiniz</option>
+                                                                {% endif %}
+                    
+                                                                {% for city in cities %}
+                                                                <option value="{{ city.id }}">{{ city.name }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <label>İlçe *</label>
+                                                        <div class="select-box">
+                                                            <select id="invoicedistrictSelect" name="invoice-district" class="form-control">
+                                                                {% if invoice_address %}
+                                                                <option selected value="{{ invoice_address.District.id }}">{{ invoice_address.District }}</option>
+                                                                {% else %}
+                                                                <option value="choice-district">İlçe Seçiniz</option>
+                                                                {% endif %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                    
+                                                <label>Fatura Adresi *</label>
+                                                    <textarea class="form-control" id="invoice-address" name="invoice-address"
+                                                    placeholder="" >{{ invoice_address.FullAddress }}</textarea>
+                                                
+                                                <label>Firma Adı veya Adı Soyadı</label>
+                                                <input type="text" class="form-control" id="company-name" name="company-name" value="{{ invoice_address.comp_name }}" />
+                                                
+                                                <label>Vergi Dairesi</label>
+                                                <input type="text" class="form-control" id="company-tax-office" name="company-tax-office" value="{{ invoice_address.tax_office }}" />
+                                                
+                                                <label>Vergi Numarası veya TC Kimlik No</label>
+                                                <input type="number" class="form-control" id="company-tax-no" name="company-tax-no" value="{{ invoice_address.tax_no }}" />
+                                                
+                                                <div class="row">
+                                                    <div class="col-xs-5">
+                                                        <label>Phone</label>
+                                                        <input type="text" class="form-control phone-input" id="invoice-phone" name="invoice-phone" placeholder="(5__) ___ __ __" value="{{ invoice_address.PhoneNumber|format_phone }}" maxlength="15" />
+                                                    </div>
+                                                    <div class="col-xs-7">
+                                                        <label>E-Posta</label>
+                                                        <input type="email" class="form-control" id="invoice-email-address" name="invoice-email-address" value="{{ invoice_address.EMail }}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" name="update-address" id="update-address" class="btn btn-dark btn-rounded btn-order update-address">
+                                        Adresimi Güncelle
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
+
+
+
+                    <!-- ACCOUNT -->
                     <div class="tab-pane" id="account">
-                        <form action="#" class="form">
+                        <form action="{% url 'account_details_update' %}" method="post" class="form">
+                            {% csrf_token %}
                             <label>TC Kimlik Numarası *</label>
-                            <input readonly type="text" class="form-control mb-0" name="username" required=""  value="{{ user.username }}">
-                            {% comment %} <small class="d-block form-text mb-7">This will be how your name will be displayedin the account section and in reviews</small> {% endcomment %}
+                            <input readonly type="text" id="username" class="form-control mb-0" name="username" required=""  value="{{ user.username }}">
                             
                             </br>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Ad *</label>
-                                    <input readonly type="text" class="form-control" name="first_name" required="" value="{{ user.first_name }}">
+                                    <input readonly type="text" id="first_name" class="form-control" name="first_name" required="" value="{{ user.first_name }}">
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Soyad *</label>
-                                    <input readonly type="text" class="form-control" name="last_name" required="" value="{{ user.last_name }}">
+                                    <input readonly type="text" id="last_name" class="form-control" name="last_name" required="" value="{{ user.last_name }}">
                                 </div>
                             </div>
 
                             <label>E-posta Adresi *</label>
-                            <input type="email" class="form-control" name="email" required=""  value="{{ user.email }}">
+                            <input type="email" class="form-control" id="email" name="email" required=""  value="{{ user.email }}">
 
                             <label>Telefon Numarası *</label>
-                            <input type="tel" class="form-control" name="phone" required=""  value="{{ user.phone_number }}">
+                            <input type="text" class="form-control phone-input" name="phone" id="phone" required placeholder="(5__) ___ __ __" value="{{ user.phone_number|format_phone }}" />
 
                             <div class="row">
                                 <div class="col-sm-5">
                                     <label>Cinsiyet</label>
-                                    <input readonly type="text" class="form-control" name="user_gender" required="" value="{{ user.user_gender }}">
+                                    <input readonly type="text" id="user_gender" class="form-control" name="user_gender" required="" value="{{ user.user_gender }}">
                                 </div>
                                 <div class="col-sm-7">
                                     <label>Doğum Tarihi</label>
-                                    <input readonly type="date" class="form-control" name="user_bdate" required="" value="{{ user.birth_date }}">
+                                    <input readonly type="date" id="user_bdate" class="form-control" name="user_bdate" required="" value="{{ user.birth_date|date:'Y-m-d' }}">
                                 </div>
                             </div>
                             
                             <label>Kurum Seçimi</label>
                             <div class="product-form-group">
-                                    <select name="user_school" class="form-control" default:"{{ user.campus_id.campus_name }}">
-                                        <option value="" selected="{{ user.campus_id.campus_name }}">{{ user.campus_id.campus_name }}</option>
-                                        {% for sc in schools.schoolcampus_set.all %}
-                                        <option value="{{ sc.campus_name }}">{{ sc.campus_name }}</option>
-                                        {% endfor %}
-                                    </select>
+                                <input readonly type="text" id="stabil-user_school" class="form-control" name="stabil-user_school" value="{{ user.campus_id.campus_name }}">
+                                {% comment %}                                         
+                                <select id="user_school" name="user_school" class="form-control">
+                                    {% if user.campus_id %}
+                                    <option value="{{ user.campus_id.campus_id }}" selected>{{ user.campus_id.campus_name }}</option>
+                                    {% endif %}
+
+                                    {% for sc in schools.schoolcampus_set.all %}
+                                    <option value="{{ sc.capmus_id }}">{{ sc.campus_name }}</option>
+                                    {% endfor %} 
+                                </select>
+                                {% endcomment %}
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label>Kademe</label>
-                                    <input readonly type="text" class="form-control" name="user_level" required="" value="{{ user.level_id }}">
+                                    <div class="select-box">
+                                        <select id="levelSelect" name="levelSelect" class="form-control" >
+                                            {% if user.level_id %}
+                                            <option selected value="{{ user.level_id.level_id }}">{{ user.level_id.LevelName }}</option>
+                                            {% else %}
+                                            <option value="">Kademe Seçiniz</option>
+                                            {% endif %}
+
+                                            {% for level in levels %}
+                                            <option value="{{ level.level_id }}">{{ level.LevelName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <label>Sınıf</label>
-                                    <input readonly type="text" class="form-control" name="user_class" required="" value="{{ user.class_id }}">
+                                    <div class="select-box">
+                                        <select id="classSelect" name="classSelect" class="form-control">
+                                            {% if user.class_id %}
+                                            <option selected value="{{ user.class_id.class_id }}">{{ user.class_id }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
+                            
+                            <button type="submit" class="btn btn-primary">Değişiklikleri Kaydet</button>
+                        </form>
+                        
+                        <form action="{% url 'password_update' %}" method="post" class="form">
+                            {% csrf_token %}
                             <fieldset>
-                                <legend>Password Change</legend>
-                                <label>Current password (leave blank to leave unchanged)</label>
+                                <legend>Şifre Değiştir</legend>
+                                <label>Mevcut Şifre (Aynı Kalmasını İstiyorsanız Boş Bırakın)</label>
                                 <input type="password" class="form-control" name="current_password">
-
-                                <label>New password (leave blank to leave unchanged)</label>
+                                
+                                <label>Yeni Şifre (Aynı Kalmasını İstiyorsanız Boş Bırakın)</label>
                                 <input type="password" class="form-control" name="new_password">
-
-                                <label>Confirm new password</label>
+                                
+                                <label>Yeni Şifre Doğrulama</label>
                                 <input type="password" class="form-control" name="confirm_password">
                             </fieldset>
-
-                            <button type="submit" class="btn btn-primary">SAVE CHANGES</button>
+                            <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
                         </form>
                     </div>
+
+
+
                 </div>
             </div>
         </div>
     </div>
 </main>
 {% endblock content %}
+
+{% block extra_scripts %}
+<!-- Level/Class Selector -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var levelSelect = document.getElementById('levelSelect');
+        
+        // Function to fetch and populate classes based on the selected level
+        function fetchAndPopulateClasses(levelId) {
+            fetch(`/get-student-class/?level_id=${levelId}`)  // Correct URL to your Django view
+                .then(response => response.json())
+                .then(data => {
+                    var classSelect = document.getElementById('classSelect');
+                    classSelect.innerHTML = '<option value="{{ user.class_id.class_id }}">{{ user.class_id }}</option>'; // Reset and add default option
+                    data.forEach(function(cls) {
+                        var option = new Option(cls.ClassName, cls.id); // Use ClassName and id from your data
+                        classSelect.add(option);
+                    });
+                });
+        }
+    
+        // Event listener for change on levelSelect
+        levelSelect.addEventListener('change', function() {
+            var levelId = this.value;
+            console.log("Selected Level ID:", levelId);
+            fetchAndPopulateClasses(levelId);
+        }); 
+    
+        // Trigger the change event if a level is already selected when the page loads
+        if (levelSelect.value) {
+            fetchAndPopulateClasses(levelSelect.value);
+        }
+    }); 
+</script>
+<script>
+    document.getElementById('editAddressLink').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the default anchor behavior
+        var editor = document.getElementById('addressEditor');
+        if (editor.style.display === 'none') {
+            editor.style.display = 'block';
+        } else {
+            editor.style.display = 'none';
+        }
+    });
+</script>
+
+
+    
+<!-- Invoice Adress -->
+<script>
+    document.getElementById('different-address').addEventListener('change', function() {
+        var invoiceSection = document.getElementById('invoiceAddressSection');
+        if (this.checked) {
+            invoiceSection.style.display = 'block';
+        } else {
+            invoiceSection.style.display = 'none';
+        }
+    });
+</script>
+<!-- City/District Selector -->
+<script>
+    document.getElementById('citySelect').addEventListener('change', function() {
+        var cityId = this.value;
+        fetch(`/get-districts/?city_id=${cityId}`)  // URL to your Django view
+            .then(response => response.json())
+            .then(data => {
+                var districtSelect = document.getElementById('districtSelect');
+                districtSelect.innerHTML = '';
+                data.forEach(function(district) {
+                    var option = new Option(district.name, district.name);
+                    districtSelect.add(option);
+                });
+            });
+    });
+    document.getElementById('invoicecitySelect').addEventListener('change', function() {
+        var cityId = this.value;
+        fetch(`/get-districts/?city_id=${cityId}`)  // URL to your Django view
+            .then(response => response.json())
+            .then(data => {
+                var districtSelect = document.getElementById('invoicedistrictSelect');
+                districtSelect.innerHTML = '';
+                data.forEach(function(district) {
+                    var option = new Option(district.name, district.name);
+                    districtSelect.add(option);
+                });
+            });
+    });
+</script>
+<!-- Phone Formatter -->
+<script>
+    document.querySelectorAll('.phone-input').forEach(input => {
+        input.addEventListener('input', function() {
+            var value = this.value.replace(/\D/g, ''); // Remove all non-numeric characters
+            var formatted = '';
+
+            // Apply formatting
+            if (value.length > 0) {
+                formatted = '(' + value.substring(0, 3);
+            }
+            if (value.length >= 4) {
+                formatted += ') ' + value.substring(3, 6);
+            }
+            if (value.length >= 7) {
+                formatted += ' ' + value.substring(6, 8);
+            }
+            if (value.length >= 9) {
+                formatted += ' ' + value.substring(8, 10);
+            }
+
+            this.value = formatted;  // Update the input with the formatted value
+        });
+    });
+</script>
+
+
+{% if messages %}
+<script>
+    window.onload = function() {
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    };
+</script>
+{% endif %}
+
+<script>
+    document.querySelectorAll('.nav-tabs .nav-link').forEach(tab => {
+        tab.addEventListener('click', function(event) {
+            // Prevent the default anchor behavior
+            event.preventDefault();
+    
+            // Get the hash from the href attribute of the clicked tab
+            var hash = this.getAttribute('href');
+    
+            // Use the history API to update the URL without reloading the page
+            history.pushState(null, null, hash);
+    
+            // Activate the tab normally (you might need to adjust this
+            // depending on how your tab activation code is set up)
+            // This is just an example and might not work out of the box
+            document.querySelector('.nav-tabs .nav-link.active').classList.remove('active');
+            this.classList.add('active');
+            document.querySelector('.tab-content .tab-pane.active').classList.remove('active');
+            document.querySelector(hash).classList.add('active');
+        });
+    });
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if there is a hash in the URL
+        var hash = window.location.hash;
+        if (hash) {
+            // Deactivate all tabs
+            document.querySelectorAll('.nav-link').forEach(function(navLink) {
+                navLink.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-pane').forEach(function(tabPane) {
+                tabPane.classList.remove('active');
+            });
+
+            // Activate the tab corresponding to the hash
+            var activeTab = document.querySelector(`a[href="${hash}"]`);
+            var activePane = document.querySelector(hash);
+            if (activeTab && activePane) {
+                activeTab.classList.add('active');
+                activePane.classList.add('active');
+            }
+        }
+    });
+</script>
+
+{% endblock extra_scripts %}
