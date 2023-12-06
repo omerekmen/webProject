@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 ### Static files importing to url structure
 from django.conf import settings
@@ -37,8 +37,10 @@ ve bu uygulamayı settings.py içindeki INSTALLED_APPS listesine eklemek olacak,
 daha sonrasında sm değişkeni ile okul yönetimi belirlenecek ve okula özel url yapısı oluşturulacak.
 
 """
+from jet_django.urls import jet_urls
 
 urlpatterns = [
+    path('jet_api/', include('jet_django.urls')),
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),

@@ -42,6 +42,7 @@ DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 # Application definition
 
 INSTALLED_APPS = [
+    'jet_django',
     "jazzmin",
     "widget_tweaks",
 
@@ -164,6 +165,10 @@ CKEDITOR_UPLOAD_PATH = "uploads/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+JET_PROJECT = 'entegrasyoncloud'
+JET_TOKEN = 'f902cf72-0469-4ff4-a7ef-27f1a8dc1050'
 
 JAZZMIN_SETTINGS = {
     'site_title' : "Entegrasyon Cloud",
