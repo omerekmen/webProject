@@ -66,62 +66,57 @@ class IyzicoPayment:
         ]
         return basket_items
     
-    def create_request(self, payment_card, buyer, address, basket_items, locale='tr'):
-        request = {
+    def create_request(self, conversation_id, price, paid_price, basket_id, payment_card, buyer, shipping_address, billing_address, basket_items, locale='tr', currency='TRY', installment='1', payment_channel='WEB', payment_group='PRODUCT'):
+        iyzi_request = {
             'locale': locale,
-            'conversationId': '123456789', # must be unique for each request conversationId
-            'price': '1', # must be string type for decimal points 
-            'paidPrice': '1.2', # must be string type for decimal points 
-            'currency': 'TRY',
-            'installment': '1',  # must be string type for decimal points 
-            'basketId': 'B67832',   # must be unique for each request basketId
-            'paymentChannel': 'WEB',
-            'paymentGroup': 'PRODUCT',
-            'paymentCard': payment_card,
-            'buyer': buyer,
-            'shippingAddress': address,
-            'billingAddress': address,
-            'basketItems': basket_items
-        }
-        return request  
+            'conversationId': conversation_id,
+            'price': price,
+            'paidPrice': paid_price,
+            'currency': currency,
+            'installment': installment,
+            'basketId': basket_id,
 
-    def create_payment(self, payment_card, buyer, address, basket_items):
-        request = {
-            'locale': 'tr',
-            'conversationId': '123456789', # must be unique for each request conversationId
-            'price': '1', # must be string type for decimal points 
-            'paidPrice': '1.2', # must be string type for decimal points 
-            'currency': 'TRY',
-            'installment': '1',  # must be string type for decimal points 
-            'basketId': 'B67832',   # must be unique for each request basketId
-            'paymentChannel': 'WEB',
-            'paymentGroup': 'PRODUCT',
+            'paymentChannel': payment_channel,
+            'paymentGroup': payment_group,
+
             'paymentCard': payment_card,
             'buyer': buyer,
-            'shippingAddress': address,
-            'billingAddress': address,
+            'shippingAddress': shipping_address,
+            'billingAddress': billing_address,
             'basketItems': basket_items
         }
-        payment = iyzipay.Payment().create(request, self.iyzipay_options())
+        return iyzi_request
+
+    def create_payment(self, iyzi_request):
+        payment = iyzipay.Payment().create(iyzi_request, self.iyzipay_options())
         return payment
+    
+    def create_iyzilink_product(self, request):
+        iyzilink_product = iyzipay.IyziLinkProduct().create(request, self.iyzipay_options())
+        return iyzilink_product
 
 
-# iyzico = IyzicoPayment()
+iyzico = IyzicoPayment()
 # api_test = iyzipay.ApiTest().retrieve(iyzico.iyzipay_options())
 
 # print(api_test.read().decode('utf-8'))
+# print(api_test.status_code)
+
+
+options = iyzico.iyzipay_options()
 
 request = {
-    'locale': 'tr',
-    'conversationId': '123456789', # must be unique for each request conversationId
-    'price': '1', # must be string type for decimal points 
-    'paidPrice': '1.2', # must be string type for decimal points 
+  "addressIgnorable": 0,
+  "conversationId": "123456789",
+  "currencyCode": "TRY",
+  "description": "BK Deneme Ürün",
+  "encodedImageFile": iyzipay.IyziFileBase64Encoder.encode("static/images/category.png"),
+  "installmentRequested": False,
+  "locale": "tr",
+  "name": "BK Deneme Ürün",
+  "price": "1449.0",
+  "soldLimit": True
 }
 
-print(request)
-
-request['currency'] = 'TRY'
-
-
-
-print(request)
+report = iyzipay.IyziLinkProduct().create(request, options)
+print(report.read().decode('utf-8'))
