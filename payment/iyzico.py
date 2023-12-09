@@ -1,4 +1,5 @@
 import iyzipay
+import time, random
 # import json
 
 class IyzicoPayment:
@@ -16,28 +17,32 @@ class IyzicoPayment:
         }
         return options
     
-    def create_payment_card(self, card_holder_name, card_number, expire_month, expire_year, cvc):
+    def create_payment_card(self, card_holder_name, card_number, expire_month, expire_year, cvc, register_card='0'):
         payment_card = {
             'cardHolderName': card_holder_name,
             'cardNumber': card_number,
             'expireMonth': expire_month,
             'expireYear': expire_year,
             'cvc': cvc,
-            'registerCard': '0'
+            'registerCard': register_card,
         }
         return payment_card
     
-    def create_buyer(self, buyerid, name, surname, gsm_number, email, identity_number, registration_date, registration_address, city, country, zip_code, ip):
+    def create_buyer(self, buyerid, name, surname, gsm_number, email, identity_number, last_login_date, registration_date, registration_address, city, country, zip_code, ip):
         buyer = {
             'id': buyerid,
             'name': name,
             'surname': surname,
+            'identityNumber': identity_number,
+
             'gsmNumber': gsm_number,
             'email': email,
-            'identityNumber': identity_number,
+
+            'lastLoginDate': last_login_date,
             'registrationDate': registration_date,
             'registrationAddress': registration_address,
             'ip': ip,
+
             'city': city,
             'country': country,
             'zipCode': zip_code,
@@ -54,9 +59,10 @@ class IyzicoPayment:
         }
         return address
     
-    def create_basket_items(self, name, category1, category2, item_type, price):
-        basket_items = [
+    def create_basket_item(self, id, name, category1, category2, price, item_type='PHYSICAL'):
+        basket_item = [
             {
+                'id': id,
                 'name': name,
                 'category1': category1,
                 'category2': category2,
@@ -64,7 +70,7 @@ class IyzicoPayment:
                 'price': price
             },
         ]
-        return basket_items
+        return basket_item
     
     def create_request(self, conversation_id, price, paid_price, basket_id, payment_card, buyer, shipping_address, billing_address, basket_items, locale='tr', currency='TRY', installment='1', payment_channel='WEB', payment_group='PRODUCT'):
         iyzi_request = {
@@ -79,7 +85,7 @@ class IyzicoPayment:
             'paymentChannel': payment_channel,
             'paymentGroup': payment_group,
 
-            'paymentCard': payment_card,
+            'paymentCard': payment_card, # Not necessary for CheckoutForm
             'buyer': buyer,
             'shippingAddress': shipping_address,
             'billingAddress': billing_address,
@@ -87,36 +93,64 @@ class IyzicoPayment:
         }
         return iyzi_request
 
+
+
+    def create_conversation_id(self):
+        return str(round(time.time(), 0)).split(".")[0] + random.randint(100, 999).__str__()
+
+
+    ##### IYZICO PAYMENT METHODS #####
+    def initialize_checkout_form(self, conversation_id, price, paid_price, basket_id, payment_card, buyer, shipping_address, billing_address, basket_items, locale='tr', currency='TRY', installment='1', payment_group='PRODUCT', callback_url, enabled_installments=['1', '2', '3', '4', '5']):
+        iyzi_request = {
+            'locale': locale,
+            'conversationId': conversation_id,
+            'price': price,
+            'paidPrice': paid_price,
+            'currency': currency,
+            'installment': installment,
+            'basketId': basket_id,
+
+            'paymentGroup': payment_group,
+            "callbackUrl": callback_url,
+            "enabledInstallments": enabled_installments,
+
+            'buyer': buyer,
+            'shippingAddress': shipping_address,
+            'billingAddress': billing_address,
+            'basketItems': basket_items
+        }
+        payment = iyzipay.CheckoutFormInitialize().create(iyzi_request, self.iyzipay_options())
+        return payment
+
+    def retrieve_checkout_form(self, conversation_id, token, locale='tr'):
+        iyzi_request = {
+            'locale': locale,
+            'conversationId': conversation_id,
+            'token': token
+        }
+        checkout_form = iyzipay.CheckoutForm().iyzi_request(token, self.iyzipay_options())
+        return checkout_form
+
     def create_payment(self, iyzi_request):
         payment = iyzipay.Payment().create(iyzi_request, self.iyzipay_options())
         return payment
     
-    def create_iyzilink_product(self, request):
+    def create_iyzilink_product(self):
+        request = {
+        "addressIgnorable": 0,
+        "conversationId": "123456789",
+        "currencyCode": "TRY",
+        "description": "BK Deneme Ürün",
+        "encodedImageFile": iyzipay.IyziFileBase64Encoder.encode("static/images/category.png"),
+        "installmentRequested": False,
+        "locale": "tr",
+        "name": "BK Deneme Ürün",
+        "price": "1449.0",
+        "soldLimit": '1',
+        }
         iyzilink_product = iyzipay.IyziLinkProduct().create(request, self.iyzipay_options())
+        # print(iyzilink_product.read().decode('utf-8'))
         return iyzilink_product
 
 
 iyzico = IyzicoPayment()
-# api_test = iyzipay.ApiTest().retrieve(iyzico.iyzipay_options())
-
-# print(api_test.read().decode('utf-8'))
-# print(api_test.status_code)
-
-
-options = iyzico.iyzipay_options()
-
-request = {
-  "addressIgnorable": 0,
-  "conversationId": "123456789",
-  "currencyCode": "TRY",
-  "description": "BK Deneme Ürün",
-  "encodedImageFile": iyzipay.IyziFileBase64Encoder.encode("static/images/category.png"),
-  "installmentRequested": False,
-  "locale": "tr",
-  "name": "BK Deneme Ürün",
-  "price": "1449.0",
-  "soldLimit": True
-}
-
-report = iyzipay.IyziLinkProduct().create(request, options)
-print(report.read().decode('utf-8'))

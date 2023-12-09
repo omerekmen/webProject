@@ -42,7 +42,7 @@ DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 # Application definition
 
 INSTALLED_APPS = [
-    'jet_django',
+    # 'jet_django',
     "jazzmin",
     "widget_tweaks",
 
