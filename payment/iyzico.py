@@ -59,10 +59,10 @@ class IyzicoPayment:
         }
         return address
     
-    def create_basket_item(self, id, name, category1, category2, price, item_type='PHYSICAL'):
+    def create_basket_item(self, prod_id, name, category1, category2, price, item_type='PHYSICAL'):
         basket_item = [
             {
-                'id': id,
+                'id': prod_id,
                 'name': name,
                 'category1': category1,
                 'category2': category2,
@@ -100,7 +100,7 @@ class IyzicoPayment:
 
 
     ##### IYZICO PAYMENT METHODS #####
-    def initialize_checkout_form(self, conversation_id, price, paid_price, basket_id, payment_card, buyer, shipping_address, billing_address, basket_items, locale='tr', currency='TRY', installment='1', payment_group='PRODUCT', callback_url, enabled_installments=['1', '2', '3', '4', '5']):
+    def initialize_checkout_form(self, conversation_id, price, paid_price, basket_id, buyer, shipping_address, billing_address, basket_items, callback_url, locale='tr', currency='TRY', installment='1', payment_group='PRODUCT', enabled_installments=['1', '2', '3', '4', '5']):
         iyzi_request = {
             'locale': locale,
             'conversationId': conversation_id,
@@ -128,7 +128,7 @@ class IyzicoPayment:
             'conversationId': conversation_id,
             'token': token
         }
-        checkout_form = iyzipay.CheckoutForm().iyzi_request(token, self.iyzipay_options())
+        checkout_form = iyzipay.CheckoutForm().retrieve(iyzi_request, self.iyzipay_options())
         return checkout_form
 
     def create_payment(self, iyzi_request):
