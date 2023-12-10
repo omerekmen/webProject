@@ -28,8 +28,9 @@ urlpatterns = [
     path('add-to-cart/', add_to_cart, name='add_to_cart'),
     path('delete-from-cart/', delete_from_cart, name='delete_from_cart'),
     path('checkout/', checkout, name='checkout' ),
-    path('order/', order, name='order' ),
     path('create-order/', create_order, name='create_order' ),
+    path('get-payment-details/', get_payment_details, name='get_payment_details' ),
+    path('order/', order, name='order' ),
 
     path('sayfalar/<page_url>/', pages, name='pages' ),
     path('search/', search, name='search'),

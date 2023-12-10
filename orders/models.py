@@ -113,7 +113,7 @@ class OrderCombinedProductChoice(models.Model):
 
 class OrderAddress(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE)
-    AddressType = models.CharField(max_length=100, choices=[('Delivery', 'Teslimat'), ('Invoice', 'Fatura')])
+    AddressType = models.CharField(max_length=100, choices=[('Teslimat', 'Teslimat'), ('Fatura', 'Fatura')])
 
     recipient_name = models.CharField(max_length=255)
     recipient_lastname = models.CharField(max_length=255)

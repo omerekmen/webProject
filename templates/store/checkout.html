@@ -116,8 +116,8 @@
                         
                         <div class="form-checkbox mb-6">
                             <input type="checkbox" class="custom-checkbox" id="saveas-default-address"
-                                name="different-address">
-                            <label class="form-control-label ls-s" for="different-address">
+                                name="saveas-default-address">
+                            <label class="form-control-label ls-s" for="saveas-default-address">
                                 Varsayılan Adresim Olarak Kaydet
                             </label>
                             <input type="checkbox" class="custom-checkbox" id="different-address"
@@ -180,11 +180,11 @@
                             <div class="row">
                                 <div class="col-xs-5">
                                     <label>Phone</label>
-                                    <input type="text" class="form-control phone-input" name="invoice-phone" placeholder="(5__) ___ __ __" value="{{ invoice_address.PhoneNumber|format_phone }}" maxlength="15" />
+                                    <input type="text" class="form-control phone-input" id="invoice-phone" name="invoice-phone" placeholder="(5__) ___ __ __" value="{{ invoice_address.PhoneNumber|format_phone }}" maxlength="15" />
                                 </div>
                                 <div class="col-xs-7">
                                     <label>E-Posta</label>
-                                    <input type="email" class="form-control" name="invoice-email-address" value="{{ invoice_address.EMail }}" />
+                                    <input type="email" class="form-control" id="invoice-email-address" name="invoice-email-address" value="{{ invoice_address.EMail }}" />
                                 </div>
                             </div>
                         </div>
@@ -192,9 +192,8 @@
 
                         <h2 class="title title-simple text-uppercase text-left">Ek Bilgiler</h2>
                         <label>Sipariş Notları (Opsiyonel)</label>
-                        <textarea name="order-notes" id="order-notes" class="form-control pb-2 pt-2 mb-0" cols="30" rows="5"
-                            placeholder="Siparişinizle ilgili ek notlarınız varsa buraya yazabilirsiniz">
-                        </textarea>
+                        <textarea class="form-control" id="order-notes" name="order-notes" cols="30" rows="5"
+                            placeholder="Siparişinizle ilgili ek notlarınız varsa buraya yazabilirsiniz"></textarea>
 
                     </div>
 
