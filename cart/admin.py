@@ -29,6 +29,8 @@ class CartItemsInline(admin.TabularInline):  # You can use StackedInline if you 
 class CartItemsAdmin(admin.ModelAdmin):
     inlines = [CombinedProductChoiceInline]
 
+    readonly_fields = ('old_price', 'cartitem_old_price_total', 'single_price', 'total_price')
+
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):

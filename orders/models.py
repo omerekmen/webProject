@@ -74,6 +74,7 @@ class Orders(models.Model):
     class Meta:
         verbose_name = _("Siparişler")
         verbose_name_plural = _("Siparişler")
+        ordering = ['-OrderDate']
 
     def __str__(self):
         return f"Order {self.OrderID}"
@@ -141,10 +142,71 @@ class OrderAddress(models.Model):
 
 
 class OrderPayment(models.Model):
-    Order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    Order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name='order_payment')
+    PaymentProvider = models.CharField(max_length=100, choices=[('iyzico', 'iyzico'), ('Diğer', 'Diğer')], default="iyzico")
+    PaymentStatus = models.CharField(max_length=100, choices=[('Ödeme Alındı', 'Ödeme Alındı'), ('Ödeme Alınmadı', 'Ödeme Alınmadı')], default="Ödeme Alındı")
+    PaymentId = models.CharField(max_length=255)
+    ConversationId = models.CharField(max_length=255)
+    FraudStatus = models.CharField(max_length=100, choices=[('-1', 'Yüksek Fraud Riski'), ('0', 'Fraud İhtimali'), ('1', 'Düşük Fraud Riski')], default="1")
+    Installment = models.PositiveIntegerField(null=True, blank=True)
+    Currency = models.CharField(max_length=10, default="TRY")
+    Price = models.DecimalField(max_digits=10, decimal_places=2)
+    PaidPrice = models.DecimalField(max_digits=10, decimal_places=2)
+    iyziCommissionRateAmount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    iyziCommissionFee = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    MerchantPayoutAmount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    CardType = models.CharField(max_length=100, null=True, blank=True)
+    CardAssociation = models.CharField(max_length=100, null=True, blank=True)
+    CardFamily = models.CharField(max_length=100, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.PaidPrice and self.iyziCommissionRateAmount and self.iyziCommissionFee:
+            self.MerchantPayoutAmount = self.PaidPrice - self.iyziCommissionRateAmount - self.iyziCommissionFee
+        else:
+            self.MerchantPayoutAmount = None
+
+        super(OrderPayment, self).save(*args, **kwargs)
+
 
 
 
 
 class OrderShipping(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+
+
+class TempOrderDetails(models.Model):
+    tod_id = models.AutoField(primary_key=True)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    city_name = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    district_name = models.CharField(max_length=255)
+    address = models.TextField()
+    zip = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    
+    invoice_city = models.CharField(max_length=100)
+    invoice_city_name = models.CharField(max_length=100)
+    invoice_district = models.CharField(max_length=100)
+    invoice_district_name = models.CharField(max_length=255)
+    invoice_address = models.TextField()
+    invoice_phone = models.CharField(max_length=20)
+    invoice_email = models.EmailField()
+    comp_name = models.CharField(max_length=255)
+    tax_office = models.CharField(max_length=255)
+    tax_number = models.CharField(max_length=100)
+
+    order_notes = models.TextField(blank=True, null=True)
+    different_address = models.BooleanField(default=False)
+    save_address = models.BooleanField(default=False)
+
+    conversation_id = models.CharField(max_length=100)
+    token = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"OrderDetail for {self.member.username}"

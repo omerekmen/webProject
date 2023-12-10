@@ -80,7 +80,7 @@ def create_order(request):
         price = str(cart.prod_total_price())
         paid_price = str(cart.total_price())
         basket_id = cart.cart_id
-        callback_url = request.build_absolute_uri(reverse('get_payment_details'))
+        callback_url = request.build_absolute_uri(reverse('return_from_iyzico'))
         buyer=iyzico.create_buyer(
                 buyerid=str(user.member_id),
                 name=user.first_name,
@@ -145,41 +145,40 @@ def create_order(request):
         token = json_content["token"]
 
 
-        request.session['order_details'] = {
-            'first_name': first_name,
-            'last_name': last_name,
-            'country': country,
-            'city': city,
-            'city_name': city_name,
-            'district': district,
-            'district_name': district_name,
-            'address': address,
-            'zip': zip,
-            'phone': phone,
-            'email': email,
-
-            'invoice_city': invoice_city,
-            'invoice_city_name': invoice_city_name,
-            'invoice_district': invoice_district,
-            'invoice_district_name': invoice_district_name,
-            'invoice_address': invoice_address,
-            'invoice_phone': invoice_phone,
-            'invoice_email': invoice_email,
-            'comp_name': comp_name,
-            'tax_office': tax_office,
-            'tax_number': tax_number,
-
-            'order_notes': order_notes,
-            'different_address': different_address,
-            'save_address': save_address,
-
-            'conversation_id': conversation_id,
-            'token': token,
-        }
+        TempOrderDetails.objects.get_or_create(
+            member=user,
+            first_name=first_name,
+            last_name=last_name,
+            country=country,
+            city=city,
+            city_name=city_name,
+            district=district,
+            district_name=district_name,
+            address=address,
+            zip=zip,
+            phone=phone,
+            email=email,
+            invoice_city=invoice_city,
+            invoice_city_name=invoice_city_name,
+            invoice_district=invoice_district,
+            invoice_district_name=invoice_district_name,
+            invoice_address=invoice_address,
+            invoice_phone=invoice_phone,
+            invoice_email=invoice_email,
+            comp_name=comp_name,
+            tax_office=tax_office,
+            tax_number=tax_number,
+            order_notes=order_notes,
+            different_address=different_address == 'on',
+            save_address=save_address == 'on',
+            conversation_id=conversation_id,
+            token=token
+        )
 
         if json_content['status'] == 'success':
             form_content = json_content.get('checkoutFormContent')
-            return JsonResponse({'formContent': form_content})
+            payment_page_url = json_content['paymentPageUrl']
+            return JsonResponse({'formContent': form_content, 'paymentPageUrl': payment_page_url})
         else:
             # Handle failure
             error_message = json_content.get('errorMessage')
@@ -187,141 +186,169 @@ def create_order(request):
     return render(request, 'store/order.html')
 
 @csrf_exempt
+def return_from_iyzico(request):
+    print(request.user)
+    return redirect('get_payment_details')
+
+@csrf_exempt
 def get_payment_details(request):
-    order_details = request.session.get('order_details')
-    print(order_details)
-
-    city_name = order_details['city_name']
-    city_instance, created = City.objects.get_or_create(name=city_name)
-    district_name = order_details['district_name']
-    district_instance, created = District.objects.get_or_create(name=district_name, city=city_instance)
-    invoice_city_name = order_details['invoice_city_name']
-    invoice_city_instance, created = City.objects.get_or_create(name=invoice_city_name)
-    invoice_district_name = order_details['invoice_district_name']
-    invoice_district_instance, created = District.objects.get_or_create(name=invoice_district_name, city=invoice_city_instance)
-    phone = order_details['phone']
-    invoice_phone = order_details['invoice_phone']
-    formatted_phone_number = ''.join(filter(str.isdigit, phone))
-    formatted_invoice_phone_number = ''.join(filter(str.isdigit, invoice_phone))
-
-    if order_details is None:
-        messages.error(request, 'Sipariş Bilgileriniz Alınırken Bir Hata Oluştu. Lütfen Tekrar Deneyiniz.')
-        return redirect('order')
+    print(request.user)
+    if request.user.is_authenticated:
+        member_id = request.user.member_id
     else:
-        conversation_id = order_details['conversation_id']
-        token = order_details['token']
+        member_id = None
+    get_member = Member.objects.filter(member_id=member_id).first()
+    order_detail = TempOrderDetails.objects.filter(member=get_member).first()
 
-        payment = iyzico.retrieve_checkout_form(conversation_id, token)
-        payment = payment.read().decode('utf-8')
-        json_content = json.loads(payment)
+    if order_detail is None:
+        messages.error(request, 'Sipariş Bilgileriniz Alınırken Bir Hata Oluştu. Lütfen Tekrar Deneyiniz.')
+        return redirect('order_error')
+    
+    city_instance, created = City.objects.get_or_create(name=order_detail.city_name)
+    district_instance, created = District.objects.get_or_create(name=order_detail.district_name, city=city_instance)
+    invoice_city_instance, created = City.objects.get_or_create(name=order_detail.invoice_city_name)
+    invoice_district_instance, created = District.objects.get_or_create(name=order_detail.invoice_district_name, city=invoice_city_instance)
+    formatted_phone_number = ''.join(filter(str.isdigit, order_detail.phone))
+    formatted_invoice_phone_number = ''.join(filter(str.isdigit, order_detail.invoice_phone))
+    conversation_id = order_detail.conversation_id
+    token = order_detail.token
 
-        print(json_content)
-        if json_content['status'] == 'success':
-            try:
-                with transaction.atomic():
-                    user = request.user
-                    cart = Cart.objects.get(member=user.member_id)  # Retrieve user's cart
+    payment = iyzico.retrieve_checkout_form(conversation_id, token)
+    payment = payment.read().decode('utf-8')
+    json_content = json.loads(payment)
 
-                    # Create an order instance
-                    order = Orders.objects.create(
-                        Member=user,
+    print('**************************')
+    print(json_content)
+    print('**************************')
 
-                        OrderCargoFee = cart.shipping_cost(),
-                        SpecialDiscountStatus = cart.SpecialDiscountStatus,
-                        SpecialDiscount = cart.SpecialDiscount,
-                        CouponCode = cart.CouponCode,
-                        CouponDiscount = cart.CouponDiscount,
+    if json_content['status'] == 'success':
+        try:
+            with transaction.atomic():
+                user = request.user
+                cart = Cart.objects.get(member=user.member_id)  # Retrieve user's cart
 
-                        OrderNote = order_details['order_notes'],
+                # Create an order instance
+                order = Orders.objects.create(
+                    Member=user,
 
-                        # Add other necessary fields
-                    )
+                    OrderCargoFee = cart.shipping_cost(),
+                    SpecialDiscountStatus = cart.SpecialDiscountStatus,
+                    SpecialDiscount = cart.SpecialDiscount,
+                    CouponCode = cart.CouponCode,
+                    CouponDiscount = cart.CouponDiscount,
 
-                    # Create an order address instance
+                    OrderNote = order_detail.order_notes,
+
+                    # Add other necessary fields
+                )
+                OrderPayment.objects.create(
+                    Order=order,
+                    PaymentProvider='iyzico',
+                    PaymentId=json_content.get('paymentId', ''),
+                    ConversationId=json_content.get('conversationId', ''),
+                    FraudStatus=str(json_content.get('fraudStatus', '')),
+                    Installment=json_content.get('installment', 1),
+                    Currency=json_content.get('currency', 'TRY'),
+                    Price=json_content.get('price', 0),
+                    PaidPrice=json_content.get('paidPrice', 0),
+                    iyziCommissionRateAmount=json_content.get('iyziCommissionRateAmount', 0),
+                    iyziCommissionFee=json_content.get('iyziCommissionFee', 0),
+                    MerchantPayoutAmount=json_content.get('merchantPayoutAmount', 0),
+                    CardType=json_content.get('cardType', ''),
+                    CardAssociation=json_content.get('cardAssociation', ''),
+                    CardFamily=json_content.get('cardFamily', '')
+                )
+
+                # Create an order address instance
+                OrderAddress.objects.create(
+                    Order=order,
+                    AddressType = 'Teslimat',
+
+                    recipient_name = order_detail.first_name,
+                    recipient_lastname = order_detail.last_name,
+                    Country = order_detail.country,
+                    City = city_instance,
+                    District = district_instance,
+                    FullAddress = order_detail.address,
+                    PostalCode = order_detail.zip,
+                    PhoneNumber = formatted_phone_number,
+                    EMail = order_detail.email,
+                )
+
+                if order_detail.different_address == True:
                     OrderAddress.objects.create(
                         Order=order,
-                        AddressType = 'Teslimat',
+                        AddressType = 'Fatura',
 
-                        recipient_name = order_details['first_name'],
-                        recipient_lastname = order_details['last_name'],
-                        Country = order_details['country'],
+                        recipient_name = order_detail.first_name,
+                        recipient_lastname = order_detail.last_name,
+                        Country = order_detail.country,
+                        City = invoice_city_instance,
+                        District = invoice_district_instance,
+                        FullAddress = order_detail.invoice_address,
+                        PostalCode = order_detail.zip,
+                        PhoneNumber = formatted_invoice_phone_number,
+                        EMail = order_detail.invoice_email,
+                        comp_name = order_detail.comp_name,
+                        tax_office = order_detail.tax_office,
+                        tax_no = order_detail.tax_number,
+                    )
+                else:
+                    OrderAddress.objects.create(
+                        Order=order,
+                        AddressType = 'Fatura',
+
+                        recipient_name = order_detail.first_name,
+                        recipient_lastname = order_detail.last_name,
+                        Country = order_detail.country,
                         City = city_instance,
                         District = district_instance,
-                        FullAddress = order_details['address'],
-                        PostalCode = order_details['zip'],
+                        FullAddress = order_detail.address,
+                        PostalCode = order_detail.zip,
                         PhoneNumber = formatted_phone_number,
-                        EMail = order_details['email'],
+                        EMail = order_detail.email,
                     )
 
-                    if order_details['different_address'] == 'on':
-                        OrderAddress.objects.create(
-                            Order=order,
-                            AddressType = 'Fatura',
+                # For each item in the cart, create an order item
+                for item in cart.user_cart.all():
+                    order_item = OrderProducts.objects.create(
+                        Order = order,
+                        Product = item.product,
+                        is_combined_product = item.is_combined_product,
+                        is_set_product = item.is_set_product,
+                        selected_size = item.size_stock,
+                        Quantity = item.quantity,
+                        prod_old_price = item.old_price(),
+                        prod_sale_price = item.single_price(),
+                        discounted_sale_price = item.total_price(),
+                    )
 
-                            recipient_name = order_details['first_name'],
-                            recipient_lastname = order_details['last_name'],
-                            Country = order_details['country'],
-                            City = invoice_city_name,
-                            District = invoice_district_name,
-                            FullAddress = order_details['invoice_address'],
-                            PostalCode = order_details['zip'],
-                            PhoneNumber = formatted_invoice_phone_number,
-                            EMail = order_details['invoice_email'],
-                            comp_name = order_details['comp_name'],
-                            tax_office = order_details['tax_office'],
-                            tax_number = order_details['tax_number'],
-                        )
-                    else:
-                        OrderAddress.objects.create(
-                            Order=order,
-                            AddressType = 'Fatura',
-
-                            recipient_name = order_details['first_name'],
-                            recipient_lastname = order_details['last_name'],
-                            Country = order_details['country'],
-                            City = city_instance,
-                            District = district_instance,
-                            FullAddress = order_details['address'],
-                            PostalCode = order_details['zip'],
-                            PhoneNumber = formatted_phone_number,
-                            EMail = order_details['email'],
+                    for combined_choice in item.combinedproductchoice_set.all():
+                        OrderCombinedProductChoice.objects.create(
+                            order_prod = order_item,
+                            combination_product_category = combined_choice.combination_product_category,
+                            selected_product = combined_choice.selected_product,
+                            size_stock = combined_choice.size_stock,
                         )
 
-                    # For each item in the cart, create an order item
-                    for item in cart.user_cart.all():
-                        order_item = OrderProducts.objects.create(
-                            Order = order,
-                            Product = item.product,
-                            is_combined_product = item.is_combined_product,
-                            is_set_product = item.is_set_product,
-                            selected_size = item.size_stock,
-                            Quantity = item.quantity,
-                            prod_old_price = item.old_price(),
-                            prod_sale_price = item.single_price(),
-                            discounted_sale_price = item.total_price(),
-                        )
+                cart.delete()
+                order_detail.delete()
+                Cart.objects.get_or_create(member=request.user)
 
-                        for combined_choice in item.combinedproductchoice_set.all():
-                            OrderCombinedProductChoice.objects.create(
-                                order_prod = order_item,
-                                combination_product_category = combined_choice.combination_product_category,
-                                selected_product = combined_choice.selected_product,
-                                size_stock = combined_choice.size_stock,
-                            )
-
-                    # Clear the cart after creating the order
-                    cart.user_cart.all().delete()
-
-                messages.success(request, 'Ödeme Başarılı ve Sipariş Oluşturuldu.')
-                return redirect('order')
-            except Exception as e:
-                messages.error(request, f'Sipariş oluşturulurken hata: {e}')
-                return JsonResponse({'error': str(e)})
-                
-        else:
-            error_message = json_content.get('errorMessage')
-            return JsonResponse({'error': error_message})
+            messages.success(request, 'Ödeme Başarılı ve Sipariş Oluşturuldu.')
+            return redirect('order')
+        except Exception as e:
+            messages.error(request, f'Sipariş oluşturulurken hata: {e}')
+            return JsonResponse({'error': str(e)})
+            
+    else:
+        error_message = json_content.get('errorMessage')
+        return JsonResponse({'error': error_message})
 
 @login_required
 def order(request):
     return render(request, 'store/order.html')
+
+@login_required
+def order_error(request):
+    return render(request, 'store/order-error.html')

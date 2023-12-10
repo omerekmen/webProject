@@ -76,7 +76,7 @@ class Cart(models.Model):
         return total
     
     def total_price(self):
-        total = self.old_price() - self.total_disconts_after_snd()
+        total = self.old_price() - self.total_discount() - self.CouponDiscount + self.shipping_cost()
         return total
     
     shipping_cost.short_description = 'Kargo Ücreti'
@@ -127,7 +127,7 @@ class CartItems(models.Model):
             return sale_price
         return 0
 
-    def cartitem_total(self):
+    def cartitem_old_price_total(self):
         product_price_obj = self.get_campus_based_price()
         if product_price_obj and product_price_obj.StrikedPrice is not None:
             total = product_price_obj.StrikedPrice
@@ -145,10 +145,6 @@ class CartItems(models.Model):
             return sale_price * self.quantity
         return 0
     
-    single_price.short_description = 'Tekil Fiyat'
-    old_price.short_description = 'Eski Fiyat'
-    discount.short_description = 'İndirim'
-
     def total_price(self):
         # Retrieve the SalePrice from ProductPrices model
         product_price_obj = self.get_campus_based_price()
@@ -157,7 +153,11 @@ class CartItems(models.Model):
             return sale_price * self.quantity
         return 0
     
-    total_price.short_description = 'Toplam Fiyat'
+    single_price.short_description = 'SATIŞ FİYATI'
+    old_price.short_description = 'Eski Fiyat'
+    discount.short_description = 'İndirim'
+    cartitem_old_price_total.short_description = 'Eski Toplam Fiyat'
+    total_price.short_description = 'ÜRÜN SEPET TUTARI'
 
     class Meta:
         verbose_name = 'Sepet Ürün'

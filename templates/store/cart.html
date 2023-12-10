@@ -107,7 +107,7 @@
                     <div class="cart-coupon-box mb-8">
                         <h4 class="title coupon-title text-uppercase ls-m">İndirim Kodu</h4>
                         <input type="text" name="coupon_code"
-                            class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value=""
+                            class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value="{{ cart.CouponCode }}"
                             placeholder="İndirim kodunuzu giriniz...">
                         <button type="submit" class="btn btn-md btn-dark btn-rounded btn-outline">İndirimi Uygula
                         </button>
@@ -162,22 +162,20 @@
                                     <td class="product-total text-body">-{{ cart.total_discount }} ₺</td>
                                 </tr>
                                 {% endif %}
+
+                                {% if cart.shipping_cost == 0 %}
                                 <tr>
                                     <td class="product-name">
                                         <span class="product-quantity">Kargo İndirimi</span>
-                                        {{ prod.product.product_web_name }} 
                                     </td>
-                                    {% if cart.shipping_cost != 0 %}
-                                    <td class="product-total text-body">{{ cart.shipping_cost }} ₺</td>
-                                    {% else %}
                                     <td class="product-total text-body">- {{ cart.shipping }} ₺</td>
-                                    {% endif %}
                                 </tr>
+                                {% endif %}
 
-                                {% if cart.discount_coupon != 0 %}
+                                {% if cart.CouponDiscount != 0 %}
                                 <tr>
                                     <td class="product-name">
-                                        <span class="product-quantity">İndirim Kuponu</span>
+                                        <span class="product-quantity">İndirim Kuponu <b>( {{ cart.CouponCode }} )</b></span>
                                         {{ prod.product.product_web_name }} 
                                     </td>
                                     <td class="product-total text-body">- {{ cart.CouponDiscount }} ₺</td>

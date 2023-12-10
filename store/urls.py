@@ -30,7 +30,9 @@ urlpatterns = [
     path('checkout/', checkout, name='checkout' ),
     path('create-order/', create_order, name='create_order' ),
     path('get-payment-details/', get_payment_details, name='get_payment_details' ),
+    path('return-from-iyzico/', return_from_iyzico, name='return_from_iyzico' ),
     path('order/', order, name='order' ),
+    path('order-error/', order_error, name='order_error' ),
 
     path('sayfalar/<page_url>/', pages, name='pages' ),
     path('search/', search, name='search'),
