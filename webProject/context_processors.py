@@ -3,6 +3,7 @@ from schools.models import *
 from members.models import *
 from cart.models import *
 from store.models import *
+from orders.models import *
 import random
 
 
@@ -73,14 +74,17 @@ def default(request, school=get_school()):
         else:
             product.display_price = product.productprices_set.first()
 
-
-
     if user:
         cart = Cart.objects.get(member=request.user)
         cartitems = CartItems.objects.filter(cart=cart)
     else:
         cart = None
         cartitems = None
+
+    if user:
+        user_orders = Orders.objects.filter(Member=request.user)
+    else:
+        user_orders = None
 
     random_products = list(active_products)
     random.shuffle(random_products)
@@ -91,6 +95,7 @@ def default(request, school=get_school()):
     return {
         'user': user,
         'user_ip': user_ip,
+        'user_orders': user_orders,
         'delivery_address': delivery_address, 
         'invoice_address': invoice_address,
 
