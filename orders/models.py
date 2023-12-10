@@ -29,7 +29,7 @@ class Orders(models.Model):
         return total
 
     def total_discounted_sale_price(self):
-        total = sum(item.discounted_sale_price * item.Quantity for item in self.user_order_items.all())
+        total = sum(item.discounted_sale_price * item.Quantity for item in self.user_order_items.all()) + self.OrderCargoFee
         return total
     
     total_old_price.short_description = 'Toplam Eski Ürün Fiyatı'
@@ -113,7 +113,7 @@ class OrderCombinedProductChoice(models.Model):
 
 
 class OrderAddress(models.Model):
-    Order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    Order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name='order_address')
     AddressType = models.CharField(max_length=100, choices=[('Teslimat', 'Teslimat'), ('Fatura', 'Fatura')])
 
     recipient_name = models.CharField(max_length=255)

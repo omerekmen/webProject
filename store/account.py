@@ -13,6 +13,7 @@ from members.models import *
 from products.views import *
 from members.urls import *
 from store.models import *
+from orders.models import *
 
 @login_required
 def account(request):
@@ -157,6 +158,11 @@ def password_update(request):
                 messages.error(request, "Mevcut şifrenizi yanlış girdiniz.")
     return HttpResponseRedirect('/account/#account')
 
+
+def get_order_details(request):
+    order_id = request.GET.get('order_id')
+    order = get_object_or_404(Orders, OrderID=order_id)
+    return render(request, 'store/order-detail.html', {'order': order})
 
 
 def get_student_class(request):
