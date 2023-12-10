@@ -495,34 +495,49 @@
     
 <script>
     $(document).ready(function() {
-        $("#create-order-form").submit(function(event) {
-            event.preventDefault();
-    
-            $.ajax({
-                type: 'POST',
-                url: '{% url "create_order" %}',
-                data: $(this).serialize(),
-                success: function(response) {
-                    if(response.formContent) {
-                        // Insert the form content
-                        var $formDiv = $("#iyzipay-checkout-form");
-                        $formDiv.html(response.formContent);
-    
-                        // Find and execute scripts
-                        $formDiv.find("script").each(function() {
-                            $.globalEval(this.text || this.textContent || this.innerHTML || '');
-                        });
-                    } else if(response.error) {
-                        alert(response.error);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
+        // Function to get the CSRF token from the cookie
+        function getCSRFToken() {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = $.trim(cookies[i]);
+                if (cookie.startsWith('csrftoken=')) {
+                    return cookie.substring('csrftoken='.length, cookie.length);
                 }
+            }
+            return '';
+        }
+        $(document).ready(function() {
+            $("#create-order-form").submit(function(event) {
+                event.preventDefault();
+        
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "create_order" %}',
+                    data: $(this).serialize(),
+                    headers: {
+                        'X-CSRFToken': getCSRFToken()
+                    },
+                    success: function(response) {
+                        if(response.formContent) {
+                            // Insert the form content
+                            var $formDiv = $("#iyzipay-checkout-form");
+                            $formDiv.html(response.formContent);
+        
+                            // Find and execute scripts
+                            $formDiv.find("script").each(function() {
+                                $.globalEval(this.text || this.textContent || this.innerHTML || '');
+                            });
+                        } else if(response.error) {
+                            alert(response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
             });
         });
     });
-    
 </script>
 
 {% endblock extra_scripts %}

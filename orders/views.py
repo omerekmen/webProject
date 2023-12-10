@@ -2,30 +2,40 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import JsonResponse
-from products.models import *
-from cart.models import *
-from schools.models import *
-from members.models import *
-from store.models import *
-from .models import *
-from products.views import *
-from members.urls import *
 from payment.iyzico import iyzico
 from django.db import transaction
+from store.models import *
+from cart.models import *
+from .models import *
 import json
+
+from products.models import *
+from schools.models import *
+from members.models import *
+from products.views import *
+from members.urls import *
 
 @login_required
 def checkout(request):
     return render(request, 'store/checkout.html')
 
-def get_city(city_id):
+def get_city_name(city_id):
     city = get_object_or_404(City, id=city_id)
     return city.name
 
-def get_district(district_id):
+def get_district_name(district_id):
     district = get_object_or_404(District, id=district_id)
     return district.name
+
+def get_city(city_id):
+    city = get_object_or_404(City, id=city_id)
+    return city
+
+def get_district(district_id):
+    district = get_object_or_404(District, id=district_id)
+    return district
 
 @require_POST
 def create_order(request):
@@ -37,18 +47,18 @@ def create_order(request):
         last_name = request.POST.get('last-name')
         country = request.POST.get('country')
         city = request.POST.get('citySelect')
-        city_name = get_city(city)
+        city_name = get_city_name(city)
         district = request.POST.get('districtSelect')
-        district_name = get_district(district)
+        district_name = get_district_name(district)
         address = request.POST.get('delivery-address')
         zip = request.POST.get('zip')
         phone = request.POST.get('phone')
         email = request.POST.get('email-address')
 
         invoice_city = request.POST.get('invoicecitySelect')
-        invoice_city_name = get_city(invoice_city)
+        invoice_city_name = get_city_name(invoice_city)
         invoice_district = request.POST.get('invoicedistrictSelect')
-        invoice_district_name = get_district(invoice_district)
+        invoice_district_name = get_district_name(invoice_district)
         invoice_address = request.POST.get('invoice-address')
         invoice_phone = request.POST.get('invoice-phone')
         invoice_email = request.POST.get('invoice-email-address')
@@ -176,8 +186,24 @@ def create_order(request):
             return JsonResponse({'error': error_message})
     return render(request, 'store/order.html')
 
+@csrf_exempt
 def get_payment_details(request):
     order_details = request.session.get('order_details')
+    print(order_details)
+
+    city_name = order_details['city_name']
+    city_instance, created = City.objects.get_or_create(name=city_name)
+    district_name = order_details['district_name']
+    district_instance, created = District.objects.get_or_create(name=district_name, city=city_instance)
+    invoice_city_name = order_details['invoice_city_name']
+    invoice_city_instance, created = City.objects.get_or_create(name=invoice_city_name)
+    invoice_district_name = order_details['invoice_district_name']
+    invoice_district_instance, created = District.objects.get_or_create(name=invoice_district_name, city=invoice_city_instance)
+    phone = order_details['phone']
+    invoice_phone = order_details['invoice_phone']
+    formatted_phone_number = ''.join(filter(str.isdigit, phone))
+    formatted_invoice_phone_number = ''.join(filter(str.isdigit, invoice_phone))
+
     if order_details is None:
         messages.error(request, 'Sipariş Bilgileriniz Alınırken Bir Hata Oluştu. Lütfen Tekrar Deneyiniz.')
         return redirect('order')
@@ -194,10 +220,10 @@ def get_payment_details(request):
             try:
                 with transaction.atomic():
                     user = request.user
-                    cart = Cart.objects.get(member=user)  # Retrieve user's cart
+                    cart = Cart.objects.get(member=user.member_id)  # Retrieve user's cart
 
                     # Create an order instance
-                    order = Order.objects.create(
+                    order = Orders.objects.create(
                         Member=user,
 
                         OrderCargoFee = cart.shipping_cost(),
@@ -213,33 +239,33 @@ def get_payment_details(request):
 
                     # Create an order address instance
                     OrderAddress.objects.create(
-                        order=order,
+                        Order=order,
                         AddressType = 'Teslimat',
 
                         recipient_name = order_details['first_name'],
                         recipient_lastname = order_details['last_name'],
                         Country = order_details['country'],
-                        City = order_details['city'],
-                        District = order_details['district'],
+                        City = city_instance,
+                        District = district_instance,
                         FullAddress = order_details['address'],
                         PostalCode = order_details['zip'],
-                        PhoneNumber = order_details['phone'],
+                        PhoneNumber = formatted_phone_number,
                         EMail = order_details['email'],
                     )
 
                     if order_details['different_address'] == 'on':
                         OrderAddress.objects.create(
-                            order=order,
+                            Order=order,
                             AddressType = 'Fatura',
 
                             recipient_name = order_details['first_name'],
                             recipient_lastname = order_details['last_name'],
                             Country = order_details['country'],
-                            City = order_details['invoice_city'],
-                            District = order_details['invoice_district'],
+                            City = invoice_city_name,
+                            District = invoice_district_name,
                             FullAddress = order_details['invoice_address'],
                             PostalCode = order_details['zip'],
-                            PhoneNumber = order_details['invoice_phone'],
+                            PhoneNumber = formatted_invoice_phone_number,
                             EMail = order_details['invoice_email'],
                             comp_name = order_details['comp_name'],
                             tax_office = order_details['tax_office'],
@@ -247,17 +273,17 @@ def get_payment_details(request):
                         )
                     else:
                         OrderAddress.objects.create(
-                            order=order,
+                            Order=order,
                             AddressType = 'Fatura',
 
                             recipient_name = order_details['first_name'],
                             recipient_lastname = order_details['last_name'],
                             Country = order_details['country'],
-                            City = order_details['city'],
-                            District = order_details['district'],
+                            City = city_instance,
+                            District = district_instance,
                             FullAddress = order_details['address'],
                             PostalCode = order_details['zip'],
-                            PhoneNumber = order_details['phone'],
+                            PhoneNumber = formatted_phone_number,
                             EMail = order_details['email'],
                         )
 
@@ -277,7 +303,7 @@ def get_payment_details(request):
 
                         for combined_choice in item.combinedproductchoice_set.all():
                             OrderCombinedProductChoice.objects.create(
-                                order_item = order_item,
+                                order_prod = order_item,
                                 combination_product_category = combined_choice.combination_product_category,
                                 selected_product = combined_choice.selected_product,
                                 size_stock = combined_choice.size_stock,
@@ -287,7 +313,7 @@ def get_payment_details(request):
                     cart.user_cart.all().delete()
 
                 messages.success(request, 'Ödeme Başarılı ve Sipariş Oluşturuldu.')
-                return JsonResponse({'payment': json_content})
+                return redirect('order')
             except Exception as e:
                 messages.error(request, f'Sipariş oluşturulurken hata: {e}')
                 return JsonResponse({'error': str(e)})
