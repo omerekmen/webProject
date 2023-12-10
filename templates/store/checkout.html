@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <form action="{% url 'create_order' %}" method="post" class="form">
+            <form action="{% url 'create_order' %}" method="post" class="form" id="create-order-form">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-6 mb-6 mb-lg-0 pr-lg-4">
@@ -494,5 +494,36 @@
     });
 </script>
     
+<script>
+    $(document).ready(function() {
+        $("#create-order-form").submit(function(event) {
+            event.preventDefault();
+    
+            $.ajax({
+                type: 'POST',
+                url: '{% url "create_order" %}',
+                data: $(this).serialize(),
+                success: function(response) {
+                    if(response.formContent) {
+                        // Insert the form content
+                        var $formDiv = $("#iyzipay-checkout-form");
+                        $formDiv.html(response.formContent);
+    
+                        // Find and execute scripts
+                        $formDiv.find("script").each(function() {
+                            $.globalEval(this.text || this.textContent || this.innerHTML || '');
+                        });
+                    } else if(response.error) {
+                        alert(response.error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+    
+</script>
 
 {% endblock extra_scripts %}

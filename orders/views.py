@@ -148,7 +148,13 @@ def create_order(request):
         print(json_content)
         token = json_content["token"]
 
-        return HttpResponse(json_content["checkoutFormContent"])
+        if json_content['status'] == 'success':
+            form_content = json_content.get('checkoutFormContent')
+            return JsonResponse({'formContent': form_content})
+        else:
+            # Handle failure
+            error_message = json_content.get('errorMessage')
+            return JsonResponse({'error': error_message})
     return render(request, 'store/order.html')
 
 @login_required
