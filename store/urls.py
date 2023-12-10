@@ -1,6 +1,7 @@
 from django.urls import path, include
 from django.conf.urls import handler404, handler500
 from store.views import *
+from orders.views import *
 from store.account import *
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
     path('delete-from-cart/', delete_from_cart, name='delete_from_cart'),
     path('checkout/', checkout, name='checkout' ),
     path('order/', order, name='order' ),
+    path('create-order/', create_order, name='create_order' ),
 
     path('sayfalar/<page_url>/', pages, name='pages' ),
     path('search/', search, name='search'),

@@ -37,9 +37,9 @@ class Member(AbstractBaseUser, PermissionsMixin):
     member_id = models.AutoField(primary_key=True)
     is_staff = models.BooleanField(_('Staff Durumu'), default=False)
 
-    email = models.EmailField(_('Email'), unique=True)
-    phone_number = models.IntegerField(null=True, blank=True)
-    username = models.CharField(_('Username'), max_length=100, unique=True) # Öğrenci tarafında TC No alınacak
+    email = models.EmailField(_('E-Posta'), unique=True)
+    phone_number = models.IntegerField(_('Telefon'), null=True, blank=True)
+    username = models.CharField(_('TC No'), max_length=100, unique=True) # Öğrenci tarafında TC No alınacak
     first_name = models.CharField(_('Ad'), max_length=150, blank=True)
     last_name = models.CharField(_('Soyad'), max_length=150, blank=True)
 
@@ -66,11 +66,22 @@ class Member(AbstractBaseUser, PermissionsMixin):
     YEAR_CHOICES = [(r, r) for r in range(2000, datetime.date.today().year + 2)]
     season = models.IntegerField("Sezon", choices=YEAR_CHOICES, default=datetime.date.today().year)
 
+    registration_date = models.DateTimeField(_('Kayıt Tarihi'), auto_now_add=True, null=True, blank=True)
+
+    def get_campus(self):
+        return self.campus_id.campus_name if self.campus_id else 'No Campus'
+
+    def get_school(self):
+        return self.campus_id.school.school_name if self.campus_id and self.campus_id.school else 'No School'
+
+    get_campus.short_description = 'Kampüs'
+    get_school.short_description = 'Okul'
 
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
+
 
     class Meta:
         verbose_name = 'Üyeler'

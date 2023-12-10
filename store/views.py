@@ -175,14 +175,6 @@ def delete_from_cart(request):
 
 
 
-@login_required
-def checkout(request):
-    return render(request, 'store/checkout.html')
-
-@login_required
-def order(request):
-    return render(request, 'store/order.html')
-
 
 
 

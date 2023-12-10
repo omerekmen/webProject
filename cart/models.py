@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from products.models import Products, CombinationProduct, ProductPrices, SizeBasedStocks
 from members.models import Member
 
@@ -10,6 +11,12 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     shipping = 210
+
+    SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
+    SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, default=0)
+    CouponCode = models.CharField(_('Uygulanan Kupon Kodu'), max_length=100, null=True, blank=True)
+    CouponDiscount = models.DecimalField(_('Kupon İndirimi'), max_digits=10, decimal_places=2, default=0)
+
 
     class Meta:
         verbose_name = 'Sepet'
@@ -57,17 +64,15 @@ class Cart(models.Model):
         if self.prod_total_price() > 2500:
             shipping_cost = 0
         return shipping_cost
-
-    def discount_coupon(self):
-
-        return 10
     
     def total_disconts_after_snd(self):
         total = self.total_discount()
         if self.shipping_cost() == 0:
             total += self.shipping
-        if self.discount_coupon() != 0:
-            total += self.discount_coupon()
+        if self.SpecialDiscount != 0:
+            total += self.SpecialDiscount
+        if self.CouponDiscount != 0:
+            total += self.CouponDiscount
         return total
     
     def total_price(self):
@@ -75,7 +80,6 @@ class Cart(models.Model):
         return total
     
     shipping_cost.short_description = 'Kargo Ücreti'
-    discount_coupon.short_description = 'İndirim Kuponu'
     total_disconts_after_snd.short_description = 'İNDİRİMLER TOPLAMI'
     total_price.short_description = 'SEPET TUTARI'
     
@@ -91,6 +95,7 @@ class CartItems(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     size_stock = models.ForeignKey(SizeBasedStocks, on_delete=models.CASCADE, null=True, blank=True)
     is_combined_product = models.BooleanField(default=False)
+    is_set_product = models.BooleanField(default=False)
     quantity = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

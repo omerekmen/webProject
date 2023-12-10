@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "schools",
     "members",
     "products",
+    "payment",
     "orders",
     "cart",
 ]
@@ -176,7 +177,7 @@ JAZZMIN_SETTINGS = {
     'site_logo' : "images/logo-letter.png",
     "login_logo" : "images/logo-admin-login.png",
     'copyright' : "Entegrasyon Cloud",
-    "navigation_expanded": True,
+    "navigation_expanded": False,
     "order_with_respect_to": ["auth", 
                               "members", 
                               "schools", "schools.schools",
@@ -212,7 +213,8 @@ JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": True,
     "sidebar_nav_legacy_style": True,
     "sidebar_fixed": True,
-
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": True,
 }
 
 
