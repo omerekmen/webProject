@@ -69,7 +69,7 @@ def create_order(request):
         order_notes = request.POST.get('order-notes')
 
         different_address = request.POST.get('different-address')
-        save_address = request.POST.get('ssaveas-default-address')
+        save_address = request.POST.get('saveas-default-address')
 
 
         last_login_date = user.last_login.strftime('%Y-%m-%d %H:%M:%S') if user.last_login else None
@@ -194,12 +194,10 @@ def create_order(request):
 
 @csrf_exempt
 def return_from_iyzico(request):
-    print(request.user)
     return redirect('get_payment_details')
 
 @csrf_exempt
 def get_payment_details(request):
-    print(request.user)
     if request.user.is_authenticated:
         member_id = request.user.member_id
     else:
@@ -233,6 +231,68 @@ def get_payment_details(request):
             with transaction.atomic():
                 user = request.user
                 cart = Cart.objects.get(member=user.member_id)  # Retrieve user's cart
+                
+                if order_detail.save_address == True:
+                    city_name = order_detail.city_name
+                    city = get_object_or_404(City, name=city_name)
+                    district_name = order_detail.district_name
+                    district = get_object_or_404(District, name=district_name)
+
+                    delivery_common_fields = {
+                        'recipient_name': order_detail.first_name,
+                        'recipient_lastname': order_detail.last_name,
+
+                        'Country': order_detail.country,
+                        'City': city,
+                        'District': district,
+
+                        'FullAddress': order_detail.address,
+                        'PostalCode': order_detail.zip,
+
+                        'PhoneNumber': ''.join(filter(str.isdigit, order_detail.phone)),
+                        'EMail': order_detail.email,
+                    }
+                    delivery_address, _ = MemberAddress.objects.get_or_create(
+                        member=user,
+                        AddressType='Delivery',
+                        defaults=delivery_common_fields
+                    )
+                    for field, value in delivery_common_fields.items():
+                        setattr(delivery_address, field, value)
+                    delivery_address.save()
+
+                    if order_detail.different_address == True:
+                        invoice_city_name = order_detail.invoice_city_name
+                        invoice_city = get_object_or_404(City, name=invoice_city_name)
+                        invoice_district_name = order_detail.invoice_district_name
+                        invoice_district = get_object_or_404(District, name=invoice_district_name)
+
+                        invoice_common_fields = {
+                            'recipient_name': order_detail.first_name,
+                            'recipient_lastname': order_detail.last_name,
+
+                            'Country': order_detail.country,
+                            'City': invoice_city,
+                            'District': invoice_district,
+                            'FullAddress': order_detail.invoice_address,
+                            'PostalCode': order_detail.zip,
+
+                            'PhoneNumber': ''.join(filter(str.isdigit, order_detail.invoice_phone)),
+                            'EMail': order_detail.invoice_email,
+
+                            'comp_name': order_detail.comp_name,
+                            'tax_office': order_detail.tax_office,
+                            'tax_no': order_detail.tax_number,
+                        }
+                        invoice_address, _ = MemberAddress.objects.get_or_create(
+                            member=user,
+                            AddressType='Invoice',
+                            defaults=invoice_common_fields
+                        )
+                        for field, value in invoice_common_fields.items():
+                            setattr(invoice_address, field, value)
+                        invoice_address.save()
+
 
                 # Create an order instance
                 order = Orders.objects.create(
