@@ -144,36 +144,43 @@ def create_order(request):
         print(json_content)
         token = json_content["token"]
 
+        common_fields = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'country': country,
+            'city': city,
+            'city_name': city_name,
+            'district': district,
+            'district_name': district_name,
+            'address': address,
+            'zip': zip,
+            'phone': phone,
+            'email': email,
+            'invoice_city': invoice_city,
+            'invoice_city_name': invoice_city_name,
+            'invoice_district': invoice_district,
+            'invoice_district_name': invoice_district_name,
+            'invoice_address': invoice_address,
+            'invoice_phone': invoice_phone,
+            'invoice_email': invoice_email,
+            'comp_name': comp_name,
+            'tax_office': tax_office,
+            'tax_number': tax_number,
+            'order_notes': order_notes,
+            'different_address': different_address == 'on',
+            'save_address': save_address == 'on',
+            'conversation_id': conversation_id,
+            'token': token,
+        }
 
-        TempOrderDetails.objects.get_or_create(
-            member=user,
-            first_name=first_name,
-            last_name=last_name,
-            country=country,
-            city=city,
-            city_name=city_name,
-            district=district,
-            district_name=district_name,
-            address=address,
-            zip=zip,
-            phone=phone,
-            email=email,
-            invoice_city=invoice_city,
-            invoice_city_name=invoice_city_name,
-            invoice_district=invoice_district,
-            invoice_district_name=invoice_district_name,
-            invoice_address=invoice_address,
-            invoice_phone=invoice_phone,
-            invoice_email=invoice_email,
-            comp_name=comp_name,
-            tax_office=tax_office,
-            tax_number=tax_number,
-            order_notes=order_notes,
-            different_address=different_address == 'on',
-            save_address=save_address == 'on',
-            conversation_id=conversation_id,
-            token=token
-        )
+        temp_order_details, _ = TempOrderDetails.objects.get_or_create(
+            member=user, 
+            defaults=common_fields
+            )
+
+        for field, value in common_fields.items():
+            setattr(temp_order_details, field, value)
+        temp_order_details.save()
 
         if json_content['status'] == 'success':
             form_content = json_content.get('checkoutFormContent')
@@ -198,7 +205,7 @@ def get_payment_details(request):
     else:
         member_id = None
     get_member = Member.objects.filter(member_id=member_id).first()
-    order_detail = TempOrderDetails.objects.filter(member=get_member).first()
+    order_detail = TempOrderDetails.objects.filter(member=get_member).last()
 
     if order_detail is None:
         messages.error(request, 'Sipariş Bilgileriniz Alınırken Bir Hata Oluştu. Lütfen Tekrar Deneyiniz.')
