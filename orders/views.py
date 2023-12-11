@@ -87,7 +87,7 @@ def create_order(request):
                 surname=user.last_name,
                 gsm_number='+90' + str(user.phone_number),
                 email=user.email,
-                identity_number=str(user.username),
+                identity_number=str(user.username) if len(user.username)>6 else '11111111111',
                 last_login_date=last_login_date,
                 registration_date=registration_date,
                 registration_address=address,
