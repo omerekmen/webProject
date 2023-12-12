@@ -32,7 +32,6 @@ class OrdersAdmin(admin.ModelAdmin):
     inlines = [OrderProductsInline, OrderAdressInline, OrderPaymentInline, OrderShippingInline]
 
     search_fields = [
-        'OrderID', 
         'Member', 
         'OrderStatus', 
         'OrderDate', 
@@ -54,6 +53,9 @@ class OrdersAdmin(admin.ModelAdmin):
         payment = obj.order_payment.first()
         return payment.PaymentId if payment else 'Not Available'
     get_payment_id.short_description = 'Ödeme ID'
+
+
+
 
 admin.site.register(Orders, OrdersAdmin)
 admin.site.register(OrderProducts)

@@ -417,5 +417,18 @@ def order(request):
     return render(request, 'store/order.html')
 
 @login_required
+def order_details(request, OrderID):
+    order = get_object_or_404(Orders, OrderID=OrderID)
+    order_delivery_address = OrderAddress.objects.filter(Order=order, AddressType='Teslimat').first()
+    order_invoice_address = OrderAddress.objects.filter(Order=order, AddressType='Fatura').first()
+
+    context = {
+        'order': order,
+        'order_delivery_address': order_delivery_address,
+        'order_invoice_address': order_invoice_address,
+    }
+    return render(request, 'store/order-details.html', context)
+
+@login_required
 def order_error(request):
     return render(request, 'store/order-error.html')

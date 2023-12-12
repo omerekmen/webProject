@@ -63,11 +63,13 @@ class Cart(models.Model):
         shipping_cost = self.shipping
         if self.prod_total_price() > 2500:
             shipping_cost = 0
+        if not self.user_cart.exists():  # assuming the related name is 'cartitems_set'
+            shipping_cost = 0
         return shipping_cost
     
     def total_disconts_after_snd(self):
         total = self.total_discount()
-        if self.shipping_cost() == 0:
+        if self.shipping_cost() == 0 and not self.user_cart.exists:
             total += self.shipping
         if self.SpecialDiscount != 0:
             total += self.SpecialDiscount

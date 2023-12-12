@@ -181,7 +181,7 @@
                                     {% endif %}
 
                                     <td class="order-total"><span>{{ order.total_discounted_sale_price }} ₺</span></td>
-                                    <td class="order-action"><a href="#"
+                                    <td class="order-action"><a href="{% url 'order_details' order.OrderID %}"
                                             class="btn btn-primary btn-link btn-underline">Detay</a></td>
                                 </tr>
                                 {% endfor %}

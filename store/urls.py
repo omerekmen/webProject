@@ -32,6 +32,7 @@ urlpatterns = [
     path('get-payment-details/', get_payment_details, name='get_payment_details' ),
     path('return-from-iyzico/', return_from_iyzico, name='return_from_iyzico' ),
     path('order/', order, name='order' ),
+    path('order-details/<OrderID>', order_details, name='order_details' ),
     path('get-order-details/', get_order_details, name='get_order_details' ),
     path('order-error/', order_error, name='order_error' ),
 

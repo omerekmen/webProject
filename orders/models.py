@@ -19,7 +19,7 @@ class Orders(models.Model):
     SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, null=True, blank=True)
     CouponCode = models.CharField(_('Uygulanan Kupon Kodu'), max_length=100, null=True, blank=True)
     CouponDiscount = models.DecimalField(_('Kupon İndirimi'), max_digits=10, decimal_places=2, null=True, blank=True)
-
+    
     def total_old_price(self):
         total = sum(item.prod_old_price * item.Quantity for item in self.user_order_items.all())
         return total
@@ -29,7 +29,7 @@ class Orders(models.Model):
         return total
 
     def total_discounted_sale_price(self):
-        total = sum(item.discounted_sale_price * item.Quantity for item in self.user_order_items.all()) + self.OrderCargoFee
+        total = sum(item.discounted_sale_price * item.Quantity for item in self.user_order_items.all()) + self.OrderCargoFee - self.SpecialDiscount - self.CouponDiscount
         return total
     
     total_old_price.short_description = 'Toplam Eski Ürün Fiyatı'

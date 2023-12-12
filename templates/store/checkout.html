@@ -253,7 +253,7 @@
                                             </td>
                                         </tr>
 
-                                        {% if cart.shipping_cost == 0 %}
+                                        {% if cart.shipping_cost == 0 and cart.user_cart.exists %}
                                         <tr>
                                             <td class="product-name">
                                                 <span class="product-quantity">Kargo İndirimi</span>
