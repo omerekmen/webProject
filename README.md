@@ -2,7 +2,7 @@
 
 ### Yapılacaklar Listesi
 
-> [!NOTE]
+> [!BAZEN]
 > Useful information
 
 - [x] Ana Sayfa Hazırlanacak
