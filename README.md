@@ -1,12 +1,17 @@
 # Entegrasyon Cloud 
 
-### Yapılacaklar Listesi
+### To Do List
 
-> [!BAZEN]
-> Useful information
+    #### Template To Do's
 
-- [x] Ana Sayfa Hazırlanacak
+    - [x] Base Tasarım Hazırlanacak
 
-- Kombin Sayfası Tamamlanacak
+    - [x] Ana Sayfa Hazırlanacak
+    - [x] Kategoriler Sayfası Hazırlanacak
+    - [x] Tekil Ürün Sayfası Hazırlanacak
+    - [x] Kombin Ürün Sayfası Hazırlanacak
+    - [ ] Set Ürün Sayfası Hazırlanacak (?)
 
-- Orders
+    - [x] Sepet Sayfası Hazırlanacak
+    - [x] Ödeme Sayfası Hazırlanacak
+    - [x] Sipariş Detay Sayfası Hazırlanacak
