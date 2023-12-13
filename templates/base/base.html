@@ -673,6 +673,35 @@
                 });        
             })
         </script>
+        <script>
+            $('.product-remove').on('click', function(){
+                let cart_item_id = $(this).attr("data-product")
+                let this_val = $(this)
+        
+                console.log("Product ID:", cart_item_id);
+        
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "delete_from_cart" %}',
+                    data: {
+                        "cart_item_id" : cart_item_id,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        // Handle the response, such as removing the row from the table
+                        if(response.deleted) {
+                            $(this).closest('tr').remove();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Error handling
+                        console.error('AJAX error:', status, error);
+                        console.error('Response:', xhr.responseText);
+                        alert('Error in deleting item: ' + xhr.responseText);
+                    }
+                });
+            });
+        </script>
         
         {% block extra_scripts %}
         <!-- Any extra scripts go here -->
