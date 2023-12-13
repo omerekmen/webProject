@@ -78,7 +78,7 @@ class Cart(models.Model):
         return total
     
     def total_price(self):
-        total = self.old_price() - self.total_discount() - self.CouponDiscount + self.shipping_cost()
+        total = self.old_price() - self.total_discount() - self.CouponDiscount - self.SpecialDiscount + self.shipping_cost()
         return total
     
     shipping_cost.short_description = 'Kargo Ücreti'

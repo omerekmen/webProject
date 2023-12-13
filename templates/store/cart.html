@@ -17,7 +17,7 @@
         <div class="step-by pr-4 pl-4">
             <h3 class="title title-simple title-step active"><a href="{% url 'cart' %}">1. Sepet</a></h3>
             <h3 class="title title-simple title-step"><a href="{% url 'checkout' %}">2. Ödeme Bilgileri</a></h3>
-            <h3 class="title title-simple title-step"><a href="{% url 'order' %}">3. Sipariş Tamamlandı</a></h3>
+            <h3 class="title title-simple title-step"><a href="">3. Sipariş Tamamlandı</a></h3>
         </div>
         <div class="container mt-7 mb-2">
             <div class="row">
@@ -88,7 +88,7 @@
                                         <td class="product-name">{{ item.selected_product.product_web_name }} 
                                             <spanclass="product-quantity">|&nbsp;{{ item.size_stock.size }}</span>
                                         </td>
-                                        <td class="product-total text-body">$110.00</td>
+                                        <td class="product-total text-body"></td>
                                     </tr>
                                 </tbody>
                                 {% endfor %}
@@ -132,7 +132,11 @@
                                         <h4 class="summary-subtitle">Kargo</h4>
                                     </td>
                                     <td>
+                                        {% if cart.shipping_cost == 0 %}
+                                        <p class="summary-subtotal-price">Ücretsiz Kargo</p>
+                                        {% else %}
                                         <p class="summary-subtotal-price">{{ cart.shipping_cost }} ₺</p>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% comment %} {% for prod in cartitems %}
@@ -151,7 +155,6 @@
                                     </td>
                                     <td>
                                         <p class="summary-subtotal-price">
-                                            {% if cart.total_disconts_after_snd != 0 %}-{% endif %} {{ cart.total_disconts_after_snd }} ₺
                                         </p>
                                     </td>
                                 </tr>

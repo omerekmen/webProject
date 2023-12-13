@@ -90,7 +90,10 @@ def default(request, school=get_school()):
     random.shuffle(random_products)
 
     schools = Schools.objects.get(school_id=school)
-    genders = []
+    school_main_page_popup = SchoolPopup.objects.filter(school=school, popup_page="index").first()
+    school_reg_page_popup = SchoolPopup.objects.filter(school=school, popup_page="intro").first()
+    school_prod_page_popup = SchoolPopup.objects.filter(school=school, popup_page="product").first()
+
 
     return {
         'user': user,
@@ -114,8 +117,10 @@ def default(request, school=get_school()):
         'cartitems': cartitems,
 
         'schools': schools,
+        'school_main_page_popup': school_main_page_popup,
+        'school_reg_page_popup': school_reg_page_popup,
+        'school_prod_page_popup': school_prod_page_popup,
         'cities': cities,
         'levels': levels,
-        'genders': genders,
         'sc': scl,
     }

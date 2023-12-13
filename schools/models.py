@@ -147,9 +147,10 @@ class SchoolPages(models.Model):
 
 
 class SchoolPopup(models.Model):
-    school = models.ForeignKey(Schools, on_delete=models.CASCADE)
+    school = models.ForeignKey(Schools, on_delete=models.CASCADE, related_name='school_popup')
     popup_page = models.CharField(max_length=100, choices=[('intro', 'Giriş Popup'), ('index', 'Anasayfa Popup'), ('product', 'Ürün Detay Popup')], null=True, blank=True)
-    popup_title = models.CharField(max_length=15, null=True, blank=True)
+    popup_image = models.ImageField(upload_to=upload_location_settings, null=True, blank=True)
+    popup_title = models.CharField(max_length=100, null=True, blank=True)
     popup_content = RichTextField(null=True, blank=True)
     popup_status = models.BooleanField(default=True)
 

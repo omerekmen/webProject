@@ -117,6 +117,19 @@ def create_order(request):
 
         basket_items = []
         for item in cart.user_cart.all():
+
+            if item.is_combined_product:
+                pass
+            elif item.is_set_product:
+                pass
+            else:
+                size_based_stock = SizeBasedStocks.objects.filter(products=item.product, size=item.size_stock.size).first()
+                if not size_based_stock or size_based_stock.sale_stock < item.quantity:
+                    print(f"Not enough stock for {item.product.product_name}. Only {size_based_stock.sale_stock if size_based_stock else 0} left.")
+                    return JsonResponse({
+                        'error': f'{item.product.product_name} için sadece {size_based_stock.sale_stock if size_based_stock else 0} adet stok mevcut. Lütfen sepetinizi kontrol ediniz.'
+                    })
+            
             basket_items += iyzico.create_basket_item(
                     prod_id=str(item.product.ProductID),
                     name=item.product.product_web_name,
@@ -398,12 +411,54 @@ def get_payment_details(request):
                             size_stock = combined_choice.size_stock,
                         )
 
+                    
+                    ################################################################
+                    ###################### STOCK UPDATE LOGIC ######################
+                    ################################################################
+
+                    if item.is_combined_product:
+                        for combined_choice in item.combinedproductchoice_set.all():
+                            print('A:',combined_choice)
+                            size_descriptor = combined_choice.size_stock
+                            print('Sipariş Öncesi:', size_descriptor)
+                            size_item = size_descriptor.size
+
+                            size_based_stock = SizeBasedStocks.objects.filter(products=combined_choice.selected_product, size=size_item).first()
+                            if size_based_stock:
+                                size_based_stock.real_stock = max(0, size_based_stock.real_stock - item.quantity)
+                                size_based_stock.sale_stock = max(0, size_based_stock.sale_stock - item.quantity)
+                                size_based_stock.save()
+                            
+                            print('Sipariş Sonrası:', size_descriptor)
+
+                    elif item.is_set_product:
+                        # If the product is a combined or set product, handle stock update logic accordingly
+                        # This part depends on how you manage stock for combined and set products
+                        pass
+                    else:
+                        size_descriptor = item.size_stock
+                        print(size_descriptor)
+                        size_item = size_descriptor.size
+                        print(size_item)
+
+                        size_based_stock = SizeBasedStocks.objects.filter(products=item.product, size=size_item).first()
+                        if size_based_stock:
+                            size_based_stock.real_stock = max(0, size_based_stock.real_stock - item.quantity)
+                            size_based_stock.sale_stock = max(0, size_based_stock.sale_stock - item.quantity)
+                            size_based_stock.save()
+
+                    ################################################################
+                    ###################### STOCK UPDATE LOGIC ######################
+                    ################################################################
+
+
                 cart.delete()
                 order_detail.delete()
                 Cart.objects.get_or_create(member=request.user)
 
             messages.success(request, 'Ödeme Başarılı ve Sipariş Oluşturuldu.')
-            return redirect('order')
+            order_id = order.OrderID
+            return redirect('order', OrderID=order_id)
         except Exception as e:
             messages.error(request, f'Sipariş oluşturulurken hata: {e}')
             return JsonResponse({'error': str(e)})
@@ -413,8 +468,17 @@ def get_payment_details(request):
         return JsonResponse({'error': error_message})
 
 @login_required
-def order(request):
-    return render(request, 'store/order.html')
+def order(request, OrderID):
+    order = get_object_or_404(Orders, OrderID=OrderID)
+    order_delivery_address = OrderAddress.objects.filter(Order=order, AddressType='Teslimat').first()
+    order_invoice_address = OrderAddress.objects.filter(Order=order, AddressType='Fatura').first()
+
+    context = {
+        'order': order,
+        'order_delivery_address': order_delivery_address,
+        'order_invoice_address': order_invoice_address,
+    }
+    return render(request, 'store/order.html', context)
 
 @login_required
 def order_details(request, OrderID):

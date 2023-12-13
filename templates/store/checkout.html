@@ -17,15 +17,16 @@
         <div class="step-by pr-4 pl-4">
             <h3 class="title title-simple title-step"><a href="{% url 'cart' %}">1. Sepet</a></h3>
             <h3 class="title title-simple title-step active"><a href="{% url 'checkout' %}">2. Ödeme Bilgileri</a></h3>
-            <h3 class="title title-simple title-step"><a href="{% url 'order' %}">3. Sipariş Tamamlandı</a></h3>
+            <h3 class="title title-simple title-step"><a href="">3. Sipariş Tamamlandı</a></h3>
         </div>
         <div class="container mt-7">
+            {% comment %}
             <div class="card accordion">
-                <div class="alert alert-light alert-primary alert-icon mb-4 card-header">
+                 <div class="alert alert-light alert-primary alert-icon mb-4 card-header">
                     <i class="fas fa-exclamation-circle"></i>
                     <span class="text-body">Kupon Kodunuz mu var?</span>
                     <a href="#alert-body2" class="text-primary">Buraya tıklayarak kupon kodunuzu girebilirsiniz.</a>
-                </div>
+                </div> 
                 <div class="alert-body collapsed" id="alert-body2">
                     <p>Kupon Kodunuz varsa aşağıya girerek indiriminizi uygulayabilirsiniz.</p>
                     <div class="check-coupon-box d-flex">
@@ -37,6 +38,10 @@
                         </button>
                     </div>
                 </div>
+            </div>
+            {% endcomment %}
+            <div id="stockError" style="display: none;">
+                
             </div>
 
             <form action="{% url 'create_order' %}" method="post" class="form" id="create-order-form">
@@ -243,7 +248,12 @@
                                                 <h4 class="summary-subtitle">Kargo Ücreti</h4>
                                             </td>
                                             <td></td>
-                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cart.shipping_cost }} ₺
+                                            <td class="summary-subtotal-price pb-0 pt-0">
+                                                {% if cart.shipping_cost == 0 %}
+                                                Ücretsiz Kargo
+                                                {% else %}
+                                                <p class="summary-subtotal-price">{{ cart.shipping_cost }} ₺</p>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                         
@@ -372,6 +382,32 @@
 {% endblock content %}
 
 {% block extra_scripts %}
+
+<script>
+    document.getElementById('create-order-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+    
+        var formData = new FormData(this);
+    
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Display the error message
+                var stockErrorDiv = document.getElementById('stockError');
+                stockErrorDiv.innerHTML = '<div class="alert alert-danger alert-dark alert-round alert-inline"><h4 class="alert-title">Uyarı :</h4>' + data.error + '<button type="button" class="btn btn-link btn-close"><i class="d-icon-times"></i></button></div><br>';
+                stockErrorDiv.style.display = 'block';
+            } else {
+                // Handle success (e.g., redirect to the payment page)
+                window.location.href = data.paymentPageUrl;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
 <script>
     function openPopup(pageTitle) {
         // Make AJAX request to Django view

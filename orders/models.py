@@ -29,7 +29,7 @@ class Orders(models.Model):
         return total
 
     def total_discounted_sale_price(self):
-        total = sum(item.discounted_sale_price * item.Quantity for item in self.user_order_items.all()) + self.OrderCargoFee - self.SpecialDiscount - self.CouponDiscount
+        total = sum(item.discounted_sale_price for item in self.user_order_items.all()) + self.OrderCargoFee - self.SpecialDiscount - self.CouponDiscount
         return total
     
     total_old_price.short_description = 'Toplam Eski Ürün Fiyatı'
