@@ -10,6 +10,7 @@ class MemberAddressInline(admin.TabularInline):
 class MemberAdmin(admin.ModelAdmin):
     # change_list_template = 'admin/product_change_list.html'
     inlines = [MemberAddressInline]
+    list_per_page = 25
     search_fields = ['username', 'first_name', 'last_name', 'email', 'phone_number', 'user_type', 'is_active', 'campus_id__campus_name']
     list_display = [
         'username',

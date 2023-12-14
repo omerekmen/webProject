@@ -30,6 +30,7 @@ class OrdersAdmin(admin.ModelAdmin):
     list_display = ('OrderID', 'get_payment_provider', 'get_payment_id', 'Member', 'memberName', 'memberCampus', 'total_discounted_sale_price', 'OrderStatus', 'OrderDate')  # Customize the fields you want to display
     list_editable = ('OrderStatus',)
     inlines = [OrderProductsInline, OrderAdressInline, OrderPaymentInline, OrderShippingInline]
+    list_per_page = 25
 
     search_fields = [
         'Member', 

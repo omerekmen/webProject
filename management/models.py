@@ -1,3 +1,4 @@
 from django.db import models
+from .mailModels import MailSettings
 
-# Create your models here.
+mailSet = MailSettings.objects.first()

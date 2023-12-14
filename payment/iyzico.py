@@ -1,13 +1,13 @@
 import iyzipay
 import time, random
-# import json
+from .models import iyziSet
 
 class IyzicoPayment:
 
     def __init__(self):
-        self.api_key = 'sandbox-FyQyhVIRqs3nYwyg4VsuLTDwJprgvXaY'
-        self.secret_key = 'sandbox-3Y8kBMkCimM5Kf7lLBhekNO0ixl4fhve'
-        self.base_url = 'sandbox-api.iyzipay.com'
+        self.api_key = iyziSet.payment_api_key
+        self.secret_key = iyziSet.payment_secret
+        self.base_url = iyziSet.payment_base_url
 
     def iyzipay_options(self):
         options = {

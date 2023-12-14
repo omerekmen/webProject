@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from products.models import Products, CombinationProduct, ProductPrices, SizeBasedStocks
 from members.models import Member
+from management.shippingModels import ShippingCost
 
 
 # Define the Cart model
@@ -10,7 +11,24 @@ class Cart(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    shipping = 210
+
+    @property
+    def shipping(self):
+        return self.get_shipping_cost()
+    
+    @property
+    def free_shipping_limit(self):
+        return self.get_free_shipping_limit()
+
+    def get_shipping_cost(self):
+        shipping_cost_obj = ShippingCost.objects.filter(school=self.member.campus_id.school).first()
+        return shipping_cost_obj.shipping_cost if shipping_cost_obj else 0
+    
+    def get_free_shipping_limit(self):
+        shipping_cost_obj = ShippingCost.objects.filter(school=self.member.campus_id.school).first()
+        return shipping_cost_obj.free_shipping_limit if shipping_cost_obj else 0
+
+    # shipping = get_shipping_cost()
 
     SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
     SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, default=0)
@@ -61,7 +79,8 @@ class Cart(models.Model):
     ##### Shipping & Discount Coupon #####
     def shipping_cost(self):
         shipping_cost = self.shipping
-        if self.prod_total_price() > 2500:
+        free_shipping_limit = self.free_shipping_limit
+        if self.prod_total_price() > free_shipping_limit:
             shipping_cost = 0
         if not self.user_cart.exists():  # assuming the related name is 'cartitems_set'
             shipping_cost = 0

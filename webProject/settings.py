@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['localhost', '.localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = ['https://sandbox-api.iyzipay.com']
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
@@ -66,6 +67,8 @@ INSTALLED_APPS = [
     "payment",
     "orders",
     "cart",
+    "management",
+    "discounts",
 ]
 
 MIDDLEWARE = [
@@ -206,8 +209,18 @@ JAZZMIN_SETTINGS = {
         "schools.SchoolCampus": "far fa-building",
         "cart.cart": "fas fa-shopping-basket",
         "cart.cartitems": "fas fa-grip-horizontal",
-    },  
+    },
+    # "custom_links": {
+    #     "management": [{
+    #         "name": "Ödeme Ayarları",
+    #         "url": "paymentgateways",
+    #         "icon": "fas fa-comments",
+    #         # "permissions": ["orders.add_orders"]
+    #     }]
+    # },
+
     # "show_ui_builder": True,
+    # "related_modal_active": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
