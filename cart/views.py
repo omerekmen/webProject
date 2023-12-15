@@ -39,12 +39,20 @@ def apply_coupon(request):
         print("Member's Campus ID:", member.campus_id)
 
         try:
-            coupon = DiscountCoupon.objects.filter(
+            current_time = timezone.now()
+
+            potential_coupons = DiscountCoupon.objects.filter(
                 discountCouponCode=coupon_code,
                 discountStatus=True,
-                discountStartDate__lte=timezone.now(),
-                discountEndDate__gte=timezone.now(),
-            ).filter(models.Q(member=member) | models.Q(campus=member.campus_id)).get()
+                discountStartDate__lte=current_time,
+                discountEndDate__gte=current_time,
+            )
+
+            coupon = potential_coupons.filter(
+                Q(member__isnull=True, campus__isnull=True) |  # No specific user or campus
+                Q(member=member) |                            # Specific member
+                Q(campus=member.campus_id)                    # Specific campus
+            ).get()
 
             print(coupon)
 

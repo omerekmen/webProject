@@ -113,7 +113,7 @@
                         <input type="hidden" name="cart_id" value="{{ cart.cart_id }}">
                         <div class="cart-coupon-box mb-8">
                             <h4 class="title coupon-title text-uppercase ls-m">İndirim Kodu</h4>
-                            <input type="text" name="coupon_code" class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value="{{ cart.CouponCode }}" placeholder="İndirim kodunuzu giriniz...">
+                            <input type="text" name="coupon_code" class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value="{% if cart.CouponCode != None %} {{ cart.CouponCode }} {% endif %}" placeholder="İndirim kodunuzu giriniz...">
                             <button type="submit" class="btn btn-md btn-dark btn-rounded btn-outline">İndirimi Uygula</button>
                         </div>
                     </form>
