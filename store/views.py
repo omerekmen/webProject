@@ -16,7 +16,7 @@ from discounts.tasks import *
 
 @login_required
 def index(request):
-    update_discount_status()
+    update_discount_status(request)
 
     return render(request, 'store/index.html')
 
@@ -120,7 +120,7 @@ def combproduct(request, ProductID):
 
 @login_required
 def cart(request):
-    update_discount_status()
+    update_discount_status(request)
     return render(request, 'store/cart.html')
 
 

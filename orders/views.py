@@ -22,7 +22,7 @@ import json
 
 @login_required
 def checkout(request):
-    update_discount_status()
+    update_discount_status(request)
     return render(request, 'store/checkout.html')
 
 def get_city_name(city_id):
