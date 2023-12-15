@@ -44,6 +44,6 @@ class CartAdmin(admin.ModelAdmin):
     
 
     # Display the cart total price in the list
-    readonly_fields = ('total_products', 'old_price', 'prod_total_price', 'total_discount', 'shipping_cost', 'total_disconts_after_snd', 'total_price' )
+    readonly_fields = ('total_products', 'old_price', 'total_discount', 'prod_total_price', 'coupon_discount', 'total_disconts_after_snd', 'shipping_cost', 'total_price' )
 
 

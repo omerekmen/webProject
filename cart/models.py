@@ -90,12 +90,16 @@ class Cart(models.Model):
     total_discount.short_description = 'Toplam Ürün İndirimleri'
     total_products.short_description = 'Toplam Ürün'
 
+    def total_price_without_shipping(self):
+        total = max(0, self.prod_total_price() - self.CouponDiscount - self.SpecialDiscount) 
+        return total
+    total_price_without_shipping.short_description = 'İndirimli Sepet Tutarı'
 
     ##### Shipping & Discount Coupon #####
     def shipping_cost(self):
         shipping_cost = self.shipping
         free_shipping_limit = self.free_shipping_limit
-        if self.prod_total_price() > free_shipping_limit:
+        if self.total_price_without_shipping() > free_shipping_limit:
             shipping_cost = 0
         if not self.user_cart.exists():  # assuming the related name is 'cartitems_set'
             shipping_cost = 0
@@ -127,7 +131,7 @@ class Cart(models.Model):
 
     def apply_discount_coupon(self):
         if not self.CouponCode:
-            return
+            return 0
 
         try:
             # Retrieve the coupon from the database
@@ -160,6 +164,11 @@ class Cart(models.Model):
 
         # Save the updated cart
         self.save()
+
+    def coupon_discount(self):
+        return self.CouponDiscount
+    
+    coupon_discount.short_description = 'Kupon İndirimi'
     
 
     def __str__(self):
