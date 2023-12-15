@@ -42,11 +42,12 @@ class Cart(models.Model):
         ordering = ['-created_at']
 
 
-    ##### Prices Before Shipping and Discount #####
+    ##### Ürün Varsayılan Satış Fiyatları Toplamı #####
     def prod_total_price(self):
         total = sum(item.single_price() * item.quantity for item in self.user_cart.all())
         return total
     
+    ##### Ürün Striked Fiyatları Toplamı #####
     def old_price(self):
         total = 0
         for item in self.user_cart.all():
@@ -54,10 +55,10 @@ class Cart(models.Model):
             if product_price_obj and product_price_obj.StrikedPrice is not None:
                 total += product_price_obj.StrikedPrice * item.quantity
             else:
-                # Use SalePrice if StrikedPrice is not available
                 total += item.single_price() * item.quantity
         return total
     
+    ##### Satış Fiyatları Üzerinden Uygulanan İndirimler Toplamı #####
     def total_discount(self):
         total_discount = 0
         for item in self.user_cart.all():
@@ -132,16 +133,16 @@ class CartItems(models.Model):
             # Fallback to general price if no campus-based price is found
             return ProductPrices.objects.filter(products=self.product).first()
 
+    # Ürün Satış Fiyatı (Kampüs Bazında) 
     def single_price(self):
-        # Retrieve the SalePrice from ProductPrices model
         product_price_obj = self.get_campus_based_price()
         if product_price_obj:
             sale_price = product_price_obj.SalePrice
             return sale_price
         return 0
     
+    # Ürün Striked Fiyatı (Kampüs Bazında)
     def old_price(self):
-        # Retrieve the SalePrice from ProductPrices model
         product_price_obj = self.get_campus_based_price()
         if product_price_obj and product_price_obj.StrikedPrice is not None:
             sale_price = product_price_obj.StrikedPrice

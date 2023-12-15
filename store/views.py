@@ -12,10 +12,12 @@ from products.views import *
 from members.urls import *
 from store.models import *
 from datetime import datetime, timedelta
-
+from discounts.tasks import *
 
 @login_required
 def index(request):
+    update_discount_status()
+
     return render(request, 'store/index.html')
 
 
@@ -118,6 +120,7 @@ def combproduct(request, ProductID):
 
 @login_required
 def cart(request):
+    update_discount_status()
     return render(request, 'store/cart.html')
 
 

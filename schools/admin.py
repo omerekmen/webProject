@@ -1,6 +1,25 @@
 from django.contrib import admin
+from management.shippingModels import *
+from discounts.models import *
 from .models import *
 
+class SpecialDiscountInline(admin.StackedInline):
+    model = SpecialDiscount
+    verbose_name = 'Özel İndirim'
+    verbose_name_plural = 'Özel İndirimler'
+    extra = 1
+
+class DiscountCouponInline(admin.StackedInline):
+    model = DiscountCoupon
+    verbose_name = 'İndirim Kuponu'
+    verbose_name_plural = 'İndirim Kuponları'
+    extra = 1
+
+class SchoolShippingInline(admin.StackedInline):
+    model = ShippingCost
+    verbose_name = 'Kargo Ayarları'
+    verbose_name_plural = 'Kargo Ayarları'
+    extra = 1
 
 class SchoolSiteSettingsInline(admin.StackedInline):
     model = SchoolSiteSettings
@@ -34,7 +53,7 @@ class SchoolCampusInline(admin.StackedInline):
     extra = 0
 
 class SchoolsAdmin(admin.ModelAdmin):
-    inlines = [SchoolCampusInline, SchoolSiteSettingsInline, SchoolSliderInline, SchoolPagesInline, SchoolPopupInline]
+    inlines = [SchoolCampusInline, SchoolSiteSettingsInline, SchoolSliderInline, SchoolPagesInline, SchoolPopupInline, SchoolShippingInline, SpecialDiscountInline, DiscountCouponInline]
     inline_classes = ('collapse', )
     list_display = ('school_name', 'school_logo', 'school_phone', 'school_subdomain', 'display_campuses')
 

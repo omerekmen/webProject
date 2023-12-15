@@ -46,6 +46,7 @@ DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 
 INSTALLED_APPS = [
     # 'jet_django',
+    # 'django_q',
     "jazzmin",
     "widget_tweaks",
 
@@ -58,7 +59,7 @@ INSTALLED_APPS = [
 
     "ckeditor",
     "ckeditor_uploader",
-
+    
     # Our Apps
     "store",
     "schools",
@@ -189,6 +190,7 @@ JAZZMIN_SETTINGS = {
                               "products", "products.products", "products.CombinationProduct", "products.SetProduct", "products.ProductCategory", "products.ProductSubCategory", 
                               "orders", "orders.orders",
                               "cart", "cart.cart",
+                              "discounts",
                             ],
     "icons": {
         "auth": "fas fa-users-cog",
@@ -209,6 +211,8 @@ JAZZMIN_SETTINGS = {
         "schools.SchoolCampus": "far fa-building",
         "cart.cart": "fas fa-shopping-basket",
         "cart.cartitems": "fas fa-grip-horizontal",
+        "discounts.SpecialDiscount": "fas fa-percent",
+        "discounts.DiscountCoupon": "fas fa-tag",
     },
     # "custom_links": {
     #     "management": [{

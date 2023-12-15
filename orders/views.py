@@ -1,24 +1,28 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import JsonResponse
-from payment.iyzico import iyzico
 from django.db import transaction
+
+from products.models import *
+from members.models import *
+from schools.models import *
 from store.models import *
 from cart.models import *
 from .models import *
-import json
 
-from products.models import *
-from schools.models import *
-from members.models import *
 from products.views import *
+from django.urls import reverse
 from members.urls import *
+from discounts.tasks import *
+
+from payment.iyzico import iyzico
+import json
 
 @login_required
 def checkout(request):
+    update_discount_status()
     return render(request, 'store/checkout.html')
 
 def get_city_name(city_id):
