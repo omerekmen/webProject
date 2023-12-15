@@ -21,6 +21,16 @@ class Cart(models.Model):
     def free_shipping_limit(self):
         return self.get_free_shipping_limit()
     
+    @property
+    def members_school(self):
+        school = self.get_members_school()
+        return school
+    
+    @property
+    def members_campus(self):
+        campus = SchoolCampus.objects.filter(member=self.member).first()
+        return campus
+    
     def get_members_school(self):
         school = Schools.objects.filter(schoolcampus__member=self.member).first()
         return school
@@ -32,8 +42,6 @@ class Cart(models.Model):
     def get_free_shipping_limit(self):
         shipping_cost_obj = ShippingCost.objects.filter(school=self.get_members_school()).first()
         return shipping_cost_obj.free_shipping_limit if shipping_cost_obj else 0
-
-    # shipping = get_shipping_cost()
 
     SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
     SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, default=0)
@@ -103,7 +111,8 @@ class Cart(models.Model):
         return total
     
     def total_price(self):
-        total = self.old_price() - self.total_discount() - self.CouponDiscount - self.SpecialDiscount + self.shipping_cost()
+        total = max(0, self.old_price() - self.total_discount() - self.CouponDiscount - self.SpecialDiscount) 
+        total += self.shipping_cost()
         return total
     
     shipping_cost.short_description = 'Kargo Ücreti'

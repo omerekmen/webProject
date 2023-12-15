@@ -50,7 +50,9 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-
+                cart, created = Cart.objects.get_or_create(member=request.user)
+                if created:
+                    cart.save()
                 return redirect('index')
             else:
                 messages.error(request, "Invalid username or password.")
