@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from products.models import Products, CombinationProduct, ProductPrices, SizeBasedStocks
 from members.models import Member
+from schools.models import *
 from management.shippingModels import ShippingCost
 
 
@@ -19,13 +20,17 @@ class Cart(models.Model):
     @property
     def free_shipping_limit(self):
         return self.get_free_shipping_limit()
-
+    
+    def get_members_school(self):
+        school = Schools.objects.filter(schoolcampus__member=self.member).first()
+        return school
+    
     def get_shipping_cost(self):
-        shipping_cost_obj = ShippingCost.objects.filter(school=self.member.campus_id.school).first()
+        shipping_cost_obj = ShippingCost.objects.filter(school=self.get_members_school()).first()
         return shipping_cost_obj.shipping_cost if shipping_cost_obj else 0
     
     def get_free_shipping_limit(self):
-        shipping_cost_obj = ShippingCost.objects.filter(school=self.member.campus_id.school).first()
+        shipping_cost_obj = ShippingCost.objects.filter(school=self.get_members_school()).first()
         return shipping_cost_obj.free_shipping_limit if shipping_cost_obj else 0
 
     # shipping = get_shipping_cost()

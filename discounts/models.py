@@ -29,6 +29,9 @@ class SpecialDiscount(models.Model):
     discountEndDate = models.DateTimeField(verbose_name="İndirim Bitiş Tarihi", null=True, blank=True, help_text="İndirim bitiş tarihi giriniz. Boş bırakırsanız indirim süresiz devam eder.")
     discountStatus = models.BooleanField(verbose_name="İndirim Aktifliği", default=True, help_text="İndirim aktifliğini seçiniz. Bu alan seçtiğiniz tarih aralığına göre otomatik olarak güncellenecektir.")
 
+    discountCreatedDate = models.DateTimeField(verbose_name="İndirim Oluşturulma Tarihi", auto_now_add=True)
+    discountUpdatedDate = models.DateTimeField(verbose_name="İndirim Güncellenme Tarihi", auto_now=True)
+
     def save(self, *args, **kwargs):
         today = timezone.now()
 
@@ -60,7 +63,7 @@ class DiscountCoupon(models.Model):
     discountTotalNumber = models.PositiveIntegerField(verbose_name="Toplam İndirim Adedi", default=1, help_text="Toplam indirim adedi giriniz. Örnek: Bu indirim kodu toplamda 100 kere kullanılabilir.")
     discountRemainingNumber = models.PositiveIntegerField(verbose_name="Kalan İndirim Adedi", default=1, help_text="Kalan indirim adedi. Bu alan otomatik hesaplanacaktır Örnek: Bu indirim kodu 100 kere kullanılabilir. 50 kere kullanıldı. Kalan indirim adedi 50'dir.")
 
-    discountMinAmount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="İndirim Uygulanması için Gereken Minimum Sepet Tutarı (0 : Tüm Sepetlere Uygulanacak)", default=0)
+    discountMinAmount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Minimum Sepet Tutarı", default=0, help_text="İndirim uygulanacak minimum sepet tutarını giriniz.")
     discountType = models.CharField(max_length=255, verbose_name="İndirim Tipi", choices=(("percentage", "Yüzde"), ("amount", "Tutar")), default="percentage")
     discountAmount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="İndirim Tutarı", help_text="Yüzde için 0-100 arası değer giriniz.", default=0)
 
@@ -71,6 +74,9 @@ class DiscountCoupon(models.Model):
     discountEndDate = models.DateTimeField(verbose_name="İndirim Bitiş Tarihi", null=True, blank=True, help_text="İndirim bitiş tarihi giriniz. Boş bırakırsanız indirim süresiz devam eder.")
     discountStatus = models.BooleanField(verbose_name="İndirim Aktifliği", default=True, help_text="İndirim aktifliğini seçiniz. Bu alan seçtiğiniz tarih aralığına göre otomatik olarak güncellenecektir.")
     discountAdminDescription = models.TextField(null=True, blank=True, verbose_name="Açıklama", help_text="İndirim açıklaması giriniz. Bu açıklamayı sadece adminler görecek.")
+
+    discountCreatedDate = models.DateTimeField(verbose_name="İndirim Oluşturulma Tarihi", auto_now_add=True)
+    discountUpdatedDate = models.DateTimeField(verbose_name="İndirim Güncellenme Tarihi", auto_now=True)
 
     def save(self, *args, **kwargs):
         today = timezone.now()
