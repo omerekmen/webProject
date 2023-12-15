@@ -1,6 +1,11 @@
-from django.http import JsonResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
-from .models import CartItems
+from django.http import JsonResponse
+from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Q
+from discounts.models import *
+from .models import *
 import json
 
 @csrf_exempt
@@ -20,3 +25,41 @@ def update_cart_quantity(request):
             return JsonResponse({'status': 'error', 'message': 'Cart item not found'}, status=404)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+
+def apply_coupon(request):
+    if request.method == 'POST':
+        coupon_code = request.POST.get('coupon_code')
+        cart_id = request.POST.get('cart_id')
+
+        cart = get_object_or_404(Cart, cart_id=cart_id)
+        member = request.user
+
+        print("Member:", member)
+        print("Member's Campus ID:", member.campus_id)
+
+        try:
+            coupon = DiscountCoupon.objects.filter(
+                discountCouponCode=coupon_code,
+                discountStatus=True,
+                discountStartDate__lte=timezone.now(),
+                discountEndDate__gte=timezone.now(),
+            ).filter(models.Q(member=member) | models.Q(campus=member.campus_id)).get()
+
+            print(coupon)
+
+        except DiscountCoupon.DoesNotExist:
+            messages.error(request, "Kupon Kodu Geçersiz!")
+            return redirect('cart')  # Adjust as per your URL name
+
+        # Apply the coupon
+        cart.CouponCode = coupon.discountCouponCode
+        # cart.apply_discount_coupon()
+        cart.save()
+
+        messages.success(request, "Kupon Kodu başarıyla uygulandı.")
+        return redirect('cart')
+
+    else:
+        return redirect('cart')
+

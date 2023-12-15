@@ -108,14 +108,15 @@
                             <a href="{% url 'cart' %}">Sepeti Güncelle</a>
                         </button>
                     </div>
-                    <div class="cart-coupon-box mb-8">
-                        <h4 class="title coupon-title text-uppercase ls-m">İndirim Kodu</h4>
-                        <input type="text" name="coupon_code"
-                            class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value="{{ cart.CouponCode }}"
-                            placeholder="İndirim kodunuzu giriniz...">
-                        <button type="submit" class="btn btn-md btn-dark btn-rounded btn-outline">İndirimi Uygula
-                        </button>
-                    </div>
+                    <form method="post" action="{% url 'apply_coupon' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="cart_id" value="{{ cart.cart_id }}">
+                        <div class="cart-coupon-box mb-8">
+                            <h4 class="title coupon-title text-uppercase ls-m">İndirim Kodu</h4>
+                            <input type="text" name="coupon_code" class="input-text form-control text-grey ls-m mb-4" id="coupon_code" value="{{ cart.CouponCode }}" placeholder="İndirim kodunuzu giriniz...">
+                            <button type="submit" class="btn btn-md btn-dark btn-rounded btn-outline">İndirimi Uygula</button>
+                        </div>
+                    </form>
                 </div>
                 
                 <aside class="col-lg-4 sticky-sidebar-wrapper">
@@ -178,6 +179,16 @@
                                         <span class="product-quantity">Kargo İndirimi</span>
                                     </td>
                                     <td class="product-total text-body">- {{ cart.shipping }} ₺</td>
+                                </tr>
+                                {% endif %}
+
+                                {% if cart.SpecialDiscount > 0 %}
+                                <tr>
+                                    <td class="product-name">
+                                        <span class="product-quantity">Size Özel İndirim</span>
+                                        {{ prod.product.product_web_name }} 
+                                    </td>
+                                    <td class="product-total text-body">- {{ cart.SpecialDiscount }} ₺</td>
                                 </tr>
                                 {% endif %}
 
