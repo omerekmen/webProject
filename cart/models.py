@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from products.models import Products, CombinationProduct, ProductPrices, SizeBasedStocks
-from members.models import Member
-from schools.models import *
 from management.shippingModels import ShippingCost
+from members.models import Member
+from discounts.models import *
+from products.models import *
+from schools.models import *
 
 
 # Define the Cart model
@@ -123,6 +124,42 @@ class Cart(models.Model):
     shipping_cost.short_description = 'Kargo Ücreti'
     total_disconts_after_snd.short_description = 'İNDİRİMLER TOPLAMI'
     total_price.short_description = 'SEPET TUTARI'
+
+    def apply_discount_coupon(self):
+        if not self.CouponCode:
+            return
+
+        try:
+            # Retrieve the coupon from the database
+            coupon = DiscountCoupon.objects.get(
+                discountCouponCode=self.CouponCode,
+                discountStatus=True,
+                discountStartDate__lte=timezone.now(),
+                discountEndDate__gte=timezone.now(),
+            )
+
+            if coupon.discountRemainingNumber > 0:
+                if coupon.discountType == 'percentage':
+                    self.CouponDiscount = (self.prod_total_price() * coupon.discountAmount) / 100
+                elif coupon.discountType == 'amount':
+                    self.CouponDiscount = coupon.discountAmount
+
+                # Optionally, decrement the remaining number of discounts
+                coupon.discountRemainingNumber -= 1
+                coupon.save()
+
+            else:
+                # Handle the case where the coupon is no longer valid
+                self.CouponCode = None
+                self.CouponDiscount = 0
+
+        except DiscountCoupon.DoesNotExist:
+            # Handle the case where no matching coupon is found
+            self.CouponCode = None
+            self.CouponDiscount = 0
+
+        # Save the updated cart
+        self.save()
     
 
     def __str__(self):

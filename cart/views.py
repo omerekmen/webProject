@@ -62,7 +62,7 @@ def apply_coupon(request):
 
         # Apply the coupon
         cart.CouponCode = coupon.discountCouponCode
-        # cart.apply_discount_coupon()
+        cart.apply_discount_coupon()
         cart.save()
 
         messages.success(request, "Kupon Kodu başarıyla uygulandı.")
