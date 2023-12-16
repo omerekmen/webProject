@@ -28,6 +28,4 @@ def update_discount_status(request):
             discount.discountStatus = today <= discount.discountEndDate
         discount.save()  
 
-    cart.apply_discount_coupon()
-
     

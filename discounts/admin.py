@@ -1,7 +1,16 @@
 from django.contrib import admin
 from .models import *
 
+class SpecialDiscountUsageInline(admin.TabularInline):
+    model = SpecialDiscountUsage
+    extra = 1
+
+class DiscountCouponUsageInline(admin.TabularInline):
+    model = DiscountCouponUsage
+    extra = 1
+
 class SpecialDiscountAdmin(admin.ModelAdmin):
+    inlines = [SpecialDiscountUsageInline]
     list_display = ('discountName', 'discountStatus', 'discountAmountbyType', 'cargoDiscountCheck', 'products_list', 'discountStartDate', 'discountEndDate')
     list_filter = ('school', 'discountStatus', 'discountStartDate', 'discountEndDate')
     search_fields = ('discountName', 'school', 'discountStatus', 'discountStartDate', 'discountEndDate')
@@ -31,6 +40,7 @@ class SpecialDiscountAdmin(admin.ModelAdmin):
             return mark_safe(product_names)
 
 class DiscountCouponAdmin(admin.ModelAdmin):
+    inlines = [DiscountCouponUsageInline]
     list_display = ('discountName', 'discountCouponCode', 'discountStatus', 'discountAmountbyType', 'cargoDiscountCheck', 'discountMinAmount', 'discountStartDate', 'discountEndDate')
     list_filter = ('school', 'discountStatus', 'discountStartDate', 'discountEndDate')
     search_fields = ('discountName', 'school', 'discountStatus', 'discountStartDate', 'discountEndDate')

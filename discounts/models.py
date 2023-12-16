@@ -96,3 +96,30 @@ class DiscountCoupon(models.Model):
 
     def __str__(self):
         return f'{self.discountName}'
+    
+
+class SpecialDiscountUsage(models.Model):
+    dcu_id = models.AutoField(primary_key=True)
+    discount = models.ForeignKey(SpecialDiscount, on_delete=models.CASCADE, verbose_name="Kullanılan İndirim")
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="Kullanan Kişi")
+    count_usage = models.PositiveIntegerField(default=0, verbose_name="Kullanım Sayısı")
+
+    def __str__(self):
+        return f'{self.member.first_name} {self.member.last_name}, {self.discount.discountName} indirimini {self.count} kez kullandı.'
+
+    class Meta:
+        verbose_name = "Özel İndirim Kullanım"
+        verbose_name_plural = "Özel İndirim Kullanımları"
+
+class DiscountCouponUsage(models.Model):
+    dcu_id = models.AutoField(primary_key=True)
+    discount = models.ForeignKey(DiscountCoupon, on_delete=models.CASCADE, verbose_name="Kullanılan Kod")
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name="Kullanan Kişi")
+    count_usage = models.PositiveIntegerField(default=0, verbose_name="Kullanım Sayısı")
+
+    def __str__(self):
+        return f'{self.member.first_name} {self.member.last_name}, {self.discount.discountCouponCode} kodunu {self.count_usage} kez kullandı.'
+
+    class Meta:
+        verbose_name = "Kupon Kullanım"
+        verbose_name_plural = "Kupon Kullanımları"

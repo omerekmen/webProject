@@ -31,12 +31,13 @@ def apply_coupon(request):
     if request.method == 'POST':
         coupon_code = request.POST.get('coupon_code')
         cart_id = request.POST.get('cart_id')
-
-        cart = get_object_or_404(Cart, cart_id=cart_id)
         member = request.user
 
-        print("Member:", member)
-        print("Member's Campus ID:", member.campus_id)
+        cart = get_object_or_404(Cart, cart_id=cart_id)
+
+        if cart.CouponCode == coupon_code:
+            messages.success(request, "Kupon Kodu zaten uygulanmış.")
+            return redirect('cart')
 
         try:
             current_time = timezone.now()
@@ -54,15 +55,24 @@ def apply_coupon(request):
                 Q(campus=member.campus_id)                    # Specific campus
             ).get()
 
-            print(coupon)
+            usage_count, created = DiscountCouponUsage.objects.get_or_create(discount=coupon, member=member)
 
         except DiscountCoupon.DoesNotExist:
             messages.error(request, "Kupon Kodu Geçersiz!")
             return redirect('cart')  # Adjust as per your URL name
 
-        # Apply the coupon
+        if coupon.discountRemainingNumber == 0:
+            messages.error(request, "İndirim Kuponunun kullanım limitine ulaşıldı!")
+            return redirect('cart')
+        
+        if usage_count.count_usage == coupon.discountPerPerson:
+            messages.error(request, "İndirim Kuponunun maximum sayıda faydalandınız!")
+            return redirect('cart')
+
         cart.CouponCode = coupon.discountCouponCode
         cart.apply_discount_coupon()
+        usage_count.count_usage += 1
+        usage_count.save()
         cart.save()
 
         messages.success(request, "Kupon Kodu başarıyla uygulandı.")

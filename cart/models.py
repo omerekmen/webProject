@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from management.shippingModels import ShippingCost
+from management.discountModels import *
 from members.models import Member
 from discounts.models import *
 from products.models import *
@@ -44,7 +45,7 @@ class Cart(models.Model):
         shipping_cost_obj = ShippingCost.objects.filter(school=self.get_members_school()).first()
         return shipping_cost_obj.free_shipping_limit if shipping_cost_obj else 0
 
-    SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
+    SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Özel İndirim Uygulandı', 'Özel İndirim Uygulandı'), ('Admin İndirimi Uygulandı', 'Admin İndirimi Uygulandı'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
     SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, default=0)
     CouponCode = models.CharField(_('Uygulanan Kupon Kodu'), max_length=100, null=True, blank=True)
     CouponDiscount = models.DecimalField(_('Kupon İndirimi'), max_digits=10, decimal_places=2, default=0)
@@ -56,11 +57,6 @@ class Cart(models.Model):
         ordering = ['-created_at']
 
 
-    ##### Ürün Varsayılan Satış Fiyatları Toplamı #####
-    def prod_total_price(self):
-        total = sum(item.single_price() * item.quantity for item in self.user_cart.all())
-        return total
-    
     ##### Ürün Striked Fiyatları Toplamı #####
     def old_price(self):
         total = 0
@@ -81,6 +77,12 @@ class Cart(models.Model):
                 discount_per_item = product_price_obj.StrikedPrice - product_price_obj.SalePrice
                 total_discount += discount_per_item * item.quantity
         return total_discount
+    
+    ##### Ürün Varsayılan Satış Fiyatları Toplamı #####
+    def prod_total_price(self):
+        total = sum(item.single_price() * item.quantity for item in self.user_cart.all())
+        return total
+    
 
     def total_products(self):
         return sum(item.quantity for item in self.user_cart.all())
@@ -129,12 +131,45 @@ class Cart(models.Model):
     total_disconts_after_snd.short_description = 'İNDİRİMLER TOPLAMI'
     total_price.short_description = 'SEPET TUTARI'
 
-    def apply_discount_coupon(self):
+
+
+    def apply_special_discount(self):
+        user_school = self.get_members_school()
+        discount_man = DiscountManagement.objects.get(school=user_school)
+        
         if not self.CouponCode:
             return 0
 
+        if discount_man.double_discount == False:
+            print(discount_man.double_discount)
+            if discount_man.sd_priority == 'Düşük':
+                print(discount_man.sd_priority)
+                self.SpecialDiscountStatus = 'Özel İndirim Yok'
+                self.SpecialDiscount = 0
+                self.save()
+                return 0
+
+        self.save()
+
+
+    def apply_discount_coupon(self):
+        member = self.member
+        user_school = self.get_members_school()
+        discount_man = DiscountManagement.objects.get(school=user_school)
+
+        if not self.CouponCode:
+            return 0
+
+        if discount_man.double_discount == False:
+            print(discount_man.double_discount)
+            if discount_man.dc_priority == 'Düşük':
+                print(discount_man.dc_priority)
+                self.CouponCode = None
+                self.CouponDiscount = 0
+                self.save()
+                return 0
+
         try:
-            # Retrieve the coupon from the database
             coupon = DiscountCoupon.objects.get(
                 discountCouponCode=self.CouponCode,
                 discountStatus=True,
@@ -142,23 +177,20 @@ class Cart(models.Model):
                 discountEndDate__gte=timezone.now(),
             )
 
-            if coupon.discountRemainingNumber > 0:
+            if coupon.discountRemainingNumber != 0:
                 if coupon.discountType == 'percentage':
                     self.CouponDiscount = (self.prod_total_price() * coupon.discountAmount) / 100
                 elif coupon.discountType == 'amount':
                     self.CouponDiscount = coupon.discountAmount
 
-                # Optionally, decrement the remaining number of discounts
                 coupon.discountRemainingNumber -= 1
                 coupon.save()
 
             else:
-                # Handle the case where the coupon is no longer valid
                 self.CouponCode = None
                 self.CouponDiscount = 0
 
         except DiscountCoupon.DoesNotExist:
-            # Handle the case where no matching coupon is found
             self.CouponCode = None
             self.CouponDiscount = 0
 
