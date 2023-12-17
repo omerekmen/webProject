@@ -208,13 +208,16 @@ class Cart(models.Model):
             )
 
             if coupon.discountRemainingNumber != 0:
-                if coupon.discountType == 'percentage':
-                    self.CouponDiscount = (self.total_after_special_discount() * coupon.discountAmount) / 100
-                elif coupon.discountType == 'amount':
-                    self.CouponDiscount = coupon.discountAmount
+                if self.total_after_special_discount() >= coupon.discountMinAmount:
+                    if coupon.discountType == 'percentage':
+                        self.CouponDiscount = (self.total_after_special_discount() * coupon.discountAmount) / 100
+                    elif coupon.discountType == 'amount':
+                        self.CouponDiscount = coupon.discountAmount
 
-                coupon.discountRemainingNumber -= 1
-                coupon.save()
+                    coupon.discountRemainingNumber -= 1
+                    coupon.save()
+                else: 
+                    self.CouponDiscount = 0
 
             else:
                 self.CouponCode = None

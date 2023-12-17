@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views import generic
 from products.models import *
 from cart.models import *
-from cart.views import *
+from cart import views as cart_views
 from schools.models import *
 from members.models import *
 from products.views import *
@@ -123,8 +123,8 @@ def combproduct(request, ProductID):
 @login_required
 def cart(request):
     update_discount_status(request)
-    apply_special_discount(request)
-    apply_coupon(request)
+    cart_views.apply_special_discount(request)
+    cart_views.apply_coupon(request)
     return render(request, 'store/cart.html')
 
 
@@ -156,8 +156,8 @@ def add_to_cart(request):
         cart_item.save()
     
     cart_item.save()
-    apply_special_discount(request)
-    apply_coupon(request)
+    cart_views.apply_special_discount(request)
+    cart_views.apply_coupon(request)
 
     # Prepare the response
     response_data = {

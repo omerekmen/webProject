@@ -95,10 +95,12 @@ def apply_special_discount(request):
     
 
 def apply_coupon(request):
+    member = request.user
+    member_cart = get_object_or_404(Cart, member=member)
+    member_cart.apply_discount_coupon()
     if request.method == 'POST':
         coupon_code = request.POST.get('coupon_code')
         cart_id = request.POST.get('cart_id')
-        member = request.user
 
         cart = get_object_or_404(Cart, cart_id=cart_id)
 
@@ -143,4 +145,5 @@ def apply_coupon(request):
 
     else:
         return redirect('cart')
+
 
