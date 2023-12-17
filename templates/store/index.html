@@ -157,3 +157,15 @@
 </main>
 
 {% endblock %}
+
+{% block extra_scripts %}
+{% if messages %}
+<script>
+    window.onload = function() {
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    };
+</script>
+{% endif %}
+{% endblock extra_scripts %}

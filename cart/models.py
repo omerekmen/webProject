@@ -11,7 +11,7 @@ from schools.models import *
 # Define the Cart model
 class Cart(models.Model):
     cart_id = models.BigAutoField(primary_key=True, unique=True)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="member_cart")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -46,6 +46,7 @@ class Cart(models.Model):
         return shipping_cost_obj.free_shipping_limit if shipping_cost_obj else 0
 
     SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Özel İndirim Uygulandı', 'Özel İndirim Uygulandı'), ('Admin İndirimi Uygulandı', 'Admin İndirimi Uygulandı'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
+    SpecialDiscountApplied = models.ForeignKey(SpecialDiscount, on_delete=models.CASCADE, verbose_name='Uygulanan İndirim', null=True, blank=True)
     SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, default=0)
     CouponCode = models.CharField(_('Uygulanan Kupon Kodu'), max_length=100, null=True, blank=True)
     CouponDiscount = models.DecimalField(_('Kupon İndirimi'), max_digits=10, decimal_places=2, default=0)
@@ -137,19 +138,51 @@ class Cart(models.Model):
         user_school = self.get_members_school()
         discount_man = DiscountManagement.objects.get(school=user_school)
         
-        if not self.CouponCode:
-            return 0
+        if not self.SpecialDiscountApplied:
+            return
 
-        if discount_man.double_discount == False:
-            print(discount_man.double_discount)
-            if discount_man.sd_priority == 'Düşük':
-                print(discount_man.sd_priority)
-                self.SpecialDiscountStatus = 'Özel İndirim Yok'
-                self.SpecialDiscount = 0
-                self.save()
-                return 0
+        if not discount_man.double_discount and discount_man.sd_priority == 'Düşük':
+            self.SpecialDiscountStatus = 'Özel İndirim Yok'
+            self.SpecialDiscountApplied = None
+            self.SpecialDiscount = 0
+            self.save()
+            return
+            
+        special_products_total = 0
+        for item in self.user_cart.all():
+            if item.special_discount_applied():
+                special_products_total += item.single_price() * item.quantity
+                print(special_products_total)
+
+        # Check if total meets the discount minimum amount
+        if special_products_total >= self.SpecialDiscountApplied.discountMinAmount:
+            if self.SpecialDiscountApplied.discountType == 'percentage':
+                total_special_discount = special_products_total * self.SpecialDiscountApplied.discountAmount / 100
+                print(total_special_discount)
+            elif self.SpecialDiscountApplied.discountType == 'amount':
+                total_special_discount = self.SpecialDiscountApplied.discountAmount
+            else:
+                total_special_discount = 0
+
+            self.SpecialDiscount = total_special_discount
+        else:
+            self.SpecialDiscount = 0
+
+        if self.SpecialDiscountApplied.cargoDiscount:
+            print('Kargo İndirimi var')
 
         self.save()
+
+    def special_discount(self):
+        return self.SpecialDiscount
+    
+    special_discount.short_description = 'Özel İndirim'
+    
+    def total_after_special_discount(self):
+        total_after_sd = self.prod_total_price() - self.SpecialDiscount
+        return total_after_sd
+    
+    total_after_special_discount.short_description = "Özel İndirim Sonrası Sepet Tutarı"
 
 
     def apply_discount_coupon(self):
@@ -179,7 +212,7 @@ class Cart(models.Model):
 
             if coupon.discountRemainingNumber != 0:
                 if coupon.discountType == 'percentage':
-                    self.CouponDiscount = (self.prod_total_price() * coupon.discountAmount) / 100
+                    self.CouponDiscount = (self.total_after_special_discount() * coupon.discountAmount) / 100
                 elif coupon.discountType == 'amount':
                     self.CouponDiscount = coupon.discountAmount
 
@@ -245,6 +278,30 @@ class CartItems(models.Model):
             sale_price = product_price_obj.StrikedPrice
             return sale_price
         return 0
+    
+    def special_discount_applied(self):
+        if not self.cart.SpecialDiscountApplied:
+            return False
+
+        special_discount = self.cart.SpecialDiscountApplied
+
+        current_time = timezone.now()
+        start_valid = special_discount.discountStartDate is None or special_discount.discountStartDate <= current_time
+        end_valid = special_discount.discountEndDate is None or special_discount.discountEndDate >= current_time
+
+        # Check if the special discount is active and within the valid date range
+        if not (special_discount.discountStatus and start_valid and end_valid):
+            return False
+
+        # Check if special discount applies to all products (no specific products selected)
+        if not special_discount.products.exists():
+            return True
+
+        # Check if this cart item's product is in the special discount's products
+        return self.product in special_discount.products.all()
+    
+    special_discount_applied.short_description = "Özel İndirim Uygulandı"
+
 
     def cartitem_old_price_total(self):
         product_price_obj = self.get_campus_based_price()

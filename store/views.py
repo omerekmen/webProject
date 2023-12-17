@@ -14,6 +14,7 @@ from store.models import *
 from datetime import datetime, timedelta
 from discounts.tasks import *
 
+
 @login_required
 def index(request):
     update_discount_status(request)
@@ -120,7 +121,12 @@ def combproduct(request, ProductID):
 
 @login_required
 def cart(request):
+    member = request.user
+    cart = get_object_or_404(Cart, member=member)
+
     update_discount_status(request)
+    cart.apply_special_discount()
+    cart.apply_discount_coupon()
     return render(request, 'store/cart.html')
 
 

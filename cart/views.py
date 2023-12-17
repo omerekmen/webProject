@@ -26,6 +26,71 @@ def update_cart_quantity(request):
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
+def check_specialdiscount_usage(discount, member):
+    usage_count, created = SpecialDiscountUsage.objects.get_or_create(discount=discount, member=member)
+    return usage_count
+
+def apply_special_discount(request):
+    member = request.user
+    member_campus = member.campus_id
+    cart = get_object_or_404(Cart, member=member)
+
+    if cart.SpecialDiscountStatus != 'Özel İndirim Yok':
+        pass
+    else:
+        try:
+            discounts = SpecialDiscount.objects.filter(discountStatus = True).filter(
+                Q(member__isnull=True, campus__isnull=True) |
+                Q(member=member) |
+                Q(campus=member.campus_id)
+            )
+
+            member_discounts = discounts.filter(member=member).order_by('-discountCreatedDate')
+            campus_discounts = discounts.filter(campus=member_campus).order_by('-discountCreatedDate')
+            all_discounts = discounts.filter(member__isnull=True, campus__isnull=True).order_by('-discountCreatedDate')
+
+            for md in member_discounts:
+                print(md)
+
+            if discounts:
+                if member_discounts:
+                    for md in member_discounts:
+                        sd_usage = check_specialdiscount_usage(md, member)
+                        if sd_usage.count_usage < md.discountPerPerson:
+                            print(f'Valla da az {sd_usage.count_usage} / {md.discountPerPerson}')
+                            cart.SpecialDiscountApplied = md
+                            sd_usage.count_usage += 1
+                            sd_usage.save()
+                            print(f'Şimdi Güncelleme {sd_usage.count_usage} / {md.discountPerPerson}')
+                            break
+                elif campus_discounts:
+                    for cd in campus_discounts:
+                        cd_usage = check_specialdiscount_usage(cd, member)
+                        if cd_usage.count_usage < cd.discountPerPerson:
+                            cart.SpecialDiscountApplied = cd
+                            cd_usage.count_usage += 1
+                            cd_usage.save()
+                            break
+                elif all_discounts:
+                    for all in campus_discounts:
+                        all_usage = check_specialdiscount_usage(all, member)
+                        if all_usage.count_usage < all.discountPerPerson:
+                            cart.SpecialDiscountApplied = all
+                            all_usage.count_usage += 1
+                            all_usage.save()
+                            break
+
+                cart.SpecialDiscountStatus = 'Özel İndirim Uygulandı'
+
+            else:
+                cart.SpecialDiscountStatus = 'Özel İndirim Yok'
+                cart.SpecialDiscountApplied = None
+
+            cart.save()
+            
+        except SpecialDiscount.DoesNotExist:
+            pass
+
 
 def apply_coupon(request):
     if request.method == 'POST':
@@ -40,13 +105,9 @@ def apply_coupon(request):
             return redirect('cart')
 
         try:
-            current_time = timezone.now()
-
             potential_coupons = DiscountCoupon.objects.filter(
                 discountCouponCode=coupon_code,
                 discountStatus=True,
-                discountStartDate__lte=current_time,
-                discountEndDate__gte=current_time,
             )
 
             coupon = potential_coupons.filter(

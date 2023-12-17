@@ -22,14 +22,14 @@ class CartItemsInline(admin.TabularInline):  # You can use StackedInline if you 
 
 
     # Display the total price in the list
-    readonly_fields = ('single_price', 'total_price', 'selected_combined_products')
+    readonly_fields = ('single_price', 'total_price', 'selected_combined_products', 'special_discount_applied')
 
 
 @admin.register(CartItems)
 class CartItemsAdmin(admin.ModelAdmin):
     inlines = [CombinedProductChoiceInline]
 
-    readonly_fields = ('old_price', 'cartitem_old_price_total', 'single_price', 'total_price')
+    readonly_fields = ('old_price', 'cartitem_old_price_total', 'single_price', 'total_price', 'special_discount_applied')
 
 
 @admin.register(Cart)
@@ -44,6 +44,6 @@ class CartAdmin(admin.ModelAdmin):
     
 
     # Display the cart total price in the list
-    readonly_fields = ('total_products', 'old_price', 'total_discount', 'prod_total_price', 'coupon_discount', 'total_disconts_after_snd', 'shipping_cost', 'total_price' )
+    readonly_fields = ('total_products', 'old_price', 'total_discount', 'prod_total_price', 'special_discount', 'total_after_special_discount', 'coupon_discount', 'total_disconts_after_snd', 'shipping_cost', 'total_price' )
 
 

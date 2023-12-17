@@ -15,6 +15,9 @@ class DiscountManagement(models.Model):
         if self.sd_priority == self.dc_priority:
             self.sd_priority = 'Yüksek'
             self.dc_priority = 'Düşük'
+        if self.double_discount:
+            self.sd_priority = 'Yüksek'
+            self.dc_priority = 'Düşük'
 
         super(DiscountManagement, self).save(*args, **kwargs)
 
