@@ -91,6 +91,8 @@ def apply_special_discount(request):
         except SpecialDiscount.DoesNotExist:
             pass
 
+    cart.apply_special_discount()
+    
 
 def apply_coupon(request):
     if request.method == 'POST':

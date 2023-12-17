@@ -193,14 +193,11 @@ class Cart(models.Model):
         if not self.CouponCode:
             return 0
 
-        if discount_man.double_discount == False:
-            print(discount_man.double_discount)
-            if discount_man.dc_priority == 'Düşük':
-                print(discount_man.dc_priority)
-                self.CouponCode = None
-                self.CouponDiscount = 0
-                self.save()
-                return 0
+        if discount_man.double_discount == False and discount_man.dc_priority == 'Düşük':
+            self.CouponCode = None
+            self.CouponDiscount = 0
+            self.save()
+            return 0
 
         try:
             coupon = DiscountCoupon.objects.get(
