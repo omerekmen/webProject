@@ -17,15 +17,16 @@
         <div class="step-by pr-4 pl-4">
             <h3 class="title title-simple title-step"><a href="{% url 'cart' %}">1. Sepet</a></h3>
             <h3 class="title title-simple title-step active"><a href="{% url 'checkout' %}">2. Ödeme Bilgileri</a></h3>
-            <h3 class="title title-simple title-step"><a href="{% url 'order' %}">3. Sipariş Tamamlandı</a></h3>
+            <h3 class="title title-simple title-step"><a href="">3. Sipariş Tamamlandı</a></h3>
         </div>
         <div class="container mt-7">
+            {% comment %}
             <div class="card accordion">
-                <div class="alert alert-light alert-primary alert-icon mb-4 card-header">
+                 <div class="alert alert-light alert-primary alert-icon mb-4 card-header">
                     <i class="fas fa-exclamation-circle"></i>
                     <span class="text-body">Kupon Kodunuz mu var?</span>
                     <a href="#alert-body2" class="text-primary">Buraya tıklayarak kupon kodunuzu girebilirsiniz.</a>
-                </div>
+                </div> 
                 <div class="alert-body collapsed" id="alert-body2">
                     <p>Kupon Kodunuz varsa aşağıya girerek indiriminizi uygulayabilirsiniz.</p>
                     <div class="check-coupon-box d-flex">
@@ -38,7 +39,12 @@
                     </div>
                 </div>
             </div>
-            <form action="{% url 'address_update' %}" method="post" class="form">
+            {% endcomment %}
+            <div id="stockError" style="display: none;">
+                
+            </div>
+
+            <form action="{% url 'create_order' %}" method="post" class="form" id="create-order-form">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-6 mb-6 mb-lg-0 pr-lg-4">
@@ -46,12 +52,12 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <label>Alıcı Adı *</label>
-                                <input type="text" class="form-control" name="first-name" required="" 
+                                <input type="text" id="first-name" class="form-control" name="first-name" required="" 
                                 value="{% if delivery_address %}{{ delivery_address.recipient_name }}{% endif %}" />
                             </div>
                             <div class="col-xs-6">
                                 <label>Alıcı Soyadı *</label>
-                                <input type="text" class="form-control" name="last-name" required="" 
+                                <input type="text" id="last-name" class="form-control" name="last-name" required="" 
                                 value="{% if delivery_address %}{{ delivery_address.recipient_lastname }}{% endif %}" />
                             </div>
                         </div>
@@ -59,7 +65,7 @@
                         <div class="select-box" style="display: none;">
                             <label>Ülke *</label>
                             <input type="text" class="form-control" name="country" required value= "Türkiye" />
-                            <select name="country" class="form-control" value="Türkiye">
+                            <select id="country" name="country" class="form-control" value="Türkiye">
                                 <option selected value="Türkiye" selected>Türkiye</option>
                             </select>
                         </div>
@@ -67,7 +73,7 @@
                             <div class="col-xs-6">
                                 <label>İl *</label>
                                 <div class="select-box">
-                                    <select id="citySelect" name="city" class="form-control" >
+                                    <select id="citySelect" name="citySelect" class="form-control" >
                                         {% if delivery_address %}
                                         <option selected value="{{ delivery_address.City.id }}">{{ delivery_address.City }}</option>
                                         {% else %}
@@ -83,7 +89,7 @@
                             <div class="col-xs-6">
                                 <label>İlçe *</label>
                                 <div class="select-box">
-                                    <select id="districtSelect" name="district" class="form-control">
+                                    <select id="districtSelect" name="districtSelect" class="form-control">
                                         {% if delivery_address %}
                                         <option selected value="{{ delivery_address.District.id }}">{{ delivery_address.District }}</option>
                                         {% else %}
@@ -95,28 +101,28 @@
                         </div>
 
                         <label>Teslimat Adresi *</label>
-                            <textarea class="form-control" name="address" required=""
+                            <textarea class="form-control" id="delivery-address" name="delivery-address" required=""
                             placeholder="" >{{ delivery_address.FullAddress }}</textarea>
                         
                         <div class="row">
                             <div class="col-xs-4">
                                 <label>ZIP *</label>
-                                <input type="numeric" class="form-control" name="zip" required maxlength="5" value="{{ delivery_address.PostalCode }}" />
+                                <input type="numeric" class="form-control" id="zip" name="zip" required maxlength="5" value="{{ delivery_address.PostalCode }}" />
                             </div>
                             <div class="col-xs-8">
                                 <label>Phone *</label>
-                                <input type="text" class="form-control phone-input" name="phone" required placeholder="(5__) ___ __ __" value="{{ delivery_address.PhoneNumber|format_phone }}"  maxlength="15" />
+                                <input type="text" class="form-control phone-input" id="phone" name="phone" required placeholder="(5__) ___ __ __" value="{{ delivery_address.PhoneNumber|format_phone }}"  maxlength="15" />
                             </div>
                         </div>
 
                         <label>Email Address *</label>
-                        <input type="email" class="form-control" name="email-address" required="" value="{{ delivery_address.EMail }}" />
+                        <input type="email" class="form-control" id="email-address" name="email-address" required="" value="{{ delivery_address.EMail }}" />
                         
                         
                         <div class="form-checkbox mb-6">
                             <input type="checkbox" class="custom-checkbox" id="saveas-default-address"
-                                name="different-address">
-                            <label class="form-control-label ls-s" for="different-address">
+                                name="saveas-default-address">
+                            <label class="form-control-label ls-s" for="saveas-default-address">
                                 Varsayılan Adresim Olarak Kaydet
                             </label>
                             <input type="checkbox" class="custom-checkbox" id="different-address"
@@ -136,7 +142,7 @@
                                 <div class="col-xs-6">
                                     <label>İl *</label>
                                     <div class="select-box">
-                                        <select id="invoicecitySelect" name="invoice-city" class="form-control" value="Şehir Seçiniz">
+                                        <select id="invoicecitySelect" name="invoicecitySelect" class="form-control" value="Şehir Seçiniz">
                                             {% if invoice_address %}
                                             <option selected value="{{ invoice_address.City.id }}">{{ invoice_address.City }}</option>
                                             {% else %}
@@ -152,7 +158,7 @@
                                 <div class="col-xs-6">
                                     <label>İlçe *</label>
                                     <div class="select-box">
-                                        <select id="invoicedistrictSelect" name="invoice-district" class="form-control">
+                                        <select id="invoicedistrictSelect" name="invoicedistrictSelect" class="form-control">
                                             {% if invoice_address %}
                                             <option selected value="{{ invoice_address.District.id }}">{{ invoice_address.District }}</option>
                                             {% else %}
@@ -164,26 +170,26 @@
                             </div>
 
                             <label>Fatura Adresi *</label>
-                            <textarea class="form-control" name="invoice-address" required=""
+                            <textarea class="form-control" id="invoice-address" name="invoice-address" required=""
                             placeholder="" >{{ invoice_address.FullAddress }}</textarea>
                             
                             <label>Firma Adı veya Adı Soyadı</label>
-                            <input type="text" class="form-control" name="invoice-company-name" value="{{ invoice_address.comp_name }}" />
+                            <input type="text" class="form-control" id="invoice-company-name" name="invoice-company-name" value="{{ invoice_address.comp_name }}" />
                             
                             <label>Vergi Dairesi</label>
-                            <input type="text" class="form-control" name="invoice-company-tax-office" value="{{ invoice_address.tax_office }}" />
+                            <input type="text" class="form-control" id="invoice-company-tax-office" name="invoice-company-tax-office" value="{{ invoice_address.tax_office }}" />
                             
                             <label>Vergi Numarası veya TC Kimlik No</label>
-                            <input type="number" class="form-control" name="invoice-company-tax-no" required value="{{ invoice_address.tax_no }}" />
+                            <input type="number" class="form-control" id="invoice-company-tax-no" name="invoice-company-tax-no" required value="{{ invoice_address.tax_no }}" />
                             
                             <div class="row">
                                 <div class="col-xs-5">
                                     <label>Phone</label>
-                                    <input type="text" class="form-control phone-input" name="invoice-phone" placeholder="(5__) ___ __ __" value="{{ invoice_address.PhoneNumber|format_phone }}" maxlength="15" />
+                                    <input type="text" class="form-control phone-input" id="invoice-phone" name="invoice-phone" placeholder="(5__) ___ __ __" value="{{ invoice_address.PhoneNumber|format_phone }}" maxlength="15" />
                                 </div>
                                 <div class="col-xs-7">
                                     <label>E-Posta</label>
-                                    <input type="email" class="form-control" name="invoice-email-address" value="{{ invoice_address.EMail }}" />
+                                    <input type="email" class="form-control" id="invoice-email-address" name="invoice-email-address" value="{{ invoice_address.EMail }}" />
                                 </div>
                             </div>
                         </div>
@@ -191,9 +197,8 @@
 
                         <h2 class="title title-simple text-uppercase text-left">Ek Bilgiler</h2>
                         <label>Sipariş Notları (Opsiyonel)</label>
-                        <textarea class="form-control pb-2 pt-2 mb-0" cols="30" rows="5"
-                            placeholder="Siparişinizle ilgili ek notlarınız varsa buraya yazabilirsiniz">
-                        </textarea>
+                        <textarea class="form-control" id="order-notes" name="order-notes" cols="30" rows="5"
+                            placeholder="Siparişinizle ilgili ek notlarınız varsa buraya yazabilirsiniz"></textarea>
 
                     </div>
 
@@ -243,7 +248,12 @@
                                                 <h4 class="summary-subtitle">Kargo Ücreti</h4>
                                             </td>
                                             <td></td>
-                                            <td class="summary-subtotal-price pb-0 pt-0">{{ cart.shipping_cost }} ₺
+                                            <td class="summary-subtotal-price pb-0 pt-0">
+                                                {% if cart.shipping_cost == 0 %}
+                                                Ücretsiz Kargo
+                                                {% else %}
+                                                <p class="summary-subtotal-price">{{ cart.shipping_cost }} ₺</p>
+                                                {% endif %}
                                             </td>
                                         </tr>
                                         
@@ -252,26 +262,26 @@
                                                 <h4 class="summary-subtitle">İndirimler</h4>
                                             </td>
                                         </tr>
+
+                                        {% if cart.shipping_cost == 0 and cart.user_cart.exists %}
                                         <tr>
                                             <td class="product-name">
                                                 <span class="product-quantity">Kargo İndirimi</span>
                                                 {{ prod.product.product_web_name }} 
                                             </td>
                                             <td></td>
-                                            {% if cart.shipping_cost != 0 %}
-                                            <td class="product-total text-body">{{ cart.shipping_cost }} ₺</td>
-                                            {% else %}
                                             <td class="product-total text-body">- {{ cart.shipping }} ₺</td>
-                                            {% endif %}
                                         </tr>
-                                        {% if cart.discount_coupon != 0 %}
+                                        {% endif %}
+                                        
+                                        {% if cart.CouponDiscount != 0 %}
                                         <tr>
                                             <td class="product-name">
-                                                <span class="product-quantity">İndirim Kuponu</span>
+                                                <span class="product-quantity">İndirim Kuponu <b>( {{ cart.CouponCode }} )</b></span>
                                                 {{ prod.product.product_web_name }} 
                                             </td>
                                             <td></td>
-                                            <td class="product-total text-body">- {{ cart.discount_coupon }} ₺</td>
+                                            <td class="product-total text-body">- {{ cart.CouponDiscount }} ₺</td>
                                         </tr>
                                         {% endif %}
                                         
@@ -289,6 +299,7 @@
                                     </tbody>
                                 </table>
 
+                                {% comment %}
                                 <div class="payment accordion radio-type">
                                     <h4 class="summary-subtitle ls-m pb-3">Payment Methods</h4>
                                     <div class="card">
@@ -329,19 +340,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                {% endcomment %}
 
                                 <div class="form-checkbox mt-4 mb-5">
-                                    <input type="checkbox" class="custom-checkbox" id="terms-condition"
-                                        name="terms-condition" />
-                                    <label class="form-control-label" for="terms-condition">
+                                    <input required type="checkbox" class="custom-checkbox" id="distance-sales-contract"
+                                        name="distance-sales-contract" />
+                                    <label class="form-control-label" for="distance-sales-contract">
                                         <a href="javascript:void(0);" onclick="openPopup('Mesafeli Satış Sözleşmesi')">Mesafeli Satış Sözleşmesi</a>'ni okudum, onaylıyorum. *
                                     </label>
                                 </div>
 
-                                <div class="form-checkbox mt-4 mb-5">
-                                    <input type="checkbox" class="custom-checkbox" id="terms-condition"
-                                        name="terms-condition" />
-                                    <label class="form-control-label" for="terms-condition">
+                                <div class="form-checkbox mt-4 mb-6">
+                                    <input required type="checkbox" class="custom-checkbox" id="pre-notification-form"
+                                        name="pre-notification-form" />
+                                    <label class="form-control-label" for="pre-notification-form">
                                         <a href="javascript:void(0);" onclick="openPopup('Ön Bilgilendirme Formu')">Ön Bilgilendirme Formu</a>'nu okudum, onaylıyorum. *
                                     </label>
                                 </div>
@@ -355,6 +367,13 @@
                     </aside>
                 </div>
             </form>
+
+            <div class="tab-pane fade active in" id="desc">
+                <div class="row">
+                    <div id="iyzipay-checkout-form" class="popup"></div>
+                </div>
+            </div>
+
         </div>
     </div>
     
@@ -363,6 +382,34 @@
 {% endblock content %}
 
 {% block extra_scripts %}
+
+{% comment %}
+<script>
+    document.getElementById('create-order-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+    
+        var formData = new FormData(this);
+    
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Display the error message
+                var stockErrorDiv = document.getElementById('stockError');
+                stockErrorDiv.innerHTML = '<div class="alert alert-danger alert-dark alert-round alert-inline"><h4 class="alert-title">Uyarı :</h4>' + data.error + '<button type="button" class="btn btn-link btn-close"><i class="d-icon-times"></i></button></div><br>';
+                stockErrorDiv.style.display = 'block';
+            } else {
+                // Handle success (e.g., redirect to the payment page)
+                window.location.href = data.paymentPageUrl;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+{% endcomment %}
 <script>
     function openPopup(pageTitle) {
         // Make AJAX request to Django view
@@ -484,5 +531,51 @@
     });
 </script>
     
+<script>
+    $(document).ready(function() {
+        // Function to get the CSRF token from the cookie
+        function getCSRFToken() {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = $.trim(cookies[i]);
+                if (cookie.startsWith('csrftoken=')) {
+                    return cookie.substring('csrftoken='.length, cookie.length);
+                }
+            }
+            return '';
+        }
+        $(document).ready(function() {
+            $("#create-order-form").submit(function(event) {
+                event.preventDefault();
+        
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "create_order" %}',
+                    data: $(this).serialize(),
+                    headers: {
+                        'X-CSRFToken': getCSRFToken()
+                    },
+                    success: function(response) {
+                        if(response.formContent) {
+                            // Insert the form content
+                            var $formDiv = $("#iyzipay-checkout-form");
+                            $formDiv.html(response.formContent);
+        
+                            // Find and execute scripts
+                            $formDiv.find("script").each(function() {
+                                $.globalEval(this.text || this.textContent || this.innerHTML || '');
+                            });
+                        } else if(response.error) {
+                            alert(response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 {% endblock extra_scripts %}

@@ -6,16 +6,20 @@ from django.http import JsonResponse
 from django.views import generic
 from products.models import *
 from cart.models import *
+from cart import views as cart_views
 from schools.models import *
 from members.models import *
 from products.views import *
 from members.urls import *
 from store.models import *
 from datetime import datetime, timedelta
+from discounts.tasks import *
 
 
 @login_required
 def index(request):
+    update_discount_status(request)
+
     return render(request, 'store/index.html')
 
 
@@ -118,6 +122,9 @@ def combproduct(request, ProductID):
 
 @login_required
 def cart(request):
+    update_discount_status(request)
+    cart_views.apply_special_discount(request)
+    cart_views.apply_coupon(request)
     return render(request, 'store/cart.html')
 
 
@@ -149,6 +156,8 @@ def add_to_cart(request):
         cart_item.save()
     
     cart_item.save()
+    cart_views.apply_special_discount(request)
+    cart_views.apply_coupon(request)
 
     # Prepare the response
     response_data = {
@@ -174,14 +183,6 @@ def delete_from_cart(request):
 
 
 
-
-@login_required
-def checkout(request):
-    return render(request, 'store/checkout.html')
-
-@login_required
-def order(request):
-    return render(request, 'store/order.html')
 
 
 

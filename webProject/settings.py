@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '.localhost', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = ['https://sandbox-api.iyzipay.com']
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp-mail.outlook.com'
 EMAIL_PORT = 587
@@ -42,7 +45,8 @@ DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 # Application definition
 
 INSTALLED_APPS = [
-    'jet_django',
+    # 'jet_django',
+    # 'django_q',
     "jazzmin",
     "widget_tweaks",
 
@@ -55,14 +59,17 @@ INSTALLED_APPS = [
 
     "ckeditor",
     "ckeditor_uploader",
-
+    
     # Our Apps
     "store",
     "schools",
     "members",
     "products",
+    "payment",
     "orders",
     "cart",
+    "management",
+    "discounts",
 ]
 
 MIDDLEWARE = [
@@ -176,13 +183,14 @@ JAZZMIN_SETTINGS = {
     'site_logo' : "images/logo-letter.png",
     "login_logo" : "images/logo-admin-login.png",
     'copyright' : "Entegrasyon Cloud",
-    "navigation_expanded": True,
+    "navigation_expanded": False,
     "order_with_respect_to": ["auth", 
                               "members", 
                               "schools", "schools.schools",
                               "products", "products.products", "products.CombinationProduct", "products.SetProduct", "products.ProductCategory", "products.ProductSubCategory", 
                               "orders", "orders.orders",
                               "cart", "cart.cart",
+                              "discounts",
                             ],
     "icons": {
         "auth": "fas fa-users-cog",
@@ -203,8 +211,20 @@ JAZZMIN_SETTINGS = {
         "schools.SchoolCampus": "far fa-building",
         "cart.cart": "fas fa-shopping-basket",
         "cart.cartitems": "fas fa-grip-horizontal",
-    },  
+        "discounts.SpecialDiscount": "fas fa-percent",
+        "discounts.DiscountCoupon": "fas fa-tag",
+    },
+    # "custom_links": {
+    #     "management": [{
+    #         "name": "Ödeme Ayarları",
+    #         "url": "paymentgateways",
+    #         "icon": "fas fa-comments",
+    #         # "permissions": ["orders.add_orders"]
+    #     }]
+    # },
+
     # "show_ui_builder": True,
+    # "related_modal_active": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
@@ -212,7 +232,8 @@ JAZZMIN_UI_TWEAKS = {
     "actions_sticky_top": True,
     "sidebar_nav_legacy_style": True,
     "sidebar_fixed": True,
-
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": True,
 }
 
 

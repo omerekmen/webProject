@@ -1,0 +1,252 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}Sipariş Detayları - {{ order.OrderID }}{% endblock %}
+
+{% block slider %}
+{% endblock slider %}
+
+{% block extra_head%}
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.min.css' %}">
+{% endblock extra_head%}
+
+
+{% block content %}
+
+<main class="main order">
+
+        <div class="container mt-8">
+            
+            {% comment %} <div class="order-message mr-auto ml-auto">
+                <div class="icon-box d-inline-flex align-items-center">
+                    <div class="icon-box-icon mb-0">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+                            enable-background="new 0 0 50 50" xml:space="preserve">
+                            <g>
+                                <path fill="none" stroke-width="3" stroke-linecap="round"
+                                    stroke-linejoin="bevel" stroke-miterlimit="10" d="
+                                    M33.3,3.9c-2.7-1.1-5.6-1.8-8.7-1.8c-12.3,0-22.4,10-22.4,22.4c0,12.3,10,22.4,22.4,22.4c12.3,0,22.4-10,22.4-22.4
+                                    c0-0.7,0-1.4-0.1-2.1"></path>
+                                <polyline fill="none" stroke-width="4" stroke-linecap="round"
+                                    stroke-linejoin="bevel" stroke-miterlimit="10" points="
+                                    48,6.9 24.4,29.8 17.2,22.3 	"></polyline>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="icon-box-content text-left">
+                        <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Thank You!</h5>
+                        <p class="lh-1 ls-m">Your order has been received</p>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+
+            <div class="order-results">
+                <div class="overview-item">
+                    <span>Order number:</span>
+                    <strong>{{ order.OrderID }}</strong>
+                </div>
+                <div class="overview-item">
+                    <span>Sipariş Durumu:</span>
+                    <strong>{{ order.OrderStatus }}</strong>
+                </div>
+                <div class="overview-item">
+                    <span>Tarih:</span>
+                    <strong>{{ order.OrderDate|date:"d F Y" }}</strong>
+                </div>
+                <div class="overview-item">
+                    <span>Email:</span>
+                    <strong>{{ order.order_address.first.EMail }}</strong>
+                </div>
+                <div class="overview-item">
+                    <span>Toplam:</span>
+                    <strong>{{ order.total_discounted_sale_price }} ₺</strong>
+                </div>
+                <div class="overview-item">
+                    <span>Ödeme Türü:</span>
+                    <strong>{{ order.order_payment.first.PaymentProvider }}</strong>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-sm-4 mb-4">
+                    <div class="order-message mr-auto ml-auto">
+                        <div class="icon-box d-inline-flex align-items-center">
+                            <div class="icon-box-content text-left">
+                                <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Teslimat Adresi</h5>
+                                <p class="address-detail pb-2">
+                                    {{ order_delivery_address.recipient_name }} {{ order_delivery_address.recipient_lastname }}<br>
+                                    {{ order_delivery_address.FullAddress }}<br>
+                                    {{ order_delivery_address.District}}, {{ order_delivery_address.City}} - {{ order_delivery_address.PostalCode}}<br>
+                                </p>
+                                <p class="phone2numeric">0 {{ order_delivery_address.PhoneNumber|format_phone }}</p>
+                                <p class="email">{{ order_delivery_address.EMail }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 mb-4">
+                    <div class="order-message mr-auto ml-auto">
+                        <div class="icon-box d-inline-flex align-items-center">
+                            <div class="icon-box-content text-left">
+                                <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Fatura Adresi</h5>
+                                <p class="address-detail pb-2">
+                                    {{ order_invoice_address.recipient_name }} {{ order_invoice_address.recipient_lastname }} 
+                                    {% if order_invoice_address.comp_name != None %} | {{ order_invoice_address.comp_name }} {% endif %}<br>
+                                    {{ order_invoice_address.FullAddress }}<br>
+                                    {{ order_invoice_address.District }}, {{ order_invoice_address.City }} - {{ order_invoice_address.PostalCode }}<br>
+                                    {% if order_invoice_address.tax_office != None %}{{ order_invoice_address.tax_office }} - {{ order_invoice_address.tax_number }} <br>{% endif %}
+                                </p>
+                                <p class="phone2numeric">0 {{ order_invoice_address.PhoneNumber|format_phone }}</p>
+                                <p class="email">{{ order_invoice_address.EMail }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4 mb-4">
+                    <div class="order-message mr-auto ml-auto">
+                        <div class="icon-box d-inline-flex align-items-center">
+                            <div class="icon-box-content text-left">
+                                <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Sipariş İşlemleri</h5>
+                                <button type="submit" name="cancel-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                                    İptal Et
+                                </button>
+                                <button type="submit" name="return-order" id="return-order" class="btn btn-block btn-dark btn-sm">
+                                    İade Et
+                                </button>
+                                <button type="submit" name="change-order" id="change-order" class="btn btn-block btn-primary btn-sm">
+                                    Değişim Yap
+                                </button>
+                                <button type="submit" name="see-invoice" id="see-invoice" class="btn btn-block btn-primary btn-sm">
+                                    Faturayı Gör
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <h2 class="title title-simple text-left pt-4 font-weight-bold text-uppercase">Sipariş Detayları</h2>
+            <div class="order-details">
+                <table class="order-details-table">
+                    <thead>
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h3 class="summary-subtitle">Ürünler</h3>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for item in order.user_order_items.all %}
+                        <tr>
+                            <td class="product-name">{{ item.Product.product_name }} <span><i class="fas fa-times"></i> {{ item.Quantity }}</span></td>
+                            <td class="product-price">{{ item.prod_sale_price }} ₺</td>
+                        </tr>
+                        {% endfor %}
+                        
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Toplam Ücret</h4>
+                            </td>
+                            <td class="summary-subtotal-price">{{ order.total_sale_price }}</td>
+                        </tr>
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Kargo Ücreti</h4>
+                            </td>
+                            {% if order.OrderCargoFee != 0 %}
+                            <td class="summary-subtotal-price">{{ order.OrderCargoFee }} ₺</td>
+                            {% else %}
+                            <td class="summary-subtotal-price">Ücretsiz Kargo</td>
+                            {% endif %}
+                        </tr>
+
+                        {% if order.CouponDiscount != 0 %}
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">İndirim Kodu {{ order.CouponCode }}</h4>
+                            </td>
+                            <td class="summary-subtotal-price">- {{ order.CouponDiscount }} ₺</td>
+                        </tr>
+                        {% endif %}
+
+                        <tr class="summary-subtotal">
+                            <td>
+                                <h4 class="summary-subtitle">Sipariş Tutarı</h4>
+                            </td>
+                            <td>
+                                <p class="summary-total-price">{{ order.total_discounted_sale_price }} ₺</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-sm-3 mb-4">
+                    <div class="alert-message mr-auto ml-auto">
+                        <button type="submit" name="cancel-order" id="cancel-order" class="btn btn-default btn-block btn-sm">
+                            <div class="icon-box d-inline-flex align-items-center">
+                                <div class="icon-box-content text-left">
+                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İptal Et</h5>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-3 mb-4">
+                    <div class="alert-message mr-auto ml-auto">
+                        <button type="submit" name="return-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                            <div class="icon-box d-inline-flex align-items-center">
+                                <div class="icon-box-content text-left">
+                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İade Et</h5>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-3 mb-4">
+                    <div class="alert-message mr-auto ml-auto">
+                        <button type="submit" name="change-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                            <div class="icon-box d-inline-flex align-items-center">
+                                <div class="icon-box-content text-left">
+                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Değişim Yap</h5>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-3 mb-4">
+                    <div class="alert-message mr-auto ml-auto">
+                        <button type="submit" name="see-invoice" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                            <div class="icon-box d-inline-flex align-items-center">
+                                <div class="icon-box-content text-left">
+                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Faturayı Görüntüle</h5>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{% url 'account' %}#orders" class="btn btn-icon-left btn-dark btn-back btn-rounded btn-md mb-4"><i
+                class="d-icon-arrow-left"></i> Siparişlerime Dön</a>
+
+
+        </div>
+    </div>
+    
+</main>
+
+{% endblock content %}

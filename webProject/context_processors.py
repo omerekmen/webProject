@@ -3,6 +3,7 @@ from schools.models import *
 from members.models import *
 from cart.models import *
 from store.models import *
+from orders.models import *
 import random
 
 
@@ -73,8 +74,6 @@ def default(request, school=get_school()):
         else:
             product.display_price = product.productprices_set.first()
 
-
-
     if user:
         cart = Cart.objects.get(member=request.user)
         cartitems = CartItems.objects.filter(cart=cart)
@@ -82,15 +81,24 @@ def default(request, school=get_school()):
         cart = None
         cartitems = None
 
+    if user:
+        user_orders = Orders.objects.filter(Member=request.user)
+    else:
+        user_orders = None
+
     random_products = list(active_products)
     random.shuffle(random_products)
 
     schools = Schools.objects.get(school_id=school)
-    genders = []
+    school_main_page_popup = SchoolPopup.objects.filter(school=school, popup_page="index").first()
+    school_reg_page_popup = SchoolPopup.objects.filter(school=school, popup_page="intro").first()
+    school_prod_page_popup = SchoolPopup.objects.filter(school=school, popup_page="product").first()
+
 
     return {
         'user': user,
         'user_ip': user_ip,
+        'user_orders': user_orders,
         'delivery_address': delivery_address, 
         'invoice_address': invoice_address,
 
@@ -109,8 +117,10 @@ def default(request, school=get_school()):
         'cartitems': cartitems,
 
         'schools': schools,
+        'school_main_page_popup': school_main_page_popup,
+        'school_reg_page_popup': school_reg_page_popup,
+        'school_prod_page_popup': school_prod_page_popup,
         'cities': cities,
         'levels': levels,
-        'genders': genders,
         'sc': scl,
     }

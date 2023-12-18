@@ -49,7 +49,7 @@
     </head>
 
 
-    <body>
+    <body class="home">
 
         <header class="header">
             <div class="header-top">
@@ -69,7 +69,7 @@
                             <a href="#dropdown">Links</a>
                             <ul class="dropdown-box">
                                 <li>
-                                    <a href="{% url 'index' %}">Kargom Nerede?</a>
+                                    <a href="{% url 'account' %}#orders">Kargom Nerede?</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'logout' %}">Logout</a>
@@ -125,10 +125,12 @@
                                         </ul>
                                     </li>
 
+                                    <!-- Kategori Url Yapısı İçin Düzenleme Gerekebilir -->
                                     <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
                                         <a href="{% url 'category' %}12">Kombin</a>
                                     </li>
 
+                                    <!-- Canlı Ortamda Buraya Gerek Yok -->
                                     <li class="submenu"> 
                                         <a href="#">Ek Sayfalar</a>
                                         <ul>
@@ -142,13 +144,13 @@
                                             {% endfor %}                                           
                                             <li><a href="error-404.html">Error 404(NW)</a>
                                                 <ul>
-                                                    <li><a href="error-404.html">Error 404</a></li>
+                                                    <li><a href="">Error 404</a></li>
                                                     <li><a href="error-404-1.html">Error 404-1</a></li>
                                                     <li><a href="error-404-2.html">Error 404-2</a></li>
                                                     <li><a href="error-404-3.html">Error 404-3</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="coming-soon.html">Coming Soon(NW)</a></li>
+                                            <li><a href="">Coming Soon(NW)</a></li>
                                         </ul>
                                     </li>
 
@@ -196,9 +198,6 @@
                                                     <img src="{{ prod.product.productimages_set.first.product_image.url }}" alt="product" width="100"
                                                         height="100" />
                                                 </a>
-                                                <button class="btn btn-link btn-close">
-                                                    <i class="fas fa-times"></i><span class="sr-only">Close</span>
-                                                </button>
                                             </figure>
                                             <div class="product-detail">
                                                 {% if prod.product.product_type == 'Tekil' %} 
@@ -254,10 +253,9 @@
             <!-- End of CloseButton -->
 
             <div class="mobile-menu-container scrollable">
-                <form action="#" class="input-wrapper">
-                    <input type="text" class="form-control" name="search" autocomplete="off"
-                        placeholder="Search your keyword..." required />
-                    <button class="btn btn-search" type="submit" title="submit-button">
+                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
+                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
+                    <button class="btn btn-search" type="submit">
                         <i class="d-icon-search"></i>
                     </button>
                 </form>
@@ -268,11 +266,11 @@
                         <a href="{% url 'index' %}">Home</a>
                     </li>
                     <li>
-                        <a href="#">Kategoriler</a>
+                        <a href="{% url 'category' %}">Kategoriler</a>
                         <ul>
                             {% for category in categories %}
                                 <li class="submenu">
-                                    <a href="{% url 'category' %}">{{ category.CategoryName }}</a>
+                                    <a href="{% url 'category_m' category.ProductCategoryID %}">{{ category.CategoryName }}</a>
                                     <ul>
                                         {% for subcat in subcategories %}
                                             {% if category.CategoryName == subcat.ProductCategory.CategoryName %}
@@ -288,39 +286,12 @@
                     </li>
                     
                     <li>
-                        <a href="{% url 'category' %}#12">Kombin</a>
+                        <a href="{% url 'category' %}12">Kombin</a>
                     </li>
-
-                    <li> 
-                        <a href="#">Ek Sayfalar</a>
-                        <ul>
-                            <li><a href="{% url 'login' %}">Giriş Yap</a></li>
-                            <li><a href="{% url 'register' %}">Üye Ol</a></li>
-
-                            {% for schoolpage in schools.schoolpages_set.all %}
-                            <li>
-                                <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
-                            </li>
-                            {% endfor %}                                           
-                            <li><a href="error-404.html">Error 404(NW)</a>
-                                <ul>
-                                    <li><a href="error-404.html">Error 404</a></li>
-                                    <li><a href="error-404-1.html">Error 404-1</a></li>
-                                    <li><a href="error-404-2.html">Error 404-2</a></li>
-                                    <li><a href="error-404-3.html">Error 404-3</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="coming-soon.html">Coming Soon(NW)</a></li>
-                        </ul>
+                    <li>
+                        <a href="{% url 'account' %}">Hesabım</a>
                     </li>
                 </ul>
-                <!-- End of MobileMenu -->
-                <!-- <ul class=" mobile-menu mmenu-anim">
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="cart.html">My Cart</a></li>
-                    <li><a href="wishlist.html">Wishlist</a></li>
-                </ul> -->
-                <!-- End of MobileMenu -->
             </div>
         </div>
 
@@ -348,7 +319,7 @@
                             '480': {
                                 'dots': true,
                                 'nav': true,
-                                'items': 1
+                                'items': 1,
                             },
                             '740': {
                                 'dots': true,
@@ -385,6 +356,56 @@
         </div>
 
 
+
+        {% if request.resolver_match.url_name == 'index' %}
+            {% if schools.school_popup.exists and school_main_page_popup.popup_status == True %}
+                <div class="newsletter-popup newsletter-pop2 mfp-hide" id="newsletter-popup">   
+                    {% if school_main_page_popup.popup_image %}
+                    <figure>
+                        <img src="{{ school_main_page_popup.popup_image.url }}" width="500" height="264" alt="newsletter2" />
+                    </figure>
+                    {% else %}
+                    <br>
+                    {% endif %}
+                    <div class="newsletter-content">
+                        <h2 class="font-weight-bolder">{{ school_main_page_popup.popup_title }}</h2>
+                        <br>
+                        {{ school_main_page_popup.popup_content|safe  }}
+                        <br>
+                        <div class="form-checkbox justify-content-center">
+                            <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
+                                required />
+                            <label for="hide-newsletter-popup">Bu popup'ı bir daha gösterme</label>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            {% endif %}
+        {% elif request.resolver_match.url_name == 'product' or request.resolver_match.url_name == 'combproduct' %}
+            {% if schools.school_popup.exists and school_prod_page_popup.popup_status == True %}
+                <div class="newsletter-popup newsletter-pop2 mfp-hide" id="newsletter-popup">   
+                    {% if school_prod_page_popup.popup_image %}
+                    <figure>
+                        <img src="{{ school_prod_page_popup.popup_image.url }}" width="500" height="264" alt="newsletter2" />
+                    </figure>
+                    {% else %}
+                    <br>
+                    {% endif %}
+                    <div class="newsletter-content">
+                        <h2 class="font-weight-bolder">{{ school_prod_page_popup.popup_title }}</h2>
+                        <br>
+                        {{ school_main_page_popup.popup_content|safe  }}
+                        <br>
+                        <div class="form-checkbox justify-content-center">
+                            <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
+                                required />
+                            <label for="hide-newsletter-popup">Bu popup'ı bir daha gösterme</label>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
 
         <footer class="footer">
             <div class="container">
@@ -500,15 +521,6 @@
                         </figure>
                     </div>
 
-                    <!--
-                    <div class="footer-right">
-                        <div class="social-links">
-                            <a href="#" title="social-link" class="social-link social-facebook fab fa-facebook-f"></a>
-                            <a href="#" title="social-link" class="social-link social-twitter fab fa-twitter"></a>
-                            <a href="#" title="social-link" class="social-link social-linkedin fab fa-linkedin-in"></a>
-                        </div>
-                    </div>
-                    -->
 
                 </div>
                 <!-- End FooterBottom -->
@@ -520,31 +532,30 @@
 
         <!-- Sticky Footer -->
         <div class="sticky-footer sticky-content fix-bottom">
-            <a href="demo3.html" class="sticky-link">
+            <a href="{% url 'index' %}" class="sticky-link">
                 <i class="d-icon-home"></i>
-                <span>Home</span>
+                <span>Ana sayfa</span>
             </a>
-            <a href="demo3-shop.html" class="sticky-link">
+            <a href="{% url 'category' %}" class="sticky-link">
                 <i class="d-icon-volume"></i>
-                <span>Categories</span>
+                <span>Kategoriler</span>
             </a>
-            <a href="wishlist.html" class="sticky-link">
-                <i class="d-icon-heart"></i>
-                <span>Wishlist</span>
+            <a href="{% url 'cart' %}" class="sticky-link">
+                <i class="d-icon-bag"></i>
+                <span>Sepetim</span>
             </a>
-            <a href="account.html" class="sticky-link">
+            <a href="{% url 'account' %}" class="sticky-link">
                 <i class="d-icon-user"></i>
                 <span>Account</span>
             </a>
             <div class="header-search hs-toggle dir-up">
-                {% comment %} <a href="#" class="search-toggle sticky-link">
+                <a href="{% url 'search' %}" class="search-toggle sticky-link">
                     <i class="d-icon-search"></i>
                     <span>Ürün Arayın</span>
-                </a> {% endcomment %}
-                <form action="#" class="input-wrapper">
-                    <input type="text" class="form-control" name="search" autocomplete="off"
-                        placeholder="Ürün Arayın" required />
-                    <button class="btn btn-search" type="submit" title="submit-button">
+                </a>
+                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
+                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
+                    <button class="btn btn-search" type="submit">
                         <i class="d-icon-search"></i>
                     </button>
                 </form>
@@ -580,6 +591,11 @@
         <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
         <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
         <script src="{% static 'vendor/nouislider/nouislider.min.js' %}"></script>
+
+        <script src="{% static 'vendor/jquery.floating/jquery.floating.min.js' %}"></script>
+
+
+
         
         <!-- Main JS File -->
         <script src="{% static 'js/main.min.js' %}"></script>
@@ -621,6 +637,7 @@
                 });        
             })
         </script>
+        
         
         {% block extra_scripts %}
         <!-- Any extra scripts go here -->
