@@ -170,7 +170,7 @@
                             </div>
 
                             <label>Fatura Adresi *</label>
-                            <textarea class="form-control" id="invoice-address" name="invoice-address" required=""
+                            <textarea class="form-control" id="invoice-address" name="invoice-address"
                             placeholder="" >{{ invoice_address.FullAddress }}</textarea>
                             
                             <label>Firma Adı veya Adı Soyadı</label>
@@ -180,7 +180,7 @@
                             <input type="text" class="form-control" id="invoice-company-tax-office" name="invoice-company-tax-office" value="{{ invoice_address.tax_office }}" />
                             
                             <label>Vergi Numarası veya TC Kimlik No</label>
-                            <input type="number" class="form-control" id="invoice-company-tax-no" name="invoice-company-tax-no" required value="{{ invoice_address.tax_no }}" />
+                            <input type="number" class="form-control" id="invoice-company-tax-no" name="invoice-company-tax-no" value="{{ invoice_address.tax_no }}" />
                             
                             <div class="row">
                                 <div class="col-xs-5">
@@ -383,7 +383,6 @@
 
 {% block extra_scripts %}
 
-{% comment %}
 <script>
     document.getElementById('create-order-form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -392,7 +391,11 @@
     
         fetch(this.action, {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
         })
         .then(response => response.json())
         .then(data => {
@@ -409,7 +412,6 @@
         .catch(error => console.error('Error:', error));
     });
 </script>
-{% endcomment %}
 <script>
     function openPopup(pageTitle) {
         // Make AJAX request to Django view
