@@ -184,34 +184,51 @@
                                     </div>
                                     <div id="collapse4-2" class="collapsed">
                                         <div class="card-body">
-                                            <div class="col-lg-12 main-content">
-
-                                                <div class="row cols-3 cols-sm-3 product-wrapper">
-
+                                            <div class="owl-carousel owl-nav-top" data-owl-options="{
+                                                'items': 1,
+                                                'loop': false,
+                                                'nav': false,
+                                                'dots': false }">
+                                                <div class="products-col">
+                                                    
                                                     {% for product in combcat.CombinProducts.all %}
-                                                    {% comment %} {{ product.ProductID }} {% endcomment %}
-                                                    <div class="product-wrap">
-                                                        <div class="product">
-                                                            <figure class="product-media">
-                                                                <a href="product.html">
-                                                                    <img src="{{ product.productimages_set.first.product_image.url }}" alt="product" width="560" height="630">
-                                                                </a>
-                                                                <div class="product-action">
-                                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">
-                                                                        Seç
-                                                                    </a>
-                                                                </div>
-                                                            </figure>
-                                                            <div class="product-details">
-                                                                <p>
-                                                                    {{ product.product_web_name }}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {% endfor %}
+                                                    {{ product.ProductID }}
+                                                    <a class="sproduct" onclick="selectProduct('{{ product.ProductID }}');" href="">{{ ps.size }}
+                                                        <div class="product-form-group" >
+                                                            <table>
+                                                                <tr>
+                                                                    <td class="item-media">
+                                                                        <a href="product.html">
+                                                                            <img src="{{ product.productimages_set.first.product_image.url }}"
+                                                                                alt="product thumbnail" style="max-height:100px;" />
+                                                                        </a>
+                                                                    </td>
+                                                                    <td class="item-name pr-0 pr-xl-10">{{ product.product_web_name }}</td>
+                                                                    {% comment %} <td class="item-price pr-4 pr-lg-10">{{ cb_price.SalePrice }} ₺</td> {% endcomment %}
+                                                                    
+                                                                    <td>
+                                                                        {% comment %} <label>Size:</label> {% endcomment %}
+                                                                        <div class="product-form-group">
+                                                                            <div class="product-variations">
+                                                                                {% for ps in product.sizebasedstocks_set.all %}
+                                                                                    {% if ps.sale_stock == 0 %}
+                                                                                        <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
+                                                                                    {% else %}
+                                                                                    <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
+                                                                                    {% endif %}
+                                                                                {% endfor %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
 
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </a>
+                                                    {% endfor %}
+                                                    
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
