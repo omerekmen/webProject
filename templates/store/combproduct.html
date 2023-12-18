@@ -348,4 +348,21 @@
         document.getElementById('selected-size-id').value = pId;
     }
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Assuming Riode.zoomImage and Riode.initZoom are defined in your min.js file.
+    
+        // Initialize the zoom on the product images
+        Riode.zoomImage('.product-single-carousel');
+    
+        // Initialize the zoom handling on window resize
+        Riode.initZoom();
+    
+        // If using Owl Carousel, you may need to reinitialize the zoom on carousel change
+        $(".product-single-carousel").on('changed.owl.carousel', function(event) {
+            Riode.zoomImage('.product-single-carousel');
+        });
+    });
+    </script>
 {% endblock %}
