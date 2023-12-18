@@ -43,6 +43,7 @@ def get_district(district_id):
 
 @require_POST
 def create_order(request):
+    print('SİPARİŞİ OLUŞTUR BUTONUNA BASILDI')
     if request.method == 'POST':
         user = request.user
         cart = Cart.objects.filter(member=user).first()

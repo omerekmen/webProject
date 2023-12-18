@@ -383,6 +383,7 @@
 
 {% block extra_scripts %}
 
+{% comment %}
 <script>
     document.getElementById('create-order-form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -408,6 +409,7 @@
         .catch(error => console.error('Error:', error));
     });
 </script>
+{% endcomment %}
 <script>
     function openPopup(pageTitle) {
         // Make AJAX request to Django view
