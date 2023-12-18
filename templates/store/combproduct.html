@@ -11,6 +11,26 @@
         border-radius: 3px;
         border-color: #8ebf16;
     }
+    .selected {
+        border: 2px solid #8ebf16; /* Example styling for selected products */
+    }
+    .product-action-fixed {
+        /* Styles for the fixed action button */
+    }
+    
+    .selected .product-action-fixed {
+        /* Styles for the selected product action button */
+        /* Example: change the background color or border */
+        background-color: #4CAF50; /* green background for selected */
+    }
+    
+    .selected .product-action-fixed .btn-product {
+        /* Further style the button inside the selected product */
+        color: white; /* change text color */
+        font-weight: bold;
+    }
+    
+    
 </style>
 {% endblock extra_head %}
 
@@ -178,7 +198,7 @@
                         <div class="accordion accordion-dropshadow accordion-boxed accordion-plus accordion-gutter-sm">
 
                             {% for combcat in combproduct %}
-                                <div class="card">
+                                <div class="card combcat-{{ combcat.id }}" data-combcat-id="{{ combcat.id }}">
                                     <div class="card-header">
                                         <a href="#collapse4-2" class="expand">{{ combcat.CProductCategory }}</a>
                                     </div>
@@ -190,14 +210,14 @@
 
                                                     {% for product in combcat.CombinProducts.all %}
                                                     {% comment %} {{ product.ProductID }} {% endcomment %}
-                                                    <div class="product-wrap">
-                                                        <div class="product">
+                                                    <div class="product-wrap product-{{ product.id}}">
+                                                        <div class="product product-{{ product.id}}">
                                                             <figure class="product-media">
-                                                                <a href="product.html">
+                                                                <div>
                                                                     <img src="{{ product.productimages_set.first.product_image.url }}" alt="product" width="560" height="630">
-                                                                </a>
-                                                                <div class="product-action">
-                                                                    <a href="#" class="btn-product btn-quickview" title="Quick View">
+                                                                </div>
+                                                                <div class="product-action product-action-fixed">
+                                                                    <a href="#" class="btn-product btn-quickview" title="Quick View" onclick="selectProduct('{{ product.id }}', '{{ combcat.id }}'); return false;">
                                                                         Seç
                                                                     </a>
                                                                 </div>
@@ -208,9 +228,21 @@
                                                                 </p>
                                                             </div>
                                                         </div>
+                                                        <div class="product-variations" style="display:none">
+                                                            {% for ps in product.sizebasedstocks_set.all %}
+                                                                {% if ps.sale_stock == 0 %}
+                                                                    <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
+                                                                {% else %}
+                                                                <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
                                                     </div>
                                                     {% endfor %}
+                                                    
+                                                    <div class="slected-products-sizes">
 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -347,5 +379,47 @@
             Riode.zoomImage('.product-single-carousel');
         });
     });
-    </script>
+</script>
+
+
+<script>
+    function updateSelectedProduct(productCard, combcatId) {
+        // Get all products in the same combcat category
+        const allProductsInCategory = document.querySelectorAll(`.combcat-${combcatId} .product-wrap`);
+    
+        // Loop through all products and update selection state and button text
+        allProductsInCategory.forEach(function(p) {
+            if (p === productCard) {
+                // Select the clicked product
+                p.classList.add('selected');
+                p.querySelector('.btn-product').textContent = 'Seçili Ürün';
+            } else {
+                // Deselect other products
+                p.classList.remove('selected');
+                p.querySelector('.btn-product').textContent = 'Seç';
+            }
+        });
+    
+        // Copy the product variations to the selected-products-sizes div
+        const productVariations = productCard.querySelector('.product-variations').cloneNode(true);
+        productVariations.style.display = 'block';
+        const sizesDiv = document.querySelector(`.combcat-${combcatId} .slected-products-sizes`);
+        sizesDiv.innerHTML = '';
+        sizesDiv.appendChild(productVariations);
+    }
+    
+    // Update the event listener for product selection
+    document.querySelectorAll('.btn-product').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const productCard = event.target.closest('.product-wrap');
+            const combcatId = productCard.closest('.card').getAttribute('data-combcat-id');
+            updateSelectedProduct(productCard, combcatId);
+        });
+    });
+    
+</script>
+    
+
+    
 {% endblock %}
