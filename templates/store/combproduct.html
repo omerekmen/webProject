@@ -228,7 +228,8 @@
                                                                 </p>
                                                             </div>
                                                         </div>
-                                                        <div class="product-variations" style="display:none">
+                                                        
+                                                        <div class="product-variations" style="display:none;">
                                                             {% for ps in product.sizebasedstocks_set.all %}
                                                                 {% if ps.sale_stock == 0 %}
                                                                     <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
@@ -240,10 +241,9 @@
                                                     </div>
                                                     {% endfor %}
                                                     
-                                                    <div class="slected-products-sizes">
-
-                                                    </div>
                                                 </div>
+                                                <div class="slected-products-sizes"></div>
+                                                <br>
                                             </div>
                                         </div>
                                     </div>
