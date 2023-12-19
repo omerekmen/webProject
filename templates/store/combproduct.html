@@ -29,7 +29,16 @@
         color: white; /* change text color */
         font-weight: bold;
     }
-    
+    .size-guide {
+        margin:.5rem .2rem; 
+        padding-inline:1rem; 
+        text-align:center; 
+        border-radius: 2px; 
+        border: 1px solid #e1e1e1;
+    }
+    .not-clickable {
+        color:red;
+    }
     
 </style>
 {% endblock extra_head %}
@@ -200,9 +209,9 @@
                             {% for combcat in combproduct %}
                                 <div class="card combcat-{{ combcat.id }}" data-combcat-id="{{ combcat.id }}">
                                     <div class="card-header">
-                                        <a href="#collapse4-2" class="expand">{{ combcat.CProductCategory }}</a>
+                                        <a href="#collapse4-{{ forloop.counter }}" class="{% if forloop.counter == 1 %}collapse{% else %}expand{% endif %}">{{ combcat.CProductCategory }}</a>
                                     </div>
-                                    <div id="collapse4-2" class="collapsed">
+                                    <div id="collapse4-{{ forloop.counter }}" class="{% if forloop.counter == 1 %}expanded{% else %}collapsed{% endif %}">
                                         <div class="card-body">
                                             <div class="col-lg-12 main-content">
 
@@ -212,7 +221,7 @@
                                                     {% comment %} {{ product.ProductID }} {% endcomment %}
                                                     <div class="product-wrap product-{{ product.id}}">
                                                         <div class="product product-{{ product.id}}">
-                                                            <figure class="product-media">
+                                                            <figure class="product-media" onclick="selectProduct('{{ product.id }}', '{{ combcat.id }}'); return false;">
                                                                 <div>
                                                                     <img src="{{ product.productimages_set.first.product_image.url }}" alt="product" width="560" height="630">
                                                                 </div>
@@ -230,11 +239,13 @@
                                                         </div>
                                                         
                                                         <div class="product-variations" style="display:none;">
+                                                            <br>
+                                                            <h6>Beden Seçiniz:</h6>
                                                             {% for ps in product.sizebasedstocks_set.all %}
                                                                 {% if ps.sale_stock == 0 %}
-                                                                    <a class="not-clickable" style="color:red; cursor: not-allowed;">{{ ps.size }}</a>
+                                                                    <a class="size-guide not-clickable" style="cursor: not-allowed;">{{ ps.size }}</a>
                                                                 {% else %}
-                                                                <a class="size" onclick="selectSize('{{ ps.size }}');" href="#">{{ ps.size }}</a>
+                                                                    <a class="size size-guide" onclick="selectSize('{{ ps.size }}', '{{ product }}', '{{ product.ProductID }}', '{{ product.product_web_name }}', '{{ combcat.id }}');">{{ ps.size }}</a>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </div>
@@ -242,7 +253,9 @@
                                                     {% endfor %}
                                                     
                                                 </div>
-                                                <div class="slected-products-sizes"></div>
+                                                <div class="selected-products-sizes"></div>
+                                                <br>
+                                                <button id="confirm-selected-size">
                                                 <br>
                                             </div>
                                         </div>
@@ -278,13 +291,18 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td class="product-name">Seçilen Ürün 
-                                                            <span class="product-quantity">|&nbsp;Seçilen Beden</span></td>
-                                                        <td class="product-total text-body">Seçilen Ürünün Satış Fiyatı</td>
+                                                        <td class="product-name">Seçilen Ürün: 
+                                                            <span><input readonly id="product-selected-for-{{ combcat.id }}" type="text" value="Ürün Seçiniz"></span>
+                                                        </td>
+                                                        <td class="product-total text-body">
+                                                            <input readonly id="size-selected-for-{{ combcat.id }}" type="text" value="Beden Seçiniz">
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </td>
                                         </tr>
+                                        <input readonly id="productid-selected-for-{{ combcat.id }}" type="text" value="ABC">
+                                        <input readonly id="productname-selected-for-{{ combcat.id }}" type="text" value="ABC">
                                         {% endfor %}
 
                                         <tr class="summary-subtotal">
@@ -338,11 +356,6 @@
                 </div>
 
 
-                
-
-
-
-
                 <hr class="product-divider" style="margin:25px">
 
             </div>
@@ -356,8 +369,11 @@
 
 {% block extra_scripts %}
 <script>
-    function selectSize(sizeId) {
-        document.getElementById('selected-size-id').value = sizeId;
+    function selectSize(sizeId, product, productId, productName, combcatId) {
+        document.getElementById(`size-selected-for-${combcatId}`).value = sizeId;
+        document.getElementById(`product-selected-for-${combcatId}`).value = productName;
+        document.getElementById(`productid-selected-for-${combcatId}`).value = productId;
+        document.getElementById(`productname-selected-for-${combcatId}`).value = productName;
     }
     function selectProduct(pId) {
         document.getElementById('selected-size-id').value = pId;
@@ -365,16 +381,9 @@
 </script>
 
 <script>
-    $(document).ready(function() {
-        // Assuming Riode.zoomImage and Riode.initZoom are defined in your min.js file.
-    
-        // Initialize the zoom on the product images
-        Riode.zoomImage('.product-single-carousel');
-    
-        // Initialize the zoom handling on window resize
+    $(document).ready(function() {    
+        Riode.zoomImage('.product-single-carousel');    
         Riode.initZoom();
-    
-        // If using Owl Carousel, you may need to reinitialize the zoom on carousel change
         $(".product-single-carousel").on('changed.owl.carousel', function(event) {
             Riode.zoomImage('.product-single-carousel');
         });
@@ -403,7 +412,7 @@
         // Copy the product variations to the selected-products-sizes div
         const productVariations = productCard.querySelector('.product-variations').cloneNode(true);
         productVariations.style.display = 'block';
-        const sizesDiv = document.querySelector(`.combcat-${combcatId} .slected-products-sizes`);
+        const sizesDiv = document.querySelector(`.combcat-${combcatId} .selected-products-sizes`);
         sizesDiv.innerHTML = '';
         sizesDiv.appendChild(productVariations);
     }
