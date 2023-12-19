@@ -9,7 +9,10 @@
     <style>
         /* The Modal (background) */
         .modal {
-            display: none; /* Hidden by default */
+            display: flex; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease;
             position: fixed; /* Stay in place */
             z-index: 1; /* Sit on top */
             left: 0;
@@ -20,22 +23,48 @@
             background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end; /* Align buttons to the right */
+            gap: 10px; /* Add some space between buttons */
+            margin-top: 20px; /* Space above the button row */
+        }
+
+        .modal-actions .btn {
+            font-size: 0.8rem; /* Make button text smaller */
+        }
+
+        
 
         /* Modal Content Box */
         .modal-content {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
             background-color: #fefefe;
             margin: 15% auto; /* 15% from the top and centered */
             padding: 20px;
+            transition: transform 0.3s ease;
             border: 1px solid #888;
             width: 80%; /* Could be more or less, depending on screen size */
+            transform: translateY(-50px);
+        }
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0px); /* End position for animation */
         }
 
         /* The Close Button */
         .close {
+            top: 10px;
+            right: 20px;
             color: #aaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
+            position:  absolute;
         }
 
         .close:hover,
@@ -51,6 +80,12 @@
         .form-checkbox {
             margin-top: 10px; /* Adjust space between text and checkbox */
         }
+        @media (min-width: 768px) {
+        .modal-content {
+            width: 60%; /* Less width on larger screens */
+            max-width: 600px; /* Max width limit */
+        }
+    }
     </style>
     <main class="main intro-main" >
 
@@ -117,10 +152,21 @@
     <!-- Popup Modal for Displaying Content -->
     <div id="contentModal" class="modal" style="display:none;">
         <div class="modal-content">
-            <span class="close" onclick="document.getElementById('contentModal').style.display='none'">&times;</span>
+            <span class="close" onclick="closeModal()">&times;</span>
             <div id="contentText"><!-- Dynamic content will be loaded here --></div>
+            <div class="modal-actions">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="btn btn-rounded btn-success btn-block" onclick="acceptTerms(); return false;">Kabul Ediyorum</a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <a href="#" class="btn btn-rounded btn-alert btn-block" onclick="declineTerms(); return false;">Kabul Etmiyorum</a>
+                </div>
+            </div>
         </div>
     </div>
+
+
+    
 
 
 {% endblock formcontent %}
@@ -147,7 +193,31 @@
 </script>
 
 <script>
-    // Function to load and display content in the modal
+    // Function to open the modal and display content
+    function closeModal() {
+        document.getElementById('contentModal').classList.remove('show');
+        setTimeout(() => {
+            document.getElementById('contentModal').style.display = 'none';
+        }, 300);
+    }
+
+    // Function to run when "Kabul Ediyorum" is clicked
+    function acceptTerms() {
+        document.getElementById('signin-remember').checked = true; // Check the checkbox
+        closeModal(); // Close the modal
+    }
+
+    // Function to run when "Kabul Etmiyorum" is clicked
+    function declineTerms() {
+        document.getElementById('signin-remember').checked = false; // Uncheck the checkbox
+        // Do not close the modal, maybe show a message if needed
+        alert('Kayıt olmak için Kullanım Koşullarını Kabul etmeniz gerekmektedir!');
+    }
+
+    // Update the close button event handler to call the closeModal function
+    document.querySelector('.close').addEventListener('click', closeModal);
+
+    // Function to open the modal and display content
     window.loadContent = function(page_url) {
         fetch(`/fetch-modal-content/?page_url=${page_url}`)
             .then(response => response.json())
@@ -156,9 +226,33 @@
                     alert('Content not found');
                 } else {
                     document.getElementById('contentText').innerHTML = data.content;
+                    
+                    // Show or hide buttons based on the page_url
+                    var actionsContainer = document.querySelector('.modal-actions');
+                    if (page_url === 'kullanim-kosullari') {
+                        actionsContainer.style.display = 'flex';
+                    } else {
+                        actionsContainer.style.display = 'none';
+                    }
+
+                    document.getElementById('contentModal').classList.add('show');
                     document.getElementById('contentModal').style.display = 'block';
                 }
+            }).catch(error => {
+                console.error('Error fetching content:', error);
             });
     };
+
+
+    // Function to close the modal
+    document.querySelector('.close').addEventListener('click', function() {
+        // Use classList.remove to hide the modal
+        document.getElementById('contentModal').classList.remove('show');
+        // Use a timeout to set display none after the transition ends
+        setTimeout(() => {
+            document.getElementById('contentModal').style.display = 'none';
+        }, 300); // This should match the duration of the CSS transitions
+    });
+
 </script>
 {% endblock extra_scripts %}
