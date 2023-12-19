@@ -6,7 +6,52 @@
 
 
 {% block formcontent %}
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
 
+        /* Modal Content Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-footer {
+            text-align: left; /* Adjust text alignment as needed */
+        }
+
+        .form-checkbox {
+            margin-top: 10px; /* Adjust space between text and checkbox */
+        }
+    </style>
     <main class="main intro-main" >
 
         <div class="form-container">
@@ -47,12 +92,15 @@
                                         {% endfor %}
                                         
                                         <div class="form-footer">
-                                            Kişisel verilerin işlenmesi hakkında Aydınlatma Metni'ne buradan Ulaşabilirsiniz. 
-                                            <br>  <br>
-
+                                            <div>
+                                                Kişisel verilerin işlenmesi hakkında Aydınlatma Metni'ne
+                                                <a href="#" onclick="loadContent('aydinlatma-metni'); return false;"><b>buradan</b></a>
+                                                Ulaşabilirsiniz.
+                                            </div>
+                                        
                                             <div class="form-checkbox">
                                                 <input required type="checkbox" class="custom-checkbox" id="signin-remember" name="signin-remember">
-                                                <label class="form-control-label" for="signin-remember">Kullanım Koşulları'nı okudum onaylıyorum</label>
+                                                <label class="form-control-label" for="signin-remember"><a href="#" onclick="loadContent('kullanim-kosullari'); return false;"><b>Kullanım Koşulları</b></a>'nı okudum onaylıyorum</label>
                                             </div>
                                         </div>
                                         <button class="btn btn-dark btn-block btn-rounded" type="submit">Üye Ol</button>
@@ -66,6 +114,14 @@
         </div>
 
     </main>
+    <!-- Popup Modal for Displaying Content -->
+    <div id="contentModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('contentModal').style.display='none'">&times;</span>
+            <div id="contentText"><!-- Dynamic content will be loaded here --></div>
+        </div>
+    </div>
+
 
 {% endblock formcontent %}
 
@@ -88,5 +144,21 @@
                 });
         });
     });
+</script>
+
+<script>
+    // Function to load and display content in the modal
+    window.loadContent = function(page_url) {
+        fetch(`/fetch-modal-content/?page_url=${page_url}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert('Content not found');
+                } else {
+                    document.getElementById('contentText').innerHTML = data.content;
+                    document.getElementById('contentModal').style.display = 'block';
+                }
+            });
+    };
 </script>
 {% endblock extra_scripts %}
