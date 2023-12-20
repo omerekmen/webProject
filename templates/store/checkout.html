@@ -170,7 +170,7 @@
                             </div>
 
                             <label>Fatura Adresi *</label>
-                            <textarea class="form-control" id="invoice-address" name="invoice-address" required=""
+                            <textarea class="form-control" id="invoice-address" name="invoice-address"
                             placeholder="" >{{ invoice_address.FullAddress }}</textarea>
                             
                             <label>Firma Adı veya Adı Soyadı</label>
@@ -180,7 +180,7 @@
                             <input type="text" class="form-control" id="invoice-company-tax-office" name="invoice-company-tax-office" value="{{ invoice_address.tax_office }}" />
                             
                             <label>Vergi Numarası veya TC Kimlik No</label>
-                            <input type="number" class="form-control" id="invoice-company-tax-no" name="invoice-company-tax-no" required value="{{ invoice_address.tax_no }}" />
+                            <input type="number" class="form-control" id="invoice-company-tax-no" name="invoice-company-tax-no" value="{{ invoice_address.tax_no }}" />
                             
                             <div class="row">
                                 <div class="col-xs-5">
@@ -299,49 +299,6 @@
                                     </tbody>
                                 </table>
 
-                                {% comment %}
-                                <div class="payment accordion radio-type">
-                                    <h4 class="summary-subtitle ls-m pb-3">Payment Methods</h4>
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <a href="#collapse1"
-                                                class="collapse text-body text-normal ls-m">Kart ile öde
-                                            </a>
-                                        </div>
-                                        <div id="collapse1" class="expanded" style="display: block;">
-                                            <div class="card-body ls-m">
-                                                <br>
-
-                                                <label>Kart Üzerindeki İsim *</label>
-                                                <input type="text" class="form-control" name="cartHolder" name="cartHolder" required="" placeholder="Ad Soyad" />
-                                                <label>Kredi Kartı Numarası *</label>
-                                                <input type="text" class="form-control" id="cardNumber" name="cardNumber" required="" placeholder="Kredi Kartı Numarası" maxlength="19" />
-                                                <div class="row">
-                                                    <div class="col-xs-6">
-                                                        <label>SKT *</label>
-                                                        <input type="text" class="form-control" id="cardExpiry" name="expiry" required="" placeholder="MM/YY" maxlength="5" />
-                                                    </div>
-                                                    <div class="col-xs-6">
-                                                        <label>CVV *</label>
-                                                        <input type="number" class="form-control" id="cardCVV" name="cvv" placeholder="123" required="" maxlength="4" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <a href="#collapse2" class="expand text-body text-normal ls-m">Havale/EFT ile öde</a>
-                                        </div>
-                                        <div id="collapse2" class="collapsed">
-                                            <div class="card-body ls-m">
-                                                Pay with cash upon delivery.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endcomment %}
-
                                 <div class="form-checkbox mt-4 mb-5">
                                     <input required type="checkbox" class="custom-checkbox" id="distance-sales-contract"
                                         name="distance-sales-contract" />
@@ -383,7 +340,6 @@
 
 {% block extra_scripts %}
 
-{% comment %}
 <script>
     document.getElementById('create-order-form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -392,7 +348,11 @@
     
         fetch(this.action, {
             method: 'POST',
-            body: formData
+            body: formData,
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
         })
         .then(response => response.json())
         .then(data => {
@@ -409,7 +369,6 @@
         .catch(error => console.error('Error:', error));
     });
 </script>
-{% endcomment %}
 <script>
     function openPopup(pageTitle) {
         // Make AJAX request to Django view
@@ -433,35 +392,6 @@
     }
 </script>
 
-<!-- CCExpiry Formatter -->
-<script>
-    document.getElementById('cardExpiry').addEventListener('input', function (e) {
-        var input = e.target.value;
-        var month = input.substring(0, 2);
-        var year = input.substring(2, 4);
-
-        if (input.length > 2 && input.indexOf('/') === -1) {
-            e.target.value = month + '/' + year;
-        } else if (input.length === 2 && e.data && !e.inputType.includes('delete')) {
-            e.target.value = month + '/';
-        }
-    });
-</script>
-
-<!-- CCNumber Formatter -->
-<script>
-    document.getElementById('cardNumber').addEventListener('input', function (e) {
-        var value = e.target.value.replace(/\s+/g, ''); // Remove existing spaces
-        var formattedValue = '';
-        for (var i = 0; i < value.length; i++) {
-            if (i > 0 && i % 4 === 0) {
-                formattedValue += ' '; // Add a space every 4 digits
-            }
-            formattedValue += value[i];
-        }
-        e.target.value = formattedValue;
-    });
-</script>
 
 <!-- City/District Selector -->
 <script>
@@ -473,7 +403,7 @@
                 var districtSelect = document.getElementById('districtSelect');
                 districtSelect.innerHTML = '';
                 data.forEach(function(district) {
-                    var option = new Option(district.name, district.name);
+                    var option = new Option(district.name, district.id);
                     districtSelect.add(option);
                 });
             });
@@ -486,7 +416,7 @@
                 var districtSelect = document.getElementById('invoicedistrictSelect');
                 districtSelect.innerHTML = '';
                 data.forEach(function(district) {
-                    var option = new Option(district.name, district.name);
+                    var option = new Option(district.name, district.id);
                     districtSelect.add(option);
                 });
             });

@@ -27,7 +27,7 @@ def checkout(request):
 
 def get_city_name(city_id):
     city = get_object_or_404(City, id=city_id)
-    return city.name
+    return city.name or None
 
 def get_district_name(district_id):
     district = get_object_or_404(District, id=district_id)
@@ -60,21 +60,24 @@ def create_order(request):
         phone = request.POST.get('phone')
         email = request.POST.get('email-address')
 
-        invoice_city = request.POST.get('invoicecitySelect')
-        invoice_city_name = get_city_name(invoice_city)
-        invoice_district = request.POST.get('invoicedistrictSelect')
-        invoice_district_name = get_district_name(invoice_district)
-        invoice_address = request.POST.get('invoice-address')
-        invoice_phone = request.POST.get('invoice-phone')
-        invoice_email = request.POST.get('invoice-email-address')
-        comp_name = request.POST.get('invoice-company-name')
-        tax_office = request.POST.get('invoice-company-tax-office')
-        tax_number = request.POST.get('invoice-company-tax-no')
-
-        order_notes = request.POST.get('order-notes')
-
         different_address = request.POST.get('different-address')
         save_address = request.POST.get('saveas-default-address')
+        order_notes = request.POST.get('order-notes')
+
+        invoice_city = invoice_city_name = invoice_district = invoice_district_name = ""
+        invoice_address = invoice_phone = invoice_email = comp_name = tax_office = tax_number = ""
+
+        if different_address:
+            invoice_city = request.POST.get('invoicecitySelect')
+            invoice_city_name = get_city_name(invoice_city)
+            invoice_district = request.POST.get('invoicedistrictSelect')
+            invoice_district_name = get_district_name(invoice_district)
+            invoice_address = request.POST.get('invoice-address')
+            invoice_phone = request.POST.get('invoice-phone')
+            invoice_email = request.POST.get('invoice-email-address')
+            comp_name = request.POST.get('invoice-company-name')
+            tax_office = request.POST.get('invoice-company-tax-office')
+            tax_number = request.POST.get('invoice-company-tax-no')
 
 
         last_login_date = user.last_login.strftime('%Y-%m-%d %H:%M:%S') if user.last_login else None
