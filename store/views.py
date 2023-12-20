@@ -12,8 +12,8 @@ from members.models import *
 from products.views import *
 from members.urls import *
 from store.models import *
-from datetime import datetime, timedelta
 from discounts.tasks import *
+import json
 
 
 @login_required
@@ -166,6 +166,51 @@ def add_to_cart(request):
         'cart_total_items': cart.user_cart.count()  # Count total items in user's cart
     }
     return JsonResponse(response_data), redirect('product', product_id)
+
+
+@login_required
+@require_POST
+def add_combined_to_cart(request):
+    # Extract data from the AJAX request
+    product_id = request.POST.get('product_id')
+    title = request.POST.get('title')
+    qty = request.POST.get('qty')
+    price = request.POST.get('price')
+    combined_choices = request.POST.get('combined_choices')
+
+    # Convert combined_choices JSON string to a Python list of dictionaries
+    combined_choices = json.loads(combined_choices)
+
+    # Create a new Cart instance (if needed) and save it
+    # Assuming you have a Cart model to manage the cart
+    cart, created = Cart.objects.get_or_create(member=request.user)
+
+    # Create CartItems instance for the main product
+    cart_item = CartItems(cart=cart, product_id=product_id, quantity=qty)
+    cart_item.save()
+
+    # Loop through the combined choices and create CombinedProductChoice instances
+    for choice in combined_choices:
+        combination_product_category_id = choice['combcat']
+        selected_product_id = choice['product_id']
+        selected_product_size_id = choice['size_id']
+
+        # Create a CombinedProductChoice instance
+        combined_choice = CombinedProductChoice(
+            cart_item=cart_item,
+            combination_product_category_id=combination_product_category_id,
+            selected_product_id=selected_product_id,
+            size_stock_id=selected_product_size_id,
+        )
+        combined_choice.save()
+
+    # You can update the cart's other properties here (e.g., discounts, shipping, etc.)
+
+    # Prepare the response data
+    response_data = {'status': 'success', 'message': 'Item(s) added to cart successfully'}
+
+    return JsonResponse(response_data)
+
 
 @login_required
 @require_POST

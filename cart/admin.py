@@ -1,5 +1,6 @@
-from django.contrib import admin
 from .models import Cart, CartItems, CombinedProductChoice, ProductPrices
+from django.utils.safestring import mark_safe
+from django.contrib import admin
 
 class CombinedProductChoiceInline(admin.TabularInline):
     model = CombinedProductChoice
@@ -15,7 +16,8 @@ class CartItemsInline(admin.TabularInline):  # You can use StackedInline if you 
     def selected_combined_products(self, obj):
         if obj.is_combined_product:  # Check if the cart item is a combined product
             selected_products = CombinedProductChoice.objects.filter(cart_item=obj)
-            return ', '.join([f'{product_combination.selected_product.product_name}' for product_combination in selected_products])
+            sp = '<br>'.join([f'{product_combination.selected_product.product_name} ({product_combination.size_stock.size})' for product_combination in selected_products])
+            return mark_safe(sp)
         else:
             return 'N/A'  # Return 'N/A' or similar if it's not a combined product
     selected_combined_products.short_description = 'Selected Combined Products'

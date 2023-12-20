@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('cart/', cart, name='cart' ),
     path('add-to-cart/', add_to_cart, name='add_to_cart'),
+    path('add-combined-to-cart/', add_combined_to_cart, name='add_combined_to_cart'),
     path('apply-coupon/', apply_coupon, name='apply_coupon'),
     path('update-cart-quantity/', update_cart_quantity, name='update_cart_quantity'),
     path('delete-from-cart/', delete_from_cart, name='delete_from_cart'),

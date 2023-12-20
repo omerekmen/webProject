@@ -95,7 +95,7 @@
             <div class="tab tab-vertical gutter-lg">
 
                 <!-- TAB NAVS -->
-                <ul class="nav nav-tabs mb-4 col-lg-3 col-md-4" role="tablist">
+                <ul class="nav mb-4 col-lg-3 col-md-4" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" href="#dashboard">Dashboard</a>
                     </li>
@@ -121,6 +121,8 @@
                         <a href="{% url 'logout' %}">Çıkış Yap</a>
                     </li>
                 </ul>
+
+
                 <div class="tab-content col-lg-9 col-md-8">
 
                     <!-- DASHBOARD -->
@@ -139,7 +141,6 @@
                         <a href="shop.html" class="btn btn-dark btn-rounded">Go To Shop<i
                                 class="d-icon-arrow-right"></i></a>
                     </div>
-
 
 
                     <!-- ORDERS -->
@@ -191,7 +192,6 @@
                     </div>
 
 
-
                     <!-- RETURNS -->
                     <div class="tab-pane" id="returns">
                         <h4>
@@ -219,7 +219,6 @@
                             </tbody>
                         </table>
                     </div>
-
 
 
                     <!-- CHANGES -->
@@ -251,12 +250,10 @@
                     </div>
 
 
-
                     <!-- SUPPORT -->
                     <div class="tab-pane" id="support">
                         {% include "store/chat-box.html" %}
                     </div>
-
 
 
                     <!-- ADDRESS -->
@@ -469,7 +466,6 @@
                     </div>
 
 
-
                     <!-- ACCOUNT -->
                     <div class="tab-pane" id="account">
                         <form action="{% url 'account_details_update' %}" method="post" class="form">
@@ -570,8 +566,6 @@
                             <button type="submit" class="btn btn-primary">Şifreyi Güncelle</button>
                         </form>
                     </div>
-
-
 
                 </div>
             </div>
@@ -708,7 +702,7 @@
 {% endif %}
 
 <script>
-    document.querySelectorAll('.nav-tabs .nav-link').forEach(tab => {
+    document.querySelectorAll('.nav-link').forEach(tab => {
         tab.addEventListener('click', function(event) {
             // Prevent the default anchor behavior
             event.preventDefault();
@@ -722,7 +716,7 @@
             // Activate the tab normally (you might need to adjust this
             // depending on how your tab activation code is set up)
             // This is just an example and might not work out of the box
-            document.querySelector('.nav-tabs .nav-link.active').classList.remove('active');
+            document.querySelector('.nav-link.active').classList.remove('active');
             this.classList.add('active');
             document.querySelector('.tab-content .tab-pane.active').classList.remove('active');
             document.querySelector(hash).classList.add('active');

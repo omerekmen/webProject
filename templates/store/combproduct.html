@@ -30,14 +30,22 @@
         font-weight: bold;
     }
     .size-guide {
-        margin:.5rem .2rem; 
-        padding-inline:1rem; 
-        text-align:center; 
-        border-radius: 2px; 
+        margin: .5rem .2rem;
+        padding-inline: 1rem;
+        text-align: center;
+        border-radius: 2px;
         border: 1px solid #e1e1e1;
+        transition: background-color 0.3s, color 0.3s;
     }
+    
+    .size-guide:hover {
+        background-color: #e1e1e1;
+        color: #141414;
+    }
+    
     .not-clickable {
         color:red;
+        cursor: not-allowed;
     }
     
 </style>
@@ -146,7 +154,7 @@
                                 </div>
                             </div> {% endcomment %}
 
-                            <hr class="product-divider">
+                            {% comment %} <hr class="product-divider">
 
                             <div class="product-form product-qty">
                                 <div class="product-form-group">
@@ -172,7 +180,7 @@
                                     </form>
 
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
 
                             <hr class="product-divider mb-3">
 
@@ -202,23 +210,22 @@
 
 
                     <!-- SELECT ITEMS FROM CATS -->
-                    <div class="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
+                    <div  id="product-selecting-by-cat" class="col-lg-7 mb-6 mb-lg-0 pr-lg-4">
 
                         <div class="accordion accordion-dropshadow accordion-boxed accordion-plus accordion-gutter-sm">
 
                             {% for combcat in combproduct %}
                                 <div class="card combcat-{{ combcat.id }}" data-combcat-id="{{ combcat.id }}">
                                     <div class="card-header">
-                                        <a href="#collapse4-{{ forloop.counter }}" class="{% if forloop.counter == 1 %}collapse{% else %}expand{% endif %}">{{ combcat.CProductCategory }}</a>
+                                        <a href="#collapse4-{{ combcat.id }}" class="{% if forloop.counter == 1 %}collapse{% else %}expand{% endif %}">{{ combcat.CProductCategory }}</a>
                                     </div>
-                                    <div id="collapse4-{{ forloop.counter }}" class="{% if forloop.counter == 1 %}expanded{% else %}collapsed{% endif %}">
+                                    <div id="collapse4-{{ combcat.id }}" class="{% if forloop.counter == 1 %}expanded{% else %}collapsed{% endif %}">
                                         <div class="card-body">
                                             <div class="col-lg-12 main-content">
 
                                                 <div class="row cols-3 cols-sm-3 product-wrapper">
 
                                                     {% for product in combcat.CombinProducts.all %}
-                                                    {% comment %} {{ product.ProductID }} {% endcomment %}
                                                     <div class="product-wrap product-{{ product.id}}">
                                                         <div class="product product-{{ product.id}}">
                                                             <figure class="product-media" onclick="selectProduct('{{ product.id }}', '{{ combcat.id }}'); return false;">
@@ -226,7 +233,7 @@
                                                                     <img src="{{ product.productimages_set.first.product_image.url }}" alt="product" width="560" height="630">
                                                                 </div>
                                                                 <div class="product-action product-action-fixed">
-                                                                    <a href="#" class="btn-product btn-quickview" title="Quick View" onclick="selectProduct('{{ product.id }}', '{{ combcat.id }}'); return false;">
+                                                                    <a href="#collapse4-{{ forloop.counter }}" class="btn-product btn-quickview" title="Quick View" onclick="selectProduct('{{ product.id }}', '{{ combcat.id }}'); return false;">
                                                                         Seç
                                                                     </a>
                                                                 </div>
@@ -240,12 +247,12 @@
                                                         
                                                         <div class="product-variations" style="display:none;">
                                                             <br>
-                                                            <h6>Beden Seçiniz:</h6>
+                                                            <h6>{{ product }} için Beden Seçiniz:</h6>
                                                             {% for ps in product.sizebasedstocks_set.all %}
                                                                 {% if ps.sale_stock == 0 %}
-                                                                    <a class="size-guide not-clickable" style="cursor: not-allowed;">{{ ps.size }}</a>
+                                                                    <a class="size-guide not-clickable">{{ ps.size }}</a>
                                                                 {% else %}
-                                                                    <a class="size size-guide" onclick="selectSize('{{ ps.size }}', '{{ product }}', '{{ product.ProductID }}', '{{ product.product_web_name }}', '{{ combcat.id }}');">{{ ps.size }}</a>
+                                                                    <a href="#" class="size size-guide" onclick="selectSize('{{ ps.size }}', '{{ ps.id }}', '{{ product }}', '{{ product.ProductID }}', '{{ product.product_web_name }}', '{{ combcat.id }}'); toggleSize(this); return false;">{{ ps.size }}</a>
                                                                 {% endif %}
                                                             {% endfor %}
                                                         </div>
@@ -253,10 +260,9 @@
                                                     {% endfor %}
                                                     
                                                 </div>
-                                                <div class="selected-products-sizes"></div>
+                                                <div id="selected-products-sizes-{{ combcat.id }}" class="selected-products-sizes"></div>
                                                 <br>
-                                                <button id="confirm-selected-size">
-                                                <br>
+                                                <button id="next-acc-{{ combcat.id }}" class="btn btn-block btn-sm mb-sm-4 ls-normal" onclick="nextAccordion('{{ combcat.id }}', '{{ combcat.id|add:1 }}');">Seçimi Onayla</button>
                                             </div>
                                         </div>
                                     </div>
@@ -271,6 +277,7 @@
                         <div class="sticky-sidebar mt-1" data-sticky-options="{'bottom': 50}">
                             <div class="summary pt-5">
                                 <h3 class="title title-simple text-left text-uppercase">Seçilen Ürünler</h3>
+
                                 <table class="order-table">
                                     <thead>
                                         <tr>
@@ -301,9 +308,6 @@
                                                 </tbody>
                                             </td>
                                         </tr>
-                                        <input readonly id="productid-selected-for-{{ combcat.id }}" type="text" value="Prod ID for Combcat-{{ combcat.id }}">
-                                        <input readonly id="productname-selected-for-{{ combcat.id }}" type="text" value="Prod Name for Combcat-{{ combcat.id }}">
-                                        <br>
                                         {% endfor %}
 
                                         <tr class="summary-subtotal">
@@ -340,13 +344,19 @@
                                     <input type="hidden" name="product-id" value="{{ product.ProductID }}" id="product-id" class="p-id" > <!-- OK -->
                                     <input type="hidden" name="product-title" value="{{ product.product_web_name }}" id="product-title" class="p-title"> <!-- OK -->
                                     <input type="hidden" name="product-sale-price" value="{{ cb_price.SalePrice }}" id="product-sale-price" class="p-price"> <!-- OK -->
-                                    
                                     <input type="hidden" name="product-quantity" id="product-quantity" class="quantity form-control" value="1" type="number" min="1" max="10000"> <!-- OK -->
+                                    
                                     {% for combcat in combproduct %}
-                                        <input type="hidden" name="selected-product-{{ combcat.CProductCategory }}" class="selected-product-{{ combcat.CProductCategory }}" id="selected-product-{{ combcat.CProductCategory }}" value="">
-                                        <input type="hidden" name="selected-size-id" class="selected-size-id" id="selected-size-id" value="">
+                                    <div class="combined-product-choice">
+                                        <input type="hidden" class="selected-combcat" id="combcat-selected-for-{{ combcat.id }}" name="combcat-selected-for-{{ combcat.id }}" value="">
+                                        <input type="hidden" class="selected-product-id" id="productid-selected-for-{{ combcat.id }}" name="productid-selected-for-{{ combcat.id }}" value="">
+                                        <input type="hidden" class="selected-cat-product" id="product-selected-for-{{ combcat.id }}" name="product-selected-for-{{ combcat.id }}" value="">
+                                        <input type="hidden" class="selected-product-name" id="productname-selected-for-{{ combcat.id }}" name="product-selected-for-{{ combcat.id }}" value="">
+                                        <input type="hidden" class="selected-product-size-id" id="sizeid-selected-for-{{ combcat.id }}" name="sizeid-selected-for-{{ combcat.id }}" value="">
+                                    </div>
                                     {% endfor %}
-                                    <button id="add-to-cart-button" type="submit" class="btn btn-dark btn-rounded btn-cart ls-normal">
+
+                                    <button id="add-to-cart-button" type="submit" class="btn btn-dark btn-rounded ls-normal">
                                         <i class="d-icon-bag"></i>  Sepete Ekle
                                     </button>
                                 </form>
@@ -370,14 +380,68 @@
 
 {% block extra_scripts %}
 <script>
-    function selectSize(sizeId, product, productId, productName, combcatId) {
-        document.getElementById(`size-selected-for-${combcatId}`).value = sizeId;
+    function selectProduct(productId, combcatId) {
+        const targetDiv = document.getElementById(`selected-products-sizes-${combcatId}`);
+    
+        const windowHeight = window.innerHeight;
+        const divHeight = targetDiv.clientHeight;
+        const offset = (divHeight - windowHeight) / 2;
+    
+        targetDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return false;
+    }
+    function selectSize(size, sizeId, product, productId, productName, combcatId) {
+        document.getElementById(`size-selected-for-${combcatId}`).value = size;
+        document.getElementById(`sizeid-selected-for-${combcatId}`).value = sizeId;
         document.getElementById(`product-selected-for-${combcatId}`).value = productName;
         document.getElementById(`productid-selected-for-${combcatId}`).value = productId;
         document.getElementById(`productname-selected-for-${combcatId}`).value = productName;
+        document.getElementById(`combcat-selected-for-${combcatId}`).value = combcatId;
     }
-    function selectProduct(pId) {
-        document.getElementById('selected-size-id').value = pId;
+    function nextAccordion(activeAccId, nextAccId) {
+        // Your existing code for size selection
+    
+        // Get the current and next accordion tab selectors
+        const currentTabSelector = `#collapse4-${activeAccId}`;
+        const nextTabSelector = `#collapse4-${nextAccId}`;
+    
+        // Check if a next tab selector is defined
+        if (nextTabSelector) {
+            // Close the current tab (if open)
+            if ($(currentTabSelector).hasClass('expanded')) {
+                $(currentTabSelector).removeClass('expanded');
+                $(currentTabSelector).addClass('collapsed');
+            }
+    
+            // Open the next tab
+            $(nextTabSelector).removeClass('collapsed');
+            $(nextTabSelector).addClass('expanded');
+        }
+
+        const targetDiv = document.getElementById('product-selecting-by-cat');
+
+        // Scroll to the target div with smooth behavior
+        targetDiv.scrollIntoView({ behavior: 'smooth' });
+    
+        // Prevent the default link behavior
+        return false;
+    }
+</script>
+
+<script>
+    let selectedButton = null;
+
+    function toggleSize(button) {
+        if (selectedButton) {
+            // Reset the previously selected button
+            selectedButton.style.backgroundColor = "#fff";
+            selectedButton.style.color = "#141414";
+        }
+
+        // Set the new selected button
+        selectedButton = button;
+        selectedButton.style.backgroundColor = "#8ebf16";
+        selectedButton.style.color = "#ffffff";
     }
 </script>
 
@@ -390,7 +454,6 @@
         });
     });
 </script>
-
 
 <script>
     function updateSelectedProduct(productCard, combcatId) {
@@ -429,7 +492,74 @@
     });
     
 </script>
+
+
+<script>
+    $('#add-to-cart-button').on('click', function (e) {
+        e.preventDefault(); // Prevent the default form submission
     
+        let product_id = $('#product-id').val();
+        let product_title = $('#product-title').val();
+        let product_quantity = $('#product-quantity').val();
+        let product_price = $('#product-sale-price').val();
+        let this_val = $(this);
+    
+        let combinedProductChoices = [];
+        let hasBlankValue = false;
+    
+        $('.combined-product-choice').each(function () {
+            let selectedCombCat = $(this).find('.selected-combcat').val();
+            let selectedProductId = $(this).find('.selected-product-id').val();
+            let selectedProductName = $(this).find('.selected-product-name').val();
+            let selectedProductSizeId = $(this).find('.selected-product-size-id').val();
+    
+            if (!selectedCombCat || !selectedProductId || !selectedProductSizeId) {
+                hasBlankValue = true;
+                return false;
+            }
+    
+            let choiceData = {
+                'combcat': selectedCombCat,
+                'product_id': selectedProductId,
+                'productName': selectedProductName,
+                'size_id': selectedProductSizeId,
+            };
+            combinedProductChoices.push(choiceData);
+        });
+    
+        if (hasBlankValue) {
+            alert('Tüm Kategorilerden Ürün Seçiminizi Tamamlamalısınız');
+            return false;
+        } else {
+            console.log('Product Id', product_id);
+            console.log('Product Title', product_title);
+            console.log('Product Quantity', product_quantity);
+            console.log('Product Price', product_price);
+            console.log('Combined Product Choices', combinedProductChoices);
+    
+            $.ajax({
+                url: '{% url 'add_combined_to_cart' %}',
+                type: 'POST',
+                data: {
+                    'product_id': product_id,
+                    'title': product_title,
+                    'qty': product_quantity,
+                    'price': product_price,
+                    'combined_choices': JSON.stringify(combinedProductChoices),
+                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        this_val.html('Item(s) Added To Cart');
+                        console.log('Added Combined Product to Cart...');
+                    }
+                }
+            });
+        }
+    });
+    
+</script>
 
     
 {% endblock %}
