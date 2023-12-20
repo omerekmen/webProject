@@ -186,7 +186,7 @@ def add_combined_to_cart(request):
     cart, created = Cart.objects.get_or_create(member=request.user)
 
     # Create CartItems instance for the main product
-    cart_item = CartItems(cart=cart, is_combinated_product=True, product_id=product_id, quantity=qty)
+    cart_item = CartItems(cart=cart, is_combined_product=True, product_id=product_id, quantity=qty)
     cart_item.save()
 
     # Loop through the combined choices and create CombinedProductChoice instances
@@ -207,7 +207,7 @@ def add_combined_to_cart(request):
     # You can update the cart's other properties here (e.g., discounts, shipping, etc.)
 
     # Prepare the response data
-    response_data = {'status': 'success', 'message': 'Item(s) added to cart successfully'}
+    response_data = {'status': 'success', 'message': 'Ürünler Başarıyla Sepete Eklendi', 'cart_total_items': cart.user_cart.count()}
 
     return JsonResponse(response_data)
 
