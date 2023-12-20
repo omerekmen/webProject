@@ -186,7 +186,7 @@ def add_combined_to_cart(request):
     cart, created = Cart.objects.get_or_create(member=request.user)
 
     # Create CartItems instance for the main product
-    cart_item = CartItems(cart=cart, product_id=product_id, quantity=qty)
+    cart_item = CartItems(cart=cart, is_combined_product=True, product_id=product_id, quantity=qty)
     cart_item.save()
 
     # Loop through the combined choices and create CombinedProductChoice instances
