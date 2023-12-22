@@ -178,11 +178,11 @@ JET_PROJECT = 'entegrasyoncloud'
 JET_TOKEN = 'f902cf72-0469-4ff4-a7ef-27f1a8dc1050'
 
 JAZZMIN_SETTINGS = {
-    'site_title' : "Entegrasyon Cloud",
-    'site_brand' : "Entegrasyon Cloud",
+    'site_title' : "Life Vest",
+    'site_brand' : "Life Vest",
     'site_logo' : "images/logo-letter.png",
     "login_logo" : "images/logo-admin-login.png",
-    'copyright' : "Entegrasyon Cloud",
+    'copyright' : "Life Vest",
     "navigation_expanded": False,
     "order_with_respect_to": ["auth", 
                               "members", 
