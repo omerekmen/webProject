@@ -5,6 +5,9 @@
 
 {% block extra_head %}
 <style>
+    .select-size-input {
+        width:100px
+    }
     .product-variations .size.active{
         background-color: #8ebf16;
         color: #ffffff;
@@ -302,13 +305,22 @@
                                                             <span><input readonly id="product-selected-for-{{ combcat.id }}" type="text" value="Ürün Seçiniz"></span>
                                                         </td>
                                                         <td class="product-total text-body">
-                                                            <input readonly id="size-selected-for-{{ combcat.id }}" type="text" value="Beden Seçiniz">
+                                                            <input class="select-size-input" readonly id="size-selected-for-{{ combcat.id }}" type="text" value="Beden Seçiniz">
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </td>
                                         </tr>
                                         {% endfor %}
+                                </table>
+                                <table class="order-table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
                                         <tr class="summary-subtotal">
                                             <td>
