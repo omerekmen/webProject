@@ -43,6 +43,14 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/style.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/main.min.css' %}">
 
+        <style>
+            @media only screen and (max-width: 720px) {
+                .intro-slider {
+                    display: none;
+                }
+            }
+        </style>
+
         {% block extra_head %}
         <!-- Any extra head content goes here -->
         {% endblock %}
@@ -313,13 +321,13 @@
                         'responsive': {
                             '0': {
                                 'dots': true,
-                                'nav': false,
-                                'items': 1
+                                'nav': true,
+                                'items': 0
                             },
                             '480': {
                                 'dots': true,
                                 'nav': true,
-                                'items': 1,
+                                'items': 0
                             },
                             '740': {
                                 'dots': true,
@@ -359,7 +367,7 @@
 
         {% if request.resolver_match.url_name == 'index' %}
             {% if schools.school_popup.exists and school_main_page_popup.popup_status == True %}
-                <div class="newsletter-popup newsletter-pop2 mfp-hide" id="newsletter-popup">   
+                <div class="newsletter-popup newsletter-popup-index newsletter-pop2 mfp-hide popup-index" id="newsletter-popup">   
                     {% if school_main_page_popup.popup_image %}
                     <figure>
                         <img src="{{ school_main_page_popup.popup_image.url }}" width="500" height="264" alt="newsletter2" />
@@ -383,7 +391,7 @@
             {% endif %}
         {% elif request.resolver_match.url_name == 'product' or request.resolver_match.url_name == 'combproduct' %}
             {% if schools.school_popup.exists and school_prod_page_popup.popup_status == True %}
-                <div class="newsletter-popup newsletter-pop2 mfp-hide" id="newsletter-popup">   
+                <div class="newsletter-popup newsletter-popup-product newsletter-pop2 mfp-hide" id="newsletter-popup">   
                     {% if school_prod_page_popup.popup_image %}
                     <figure>
                         <img src="{{ school_prod_page_popup.popup_image.url }}" width="500" height="264" alt="newsletter2" />

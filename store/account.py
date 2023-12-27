@@ -3,6 +3,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from webProject.context_processors import get_school
 from django.contrib.auth.hashers import check_password
+from django.core.serializers import serialize
 from django.http import JsonResponse, HttpResponseRedirect
 from django.views import generic
 from django.contrib import messages
@@ -11,13 +12,19 @@ from cart.models import *
 from schools.models import *
 from members.models import *
 from products.views import *
+from support.models import *
 from members.urls import *
 from store.models import *
 from orders.models import *
 
+
 @login_required
 def account(request):
-    return render(request, 'store/account.html')
+    supports = SupportTicket.objects.filter(member=request.user)
+    context = {
+        'supports': supports,
+    }
+    return render(request, 'store/account.html', context)
 
 @require_POST
 def address_update(request):
@@ -98,8 +105,6 @@ def account_details_update(request):
     if request.method == 'POST':
         user = request.user
 
-        
-
         campus_id = request.POST.get('user_school')
         level_id = request.POST.get('levelSelect')
         class_id = request.POST.get('classSelect')
@@ -174,3 +179,10 @@ def get_student_class(request):
 def pass_change(PasswordChangeView):
     template_name = "registration/password_change_form.html"
     return
+
+
+def get_support_messages(request, ticket_id):
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        messages = SupportMessage.objects.filter(ticket__ticket_id=ticket_id).values('message', 'sender__username', 'sender__first_name', 'sender__last_name', 'created_at')
+        return JsonResponse({'messages': list(messages)}, safe=True)
+    return JsonResponse({'error': 'Invalid request'}, status=400)

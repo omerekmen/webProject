@@ -1,49 +1,200 @@
-<div class="row">
-    <div class="col-md-4 mb-6">
-        asdasd
-    </div>
-
-    <div class="col-md-8 mb-6">
-        <div class="owl-nav-bottom cols-1" data-owl-options="{
-            'items': 1,
-            'nav': true,
-            'dots': false,
-            'autoPlay': true,
-            'loop': false,
-            'margin': 20
-        }">
-            <div class="testimonial">
-                <div class="text-right testimonial-title">
-                    <span>Herman Beck</span>
-                </div>
-                <blockquote>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euante
-                    eget nisl convallis tempus Phsellus anctus, tincidunt tincidunt dui.met,
-                    consectetur adipiscing elit. Sed eu ante eget nisldolor sit amet.
-                </blockquote>
-                <div class="text-right testimonial-title">
-                    <cite>
-                        <span>Tarih</span>
-                    </cite>
-                </div>
-            </div>
-            <br>
-
-            <div class="testimonial testimonial-inversed">
-                <div class="text-right testimonial-title">
-                    <span>Herman Beck</span>
-                </div>
-                <blockquote>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euante
-                    eget nisl convallis tempus Phsellus anctus, tincidunt tincidunt dui.met,
-                    consectetur adipiscing elit. Sed eu ante eget nisldolor sit amet.
-                </blockquote>
-                <div class="text-right testimonial-title">
-                    <cite>
-                        <span>Tarih</span>
-                    </cite>
-                </div>
-            </div>
+<header class="chat-header">
+    <div class="chat-header-container">
+        <div class="chat-header-right to-right">
+            <button type="submit" name="create-new-support" id="create-new-support" class="btn btn-dark btn-rounded">
+                <i class="fas fa-plus"></i>  Yeni Destek Talebi Oluştur
+            </button>
         </div>
     </div>
+</header>
+
+<div class="chat-container">
+    <div class="row">
+
+        <!-- LISTING -->
+        <div class="col-md-4 mb-6 testimonial-big-box">
+            <div class="chat-my-supports">
+
+                {% if not supports %}
+                <div class="testimonial-list-title">
+                    <p>Henüz Bir Destek Talebiniz Bulunmamaktadır. Yukarıdaki butonu kullanarak yeni destek talebi oluşturabilirsiniz.</p>
+                </div>
+                {% endif %}
+
+                {% for support in supports %}
+                    <div class="chat-support-item" data-ticket-id="{{ support.ticket_id }}" 
+                            data-url="{% url 'get_support_messages' support.ticket_id %}"
+                            onclick="loadSupportContent('{{ support.ticket_id }}')">
+
+                        <div class="testimonial-list-id">
+                            <span>{{ support.ticket_id }}</span>
+                        </div>
+                        <div class="testimonial-list-title">
+                            <p>{{ support.title }}</p>
+                        </div>
+                        {% if support.status == 'OPEN' %}
+                        <div class="testimonial-list-status" style="color:#BF7B04;">
+                            <span>
+                                <i class="fas fa-dot-circle"></i>
+                            </span>
+                            <p>Talebiniz Alındı</p>
+                        </div>
+                        {% elif support.status == 'IN_PROGRESS' %}
+                        <div class="testimonial-list-status" style="color:#8ebf16;">
+                            <span>
+                                <i class="fas fa-dot-circle"></i>
+                            </span>
+                            <p>Talebiniz İnceleniyor</p>
+                        </div>
+                        {% elif support.status == 'CLOSED' %}
+                        <div class="testimonial-list-status" style="color:#3D7B04;">
+                            <span>
+                                <i class="fas fa-dot-circle"></i>
+                            </span>
+                            <p>Çözüldü</p>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+        
+        <!-- DETAIL -->
+        <div class="col-md-8 mb-6 testimonial-big-box">
+
+            <div class="testimonial-box">
+
+                <div class="row row-testimonials">
+                    <div class="col-md-2 mb-6"></div>
+                    
+                    <div class="col-md-10 mb-6">
+                        <div class="testimonial testimonial-inversed">
+                            <div class="testimonial-title">
+                                <span>Kullanıcı Mesajı</span>
+                            </div>
+                            <blockquote>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euante
+                                eget nisl convallis tempus Phsellus anctus, tincidunt tincidunt dui.met,
+                                consectetur adipiscing elit. Sed eu ante eget nisldolor sit amet.
+                            </blockquote>
+                            <div class="testimonial-title">
+                                <cite>
+                                    <p>Tarih</p>
+                                </cite>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-testimonials">
+                    <div class="col-md-10 mb-6">
+                        <div class="testimonial">
+                            <div class="text-right testimonial-title">
+                                <span>Admin Yanıtı</span>
+                            </div>
+                            <blockquote>
+                                Bu bir admin yanıt örneğidir.
+                            </blockquote>
+                            <div class="testimonial-title">
+                                <cite>
+                                    <span>Tarih</span>
+                                </cite>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 mb-6"></div>
+                </div>
+                
+            </div>
+
+            <footer class="send-message-box">
+                <form class="msger-inputarea">
+                    <input type="file" class="custom-file-input" id="validatedCustomFile" onchange="updateFileName(this);">
+                    <label class="custom-file-label" for="validatedCustomFile"></label>
+
+                    <input type="text" class="msger-input" placeholder="Mesajınızı giriniz...">
+                    <button type="submit" class="msger-send-btn">Gönder</button>
+                </form>
+                <input readonly id="file-name-input" value="">
+            </footer>
+        </div>
+        
+    </div>
+
 </div>
+
+<script>
+    var CURRENT_USER_ID = {{ request.user.id }};
+    function updateFileName(input) {
+        var fileName = input.files[0].name;
+        var label = document.querySelector('label[for="' + input.id + '"]');
+        var fni = document.getElementById("file-name-input")
+        fni.value = fileName;
+    }
+</script>
+<script>
+    function loadSupportContent(ticketId) {
+        var url = `/account/support-messages/${ticketId}/`; // The URL to your Django view
+
+        
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(response) {
+                var messagesContainer = document.querySelector('.testimonial-box'); // The container where messages will be displayed
+                messagesContainer.innerHTML = ''; // Clear previous messages
+    
+                response.messages.forEach(function(message) {
+                    var messageHtml;
+                    if (message.sender__username == '{{ request.user }}') {
+                        var messageHtml = `
+                            <div class="row row-testimonials">
+                                <div class="col-md-2 mb-6"></div>
+                                
+                                <div class="col-md-10 mb-6">
+                                    <div class="testimonial testimonial-inversed">
+                                        <div class="testimonial-title">
+                                            <span>${message.sender__first_name} ${message.sender__last_name}</span>
+                                        </div>
+                                        <blockquote>${message.message}</blockquote>
+                                        <div class="testimonial-title">
+                                            <cite>
+                                                <p>${new Date(message.created_at).toLocaleString()}</p>
+                                            </cite>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        messagesContainer.innerHTML += messageHtml;
+                    } else {
+                        var messageHtml = `
+                            <div class="row row-testimonials">
+                                <div class="col-md-10 mb-6">
+                                    <div class="testimonial">
+                                        <div class="text-right testimonial-title">
+                                            <span>${message.sender__first_name} ${message.sender__last_name}</span>
+                                        </div>
+                                        <blockquote>${message.message}</blockquote>
+                                        <div class="testimonial-title">
+                                            <cite>
+                                                <p>${new Date(message.created_at).toLocaleString()}</p>
+                                            </cite>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-2 mb-6"></div>
+                            </div>`;
+                        messagesContainer.innerHTML += messageHtml;
+                    }
+                });
+            },
+            error: function(error) {
+                console.log('Error fetching messages:', error);
+            }
+        });
+    }    
+</script>
