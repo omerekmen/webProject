@@ -186,3 +186,6 @@ def get_support_messages(request, ticket_id):
         messages = SupportMessage.objects.filter(ticket__ticket_id=ticket_id).values('message', 'sender__username', 'sender__first_name', 'sender__last_name', 'created_at')
         return JsonResponse({'messages': list(messages)}, safe=True)
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def create_support_message(request):
+    return 
