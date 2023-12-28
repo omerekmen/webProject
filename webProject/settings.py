@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "cart",
     "management",
     "discounts",
+    "support",
 ]
 
 MIDDLEWARE = [

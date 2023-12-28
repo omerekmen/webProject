@@ -14,6 +14,7 @@ urlpatterns = [
     path('account/address/update/', address_update, name='address_update'),
     path('account/details/update/', account_details_update, name='account_details_update'),
     path('account/password/update/', password_update, name='password_update'),
+    path('account/support-messages/<str:ticket_id>/', get_support_messages, name='get_support_messages'),
 
     path('kategori/', category, name='category' ),
     path('kategoriler/<ProductCategoryID>', category_m, name='category_m' ),

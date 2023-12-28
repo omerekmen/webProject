@@ -5,8 +5,6 @@ from members.models import Member
 from store.models import *  
 import random
 
-
-# Define the Order model
 class Orders(models.Model):
     OrderID = models.SlugField(primary_key=True, editable=False, unique=True, max_length=10, verbose_name='Sipariş No')
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
@@ -79,7 +77,6 @@ class Orders(models.Model):
     def __str__(self):
         return f"Order {self.OrderID}"
 
-# Define the OrderProducts model
 class OrderProducts(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE, verbose_name='Sipariş No', related_name='user_order_items')
     Product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name='Ürün')
