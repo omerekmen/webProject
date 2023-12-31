@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import *
 from django import forms
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from django.forms.widgets import CheckboxSelectMultiple
 
 
@@ -50,9 +52,13 @@ class CombinationProductInline(admin.StackedInline):
     # form = CombinationProductInlineForm
 
 
+class ProductsResource(resources.ModelResource):
+    class Meta:
+        model = Products
 
-class ProductsAdmin(admin.ModelAdmin):
+class ProductsAdmin(ImportExportModelAdmin):
     change_list_template = 'admin/product_change_list.html' 
+    resource_class = ProductsResource
     inlines = [ProductSizeStockInline, ProductPricesInline, ProductImagesInline, ProductDetailsInline, CombinationProductInline]
     
     list_display = ('product_name', 'product_image', 'get_price', 'product_state', 'ProductSubCategoryID', 'product_type', 'product_genre', 'product_color', 'total_sale_stock')

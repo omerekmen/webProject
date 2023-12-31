@@ -1,3 +1,5 @@
+from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 from django.contrib import admin
 from .models import * 
 
@@ -7,8 +9,24 @@ class MemberAddressInline(admin.TabularInline):
     verbose_name_plural = 'Üye Adresler'
     extra = 1  # Number of empty forms to display
 
-class MemberAdmin(admin.ModelAdmin):
+class MemberResource(resources.ModelResource):
+    class Meta:
+        model = Member
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'phone_number',
+            'user_type',
+            'registration_date',
+            'is_active',
+        ]
+
+class MemberAdmin(ImportExportModelAdmin):
     # change_list_template = 'admin/product_change_list.html'
+    resource_class = MemberResource
     inlines = [MemberAddressInline]
     list_per_page = 25
     search_fields = ['username', 'first_name', 'last_name', 'email', 'phone_number', 'user_type', 'is_active', 'campus_id__campus_name']

@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     # 'django_q',
     "jazzmin",
     "widget_tweaks",
+    "nested_admin",
+    "import_export",
+    "django_filters",
+    "django_extensions",
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -56,6 +60,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "django.contrib.flatpages",
+    "django.contrib.sitemaps",
+    "django.contrib.humanize",
+    "django.contrib.postgres",
+    "django.contrib.redirects",
 
     "ckeditor",
     "ckeditor_uploader",
@@ -71,6 +81,7 @@ INSTALLED_APPS = [
     "management",
     "discounts",
     "support",
+    "warehouse",
 ]
 
 MIDDLEWARE = [

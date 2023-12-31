@@ -35,9 +35,11 @@ class ReturnRequests(models.Model):
         return super().save(*args, **kwargs)
     
     def create_return_id(self):
-        return_id = f'RTN-{random.randint(1000, 999999)}'
+        last_return_id_num = 1
+        return_id = f'RTN-{self.OrderID.OrderID}-{last_return_id_num:03}'
         while ReturnRequests.objects.filter(ReturnID=return_id).exists():
-            return_id = f'RTN-{random.randint(1000, 999999)}'
+            last_return_id_num += 1
+            return_id = f'RTN-{self.OrderID.OrderID}-{last_return_id_num:03}'
         return return_id
 
     class Meta:
