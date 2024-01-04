@@ -53,20 +53,20 @@ INSTALLED_APPS = [
     "import_export",
     "django_filters",
     "django_extensions",
-    # 'wagtail.contrib.forms',
-    # 'wagtail.contrib.redirects',
-    # 'wagtail.embeds',
-    # 'wagtail.sites',
-    # 'wagtail.users',
-    # 'wagtail.snippets',
-    # 'wagtail.documents',
-    # 'wagtail.images',
-    # 'wagtail.search',
-    # 'wagtail.admin',
-    # 'wagtail',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail',
 
-    # 'modelcluster',
-    # 'taggit',
+    'modelcluster',
+    'taggit',
 
 
 
@@ -219,11 +219,18 @@ JAZZMIN_SETTINGS = {
                               "orders", "orders.orders",
                               "cart", "cart.cart",
                               "discounts",
+                              "management",
+                              "support",
+                              "warehouse",
                             ],
+    "hide_apps": [ "sites", "flatpages", "redirects", "wagtailredirects", "wagtailforms", "wagtailusers", "wagtailsites", "wagtailsearch", "wagtailimages", "wagtaildocs", "wagtailcore", "taggit", "modelcluster", "wagtailadmin", "wagtail"],
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.Group": "fas fa-users",
+        "members": "fas fa-users",
         "members.member": "fas fa-user",
+        
+        "products": "fas fa-bread-slice",
         "products.products": "fas fa-bread-slice",
         "products.CombinationProduct": "fas fa-boxes",
         "products.ProductCategory": "fas fa-columns",
@@ -232,13 +239,20 @@ JAZZMIN_SETTINGS = {
         "products.ProductCategorySizes": "fas fa-ruler",
         "products.ProductPrices": "fas fa-tag",
         "products.SetProduct": "fas fa-book",
+
+        "orders": "fas fa-bars",
         "orders.orders": "fas fa-bars",
         "orders.OrderProducts": "fas fa-grip-horizontal",
-        "schools.schools": "fas fa-building",
+
+        "schools": "fas fa-building",
         "schools.schools": "fas fa-building",
         "schools.SchoolCampus": "far fa-building",
+
+        "cart": "fas fa-shopping-basket",
         "cart.cart": "fas fa-shopping-basket",
         "cart.cartitems": "fas fa-grip-horizontal",
+
+        "discounts": "fas fa-percent",
         "discounts.SpecialDiscount": "fas fa-percent",
         "discounts.DiscountCoupon": "fas fa-tag",
     },
@@ -264,6 +278,8 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_compact_style": True,
 }
 
+WAGTAILADMIN_BASE_URL = '/cms/'
+WAGTAIL_SITE_NAME = "Life Vest"
 
 SITE_ID = 1
 
