@@ -53,6 +53,22 @@ INSTALLED_APPS = [
     "import_export",
     "django_filters",
     "django_extensions",
+    # 'wagtail.contrib.forms',
+    # 'wagtail.contrib.redirects',
+    # 'wagtail.embeds',
+    # 'wagtail.sites',
+    # 'wagtail.users',
+    # 'wagtail.snippets',
+    # 'wagtail.documents',
+    # 'wagtail.images',
+    # 'wagtail.search',
+    # 'wagtail.admin',
+    # 'wagtail',
+
+    # 'modelcluster',
+    # 'taggit',
+
+
 
     "django.contrib.admin",
     "django.contrib.auth",
