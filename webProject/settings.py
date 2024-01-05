@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,22 +54,20 @@ INSTALLED_APPS = [
     "import_export",
     "django_filters",
     "django_extensions",
-    # 'wagtail.contrib.forms',
-    # 'wagtail.contrib.redirects',
-    # 'wagtail.embeds',
-    # 'wagtail.sites',
-    # 'wagtail.users',
-    # 'wagtail.snippets',
-    # 'wagtail.documents',
-    # 'wagtail.images',
-    # 'wagtail.search',
-    # 'wagtail.admin',
-    # 'wagtail',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail',
 
-    # 'modelcluster',
-    # 'taggit',
-
-
+    'modelcluster',
+    'taggit',
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -77,8 +76,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "django.contrib.flatpages",
-    "django.contrib.sitemaps",
     "django.contrib.humanize",
     "django.contrib.postgres",
     "django.contrib.redirects",
@@ -302,3 +299,5 @@ CKEDITOR_CONFIGS = {
 
 LOGIN_REDIRECT_URL = ''
 LOGIN_URL = 'user/login'
+
+django_heroku.settings(locals())
