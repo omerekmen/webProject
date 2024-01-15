@@ -10,4 +10,11 @@ class SubdomainMiddleware:
         host = request.get_host().split('.')
         subdomain = host[0] if len(host) > 2 else None
         request_config.subdomain = subdomain
-        return self.get_response(request)
+
+        response = self.get_response(request)
+
+        # Clear the thread-local storage after processing the request
+        if hasattr(request_config, 'subdomain'):
+            del request_config.subdomain
+
+        return response
