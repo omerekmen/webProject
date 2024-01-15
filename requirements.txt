@@ -32,6 +32,7 @@ django-nested-admin==4.0.2
 django-permissionedforms==0.1
 django-rest-framework==0.1.0
 django-taggit==5.0.1
+django-threadlocals==0.10
 django-treebeard==4.5.1
 django-widget-tweaks==1.5.0
 djangorestframework==3.14.0
