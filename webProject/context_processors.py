@@ -1,4 +1,4 @@
-from threadlocals.threadlocals import get_thread_variable
+from .get_subdomain import request_config
 from products.models import *
 from schools.models import *
 from members.models import *
