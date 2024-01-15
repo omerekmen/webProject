@@ -1,4 +1,3 @@
-from .get_subdomain import request_config
 from products.models import *
 from schools.models import *
 from members.models import *
@@ -9,14 +8,8 @@ import random
 
 
 def get_school():
-    subdomain_to_school = {
-        'bahcesehir': 1,
-        'mektebim': 2,
-        # Add more mappings as needed
-    }
-    subdomain = getattr(request_config, 'subdomain', None)
-    print(subdomain)
-    return subdomain_to_school.get(subdomain, 1)
+    school = 1
+    return school
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -28,22 +21,14 @@ def get_client_ip(request):
 
 
 def default(request, school=get_school()):
-    path = request.path # For sublinks
-    subdomain = request.get_host().split('.')[0] ### FOR SUBDOMAINs
-    site = request.get_host()
-    # Define a mapping of subdomains to school IDs
+    subdomain = request.get_host().split('.')[0]
     subdomain_to_school = {
         'bahcesehir': 1,
         'mektebim': 2,
         # Add more subdomains and their corresponding school IDs as needed
     }
+    school_id = subdomain_to_school.get(subdomain, 1)
 
-    # Get the school ID based on the subdomain, default to 1 if not found
-    sc = subdomain_to_school.get(subdomain, 1)
-
-    parts = path.strip('/').split('/')
-    sublink = parts[0]
-    scl = subdomain_to_school.get(sublink, 1)
 
     cities = City.objects.all()
     levels = StudentLevels.objects.all()
@@ -96,7 +81,7 @@ def default(request, school=get_school()):
     random_products = list(active_products)
     random.shuffle(random_products)
 
-    schools = Schools.objects.get(school_id=school)
+    schools = Schools.objects.get(school_id=school_id)
     school_main_page_popup = SchoolPopup.objects.filter(school=school, popup_page="index").first()
     school_reg_page_popup = SchoolPopup.objects.filter(school=school, popup_page="intro").first()
     school_prod_page_popup = SchoolPopup.objects.filter(school=school, popup_page="product").first()
