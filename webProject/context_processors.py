@@ -1,3 +1,4 @@
+from threadlocals.threadlocals import get_thread_variable
 from products.models import *
 from schools.models import *
 from members.models import *
@@ -8,8 +9,13 @@ import random
 
 
 def get_school():
-    school = 1
-    return school
+    subdomain = get_thread_variable('subdomain', default='default_subdomain')
+    subdomain_to_school = {
+        'bahcesehir': 1,
+        'mektebim': 2,
+        # Add more subdomains and their corresponding school IDs as needed
+    }
+    return subdomain_to_school.get(subdomain, 1)
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
