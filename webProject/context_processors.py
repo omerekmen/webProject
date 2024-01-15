@@ -9,12 +9,12 @@ import random
 
 
 def get_school():
-    subdomain = get_thread_variable('subdomain', default='default_subdomain')
     subdomain_to_school = {
         'bahcesehir': 1,
         'mektebim': 2,
-        # Add more subdomains and their corresponding school IDs as needed
+        # Add more mappings as needed
     }
+    subdomain = getattr(request_config, 'subdomain', None)
     return subdomain_to_school.get(subdomain, 1)
 
 def get_client_ip(request):

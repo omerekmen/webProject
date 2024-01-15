@@ -1,11 +1,13 @@
-from threadlocals.threadlocals import set_thread_variable
+import threading
+
+request_config = threading.local()
 
 class SubdomainMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        subdomain = request.get_host().split('.')[0]
-        set_thread_variable('subdomain', subdomain)
-        response = self.get_response(request)
-        return response
+        host = request.get_host().split('.')
+        subdomain = host[0] if len(host) > 2 else None
+        request_config.subdomain = subdomain
+        return self.get_response(request)
