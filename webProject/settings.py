@@ -105,7 +105,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "webProject.get_subdomain.SubdomainMiddleware",
 ]
 
 ROOT_URLCONF = "webProject.urls"

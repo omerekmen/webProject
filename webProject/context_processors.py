@@ -21,6 +21,7 @@ def get_client_ip(request):
 
 
 def default(request, school=get_school()):
+    host = request.get_host().split('.')
     subdomain = request.get_host().split('.')[0]
     subdomain_to_school = {
         'bahcesehir': 1,
@@ -29,6 +30,11 @@ def default(request, school=get_school()):
     }
     school_id = subdomain_to_school.get(subdomain, 1)
 
+    path = request.path
+
+    parts = path.strip('/').split('/')
+    sublink = parts[0]
+    scl = subdomain_to_school.get(sublink, 1)
 
     cities = City.objects.all()
     levels = StudentLevels.objects.all()
@@ -94,7 +100,7 @@ def default(request, school=get_school()):
         'delivery_address': delivery_address, 
         'invoice_address': invoice_address,
 
-        'site': site,
+        # 'site': site,
         'subdomain': subdomain,
 
         'categories': categories,
