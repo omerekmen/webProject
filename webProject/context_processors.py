@@ -15,6 +15,7 @@ def get_school():
         # Add more mappings as needed
     }
     subdomain = getattr(request_config, 'subdomain', None)
+    print(subdomain)
     return subdomain_to_school.get(subdomain, 1)
 
 def get_client_ip(request):
