@@ -4,6 +4,7 @@ from orders.views import *
 from store.views import *
 from cart.views import *
 from store.account import *
+from support.views import *
 
 urlpatterns = [
     path('', index, name='index'),
@@ -46,4 +47,6 @@ urlpatterns = [
 
     path('get-districts/', get_districts, name='get_districts'),
     path('get-student-class/', get_student_class, name='get_student_class'),
+
+    path('create_support_ticket/', create_support_ticket, name='create_support_ticket'),
     ]

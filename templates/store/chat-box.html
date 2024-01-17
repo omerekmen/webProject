@@ -142,6 +142,9 @@
     }
 </script>
 <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        updateSubjects(); 
+    });
     function toggleSupportForm() {
         var chatboxContainer = document.getElementById('chatbox-container');
         var formHtml = `
@@ -150,12 +153,16 @@
                     <div class="testimonial-list-title">
                         <p>Yeni Destek Talebi Oluştur</p>
                     </div>
-                    <form id="support-form" method="post">
+                    <form id="support-form" method="post" enctype="multipart/form-data" action="{% url 'create_support_ticket' %}">
                         {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="title">Başlık:</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
 
                         <div class="form-group mb-3">
                             <label for="category">Kategori:</label>
-                            <select class="form-control" id="category" name="category">
+                            <select class="form-control" id="categorySelect" name="category" onchange="updateSubjects()">
                                 <option value="Kıyafet">Kıyafet</option>
                                 <option value="Kitap">Kitap</option>
                             </select>
@@ -163,22 +170,19 @@
 
                         <div class="form-group mb-3">
                             <label for="subject">Konu:</label>
-                            <select class="form-control" id="subject" name="subject">
-                                <option value="Degisim">Kıyafet/Değişim</option>
-                                <option value="Iade">Kıyafet/İade</option>
-                                <option value="Iptal">Kıyafet/İptal</option>
-                                <!-- Add all other subject options here -->
+                            <select class="form-control" id="subjectSelect" name="subject">
+                                <!-- Options will be added dynamically -->
                             </select>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="title">Başlık:</label>
-                            <input type="text" class="form-control" id="title" name="title" required>
+                            <label for="description">Açıklama:</label>
+                            <textarea class="form-control" id="description" name="description" rows="6" required></textarea>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="description">Açıklama:</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                            <label for="fileUpload">Görsel Yükleyiniz:</label>
+                            <input type="file" class="form-control" id="fileUpload" name="fileUpload">
                         </div>
 
                         <div class="support-form-buttons mt-3">
@@ -189,6 +193,7 @@
                 </div>
             </div>`;
         chatboxContainer.innerHTML = formHtml;
+        updateSubjects();
         var createButton = document.getElementById('create-new-support');
         createButton.style.display = 'none';
     }
@@ -258,5 +263,55 @@
                 console.log('Error fetching messages:', error);
             }
         });
-    }    
+    }
+    const subjectsByCategory = {
+        "Kıyafet": {
+            "Degisim": "Kıyafet/Değişim",
+            "Iade": "Kıyafet/İade",
+            "Iptal": "Kıyafet/İptal",
+            "Fatura": "Kıyafet/Fatura",
+            "Urun": "Kıyafet/Ürün",
+            "Siparis": "Kıyafet/Sipariş",
+            "Web": "Kıyafet/Web",
+            "Kargo": "Kıyafet/Kargo",
+            "Teslimat": "Kıyafet/Teslimat",
+            "Odeme": "Kıyafet/Ödeme",
+            "HataliUrun": "Kıyafet/Hatalı Ürün",
+            "EskiUrun": "Kıyafet/Eski Ürün"
+        },
+        "Kitap": {
+            "Kargolama": "Kitap/Kargolama",
+            "SipIptal": "Kitap/Sipariş İptal",
+            "KitapDegisim": "Kitap/Değişim",
+            "KitapIade": "Kitap/İade",
+            "KitapIptal": "Kitap/İptal",
+            "KitapKargo": "Kitap/Kargo",
+            "KitapTeslimat": "Kitap/Teslimat",
+            "KitapHataliUrun": "Kitap/Hatalı Ürün",
+            "KitapEksikUrun": "Kitap/Eksik Ürün"
+        }
+    };
+    
+    function updateSubjects() {
+        const categorySelect = document.getElementById("categorySelect");
+        const subjectSelect = document.getElementById("subjectSelect");
+        if (!categorySelect || !subjectSelect) return;
+    
+        const selectedCategory = categorySelect.value;
+        const subjects = subjectsByCategory[selectedCategory] || {};
+    
+        subjectSelect.innerHTML = Object.entries(subjects).map(([value, name]) => 
+            `<option value="${value}">${name}</option>`
+        ).join('');
+    }
+    function handleCategoryChange() {
+        const categorySelect = document.getElementById("categorySelect");
+        const subjectSelect = document.getElementById("subjectSelect");
+        if (!categorySelect || !subjectSelect) return; // Exit if elements are not found
+    
+        const selectedCategory = categorySelect.value;
+        const subjects = subjectsByCategory[selectedCategory] || [];
+    
+        subjectSelect.innerHTML = subjects.map(subject => `<option value="${subject}">${subject}</option>`).join('');
+    }
 </script>
