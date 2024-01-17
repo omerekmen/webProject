@@ -53,17 +53,6 @@ INSTALLED_APPS = [
     "import_export",
     "django_filters",
     "django_extensions",
-    'wagtail.contrib.forms',
-    'wagtail.contrib.redirects',
-    'wagtail.embeds',
-    'wagtail.sites',
-    'wagtail.users',
-    'wagtail.snippets',
-    'wagtail.documents',
-    'wagtail.images',
-    'wagtail.search',
-    'wagtail.admin',
-    'wagtail',
 
     'modelcluster',
     'taggit',
@@ -223,7 +212,7 @@ JAZZMIN_SETTINGS = {
                               "support",
                               "warehouse",
                             ],
-    "hide_apps": [ "sites", "flatpages", "redirects", "wagtailredirects", "wagtailforms", "wagtailusers", "wagtailsites", "wagtailsearch", "wagtailimages", "wagtaildocs", "wagtailcore", "taggit", "modelcluster", "wagtailadmin", "wagtail"],
+    "hide_apps": [ "sites", "flatpages", "redirects", "taggit", "modelcluster", ],
     "icons": {
         "auth": "fas fa-users-cog",
         "auth.Group": "fas fa-users",
@@ -277,9 +266,6 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_child_indent": True,
     "sidebar_nav_compact_style": True,
 }
-
-WAGTAILADMIN_BASE_URL = '/cms/'
-WAGTAIL_SITE_NAME = "Life Vest"
 
 SITE_ID = 1
 
