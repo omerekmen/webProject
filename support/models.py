@@ -37,7 +37,6 @@ class SupportTicket(models.Model):
     ('KitapEksikUrun', 'Kitap/Eksik Ürün')
 ]
 )
-
     status = models.CharField(max_length=20, choices=TICKET_STATUS_CHOICES, default='OPEN')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

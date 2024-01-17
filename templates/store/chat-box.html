@@ -1,16 +1,22 @@
+<style>
+    .support-form-buttons {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        margin: 10px;
+    }
+</style>
 <header class="chat-header">
     <div class="chat-header-container">
         <div class="chat-header-right to-right">
-            <button type="submit" name="create-new-support" id="create-new-support" class="btn btn-dark btn-rounded">
+            <button type="button" name="create-new-support" id="create-new-support" class="btn btn-dark btn-rounded" onclick="toggleSupportForm()">
                 <i class="fas fa-plus"></i>  Yeni Destek Talebi Oluştur
             </button>
         </div>
     </div>
 </header>
-
 <div class="chat-container">
-    <div class="row">
-
+    <div class="row" id="chatbox-container">
         <!-- LISTING -->
         <div class="col-md-4 mb-6 testimonial-big-box">
             <div class="chat-my-supports">
@@ -136,6 +142,62 @@
     }
 </script>
 <script>
+    function toggleSupportForm() {
+        var chatboxContainer = document.getElementById('chatbox-container');
+        var formHtml = `
+            <div class="col-md-12 mb-6 testimonial-big-box">
+                <div class="chat-my-supports">
+                    <div class="testimonial-list-title">
+                        <p>Yeni Destek Talebi Oluştur</p>
+                    </div>
+                    <form id="support-form" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group mb-3">
+                            <label for="category">Kategori:</label>
+                            <select class="form-control" id="category" name="category">
+                                <option value="Kıyafet">Kıyafet</option>
+                                <option value="Kitap">Kitap</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="subject">Konu:</label>
+                            <select class="form-control" id="subject" name="subject">
+                                <option value="Degisim">Kıyafet/Değişim</option>
+                                <option value="Iade">Kıyafet/İade</option>
+                                <option value="Iptal">Kıyafet/İptal</option>
+                                <!-- Add all other subject options here -->
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="title">Başlık:</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="description">Açıklama:</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                        </div>
+
+                        <div class="support-form-buttons mt-3">
+                            <button type="button" class="btn btn-secondary" onclick="cancelSupportForm()">İptal</button>
+                            <button type="submit" class="btn btn-primary">Oluştur</button>
+                        </div>
+                    </form>
+                </div>
+            </div>`;
+        chatboxContainer.innerHTML = formHtml;
+        var createButton = document.getElementById('create-new-support');
+        createButton.style.display = 'none';
+    }
+
+    function cancelSupportForm() {
+        // Redirect back to the original support chat box state
+        window.location.reload();
+    }
+
     function loadSupportContent(ticketId) {
         var url = `/account/support-messages/${ticketId}/`; // The URL to your Django view
 

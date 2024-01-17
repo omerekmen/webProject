@@ -9,7 +9,7 @@ urlpatterns = [
     path("", include('store.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('schools/', include('schools.urls')),  # Include your app's URLs
-    path('fetch-modal-content/', fetch_content_for_modal, name='fetch_modal_content')
+    path('fetch-modal-content/', fetch_content_for_modal, name='fetch_modal_content'),
 ]
 
 if settings.DEBUG == True:
