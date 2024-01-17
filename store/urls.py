@@ -47,6 +47,4 @@ urlpatterns = [
 
     path('get-districts/', get_districts, name='get_districts'),
     path('get-student-class/', get_student_class, name='get_student_class'),
-
-    path('create_support_ticket/', create_support_ticket, name='create_support_ticket'),
     ]

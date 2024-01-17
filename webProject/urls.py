@@ -5,6 +5,7 @@ from django.conf import settings
 from schools.views import fetch_content_for_modal
 
 urlpatterns = [
+    path("", include('support.urls')),
     path("admin/", admin.site.urls),
     path("", include('store.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
