@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from webProject.context_processors import get_school
+from webProject.context_processors import get_school, get_school_id
 from django.http import JsonResponse
 from django.views import generic
 from products.models import *
@@ -34,7 +34,7 @@ def category_m(request, ProductCategoryID):
     subcat_ids = ProductSubCategory.objects.filter(ProductCategory=cat).values_list('ProductSubCategoryID', flat=True)
     active_products_by_cat = Products.objects.filter(
         product_state='Aktif', 
-        school=get_school(),
+        school=get_school_id(request),
         ProductSubCategoryID__in=subcat_ids
         ).prefetch_related('productprices_set')
     
@@ -58,7 +58,7 @@ def category_p(request, ProductSubCategoryID):
     subcat = ProductSubCategory.objects.get(ProductSubCategoryID=ProductSubCategoryID)
     active_products_by_cat = Products.objects.filter(
         product_state='Aktif', 
-        school=get_school(),
+        school=get_school_id(request),
         ProductSubCategoryID=subcat
         ).prefetch_related('productprices_set')
     
@@ -79,7 +79,7 @@ def category_p(request, ProductSubCategoryID):
 
 @login_required
 def product(request, ProductID):
-    product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Tekil')
+    product = Products.objects.get(school=get_school_id(request), ProductID=ProductID, product_type='Tekil')
 
     related_products = Products.objects.filter(ProductSubCategoryID=product.ProductSubCategoryID).exclude(ProductID=ProductID)[:4]
 
@@ -99,7 +99,7 @@ def product(request, ProductID):
 
 @login_required
 def combproduct(request, ProductID):
-    product = Products.objects.get(school=get_school(), ProductID=ProductID, product_type='Kombin')
+    product = Products.objects.get(school=get_school_id(request), ProductID=ProductID, product_type='Kombin')
     combproduct = CombinationProduct.objects.filter(Product=product)
 
     campus_based_price = product.productprices_set.filter(campusPrice=request.user.campus_id)
@@ -235,7 +235,7 @@ def delete_from_cart(request):
 
 @login_required
 def pages(request, page_url):
-    school_pages = SchoolPages.objects.get(school=get_school(), page_url=page_url) 
+    school_pages = SchoolPages.objects.get(school=get_school_id(request), page_url=page_url) 
 
     page_context = {
         'school_pages': school_pages,
@@ -247,7 +247,7 @@ def pages(request, page_url):
 @login_required
 def search(request):
     query = request.GET.get('search')
-    products = Products.objects.filter(school=get_school(), product_web_name__icontains=query)
+    products = Products.objects.filter(school=get_school_id(request), product_web_name__icontains=query)
 
     context = {
         'search_products': products,

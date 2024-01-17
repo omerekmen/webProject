@@ -11,6 +11,15 @@ def get_school():
     school = 1
     return school
 
+def get_school_id(request):
+    subdomain = request.get_host().split('.')[0]
+    subdomain_to_school = {
+        'bahcesehir': 1,
+        'mektebim': 2,
+    }
+    school_id = subdomain_to_school.get(subdomain, 1)
+    return school_id
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -21,22 +30,25 @@ def get_client_ip(request):
 
 
 def default(request, school=get_school()):
-    path = request.path # For sublinks
-    subdomain = request.get_host().split('.')[0] ### FOR SUBDOMAINs
-    site = request.get_host()
-    # Define a mapping of subdomains to school IDs
+    host = request.get_host().split('.')
+    subdomain = request.get_host().split('.')[0]
     subdomain_to_school = {
         'bahcesehir': 1,
         'mektebim': 2,
-        # Add more subdomains and their corresponding school IDs as needed
     }
+    school_id = subdomain_to_school.get(subdomain, 1)
 
-    # Get the school ID based on the subdomain, default to 1 if not found
-    sc = subdomain_to_school.get(subdomain, 1)
+    schools = Schools.objects.get(school_id=school_id)
+    school_main_page_popup = SchoolPopup.objects.filter(school=school_id, popup_page="index").first()
+    school_reg_page_popup = SchoolPopup.objects.filter(school=school_id, popup_page="intro").first()
+    school_prod_page_popup = SchoolPopup.objects.filter(school=school_id, popup_page="product").first()
 
+
+    path = request.path
     parts = path.strip('/').split('/')
     sublink = parts[0]
     scl = subdomain_to_school.get(sublink, 1)
+
 
     cities = City.objects.all()
     levels = StudentLevels.objects.all()
@@ -61,10 +73,10 @@ def default(request, school=get_school()):
 
     active_products = Products.objects.filter(
         product_state='Aktif', 
-        school=school
+        school=schools
         ).prefetch_related('productprices_set')
     
-    active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=school)
+    active_comb_products = Products.objects.filter(product_state='Aktif', product_type='Kombin', school=schools)
 
 
     for product in active_products:
@@ -89,11 +101,6 @@ def default(request, school=get_school()):
     random_products = list(active_products)
     random.shuffle(random_products)
 
-    schools = Schools.objects.get(school_id=school)
-    school_main_page_popup = SchoolPopup.objects.filter(school=school, popup_page="index").first()
-    school_reg_page_popup = SchoolPopup.objects.filter(school=school, popup_page="intro").first()
-    school_prod_page_popup = SchoolPopup.objects.filter(school=school, popup_page="product").first()
-
 
     return {
         'user': user,
@@ -102,7 +109,7 @@ def default(request, school=get_school()):
         'delivery_address': delivery_address, 
         'invoice_address': invoice_address,
 
-        'site': site,
+        # 'site': site,
         'subdomain': subdomain,
 
         'categories': categories,
