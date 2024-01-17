@@ -13,7 +13,31 @@ class SupportTicket(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     category = models.CharField(max_length=100, choices=[('Kıyafet', 'Kıyafet'), ('Kitap', 'Kitap')])
-    subject = models.CharField(max_length=200)
+    subject = models.CharField(max_length=200, choices = [
+    ('Degisim', 'Kıyafet/Değişim'), 
+    ('Iade', 'Kıyafet/İade'), 
+    ('Iptal', 'Kıyafet/İptal'), 
+    ('Fatura', 'Kıyafet/Fatura'), 
+    ('Urun', 'Kıyafet/Ürün'), 
+    ('Siparis', 'Kıyafet/Sipariş'), 
+    ('Web', 'Kıyafet/Web'), 
+    ('Kargo', 'Kıyafet/Kargo'), 
+    ('Teslimat', 'Kıyafet/Teslimat'), 
+    ('Odeme', 'Kıyafet/Ödeme'), 
+    ('HataliUrun', 'Kıyafet/Hatalı Ürün'), 
+    ('EskiUrun', 'Kıyafet/Eski Ürün'),
+    ('Kargolama', 'Kitap/Kargolama'), 
+    ('SipIptal', 'Kitap/Sipariş İptal'), 
+    ('KitapDegisim', 'Kitap/Değişim'), 
+    ('KitapIade', 'Kitap/İade'), 
+    ('KitapIptal', 'Kitap/İptal'), 
+    ('KitapKargo', 'Kitap/Kargo'), 
+    ('KitapTeslimat', 'Kitap/Teslimat'), 
+    ('KitapHataliUrun', 'Kitap/Hatalı Ürün'), 
+    ('KitapEksikUrun', 'Kitap/Eksik Ürün')
+]
+)
+
     status = models.CharField(max_length=20, choices=TICKET_STATUS_CHOICES, default='OPEN')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
