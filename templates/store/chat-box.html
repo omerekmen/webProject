@@ -5,6 +5,9 @@
         right: 0;
         margin: 10px;
     }
+    .send-message-box {
+        display: none;
+    }
 </style>
 <header class="chat-header">
     <div class="chat-header-container">
@@ -115,24 +118,25 @@
                 </div> {% endcomment %}
                 
             </div>
-
+            
             <footer class="send-message-box">
-                <form class="msger-inputarea">
+                <form class="msger-inputarea" enctype="multipart/form-data" id="messageForm">
                     <input type="file" class="custom-file-input" id="validatedCustomFile" onchange="updateFileName(this);">
                     <label class="custom-file-label" for="validatedCustomFile"></label>
-
-                    <input type="text" class="msger-input" placeholder="Mesajınızı giriniz...">
+            
+                    <input type="text" class="msger-input" name="message" placeholder="Mesajınızı giriniz...">
+                    <input type="hidden" name="ticket_id" id="selectedTicketId">
                     <button type="submit" class="msger-send-btn">Gönder</button>
                 </form>
                 <input readonly id="file-name-input" value="">
-            </footer>
+            </footer>     
         </div>
         
     </div>
     
 </div>
 
-<script>
+<script>     
     var CURRENT_USER_ID = {{ request.user.id }};
     function updateFileName(input) {
         var fileName = input.files[0].name;
@@ -142,6 +146,12 @@
     }
 </script>
 <script>
+    function showFooter() {
+        document.querySelector('.send-message-box').style.display = 'block';
+    }
+    document.querySelectorAll('.chat-support-item').forEach(ticket => {
+        ticket.addEventListener('click', showFooter);
+    });
     document.addEventListener('DOMContentLoaded', (event) => {
         updateSubjects(); 
     });
