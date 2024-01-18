@@ -2,8 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.http import require_POST
 from .models import *
 from members.models import Member
+from django.http import JsonResponse 
 
 @login_required
 def create_support_ticket(request):
@@ -74,3 +76,30 @@ def admin_message_response(request, ticket_id):
         'messages': message,
     }
     return render(request, 'admin/support/support_response.html', context)
+
+@login_required
+def post_chat_message(request):
+    if request.method == 'POST':
+        ticket_id = request.POST.get('ticket_id')
+        message_text = request.POST.get('message')
+        uploaded_file = request.FILES.get('file')
+
+        # Fetch the SupportTicket instance
+        try:
+            ticket = SupportTicket.objects.get(ticket_id=ticket_id)
+        except SupportTicket.DoesNotExist:
+            # Handle the case where the ticket does not exist
+            return JsonResponse({'status': 'error', 'message': 'Ticket not found'}, status=404)
+
+        member = Member.objects.get(member_id=request.user.member_id)
+
+        support_message = SupportMessage.objects.create(
+            ticket=ticket,  # Assign the SupportTicket instance here
+            sender=member,
+            message=message_text,
+            file=uploaded_file
+        )
+
+        # Return a success response
+        return JsonResponse({'status': 'success'})
+

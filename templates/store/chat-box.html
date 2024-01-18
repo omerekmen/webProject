@@ -119,13 +119,15 @@
                 
             </div>
             
+            
             <footer class="send-message-box">
-                <form class="msger-inputarea" enctype="multipart/form-data" id="messageForm">
+                <form class="msger-inputarea" enctype="multipart/form-data" id="messageForm" onsubmit="sendMessage(event)" data-post-message-url="{% url 'post_chat_message' %}">
+                    {% csrf_token %}
                     <input type="file" class="custom-file-input" id="validatedCustomFile" onchange="updateFileName(this);">
                     <label class="custom-file-label" for="validatedCustomFile"></label>
             
                     <input type="text" class="msger-input" name="message" placeholder="Mesajınızı giriniz...">
-                    <input type="hidden" name="ticket_id" id="selectedTicketId">
+                    <input type="hidden" name="ticket_id" id="selectedTicketId" value="selectedTicketId">
                     <button type="submit" class="msger-send-btn">Gönder</button>
                 </form>
                 <input readonly id="file-name-input" value="">
@@ -146,6 +148,35 @@
     }
 </script>
 <script>
+    function sendMessage(event) {
+        event.preventDefault(); // Prevent the default form submission
+    
+        var form = document.getElementById('messageForm');
+        var url = form.getAttribute('data-post-message-url');
+        var formData = new FormData(form);
+        
+        // Append CSRF token to formData
+        var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        formData.append('csrfmiddlewaretoken', csrfToken);
+    
+        // Send the data using AJAX
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                loadSupportContent(document.getElementById('selectedTicketId').value);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    }
+    
+    
+
     function showFooter() {
         document.querySelector('.send-message-box').style.display = 'block';
     }
@@ -215,6 +246,7 @@
 
     function loadSupportContent(ticketId) {
         var url = `/account/support-messages/${ticketId}/`; // The URL to your Django view
+        var selectedTicketId = document.getElementById('selectedTicketId') 
 
         
         $.ajax({
@@ -223,7 +255,23 @@
             success: function(response) {
                 var messagesContainer = document.querySelector('.testimonial-box'); // The container where messages will be displayed
                 messagesContainer.innerHTML = ''; // Clear previous messages
+
+                var messagesentContainer = document.querySelector('.send-message-box'); // The container where messages will be sent
+                messagesentContainer.innerHTML = ''; // Clear previous messages
     
+                var messagecontainersenderhtml =`
+                <form class="msger-inputarea" enctype="multipart/form-data" id="messageForm" onsubmit="sendMessage(event)" data-post-message-url="{% url 'post_chat_message' %}">
+                    {% csrf_token %}
+                    <input type="file" class="custom-file-input" id="validatedCustomFile" onchange="updateFileName(this);">
+                    <label class="custom-file-label" for="validatedCustomFile"></label>
+            
+                    <input type="text" class="msger-input" name="message" id="message" placeholder="Mesajınızı giriniz...">
+                    <input type="hidden" name="ticket_id" id="selectedTicketId" value="${ticketId}">
+                    <button type="submit" class="msger-send-btn">Gönder</button>
+                </form>
+                <input readonly id="file-name-input" value="">
+                `
+                messagesentContainer.innerHTML += messagecontainersenderhtml
                 response.messages.forEach(function(message) {
                     var messageHtml;
                     if (message.sender__username == '{{ request.user }}') {
