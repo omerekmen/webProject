@@ -149,17 +149,24 @@
 </script>
 <script>
     function sendMessage(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
     
         var form = document.getElementById('messageForm');
         var url = form.getAttribute('data-post-message-url');
         var formData = new FormData(form);
-        
-        // Append CSRF token to formData
+    
+        // Append the file to formData, if a file is selected
+        var fileInput = document.getElementById('validatedCustomFile');
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+            formData.append('file', file); // Ensure 'file' is the name used in your Django view
+        }
+    
+        // Append CSRF token
         var csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
         formData.append('csrfmiddlewaretoken', csrfToken);
     
-        // Send the data using AJAX
+        // AJAX call
         $.ajax({
             url: url,
             type: 'POST',
@@ -174,6 +181,7 @@
             }
         });
     }
+    
     
     
 
