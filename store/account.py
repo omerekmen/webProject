@@ -176,16 +176,22 @@ def get_student_class(request):
     return JsonResponse(list(classes), safe=False)
 
 
-def pass_change(PasswordChangeView):
-    template_name = "registration/password_change_form.html"
-    return
-
-
 def get_support_messages(request, ticket_id):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        messages = SupportMessage.objects.filter(ticket__ticket_id=ticket_id).values('message', 'sender__username', 'sender__first_name', 'sender__last_name', 'created_at')
-        return JsonResponse({'messages': list(messages)}, safe=True)
+        messages = SupportMessage.objects.filter(ticket__ticket_id=ticket_id)
+        
+        messages_list = []
+        for message in messages:
+            message_dict = {
+                'message': message.message,
+                'sender__username': message.sender.username,
+                'sender__first_name': message.sender.first_name,
+                'sender__last_name': message.sender.last_name,
+                'created_at': message.created_at,
+                'file_url': message.file.url if message.file else None  # Correct way to get file URL
+            }
+            messages_list.append(message_dict)
+
+        return JsonResponse({'messages': messages_list}, safe=True)
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
-def create_support_message(request):
-    return 

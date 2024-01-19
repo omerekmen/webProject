@@ -1,3 +1,5 @@
+{% load static %}
+
 <style>
     .support-form-buttons {
         position: absolute;
@@ -73,50 +75,7 @@
         <!-- DETAIL -->
         <div class="col-md-8 mb-6 testimonial-big-box">
 
-            <div class="testimonial-box">
-
-                {% comment %} <div class="row row-testimonials">
-                    <div class="col-md-2 mb-6"></div>
-                    
-                    <div class="col-md-10 mb-6">
-                        <div class="testimonial testimonial-inversed">
-                            <div class="testimonial-title">
-                                <span>Kullanıcı Mesajı</span>
-                            </div>
-                            <blockquote>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euante
-                                eget nisl convallis tempus Phsellus anctus, tincidunt tincidunt dui.met,
-                                consectetur adipiscing elit. Sed eu ante eget nisldolor sit amet.
-                            </blockquote>
-                            <div class="testimonial-title">
-                                <cite>
-                                    <p>Tarih</p>
-                                </cite>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row row-testimonials">
-                    <div class="col-md-10 mb-6">
-                        <div class="testimonial">
-                            <div class="text-right testimonial-title">
-                                <span>Admin Yanıtı</span>
-                            </div>
-                            <blockquote>
-                                Bu bir admin yanıt örneğidir.
-                            </blockquote>
-                            <div class="testimonial-title">
-                                <cite>
-                                    <span>Tarih</span>
-                                </cite>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-2 mb-6"></div>
-                </div> {% endcomment %}
-                
+            <div class="testimonial-box">                
             </div>
             
             
@@ -282,6 +241,12 @@
                 messagesentContainer.innerHTML += messagecontainersenderhtml
                 response.messages.forEach(function(message) {
                     var messageHtml;
+                    var fileContent = '';
+                    if (message.file_url) {
+                        // Check if the file is an image (based on extension, MIME type, etc.)
+                        fileContent = `<a href="${message.file_url}" target="_blank"><img src="${message.file_url}" alt="Attached Image" style="max-width:100%; max-height:100px;"></a>`;
+                    }
+
                     if (message.sender__username == '{{ request.user }}') {
                         var messageHtml = `
                             <div class="row row-testimonials">
@@ -293,6 +258,7 @@
                                             <span>${message.sender__first_name} ${message.sender__last_name}</span>
                                         </div>
                                         <blockquote>${message.message}</blockquote>
+                                        ${fileContent}
                                         <div class="testimonial-title">
                                             <cite>
                                                 <p>${new Date(message.created_at).toLocaleString()}</p>
@@ -311,6 +277,7 @@
                                             <span>${message.sender__first_name} ${message.sender__last_name}</span>
                                         </div>
                                         <blockquote>${message.message}</blockquote>
+                                        ${fileContent}
                                         <div class="testimonial-title">
                                             <cite>
                                                 <p>${new Date(message.created_at).toLocaleString()}</p>
