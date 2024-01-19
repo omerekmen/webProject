@@ -1,4 +1,5 @@
 {% load static %}
+<script src="{% static 'js/image_file_name_loader.js' %}" defer></script>
 
 <style>
     .support-form-buttons {
@@ -80,16 +81,6 @@
             
             
             <footer class="send-message-box">
-                <form class="msger-inputarea" enctype="multipart/form-data" id="messageForm" onsubmit="sendMessage(event)" data-post-message-url="{% url 'post_chat_message' %}">
-                    {% csrf_token %}
-                    <input type="file" class="custom-file-input" id="validatedCustomFile" onchange="updateFileName(this);">
-                    <label class="custom-file-label" for="validatedCustomFile"></label>
-            
-                    <input type="text" class="msger-input" name="message" placeholder="Mesajınızı giriniz...">
-                    <input type="hidden" name="ticket_id" id="selectedTicketId" value="selectedTicketId">
-                    <button type="submit" class="msger-send-btn">Gönder</button>
-                </form>
-                <input readonly id="file-name-input" value="">
             </footer>     
         </div>
         
@@ -97,15 +88,7 @@
     
 </div>
 
-<script>     
-    var CURRENT_USER_ID = {{ request.user.id }};
-    function updateFileName(input) {
-        var fileName = input.files[0].name;
-        var label = document.querySelector('label[for="' + input.id + '"]');
-        var fni = document.getElementById("file-name-input")
-        fni.value = fileName;
-    }
-</script>
+
 <script>
     function sendMessage(event) {
         event.preventDefault();
@@ -229,14 +212,14 @@
                 var messagecontainersenderhtml =`
                 <form class="msger-inputarea" enctype="multipart/form-data" id="messageForm" onsubmit="sendMessage(event)" data-post-message-url="{% url 'post_chat_message' %}">
                     {% csrf_token %}
-                    <input type="file" class="custom-file-input" id="validatedCustomFile" onchange="updateFileName(this);">
+                    <input type="file" class="custom-file-input" id="validatedCustomFile">
                     <label class="custom-file-label" for="validatedCustomFile"></label>
             
                     <input type="text" class="msger-input" name="message" id="message" placeholder="Mesajınızı giriniz...">
                     <input type="hidden" name="ticket_id" id="selectedTicketId" value="${ticketId}">
                     <button type="submit" class="msger-send-btn">Gönder</button>
                 </form>
-                <input readonly id="file-name-input" value="">
+                <input readonly name="file-name-input" id="file-name-input" value="">
                 `
                 messagesentContainer.innerHTML += messagecontainersenderhtml
                 response.messages.forEach(function(message) {
@@ -250,11 +233,10 @@
                     if (message.sender__username == '{{ request.user }}') {
                         var messageHtml = `
                             <div class="row row-testimonials">
-                                <div class="col-md-2 mb-6"></div>
                                 
-                                <div class="col-md-10 mb-6">
+                                <div class="message-user" style="margin-left:5rem;">
                                     <div class="testimonial testimonial-inversed">
-                                        <div class="testimonial-title">
+                                        <div class="testimonial-title" style="margin-left:2rem;">
                                             <span>${message.sender__first_name} ${message.sender__last_name}</span>
                                         </div>
                                         <blockquote>${message.message}</blockquote>
@@ -271,7 +253,7 @@
                     } else {
                         var messageHtml = `
                             <div class="row row-testimonials">
-                                <div class="col-md-10 mb-6">
+                                <div class="message-user" style="margin-right:5rem;">
                                     <div class="testimonial">
                                         <div class="text-right testimonial-title">
                                             <span>${message.sender__first_name} ${message.sender__last_name}</span>
@@ -285,8 +267,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="col-md-2 mb-6"></div>
                             </div>`;
                         messagesContainer.innerHTML += messageHtml;
                     }

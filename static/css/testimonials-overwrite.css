@@ -8,7 +8,12 @@ Testimonial
     background-color: #ffffff;
     border: 1 inherit #000;
     border-radius: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+@media screen and (max-width: 768px) {
+    .chat-container {
+        height: 100%;
+    }
+    
 }
 .chat-header {
     display:block;
@@ -54,7 +59,7 @@ Testimonial
     box-sizing: border-box;
     overflow-y: auto;
     scroll-behavior: smooth;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .testimonial-big-box-header {
     position: sticky;
@@ -217,6 +222,7 @@ Testimonial
 }
 
 .testimonial-inversed blockquote {
+    margin-left: 2rem;
     color:#fff;
     background-color: #8ebf16;
 }
