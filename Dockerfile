@@ -6,7 +6,7 @@ COPY ./requirements.txt /requirements.txt
 
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
-    /py/bin/pip install Django django-jazzmin django-ckeditor django-import-export django-nested-admin django-widget-tweaks iyzipay pillow
+    /py/bin/pip install -r /requirements.txt
 
 ENV PATH="/py/bin:$PATH"
 
