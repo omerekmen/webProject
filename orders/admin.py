@@ -30,7 +30,7 @@ class OrderShippingInline(admin.TabularInline):
 @admin.register(Orders)
 class OrdersAdmin(admin.ModelAdmin):
     # change_list_template = 'admin/order_change_list.html' 
-    list_display = ('OrderID', 'get_payment_provider', 'get_payment_id', 'Member', 'memberName', 'memberCampus', 'total_discounted_sale_price', 'OrderStatus', 'OrderDate','OrderWarehouseStatus')  # Customize the fields you want to display
+    list_display = ('OrderID', 'get_payment_provider', 'get_payment_id', 'Member', 'memberName', 'memberCampus', 'MemberClass', 'total_discounted_sale_price', 'OrderStatus', 'OrderDate','OrderWarehouseStatus')  # Customize the fields you want to display
     list_editable = ('OrderStatus',)
     inlines = [OrderProductsInline, OrderAdressInline, OrderPaymentInline, OrderShippingInline]
     list_per_page = 25
@@ -39,13 +39,15 @@ class OrdersAdmin(admin.ModelAdmin):
     search_fields = [
         'Member', 
         'OrderStatus', 
-        'OrderDate', 
+        'OrderDate',
+        'MemberClass',
     ]
 
     list_filter = [
         'OrderStatus',
         'OrderDate',
         'OrderWarehouseStatus',
+        'MemberClass',
     ]
     readonly_fields = ('total_old_price', 'total_sale_price', 'total_discounted_sale_price', 'OrderDate', 'LastUpdatedAt', )
 

@@ -8,6 +8,7 @@ import random
 class Orders(models.Model):
     OrderID = models.SlugField(primary_key=True, editable=False, unique=True, max_length=10, verbose_name='Sipariş No')
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
+    MemberClass = models.ForeignKey("schools.Class", verbose_name=_("Üye Sınıfı"), on_delete=models.CASCADE, null=True, blank=True)
     OrderType = models.CharField(_('Sipariş Türü'), max_length=100, choices=[('Normal Sipariş', 'Normal Sipariş'), ('Bayi Siparişi', 'Bayi Siparişi')], default="Normal Sipariş")
     OrderStatus = models.CharField(_('Sipariş Durumu'), max_length=100, choices=[('Sipariş Alındı', 'Sipariş Alındı'), ('Teslim Edildi', 'Teslim Edildi'), ('İptal Edildi', 'İptal Edildi'), ('İade Edildi', 'İade Edildi'), ('Değişim', 'Değişim')], default="Sipariş Alındı")
     OrderWarehouseStatus = models.BooleanField(_("Depo Durumu"), default=False)
@@ -29,15 +30,19 @@ class Orders(models.Model):
     def total_discounted_sale_price(self):
         total = sum(item.discounted_sale_price for item in self.user_order_items.all()) + self.OrderCargoFee - self.SpecialDiscount - self.CouponDiscount
         return total
-    
+
     total_old_price.short_description = 'Toplam Eski Ürün Fiyatı'
     total_sale_price.short_description = 'TOPLAM ÜRÜN SATIŞ FİYATI'
     total_discounted_sale_price.short_description = 'TOPLAM TUTAR (Özel İndirimli)'
+    
 
     def save(self, *args, **kwargs):
         if not self.OrderID:
-            # Generate a unique Order ID
             self.OrderID = self.generate_unique_order_id()
+
+        if self.Member:
+            self.MemberClass = self.Member.class_id
+
         super(Orders, self).save(*args, **kwargs)
 
     @staticmethod
@@ -59,6 +64,7 @@ class Orders(models.Model):
         if self.Member:
             return f"{self.Member.campus_id.campus_name}"
         return None
+    
     
     memberName.short_description = 'Öğrenci Bilgileri'
     memberCampus.short_description = 'Öğrenci Şube'

@@ -12,6 +12,8 @@
 {% endblock extra_head%}
 
 
+<!-- ORDER DETAILS FOR CLIENT-->
+
 {% block content %}
 
 <main class="main order">
@@ -68,7 +70,54 @@
                     <strong>{{ order.order_payment.first.PaymentProvider }}</strong>
                 </div>
             </div>
-
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-3 mb-4">
+                        <div class="alert-message mr-auto ml-auto">
+                            <button type="submit" name="cancel-order" id="cancel-order" class="btn btn-default btn-block btn-sm">
+                                <div class="icon-box d-inline-flex align-items-center">
+                                    <div class="icon-box-content text-left">
+                                        <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İptal Et</h5>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-4">
+                        <div class="alert-message mr-auto ml-auto">
+                            <button type="submit" name="return-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                                <div class="icon-box d-inline-flex align-items-center">
+                                    <div class="icon-box-content text-left">
+                                        <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İade Et</h5>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-4">
+                        <div class="alert-message mr-auto ml-auto">
+                            <button type="submit" name="change-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                                <div class="icon-box d-inline-flex align-items-center">
+                                    <div class="icon-box-content text-left">
+                                        <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Değişim Yap</h5>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-4">
+                        <div class="alert-message mr-auto ml-auto">
+                            <button type="submit" name="see-invoice" id="cancel-order" class="btn btn-block btn-action btn-sm">
+                                <div class="icon-box d-inline-flex align-items-center">
+                                    <div class="icon-box-content text-left">
+                                        <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Faturayı Görüntüle</h5>
+                                    </div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row">
 
@@ -112,19 +161,10 @@
                     <div class="order-message mr-auto ml-auto">
                         <div class="icon-box d-inline-flex align-items-center">
                             <div class="icon-box-content text-left">
-                                <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Sipariş İşlemleri</h5>
-                                <button type="submit" name="cancel-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
-                                    İptal Et
-                                </button>
-                                <button type="submit" name="return-order" id="return-order" class="btn btn-block btn-dark btn-sm">
-                                    İade Et
-                                </button>
-                                <button type="submit" name="change-order" id="change-order" class="btn btn-block btn-primary btn-sm">
-                                    Değişim Yap
-                                </button>
-                                <button type="submit" name="see-invoice" id="see-invoice" class="btn btn-block btn-primary btn-sm">
-                                    Faturayı Gör
-                                </button>
+                                <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Kargo Durumu</h5>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores, provident non praesentium possimus obcaecati impedit eius ducimus saepe nostrum error? Enim saepe perferendis assumenda animi nostrum at quidem molestias excepturi!
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -193,52 +233,6 @@
 
             <br>
 
-            <div class="row">
-                <div class="col-sm-3 mb-4">
-                    <div class="alert-message mr-auto ml-auto">
-                        <button type="submit" name="cancel-order" id="cancel-order" class="btn btn-default btn-block btn-sm">
-                            <div class="icon-box d-inline-flex align-items-center">
-                                <div class="icon-box-content text-left">
-                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İptal Et</h5>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-sm-3 mb-4">
-                    <div class="alert-message mr-auto ml-auto">
-                        <button type="submit" name="return-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
-                            <div class="icon-box d-inline-flex align-items-center">
-                                <div class="icon-box-content text-left">
-                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İade Et</h5>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-sm-3 mb-4">
-                    <div class="alert-message mr-auto ml-auto">
-                        <button type="submit" name="change-order" id="cancel-order" class="btn btn-block btn-action btn-sm">
-                            <div class="icon-box d-inline-flex align-items-center">
-                                <div class="icon-box-content text-left">
-                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Değişim Yap</h5>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-sm-3 mb-4">
-                    <div class="alert-message mr-auto ml-auto">
-                        <button type="submit" name="see-invoice" id="cancel-order" class="btn btn-block btn-action btn-sm">
-                            <div class="icon-box d-inline-flex align-items-center">
-                                <div class="icon-box-content text-left">
-                                    <h5 class="icon-box-title font-weight-bold lh-1 mb-1">Faturayı Görüntüle</h5>
-                                </div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
             <a href="{% url 'account' %}#orders" class="btn btn-icon-left btn-dark btn-back btn-rounded btn-md mb-4"><i
                 class="d-icon-arrow-left"></i> Siparişlerime Dön</a>
