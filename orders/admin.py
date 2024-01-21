@@ -30,10 +30,11 @@ class OrderShippingInline(admin.TabularInline):
 @admin.register(Orders)
 class OrdersAdmin(admin.ModelAdmin):
     # change_list_template = 'admin/order_change_list.html' 
-    list_display = ('OrderID', 'get_payment_provider', 'get_payment_id', 'Member', 'memberName', 'memberCampus', 'total_discounted_sale_price', 'OrderStatus', 'OrderDate')  # Customize the fields you want to display
+    list_display = ('OrderID', 'get_payment_provider', 'get_payment_id', 'Member', 'memberName', 'memberCampus', 'total_discounted_sale_price', 'OrderStatus', 'OrderDate','OrderWarehouseStatus')  # Customize the fields you want to display
     list_editable = ('OrderStatus',)
     inlines = [OrderProductsInline, OrderAdressInline, OrderPaymentInline, OrderShippingInline]
     list_per_page = 25
+    change_list_template = 'admin/order_change_list.html'
 
     search_fields = [
         'Member', 
@@ -44,6 +45,7 @@ class OrdersAdmin(admin.ModelAdmin):
     list_filter = [
         'OrderStatus',
         'OrderDate',
+        'OrderWarehouseStatus',
     ]
     readonly_fields = ('total_old_price', 'total_sale_price', 'total_discounted_sale_price', 'OrderDate', 'LastUpdatedAt', )
 
@@ -57,6 +59,17 @@ class OrdersAdmin(admin.ModelAdmin):
         payment = obj.order_payment.first()
         return payment.PaymentId if payment else 'Not Available'
     get_payment_id.short_description = 'Ödeme ID'
+
+    def make_inactive(self, request, queryset):
+        queryset.update(OrderWarehouseStatus=False)
+
+    def make_active(self, request, queryset):
+        queryset.update(OrderWarehouseStatus=True)
+
+    make_inactive.short_description = "Depo Sürecini İptal Et"
+    make_active.short_description = "Siparişi Depoya Aktar"
+
+    actions = [make_active, make_inactive]
 
 
 @admin.register(ReturnRequests)

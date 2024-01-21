@@ -10,7 +10,7 @@ class Orders(models.Model):
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
     OrderType = models.CharField(_('Sipariş Türü'), max_length=100, choices=[('Normal Sipariş', 'Normal Sipariş'), ('Bayi Siparişi', 'Bayi Siparişi')], default="Normal Sipariş")
     OrderStatus = models.CharField(_('Sipariş Durumu'), max_length=100, choices=[('Sipariş Alındı', 'Sipariş Alındı'), ('Teslim Edildi', 'Teslim Edildi'), ('İptal Edildi', 'İptal Edildi'), ('İade Edildi', 'İade Edildi'), ('Değişim', 'Değişim')], default="Sipariş Alındı")
-
+    OrderWarehouseStatus = models.BooleanField(_("Depo Durumu"), default=False)
     OrderCargoFee = models.DecimalField(_('Kargo Ücreti'), max_digits=10, decimal_places=2, null=True, blank=True)
 
     SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
