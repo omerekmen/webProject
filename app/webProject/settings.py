@@ -69,7 +69,7 @@ INSTALLED_APPS = [
     "django.contrib.flatpages",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
-    "django.contrib.postgres",
+    # "django.contrib.postgres",
     "django.contrib.redirects",
 
     "ckeditor",
