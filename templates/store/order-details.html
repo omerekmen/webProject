@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-sm-3 mb-4">
                         <div class="alert-message mr-auto ml-auto">
-                            <button type="submit" name="cancel-order" class="btn btn-default btn-block btn-sm open-popup-button" id="open-popup-button"
+                            <button {% if order.OrderStatus == 'İptal Edildi' %} disabled {% endif %} type="submit" name="cancel-order" class="btn btn-default btn-block btn-sm open-popup-button" id="open-popup-button"
                                                                     {% if order.OrderWarehouseStatus %}
                                                                     data-popup-id="test-popup"
                                                                     data-popup-title="Siparişiniz İptal Edilemez"
@@ -87,6 +87,7 @@
                                                                     data-popup-button-name="Onaylıyorum"
                                                                     data-popup-button-class="btn-alert"
                                                                     data-popup-warehouse-status="False"
+                                                                    data-popup-csrf-token = "{{ csrf_token }}"
                                                                     data-popup-action-url= "{% url 'cancel_order' order_id=order.OrderID %}"
                                                                     {% endif %}
                                                                     >
@@ -302,4 +303,11 @@
 
 {% block extra_scripts %}
 <script src="{% static "js/custom_popup.js" %}"></script>
+<script>
+    window.onload = function() {
+        {% for message in messages %}
+            alert("{{ message }}");
+        {% endfor %}
+    };
+</script>
 {% endblock extra_scripts %}

@@ -62,7 +62,7 @@ $(document).ready(function () {
                         
                         <div class="col-lg-6">
                             <form action="${formactionurl}" method="post" class="input-wrapper input-wrapper-inline input-wrapper-round">
-                                ${csrftoken}
+                                <input type="hidden" name="csrfmiddlewaretoken" value="${csrftoken}">
                                 <button class="btn ${buttonClass}" type="submit">${buttonName}</button>
                             </form>
                         </div>

@@ -511,10 +511,12 @@ def cancel_order(request, order_id):
         order = get_object_or_404(Orders, OrderID=order_id)
 
         if order.OrderWarehouseStatus:
-            return JsonResponse({'success': False, 'message': 'Order cannot be cancelled as it is already being processed.'})
+            messages.warning(request, 'Sipariş İptal Edilirken Bir Sorun Oluştu.')
+            return redirect('order_details', OrderID=order_id)
         else:
             order.OrderStatus = 'İptal Edildi'
             order.save()
-            return JsonResponse({'success': True, 'message': 'Order successfully cancelled.'})
+            messages.success(request, 'Sipariş İptal Edildi.')
+            return redirect('order_details', OrderID=order_id)
 
-    return redirect('order_details')
+    return redirect('order_details', OrderID=order_id)
