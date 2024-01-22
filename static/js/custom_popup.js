@@ -9,6 +9,8 @@ $(document).ready(function () {
         var buttonName = $(this).data('popup-button-name');
         var buttonClass = $(this).data('popup-button-class');
         var checkstatuspopup = $(this).data('popup-warehouse-status');
+        var formactionurl = $(this).data('popup-action-url');
+        var csrftoken = $(this).data('popup-csrf-token');
 
 
         var popup_status_true = `
@@ -59,7 +61,8 @@ $(document).ready(function () {
                         </div>
                         
                         <div class="col-lg-6">
-                            <form action="#" method="post" class="input-wrapper input-wrapper-inline input-wrapper-round">
+                            <form action="${formactionurl}" method="post" class="input-wrapper input-wrapper-inline input-wrapper-round">
+                                ${csrftoken}
                                 <button class="btn ${buttonClass}" type="submit">${buttonName}</button>
                             </form>
                         </div>

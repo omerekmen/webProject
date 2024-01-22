@@ -41,10 +41,12 @@ urlpatterns = [
     path('order-details/<OrderID>', order_details, name='order_details' ),
     path('get-order-details/', get_order_details, name='get_order_details' ),
     path('order-error/', order_error, name='order_error' ),
+    path('cancel-order/<int:order_id>/', cancel_order, name='cancel_order'),
 
     path('sayfalar/<page_url>/', pages, name='pages' ),
     path('search/', search, name='search'),
 
     path('get-districts/', get_districts, name='get_districts'),
     path('get-student-class/', get_student_class, name='get_student_class'),
+    
     ]

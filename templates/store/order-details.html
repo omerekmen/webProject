@@ -86,7 +86,8 @@
                                                                     data-popup-content="Siparişinizi iptal etmek istediğinize emin misiniz? Bu işlem geri alınamaz."
                                                                     data-popup-button-name="Onaylıyorum"
                                                                     data-popup-button-class="btn-alert"
-                                                                    data-popup-warehouse-status='False'
+                                                                    data-popup-warehouse-status="False"
+                                                                    data-popup-action-url= "{% url 'cancel_order' order_id=order.OrderID %}"
                                                                     {% endif %}
                                                                     >
                                 <div class="icon-box d-inline-flex align-items-center">

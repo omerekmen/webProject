@@ -505,3 +505,16 @@ def order_details(request, OrderID):
 def order_error(request):
     return render(request, 'store/order-error.html')
 
+@login_required
+def cancel_order(request, order_id):
+    if request.method == 'POST':
+        order = get_object_or_404(Orders, OrderID=order_id)
+
+        if order.OrderWarehouseStatus:
+            return JsonResponse({'success': False, 'message': 'Order cannot be cancelled as it is already being processed.'})
+        else:
+            order.OrderStatus = 'İptal Edildi'
+            order.save()
+            return JsonResponse({'success': True, 'message': 'Order successfully cancelled.'})
+
+    return redirect('order_details')
