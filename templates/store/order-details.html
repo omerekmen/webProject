@@ -75,11 +75,20 @@
                     <div class="col-sm-3 mb-4">
                         <div class="alert-message mr-auto ml-auto">
                             <button type="submit" name="cancel-order" class="btn btn-default btn-block btn-sm open-popup-button" id="open-popup-button"
+                                                                    {% if order.OrderWarehouseStatus %}
+                                                                    data-popup-id="test-popup"
+                                                                    data-popup-title="Siparişiniz İptal Edilemez"
+                                                                    data-popup-content="Siparişiniz depo aktarım sürecine girmesi nedeniyle iptal edilememektedir. "
+                                                                    data-popup-warehouse-status='True'
+                                                                    {% else %}
                                                                     data-popup-id="test-popup"
                                                                     data-popup-title="Siparişiniz İptal Edilecek"
                                                                     data-popup-content="Siparişinizi iptal etmek istediğinize emin misiniz? Bu işlem geri alınamaz."
                                                                     data-popup-button-name="Onaylıyorum"
-                                                                    data-popup-button-class="btn-alert">
+                                                                    data-popup-button-class="btn-alert"
+                                                                    data-popup-warehouse-status='False'
+                                                                    {% endif %}
+                                                                    >
                                 <div class="icon-box d-inline-flex align-items-center">
                                     <div class="icon-box-content text-left">
                                         <h5 class="icon-box-title font-weight-bold lh-1 mb-1">İptal Et</h5>

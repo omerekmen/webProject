@@ -504,3 +504,4 @@ def order_details(request, OrderID):
 @login_required
 def order_error(request):
     return render(request, 'store/order-error.html')
+

@@ -8,8 +8,36 @@ $(document).ready(function () {
         var content = $(this).data('popup-content');
         var buttonName = $(this).data('popup-button-name');
         var buttonClass = $(this).data('popup-button-class');
+        var checkstatuspopup = $(this).data('popup-warehouse-status');
 
-        var popup = `
+
+        var popup_status_true = `
+        <div class="newsletter-popup newsletter-pop3" id="${id}">
+            <div class="newsletter-content">
+                <!-- Popup Title -->
+                <h4 class="text-uppercase text-dark"><span class="text-dark">${title}</span></h4>
+
+                <hr class="product-divider">
+                
+                <!-- Popup Content -->
+                <p class="text-grey">
+                    ${content}
+                </p>
+                <div class="col-sm-12">
+                    
+                    <div class="row" style="margin-bottom:-4rem;">
+                        <div class="col-lg-12">
+                            <form class="input-wrapper input-wrapper-inline input-wrapper-round">
+                                <button class="btn btn-dark btn-close-opup" type="submit">Kapat</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+
+        var popup_status_false = `
         <div class="newsletter-popup newsletter-pop3" id="${id}">
             <div class="newsletter-content">
                 <!-- Popup Title -->
@@ -40,6 +68,12 @@ $(document).ready(function () {
             </div>
         </div>
         `;
+
+        if(checkstatuspopup=='True'){
+            var popup = popup_status_true
+        }else{
+            var popup = popup_status_false
+        }
 
         // Open the newsletter popup
 
