@@ -24,7 +24,7 @@ class Cargos(models.Model):
     MOKNumber = models.CharField(_("MÖK Numarası"), max_length=50, null=True, blank=True)
     CargoTakenDate = models.DateField(_("Kargoya Verilme Tarihi"), auto_now=False, auto_now_add=False)
     EstimatedDeliveryDate = models.DateField(_('Tahmini Teslim Tarihi'), null=True, blank=True)
-    CargoArrivalDate = models.DateField(_("Kargo Teslim Tarihi"), auto_now=False, auto_now_add=False)
+    CargoArrivalDate = models.DateField(_("Kargo Teslim Tarihi"), auto_now=False, auto_now_add=False, null=True, blank=True)
     DeliveryStatus = models.CharField(_('Teslimat Durumu'), max_length=100, choices=[('Teslim Edildi', 'Teslim Edildi'), ('Dağıtıma Çıktı', 'Dağıtıma Çıktı'), ('Teslim Edilemedi', 'Teslim Edilemedi'), ('Kargo Aktarım Sürecinde','Kargo Aktarım Sürecinde')], default="Kargo Aktarım Sürecinde")
 
     class Meta:

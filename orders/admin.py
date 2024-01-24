@@ -1,3 +1,4 @@
+from cargo.models import Cargos
 from django.contrib import admin
 from .models import *
 from .returnModels import *
@@ -14,17 +15,20 @@ class OrderAdressInline(admin.TabularInline):
     verbose_name_plural = 'Sipariş Adres'
     extra = 1 
 
-class OrderPaymentInline(admin.TabularInline):
+class OrderPaymentInline(admin.StackedInline):
     model = OrderPayment
     verbose_name = 'Ödeme Detayları'
     verbose_name_plural = 'Ödeme Detayları'
     extra = 0
+    can_delete = False
 
-class OrderShippingInline(admin.TabularInline):
-    model = OrderShipping
-    verbose_name = 'Kargo Detayları'
-    verbose_name_plural = 'Kargo Detayları'
+class OrderShippingInline(admin.StackedInline):
+    model = Cargos
     extra = 0
+    verbose_name = 'Kargo'
+    verbose_name_plural = 'Kargo Detayları'
+    readonly_fields = ['CargoProvider', 'DeliveryStatus' , 'TrackingNumber', 'MOKNumber', 'CargoTakenDate', 'EstimatedDeliveryDate', 'CargoArrivalDate']
+    can_delete = False
 
 
 @admin.register(Orders)

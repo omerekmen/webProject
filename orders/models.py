@@ -176,6 +176,7 @@ class OrderPayment(models.Model):
 
 class OrderShipping(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    
 
 
 class TempOrderDetails(models.Model):
