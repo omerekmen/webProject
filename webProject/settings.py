@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "discounts",
     "support",
     "warehouse",
+    "cargo",
 ]
 
 MIDDLEWARE = [
