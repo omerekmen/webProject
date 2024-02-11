@@ -1,10 +1,10 @@
-from django.db import models
-from schools.models import Schools, SchoolCampus
-from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.utils.translation import gettext_lazy as _
+from ckeditor.fields import RichTextField
 from datetime import datetime, timedelta
 from django.utils.html import mark_safe
-from django.utils.translation import gettext_lazy as _
+from django.db import models
+from school.models import *
 
 
 ##########################################################################################
@@ -13,8 +13,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class ProductCategory(models.Model):
-    ProductCategoryID = models.AutoField(primary_key=True)
-    CategoryName = models.CharField(_('Kategori Adı'), max_length=255)  # You can adjust the max length as needed
+    CategoryName = models.CharField(_('Kategori Adı'), max_length=255)
 
     def get_subcategories(self):
         subcategories = ProductSubCategory.objects.filter(ProductCategory=self.ProductCategoryID)
@@ -30,9 +29,8 @@ class ProductCategory(models.Model):
         return f"{self.CategoryName}"
 
 class ProductSubCategory(models.Model):
-    ProductSubCategoryID = models.AutoField(primary_key=True)
-    ProductCategory = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    SubCategoryName = models.CharField(max_length=255)  # You can adjust the max length as needed
+    ProductCategory = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, related_name='product_category', verbose_name='Ürün Kategorisi')
+    SubCategoryName = models.CharField(max_length=255, verbose_name='Alt Kategori Adı')
 
     def get_category_name(self):
        category_name = self.ProductCategory.CategoryName
@@ -53,8 +51,7 @@ class ProductSubCategory(models.Model):
 ##########################################################################################
 
 class ProductCategorySizes(models.Model):
-    CategorySizeID = models.AutoField(primary_key=True)
-    ProductSize = models.CharField(max_length=100)
+    ProductSize = models.CharField(max_length=100, verbose_name='Beden')
 
     class Meta:
         ordering = ['CategorySizeID']
@@ -77,7 +74,6 @@ def upload_location(instance, filename):
 class Products(models.Model):
     PRODUCT_TYPE_CHOICES = [('Set', 'Set'), ('Kombin', 'Kombin'), ('Tekil', 'Tekil'),]
 
-    ProductID = models.AutoField(_('Ürün ID'), primary_key=True)
     ProductSubCategoryID = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, related_name='product_subcategory')
     product_type = models.CharField(_('Ürün Türü'), 
         max_length=100,
@@ -89,22 +85,18 @@ class Products(models.Model):
     product_web_name = models.CharField(_('Ürün Web Adı'), max_length=255)
     product_production_date = models.DateField(_('Üretim Tarihi'), )
     model_code = models.CharField(_('Model Kodu'), max_length=100)
-    product_color = models.CharField(_('Ürün Rengi'), max_length=100) # CharField but we can create table of choices
+    product_color = models.CharField(_('Ürün Rengi'), max_length=100)
     book_type = models.CharField(max_length=100, null=True, blank=True)    
-    product_state = models.CharField(_('Ürün Durumu'), 
-        max_length=100,
-        choices=[('Aktif', 'Aktif'), ('Pasif', 'Pasif'),],
-        default='Aktif' 
-    )
-    product_genre = models.CharField(_('Cinsiyet'), max_length=100,
-                                    choices=[('Kız', 'Kız'), 
-                                             ('Erkek', 'Erkek'),
-                                             ('Unisex', 'Unisex'),])
+    PRODUCT_STATE_CHOICES = [('Aktif', 'Aktif'), ('Pasif', 'Pasif'),]
+    product_state = models.CharField(_('Ürün Durumu'), max_length=100, choices=PRODUCT_STATE_CHOICES, default='Aktif')
+    PRODUCT_GENRE_CHOICES = [('Kız', 'Kız'), ('Erkek', 'Erkek'), ('Unisex', 'Unisex'),]
+    product_genre = models.CharField(_('Cinsiyet'), max_length=100, choices=PRODUCT_GENRE_CHOICES)
     product_class = models.CharField(max_length=100, null=True, blank=True)
     product_level = models.CharField(max_length=100, null=True, blank=True)
     product_measure_unit = models.CharField(max_length=100)
-    product_created_at = models.DateTimeField(_('Oluşturulma Tarihi'), auto_now_add=True)
-    product_last_update = models.DateTimeField(_('Güncelleme Tarihi'), auto_now=True)
+
+    created_at = models.DateTimeField(_('Oluşturulma Tarihi'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('Güncelleme Tarihi'), auto_now=True)
     
     YEAR_CHOICES = [(r, r) for r in range(2000, datetime.today().year + 2)]
     season = models.IntegerField("Sezon", choices=YEAR_CHOICES, default=datetime.today().year)
@@ -155,9 +147,12 @@ class Products(models.Model):
 
 
 class CombinationProduct(models.Model):
-    Product = models.ForeignKey('Products', on_delete=models.CASCADE)
+    Product = models.ForeignKey('Products', on_delete=models.CASCADE, related_name='comb_product', verbose_name='Ürün Adı')
     CProductCategory = models.CharField(max_length=100)
     CombinProducts = models.ManyToManyField('Products', related_name='combin_products', verbose_name='Ürün Seçimi', blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.Product} | {self.CProductCategory}'
@@ -168,9 +163,12 @@ class CombinationProduct(models.Model):
     
 
 class SetProduct(models.Model):
-    SetID = models.AutoField(primary_key=True)
-    SProductInfo = models.JSONField()
-    SProductQuantity = models.IntegerField()
+    Product = models.ForeignKey('Products', on_delete=models.CASCADE, related_name='set_product', verbose_name='Ürün Adı')
+    SetProducts = models.ManyToManyField('Products', related_name='set_products', verbose_name='Ürün Seçimi', blank=True)
+    SetProductQuantity = models.IntegerField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = 'Set Ürünler'
@@ -185,20 +183,16 @@ class SetProduct(models.Model):
 class ProductPrices(models.Model):
     products = models.ForeignKey('Products', on_delete=models.CASCADE)
 
-    campusPrice = models.ForeignKey(SchoolCampus, on_delete=models.CASCADE, null=True, blank=True)
-    SalePrice = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
-    StrikedPrice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    campusPrice = models.ForeignKey(SchoolCampus, on_delete=models.CASCADE, null=True, blank=True, related_name='campus_price', verbose_name='Kampüs')
+    SalePrice = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False, verbose_name='Satış Fiyatı')
+    StrikedPrice = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Eski Fiyatı')
 
-    DiscountRatio = models.IntegerField(null=True, blank=True)
-    DiscountPrice = models.IntegerField(null=True, blank=True)
-    DiscountType = models.IntegerField(null=True, blank=True)
+    DiscountRatio = models.IntegerField(null=True, blank=True, verbose_name='İndirim Oranı')
+    DiscountPrice = models.IntegerField(null=True, blank=True, verbose_name='İndirim Tutarı')
+    DiscountType = models.IntegerField(null=True, blank=True, verbose_name='İndirim Tipi')
     
-    TaxPrice = models.CharField(max_length=100,
-                                choices=[
-                                    (0, '0%'),
-                                    (10, '10%'),
-                                    (20, '20%'),],
-                                    null=True, blank=True)
+    TAX_PRICE_CHOICES = [(0, '0%'), (10, '10%'), (20, '20%'),]
+    TaxPrice = models.CharField(max_length=100, choices=TAX_PRICE_CHOICES, null=True, blank=True, verbose_name='KDV Oranı')
     CombinePriceInfo = models.JSONField(null=True, blank=True)
 
     class Meta:
@@ -223,16 +217,16 @@ class ProductPrices(models.Model):
 
 
 class ProductImages(models.Model):
-    products = models.ForeignKey('Products', on_delete=models.CASCADE)
-    product_image = models.FileField(upload_to=upload_location, null=True, blank=True)
+    products = models.ForeignKey('Products', on_delete=models.CASCADE, related_name='product_images')
+    product_image = models.FileField(upload_to=upload_location, null=True, blank=True, verbose_name='Ürün Resmi')
 
     class Meta:
         verbose_name = 'Ürün Görselleri'
         verbose_name_plural = 'Ürün Görselleri'
 
 class SizeBasedStocks(models.Model):
-    products = models.ForeignKey('Products', on_delete=models.CASCADE)
-    size = models.ForeignKey('ProductCategorySizes', on_delete=models.CASCADE)
+    products = models.ForeignKey('Products', on_delete=models.CASCADE, related_name='size_based_stocks')
+    size = models.ForeignKey('ProductCategorySizes', on_delete=models.CASCADE, related_name='product_size')
     SKU_code = models.CharField(max_length=100)
     barcode = models.CharField(max_length=100)
     real_stock = models.PositiveIntegerField(default=0)
@@ -252,7 +246,7 @@ class SizeBasedStocks(models.Model):
 
 
 class ProductDetails(models.Model):
-    products = models.ForeignKey('Products', on_delete=models.CASCADE)
+    products = models.ForeignKey('Products', on_delete=models.CASCADE, related_name='product_details')
     product_short_desc = RichTextField(null=True, blank=True)
     product_detail = RichTextField(_('Ürün Bilgileri'), null=True, blank=True)
     product_info = RichTextField(null=True, blank=True)

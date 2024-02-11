@@ -9,12 +9,16 @@ class Orders(models.Model):
     OrderID = models.SlugField(primary_key=True, editable=False, unique=True, max_length=10, verbose_name='Sipariş No')
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
     MemberClass = models.ForeignKey("schools.Class", verbose_name=_("Üye Sınıfı"), on_delete=models.CASCADE, null=True, blank=True)
-    OrderType = models.CharField(_('Sipariş Türü'), max_length=100, choices=[('Normal Sipariş', 'Normal Sipariş'), ('Bayi Siparişi', 'Bayi Siparişi')], default="Normal Sipariş")
-    OrderStatus = models.CharField(_('Sipariş Durumu'), max_length=100, choices=[('Sipariş Alındı', 'Sipariş Alındı'), ('Teslim Edildi', 'Teslim Edildi'), ('İptal Edildi', 'İptal Edildi'), ('İade Edildi', 'İade Edildi'), ('Değişim', 'Değişim')], default="Sipariş Alındı")
+
+    ORDER_TYPE_CHOICES = [('Normal Sipariş', 'Normal Sipariş'), ('Bayi Siparişi', 'Bayi Siparişi')]
+    OrderType = models.CharField(_('Sipariş Türü'), max_length=100, choices=ORDER_TYPE_CHOICES, default="Normal Sipariş")
+    ORDER_STATUS_CHOICES = [('Sipariş Alındı', 'Sipariş Alındı'), ('Teslim Edildi', 'Teslim Edildi'), ('İptal Edildi', 'İptal Edildi'), ('İade Edildi', 'İade Edildi'), ('Değişim', 'Değişim')]
+    OrderStatus = models.CharField(_('Sipariş Durumu'), max_length=100, choices=ORDER_STATUS_CHOICES, default="Sipariş Alındı")
     OrderWarehouseStatus = models.BooleanField(_("Depo Durumu"), default=False)
     OrderCargoFee = models.DecimalField(_('Kargo Ücreti'), max_digits=10, decimal_places=2, null=True, blank=True)
 
-    SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=[('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')], default="Özel İndirim Yok")
+    SPECIAL_DISCOUNT_STATUS_CHOICES = [('Özel İndirim Yok', 'Özel İndirim Yok'), ('Öğrenci İndirimi', 'Öğrenci İndirimi'), ('Kampüs İndirimi', 'Kampüs İndirimi'), ('Kampanya İndirimi', 'Kampanya İndirimi')]
+    SpecialDiscountStatus = models.CharField(_('Özel İndirim'), max_length=100, choices=SPECIAL_DISCOUNT_STATUS_CHOICES, default="Özel İndirim Yok")
     SpecialDiscount = models.DecimalField(_('Özel İndirim Tutarı'), max_digits=10, decimal_places=2, null=True, blank=True)
     CouponCode = models.CharField(_('Uygulanan Kupon Kodu'), max_length=100, null=True, blank=True)
     CouponDiscount = models.DecimalField(_('Kupon İndirimi'), max_digits=10, decimal_places=2, null=True, blank=True)
@@ -109,7 +113,7 @@ class OrderProducts(models.Model):
     
 
 class OrderCombinedProductChoice(models.Model):
-    order_prod = models.ForeignKey(OrderProducts, on_delete=models.CASCADE)
+    order_prod = models.ForeignKey(OrderProducts, on_delete=models.CASCADE, related_name='order_combined_product_choice')
     combination_product_category = models.ForeignKey(CombinationProduct, on_delete=models.CASCADE)
     selected_product = models.ForeignKey(Products, on_delete=models.CASCADE)
     size_stock = models.ForeignKey(SizeBasedStocks, on_delete=models.CASCADE, null=True, blank=True)
@@ -117,7 +121,9 @@ class OrderCombinedProductChoice(models.Model):
 
 class OrderAddress(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name='order_address')
-    AddressType = models.CharField(max_length=100, choices=[('Teslimat', 'Teslimat'), ('Fatura', 'Fatura')])
+
+    ADDRESS_TYPE_CHOICES = [('Teslimat', 'Teslimat'), ('Fatura', 'Fatura')]
+    AddressType = models.CharField(max_length=100, choices=ADDRESS_TYPE_CHOICES)
 
     recipient_name = models.CharField(max_length=255)
     recipient_lastname = models.CharField(max_length=255)
@@ -146,11 +152,15 @@ class OrderAddress(models.Model):
 
 class OrderPayment(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE, related_name='order_payment')
-    PaymentProvider = models.CharField(max_length=100, choices=[('iyzico', 'iyzico'), ('Diğer', 'Diğer')], default="iyzico")
-    PaymentStatus = models.CharField(max_length=100, choices=[('Ödeme Alındı', 'Ödeme Alındı'), ('Ödeme Alınmadı', 'Ödeme Alınmadı')], default="Ödeme Alındı")
+
+    PAYMENT_PROVIDER_CHOICES = [('iyzico', 'iyzico'), ('Diğer', 'Diğer')]
+    PaymentProvider = models.CharField(max_length=100, choices=PAYMENT_PROVIDER_CHOICES, default="iyzico")
+    PAYMENT_STATUS_CHOICES = [('Ödeme Alındı', 'Ödeme Alındı'), ('Ödeme Alınmadı', 'Ödeme Alınmadı')]
+    PaymentStatus = models.CharField(max_length=100, choices=PAYMENT_STATUS_CHOICES, default="Ödeme Alındı")
     PaymentId = models.CharField(max_length=255)
     ConversationId = models.CharField(max_length=255)
-    FraudStatus = models.CharField(max_length=100, choices=[('-1', 'Yüksek Fraud Riski'), ('0', 'Fraud İhtimali'), ('1', 'Düşük Fraud Riski')], default="1")
+    FRAUD_STATUS_CHOICES = [('-1', 'Yüksek Fraud Riski'), ('0', 'Fraud İhtimali'), ('1', 'Düşük Fraud Riski')]
+    FraudStatus = models.CharField(max_length=100, choices=FRAUD_STATUS_CHOICES, default="1")
     Installment = models.PositiveIntegerField(null=True, blank=True)
     Currency = models.CharField(max_length=10, default="TRY")
     Price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -176,6 +186,7 @@ class OrderPayment(models.Model):
 
 class OrderShipping(models.Model):
     Order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    
 
 
 class TempOrderDetails(models.Model):

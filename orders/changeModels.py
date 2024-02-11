@@ -13,13 +13,34 @@ class ChangeRequests(models.Model):
     OrderID = models.ForeignKey(Orders, on_delete=models.CASCADE, verbose_name='Sipariş No')
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
     
-    ChangeStatus = models.CharField(_('Değişim Talep Durumu'), max_length=100, choices=[('Değişim Talebi Alındı', 'Değişim Talebi Alındı'), ('Talep İnceleniyor', 'Talep İnceleniyor'), ('Talep Onaylandı', 'Talep Onaylandı'), ('Değişim Bekleniyor', 'Değişim Bekleniyor'), ('Değişim İnceleniyor', 'Değişim İnceleniyor'), ('Değişim Edildi', 'Değişim Edildi')], default="Değişim Talebi Alındı")
+    CHANGE_STATUS_CHOICES = [
+        ('Değişim Talebi Alındı', 'Değişim Talebi Alındı'),
+        ('Talep İnceleniyor', 'Talep İnceleniyor'),
+        ('Talep Onaylandı', 'Talep Onaylandı'),
+        ('Değişim Bekleniyor', 'Değişim Bekleniyor'),
+        ('Değişim İnceleniyor', 'Değişim İnceleniyor'),
+        ('Değişim Yapıldı', 'Değişim Yapıldı')
+    ]
+    ChangeStatus = models.CharField(_('Değişim Talep Durumu'), max_length=100, choices=CHANGE_STATUS_CHOICES, default="Değişim Talebi Alındı")
 
     ChangePaymentAmount = models.DecimalField(_('Değişim Edilecek Tutar'), max_digits=10, decimal_places=2, default=0)
-    ChangePaymentStatus = models.CharField(_('Değişim Ödeme Durumu'), max_length=100, choices=[('Bekliyor', 'Bekliyor'), ('Ödeme Yapıldı', 'Ödeme Yapıldı'), ('Ödeme Yapılmadı', 'Ödeme Yapılmadı')], default="Bekliyor")
+    CHANGE_PAYMENT_STATUS_CHOICES = [
+        ('Bekliyor', 'Bekliyor'),
+        ('Ödeme Yapıldı', 'Ödeme Yapıldı'),
+        ('Ödeme Yapılmadı', 'Ödeme Yapılmadı')
+    ]
+    ChangePaymentStatus = models.CharField(_('Değişim Ödeme Durumu'), max_length=100, choices=CHANGE_PAYMENT_STATUS_CHOICES, default="Bekliyor")
     ChangePaymentDate = models.DateTimeField(_('Değişim Ödeme Tarihi'), blank=True, null=True)
 
-    ChangeReason = models.CharField(_('Değişim Nedeni'), max_length=100, choices=[('Ürün Arızalı', 'Ürün Arızalı'), ('Ürün Hasarlı', 'Ürün Hasarlı'), ('Ürün Yanlış', 'Ürün Yanlış'), ('Ürün Eksik', 'Ürün Eksik'), ('Ürün Değişim', 'Ürün Değişim'), ('Ürün Değişim', 'Ürün Değişim')], default="Ürün Arızalı")
+    CHANGE_REASON_CHOICES = [
+        ('Ürün Arızalı', 'Ürün Arızalı'),
+        ('Ürün Hasarlı', 'Ürün Hasarlı'),
+        ('Ürün Yanlış', 'Ürün Yanlış'),
+        ('Ürün Eksik', 'Ürün Eksik'),
+        ('Ürün Değişim', 'Ürün Değişim'),
+        ('Ürün İade', 'Ürün İade')
+    ]
+    ChangeReason = models.CharField(_('Değişim Nedeni'), max_length=100, choices=CHANGE_REASON_CHOICES, default="Ürün Arızalı")
 
     ChangeNote = models.TextField(_('Değişim Notu'), blank=True, null=True)
 

@@ -13,8 +13,8 @@ class MemberResource(resources.ModelResource):
     class Meta:
         model = Member
         fields = [
-            'id',
-            'username',
+            'user',
+            'user_id',
             'first_name',
             'last_name',
             'email',

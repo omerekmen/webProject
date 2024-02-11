@@ -13,13 +13,34 @@ class ReturnRequests(models.Model):
     OrderID = models.ForeignKey(Orders, on_delete=models.CASCADE, verbose_name='Sipariş No')
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
     
-    ReturnStatus = models.CharField(_('İade Talep Durumu'), max_length=100, choices=[('İade Talebi Alındı', 'İade Talebi Alındı'), ('Talep İnceleniyor', 'Talep İnceleniyor'), ('Talep Onaylandı', 'Talep Onaylandı'), ('İade Bekleniyor', 'İade Bekleniyor'), ('İade İnceleniyor', 'İade İnceleniyor'), ('İade Edildi', 'İade Edildi')], default="İade Talebi Alındı")
+    RETURN_STATUS_CHOICES = [
+        ('İade Talebi Alındı', 'İade Talebi Alındı'),
+        ('Talep İnceleniyor', 'Talep İnceleniyor'),
+        ('Talep Onaylandı', 'Talep Onaylandı'),
+        ('İade Bekleniyor', 'İade Bekleniyor'),
+        ('İade İnceleniyor', 'İade İnceleniyor'),
+        ('İade Edildi', 'İade Edildi')
+    ]
+    ReturnStatus = models.CharField(_('İade Talep Durumu'), max_length=100, choices=RETURN_STATUS_CHOICES, default="İade Talebi Alındı")
 
     ReturnPaymentAmount = models.DecimalField(_('İade Edilecek Tutar'), max_digits=10, decimal_places=2, default=0)
-    ReturnPaymentStatus = models.CharField(_('İade Ödeme Durumu'), max_length=100, choices=[('Bekliyor', 'Bekliyor'), ('Ödeme Yapıldı', 'Ödeme Yapıldı'), ('Ödeme Yapılmadı', 'Ödeme Yapılmadı')], default="Bekliyor")
+    RETURN_PAYMENT_STATUS_CHOICES = [
+        ('Bekliyor', 'Bekliyor'),
+        ('Ödeme Yapıldı', 'Ödeme Yapıldı'),
+        ('Ödeme Yapılmadı', 'Ödeme Yapılmadı')
+    ]
+    ReturnPaymentStatus = models.CharField(_('İade Ödeme Durumu'), max_length=100, choices=RETURN_PAYMENT_STATUS_CHOICES, default="Bekliyor")
     ReturnPaymentDate = models.DateTimeField(_('İade Ödeme Tarihi'), blank=True, null=True)
 
-    ReturnReason = models.CharField(_('İade Nedeni'), max_length=100, choices=[('Ürün Arızalı', 'Ürün Arızalı'), ('Ürün Hasarlı', 'Ürün Hasarlı'), ('Ürün Yanlış', 'Ürün Yanlış'), ('Ürün Eksik', 'Ürün Eksik'), ('Ürün Değişim', 'Ürün Değişim'), ('Ürün İade', 'Ürün İade')], default="Ürün Arızalı")
+    RETURN_REASON_CHOICES = [
+        ('Ürün Arızalı', 'Ürün Arızalı'),
+        ('Ürün Hasarlı', 'Ürün Hasarlı'),
+        ('Ürün Yanlış', 'Ürün Yanlış'),
+        ('Ürün Eksik', 'Ürün Eksik'),
+        ('Ürün Değişim', 'Ürün Değişim'),
+        ('Ürün İade', 'Ürün İade')
+    ]
+    ReturnReason = models.CharField(_('İade Nedeni'), max_length=100, choices=RETURN_REASON_CHOICES, default="Ürün Arızalı")
 
     ReturnNote = models.TextField(_('İade Notu'), blank=True, null=True)
 

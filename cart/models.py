@@ -1,11 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from management.shippingModels import ShippingCost
-from management.discountModels import *
 from members.models import Member
-from discounts.models import *
+from coupons.models import *
 from products.models import *
-from schools.models import *
+from school.models import *
 
 
 # Define the Cart model

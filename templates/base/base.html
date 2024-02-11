@@ -1,617 +1,69 @@
 {% load static %}
 
 
-<!DOCTYPE html>
-<html lang="tr">
-    
+<!doctype html>
+<html lang="tr" {% block html %} data-bs-theme="light" data-footer="dark" {% endblock html %}>
     <head>
-        <meta charset="UTF-8">
+
+        <meta charset="utf-8">
+        <title>{% block title %} {% endblock title %}| </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock %} | {{ schools.schoolsitesettings_set.first.school_header_title }}</title>
+        <meta content="eCommerce + Admin HTML Template" name="description">
+        <meta content="Themesbrand" name="author">
+        <!-- App favicon -->
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
 
-        <!-- Favicon -->
-        <link rel="icon" type="image/png" href="{{ schools.schoolsitesettings_set.first.school_logo_header.url }}">
-        <!-- Preload Font -->
-        {% comment %} <link rel="preload" href="{% static 'fonts/riode.ttf' %}" as="font" type="font/woff2" crossorigin="anonymous"> {% endcomment %}
-        <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-solid-900.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
-        <link rel="preload" href="{% static 'vendor/fontawesome-free/webfonts/fa-brands-400.woff2' %}" as="font" type="font/woff2" crossorigin="anonymous">
-        <script>
-            WebFontConfig = {
-                google: { families: [ 'Poppins:300,400,500,600,700,800' ] }
-            };
-            ( function ( d ) {
-                var wf = d.createElement( 'script' ), s = d.scripts[ 0 ];
-                wf.src = '{% static "js/webfont.js" %}';
-                wf.async = true;
-                s.parentNode.insertBefore( wf, s );
-            } )( document );
-        </script>
+        {% block css %}
+        {% block extra_css %}
+        {% endblock extra_css %}
 
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.min.css' %}">
+        <!-- Bootstrap Css -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- Icons Css -->
+        <link href="{% static 'css/icons.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- App Css-->
+        <link href="{% static 'css/app.min.css' %}" rel="stylesheet" type="text/css">
+        <!-- custom Css-->
+        <link href="{% static 'css/custom.min.css' %}" rel="stylesheet" type="text/css">
 
-        <!-- Plugins CSS File -->
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/magnific-popup/magnific-popup.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/owl-carousel/owl.carousel.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/photoswipe/photoswipe.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/photoswipe/default-skin/default-skin.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/nouislider/nouislider.min.css' %}">
+        {% endblock css %}
 
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/sticky-icon/stickyicon.css' %}">
-
-        <!-- Main CSS File -->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/style.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/main.min.css' %}">
-
-        <style>
-            @media only screen and (max-width: 720px) {
-                .intro-slider {
-                    display: none;
-                }
-            }
-        </style>
-
-        {% block extra_head %}
-        <!-- Any extra head content goes here -->
-        {% endblock %}
     </head>
 
 
-    <body class="home">
+    <body>
 
-        <header class="header">
-            <div class="header-top">
-                <div class="container">
-                    <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block okul %} {{ schools.schoolsitesettings_set.first.school_header_title }} | {{ user.campus_id.campus_name }} {% endblock %}</p> <!-- Veritabanından Okul Adı ve Şubesi getirilecek -->
-                    </div>
-                    <div class="header-left">
-                        <p class="welcome-msg text-uppercase">{% block ogrenci %} {{user.first_name}} {{user.last_name}} {% endblock %}</p> <!-- Veritabanından Öğrenci Adu Soyadı getirilecek -->
-                    </div>
-                    <!--End.header-left-->
+        {% block top_tagbar %}
+        {% include "partials/top-tagbar.html" %}
+        {% endblock top_tagbar %}
 
-                    <div class="header-right">
-
-                        <span class="divider d-lg-show"></span>
-                        <div class="dropdown dropdown-expanded d-md-show">
-                            <a href="#dropdown">Links</a>
-                            <ul class="dropdown-box">
-                                <li>
-                                    <a href="{% url 'account' %}#orders">Kargom Nerede?</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'logout' %}">Logout</a>
-                                </li>
-                                <li>
-                                    <a href="tel:{{ schools.school_phone }}">İletişim No: {{ schools.school_phone }}</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!--End.header-right-->
-                </div>
-                <!--End.container-->
-            </div>
-            <!--End.header-top-->
-
-
-            <div class="sticky-content-wrapper">
-                <div class="header-middle sticky-header fix-top sticky-content">
-                    <div class="container">
-                        <div class="header-left">
-                            <a href="#" class="mobile-menu-toggle mr-0">
-                                <i class="d-icon-bars2"></i>
-                            </a>
-                            <a href="{% url 'index' %}" class="logo">
-                                <img src="{{ schools.schoolsitesettings_set.first.school_logo_header.url }}" alt="logo" style='max-height: 100px; margin-top:-25px; margin-bottom:-25px;' >
-                            </a>
-                            <nav class="main-nav">
-                                <ul class="menu"> 
-                                    
-                                    <li {% if request.resolver_match.url_name == 'index' %} class="active" {% endif %}>
-                                        <a href="{% url 'index' %}">Ana Sayfa</a> <!-- Link yapısı db ye bağlanacak, şirket bilgileri için table oluşturulmalı-->
-                                        <!-- Django url structure href for home page-->
-                                    </li>
-
-                                    <li {% if request.resolver_match.url_name == 'category' %} class="active submenu" {% else %} class="submenu" {% endif %} >
-                                        <a href="{% url 'category' %}">Kategoriler</a>
-                                        <ul>
-                                            {% for category in categories %}
-                                                <li class="submenu">
-                                                    <a href="{% url 'category_m' category.ProductCategoryID %}">{{ category.CategoryName }}</a>
-                                                    <ul>
-                                                        {% for subcat in subcategories %}
-                                                            {% if category.CategoryName == subcat.ProductCategory.CategoryName %}
-                                                            <li>
-                                                                <a href="{% url 'category_p' subcat.ProductSubCategoryID %}">{{ subcat.SubCategoryName }}</a>
-                                                            </li>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </ul>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
-
-                                    <!-- Kategori Url Yapısı İçin Düzenleme Gerekebilir -->
-                                    <li {% if request.resolver_match.url_name == 'combprod' %} class="active"{% endif %}>
-                                        <a href="{% url 'category' %}12">Kombin</a>
-                                    </li>
-
-                                    <!-- Canlı Ortamda Buraya Gerek Yok -->
-                                    <li class="submenu"> 
-                                        <a href="#">Ek Sayfalar</a>
-                                        <ul>
-                                            <li><a href="{% url 'login' %}">Giriş Yap</a></li>
-                                            <li><a href="{% url 'register' %}">Üye Ol</a></li>
-
-                                            {% for schoolpage in schools.schoolpages_set.all %}
-                                            <li>
-                                                <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
-                                            </li>
-                                            {% endfor %}                                           
-                                            <li><a href="error-404.html">Error 404(NW)</a>
-                                                <ul>
-                                                    <li><a href="">Error 404</a></li>
-                                                    <li><a href="error-404-1.html">Error 404-1</a></li>
-                                                    <li><a href="error-404-2.html">Error 404-2</a></li>
-                                                    <li><a href="error-404-3.html">Error 404-3</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="">Coming Soon(NW)</a></li>
-                                        </ul>
-                                    </li>
-
-                                </ul>
-                            </nav>
-                            <!-- End of Divider -->
-                        </div>
-                        <div class="header-right">
-                            <div class="header-search hs-simple">
-                                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
-                                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
-                                    <button class="btn btn-search" type="submit">
-                                        <i class="d-icon-search"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            
-                            <!-- HEADER CART -->
-                            <div class="dropdown cart-dropdown type2 off-canvas mr-0 mr-lg-2">
-                                <a href="" class="cart-toggle label-block link">
-                                    <div class="cart-label d-lg-show">
-                                        <span class="cart-name">Sepet Tutarı:</span>
-                                        <span class="cart-price">{{ cart.total_price }} ₺</span>
-                                    </div>
-                                    <i class="d-icon-bag"><span class="cart-count">{{ cart.total_products }}</span></i>
-                                </a>
-                                <div class="canvas-overlay"></div>
-                                <!-- End Cart Toggle -->
-                                <div id='cart-dropdown' class="dropdown-box">
-                                    <div id='cart-dropdown' class="canvas-header">
-                                        <h4 class="canvas-title">Sepetteki Ürünler</h4>
-                                        <a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">Kapat<i
-                                                class="d-icon-arrow-right"></i><span class="sr-only">Sepet</span></a>
-                                    </div>
-                                    <div class="products scrollable">
-
-                                        {% for prod in cartitems %}
-                                        <div class="product product-cart">
-                                            <figure class="product-media">
-                                            {% if prod.product.product_type == 'Tekil' %} 
-                                                <a href="{% url 'product' prod.product.ProductID %}">
-                                            {% elif prod.product.product_type == 'Kombin' %} 
-                                                <a href="{% url 'combproduct' prod.product.ProductID %}">
-                                            {% endif %}
-                                                    <img src="{{ prod.product.productimages_set.first.product_image.url }}" alt="product" width="100"
-                                                        height="100" />
-                                                </a>
-                                            </figure>
-                                            <div class="product-detail">
-                                                {% if prod.product.product_type == 'Tekil' %} 
-                                                    <a href="{% url 'product' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }} | {{ prod.size_stock.size }}</a>
-                                                {% elif prod.product.product_type == 'Kombin' %} 
-                                                    <a href="{% url 'combproduct' prod.product.ProductID %}" class="product-name">{{ prod.product.product_web_name }}</a>
-                                                {% endif %}
-                                                <div class="price-box">
-                                                    <span class="product-quantity">{{ prod.quantity }}</span>
-                                                    <span class="product-price">{{ prod.single_price }} ₺</span>
-                                                </div>
-                                            </div>
-    
-                                        </div>
-                                        {% endfor %}
-
-                                        <!-- End of Cart Product -->
-                                    </div>
-                                    <!-- End of Products  -->
-                                    <div class="cart-total">
-                                        <label>Toplam:</label>
-                                        <span class="price">{{ cart.total_price }}₺</span>
-                                    </div>
-                                    <!-- End of Cart Total -->
-                                    <div class="cart-action">
-                                        <a href="{% url 'cart' %}" class="btn btn-dark btn-link">Sepeti Görüntüle</a>
-                                        <a href="{% url 'checkout' %}" class="btn btn-dark"><span>Ödeme Aşamasına Geç</span></a>
-                                    </div>
-                                    <!-- End of Cart Action -->
-                                </div>
-                                <!-- End Dropdown Box -->
-                            </div>
-
-
-                            <a class="login-link d-lg-show" href="{% url 'account' %}" data-toggle="login-modal"> <!-- Site Yapısı Tamamlanınca Bu Link Hesabım'a Yönlendirmeli !!! -->
-                                <span class="sr-only">Hesabım</span>
-                                <i class="d-icon-user"></i>
-                            </a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- MobileMenu -->
-        <div class="mobile-menu-wrapper">
-            <div class="mobile-menu-overlay">
-            </div>
-            <!-- End of Overlay -->
-
-            <a class="mobile-menu-close" href="#"><i class="d-icon-times"></i></a>
-            <!-- End of CloseButton -->
-
-            <div class="mobile-menu-container scrollable">
-                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
-                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
-                    <button class="btn btn-search" type="submit">
-                        <i class="d-icon-search"></i>
-                    </button>
-                </form>
-
-                <!-- End of Search Form -->
-                <ul class="mobile-menu mmenu-anim">
-                    <li>
-                        <a href="{% url 'index' %}">Home</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'category' %}">Kategoriler</a>
-                        <ul>
-                            {% for category in categories %}
-                                <li class="submenu">
-                                    <a href="{% url 'category_m' category.ProductCategoryID %}">{{ category.CategoryName }}</a>
-                                    <ul>
-                                        {% for subcat in subcategories %}
-                                            {% if category.CategoryName == subcat.ProductCategory.CategoryName %}
-                                            <li>
-                                                <a href="{% url 'category_p' subcat.ProductSubCategoryID %}">{{ subcat.SubCategoryName }}</a>
-                                            </li>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    
-                    <li>
-                        <a href="{% url 'category' %}12">Kombin</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'account' %}">Hesabım</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-
-
-        <div class="page-wrapper">
-            <main>
-
-                {% block slider %}
-                <div class="page-content overflow-hidden">
-                    <section
-                    class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
-                    data-owl-options="{
-                        'items': 1,
-                        'loop': true,
-                        'autoplay': true,
-                        'autoplayTimeout': 5000,
-                        'responsive': {
-                            '0': {
-                                'dots': true,
-                                'nav': true,
-                                'items': 0
-                            },
-                            '480': {
-                                'dots': true,
-                                'nav': true,
-                                'items': 0
-                            },
-                            '740': {
-                                'dots': true,
-                                'nav': true,
-                                'items': 1
-                            },
-                            '992': {
-                                'dots': true,
-                                'nav': true,
-                                'items': 1
-                            }
-                        },
-                        'animateIn': 'fadeIn',
-                        'animateOut': 'fadeOut'}">
-                    
-                        
-                        {% for slide in schools.schoolslider_set.all %}
-                            <div class="intro-slide{{ forloop.counter }} banner banner-fixed">
-                                <figure class="kenBurnsToRight duration">
-                                    <img src="{{ slide.slider_image.url }}" alt="intro-banner" width="1903" height="867" style="background-color: #2e2e31">
-                                </figure>
-                            </div>
-                        {% endfor %}
-
-                    </section>
-                </div>
-                {% endblock slider %}
-
-                {% block content %}
-                <!-- Your main content goes here -->
-
-                {% endblock content %}
-            </main>
-        </div>
-
-
-
-        {% if request.resolver_match.url_name == 'index' %}
-            {% if schools.school_popup.exists and school_main_page_popup.popup_status == True %}
-                <div class="newsletter-popup newsletter-popup-index newsletter-pop2 mfp-hide popup-index" id="newsletter-popup">   
-                    {% if school_main_page_popup.popup_image %}
-                    <figure>
-                        <img src="{{ school_main_page_popup.popup_image.url }}" width="500" height="264" alt="newsletter2" />
-                    </figure>
-                    {% else %}
-                    <br>
-                    {% endif %}
-                    <div class="newsletter-content">
-                        <h2 class="font-weight-bolder">{{ school_main_page_popup.popup_title }}</h2>
-                        <br>
-                        {{ school_main_page_popup.popup_content|safe  }}
-                        <br>
-                        <div class="form-checkbox justify-content-center">
-                            <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
-                                required />
-                            <label for="hide-newsletter-popup">Bu popup'ı bir daha gösterme</label>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-            {% endif %}
-        {% elif request.resolver_match.url_name == 'product' or request.resolver_match.url_name == 'combproduct' %}
-            {% if schools.school_popup.exists and school_prod_page_popup.popup_status == True %}
-                <div class="newsletter-popup newsletter-popup-product newsletter-pop2 mfp-hide" id="newsletter-popup">   
-                    {% if school_prod_page_popup.popup_image %}
-                    <figure>
-                        <img src="{{ school_prod_page_popup.popup_image.url }}" width="500" height="264" alt="newsletter2" />
-                    </figure>
-                    {% else %}
-                    <br>
-                    {% endif %}
-                    <div class="newsletter-content">
-                        <h2 class="font-weight-bolder">{{ school_prod_page_popup.popup_title }}</h2>
-                        <br>
-                        {{ school_main_page_popup.popup_content|safe  }}
-                        <br>
-                        <div class="form-checkbox justify-content-center">
-                            <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
-                                required />
-                            <label for="hide-newsletter-popup">Bu popup'ı bir daha gösterme</label>
-                        </div>
-                        <br>
-                    </div>
-                </div>
-            {% endif %}
-        {% endif %}
-
-        <footer class="footer">
-            <div class="container">
-
-                <div class="footer-middle">
-                    <div class="row">
-                        
-                        
-                        <div class="col-lg-3 col-sm-6">
-
-                            <div class="widget widget-about">
-                                {% for schoolsett in schools.schoolsitesettings_set.all %}
-                                {% if "playoff" in schoolsett.school_logo_footer.url|lower %}
-                                    <a href="https://playoff.com.tr/" class="logo-footer">
-                                {% else %}
-                                    <a href="{% url 'index' %}" class="logo-footer">
-                                {% endif %}
-                                    <img src="{{ schoolsett.school_logo_footer.url }}" alt="logo-footer" width="153" height="44" />
-                                </a>
-
-                                <div class="widget-contact-info widget-collapsible">
-                                    <ul class="contact-info">
-                                        {{ schoolsett.school_footer_title }}
-                                    </ul>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-sm-6">
-
-                            <div class="widget widget-info">
-                                <h4 class="widget-title">Hesabım</h4>
-                                <ul class="widget-body">
-                                    <li>
-                                        <a href="{% url 'account' %}#orders">Siparişlerim</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'account' %}#returns">İadelerim</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'account' %}#changes">Değişimlerim</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'account' %}#support">Destek Taleplerim</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'account' %}#invoices">Faturalarım</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'account' %}#address">Adreslerim</a>
-                                    </li>
-                                    <li>
-                                        <a href="{% url 'account' %}#account">Hesap Bilgilerim</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- End Widget -->
-                        </div>
-
-
-                        <div class="col-lg-3 col-sm-6">
-                            
-                            <div class="widget widget-service">
-                                <h4 class="widget-title">Sayfalar</h4>
-                                <ul class="widget-body">
-                                    {% for schoolpage in schools.schoolpages_set.all %}
-                                    {% if schoolpage.page_category == 'pages' %}
-                                    <li>
-                                        <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
-                                    </li>
-                                    {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                                
-                        </div>
-                        
-
-                        <div class="col-lg-3 col-sm-6">
-
-                            <div class="widget widget-service">
-                                <h4 class="widget-title">Sözleşmeler</h4>
-                                <ul class="widget-body">
-                                    {% for schoolpage in schools.schoolpages_set.all %}
-                                    {% if schoolpage.page_category == 'contracts' %}
-                                    <li>
-                                        <a href="{% url 'pages' schoolpage.page_url %}">{{ schoolpage.page_title }}</a>
-                                    </li>
-                                    {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-
-                <!-- FooterBottom -->
-                <div class="footer-bottom">
-
-                    <div class="footer-left">
-                        <p class="copyright ls-normal"> &copy; <script>document.write(new Date().getFullYear())</script>. Tüm Hakları Saklıdır.</p> <!-- Yıl Otomatik Çekilecek -->
-                    </div>
-                    
-                    <div class="footer-center">
-                        <figure class="" style='justify-content: space-between; align-items: flex-end;'>
-                            Ödeme Sağlayıcıları
-                            <img src="{% static 'images/payment/ma_symbol.svg' %}" alt="MasterCard" height="75" style='max-height:45px;' />
-                            <img src="{% static 'images/payment/visa.svg' %}" alt="payment" height="75" style='max-height:55px;' />
-                        </figure>
-                    </div>
-
-
-                </div>
-                <!-- End FooterBottom -->
-
-
-
-            </div>
-        </footer>
-
-        <!-- Sticky Footer -->
-        <div class="sticky-footer sticky-content fix-bottom">
-            <a href="{% url 'index' %}" class="sticky-link">
-                <i class="d-icon-home"></i>
-                <span>Ana sayfa</span>
-            </a>
-            <a href="{% url 'category' %}" class="sticky-link">
-                <i class="d-icon-volume"></i>
-                <span>Kategoriler</span>
-            </a>
-            <a href="{% url 'cart' %}" class="sticky-link">
-                <i class="d-icon-bag"></i>
-                <span>Sepetim</span>
-            </a>
-            <a href="{% url 'account' %}" class="sticky-link">
-                <i class="d-icon-user"></i>
-                <span>Account</span>
-            </a>
-            <div class="header-search hs-toggle dir-up">
-                <a href="{% url 'search' %}" class="search-toggle sticky-link">
-                    <i class="d-icon-search"></i>
-                    <span>Ürün Arayın</span>
-                </a>
-                <form action="{% url 'search' %}" class="input-wrapper" method='GET'>
-                    <input type="text" class="form-control" name="search" autocomplete="on" placeholder="Ürün Arayın" required />
-                    <button class="btn btn-search" type="submit">
-                        <i class="d-icon-search"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Scroll Top -->
-        <a id="scroll-top" href="#top" title="Top" role="button" class="scroll-top"><i class="d-icon-arrow-up"></i></a>
-
-
-        <!-- sticky icons -->
-        <div class="sticky-icons-wrapper">
-            <div class="sticky-icon-links sticky">
-                <ul>
-                    <li> </li>
-                    <li><a href="{% url 'index' %}" style='background-color: #232323; border-radius:10px;'><i class="d-icon-home"></i><span>Home</span></a></li>
-                    {% if user.is_superuser %}
-                        <li><a href="{% url 'index' %}admin" style='background-color: #232323; border-radius:10px;'><i class="d-icon-filter-2"></i><span>Admin</span></a></li>
-                    {% endif %}
-                    {% comment %} <li><a href="https://themeforest.net/downloads/"><i class="fas fa-star"></i><span>Reviews</span></a></li> {% endcomment %}
-                    <li><a href="{% url 'cart' %}" style='background-color: #8ebf16; border-radius:10px;'><i class="d-icon-bag"></i><span>Sepet</span></a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Plugins JS File -->
-        <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-        <script src="{% static 'vendor/parallax/parallax.min.js' %}"></script>
-        <script src="{% static 'vendor/elevatezoom/jquery.elevatezoom.min.js' %}"></script>
-        <script src="{% static 'vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
-
-        <script src="{% static 'vendor/owl-carousel/owl.carousel.min.js' %}"></script>
-        <script src="{% static 'vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
-        <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
-        <script src="{% static 'vendor/nouislider/nouislider.min.js' %}"></script>
-
-        <script src="{% static 'vendor/jquery.floating/jquery.floating.min.js' %}"></script>
-
-
+        {% block topbar %}
+        {% include "partials/topbar.html" %}
+        {% endblock topbar%}
 
         
-        <!-- Main JS File -->
-        <script src="{% static 'js/main.min.js' %}"></script>
+            {% block content %}
+            {% endblock content %}
+
+
+        {% block footer %}
+        {% include "partials/footer.html"%}
+        {% endblock footer %}
+
+        {% block extra_content %}
+        {% endblock extra_content %}
         
-        {% block extra_scripts %}
-        <!-- Any extra scripts go here -->
-        {% endblock %}
+    {% block javascript %}
+
+            <!-- JAVASCRIPT -->
+            <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+            <script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
+            <script src="{% static 'js/plugins.js' %}"></script>
+
+        {% block extra_js %}
+        {% endblock extra_js%}
+
+    {% endblock javascript %}
 
     </body>
-
 </html>

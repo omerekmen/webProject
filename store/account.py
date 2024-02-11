@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from webProject.context_processors import get_school
+from app.context_processors import get_school
 from django.contrib.auth.hashers import check_password
 from django.core.serializers import serialize
 from django.http import JsonResponse, HttpResponseRedirect
@@ -194,4 +194,3 @@ def get_support_messages(request, ticket_id):
 
         return JsonResponse({'messages': messages_list}, safe=True)
     return JsonResponse({'error': 'Invalid request'}, status=400)
-

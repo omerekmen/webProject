@@ -1,45 +1,18 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
 from django.db import models
-from schools.models import *
+from school.models import *
 from store.models import * 
 import datetime
 
 
+class Member(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-class CustomAccountManager(BaseUserManager):
-
-    def create_superuser(self, email, username, password, **other_fields):
-        other_fields.setdefault('is_staff', True)
-        other_fields.setdefault('is_superuser', True)
-        other_fields.setdefault('is_active', True)
-
-        if other_fields.get('is_staff') is not True:
-            raise ValueError('Superuser için is_staff=True olmalı!!!')
-        
-        if other_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser için is_superuser=True olmalı!!!')
-        
-        return self.create_user(email, username, password, **other_fields)
-    
-    def create_user(self, email, username, password, **other_fields):
-
-        if not email:
-            raise ValueError('Geçerli bir e-mail adresi girmeniz gerekiyor!')
-        
-        email = self.normalize_email(email)
-        user = self.model(email=email, username=username, **other_fields)
-
-        user.set_password(password)
-        user.save()
-
-class Member(AbstractBaseUser, PermissionsMixin):
-    member_id = models.AutoField(primary_key=True)
-    is_staff = models.BooleanField(_('Staff Durumu'), default=False)
-
+    user_id = models.CharField(_('TC Kimlik No'), max_length=100, unique=True)
     email = models.EmailField(_('E-Posta'), unique=True)
     phone_number = models.IntegerField(_('Telefon'), null=True, blank=True)
-    username = models.CharField(_('TC No'), max_length=100, unique=True) # Öğrenci tarafında TC No alınacak
+    username = models.CharField(_('TC No'), max_length=100, unique=True)
     first_name = models.CharField(_('Ad'), max_length=150, blank=True)
     last_name = models.CharField(_('Soyad'), max_length=150, blank=True)
 
@@ -77,11 +50,6 @@ class Member(AbstractBaseUser, PermissionsMixin):
     get_campus.short_description = 'Kampüs'
     get_school.short_description = 'Okul'
 
-    objects = CustomAccountManager()
-
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
-
 
     class Meta:
         verbose_name = 'Üyeler'
@@ -95,21 +63,21 @@ class MemberAddress(models.Model):
     member = models.ForeignKey(Member, on_delete=models.CASCADE)
     AddressType = models.CharField(max_length=100, choices=[('Delivery', 'Teslimat'), ('Invoice', 'Fatura')])
     
-    recipient_name = models.CharField(max_length=255)
-    recipient_lastname = models.CharField(max_length=255)
+    recipient_name = models.CharField(max_length=255, verbose_name="Alıcı Adı")
+    recipient_lastname = models.CharField(max_length=255, verbose_name="Alıcı Soyadı")
 
-    Country = models.CharField(max_length=100, default="Türkiye")
-    City = models.ForeignKey(City, on_delete=models.CASCADE)
-    District = models.ForeignKey(District, on_delete=models.CASCADE)
-    FullAddress = models.TextField()
-    PostalCode = models.PositiveIntegerField(null=True, blank=True)
+    Country = models.CharField(max_length=100, default="Türkiye", verbose_name="Ülke")
+    City = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name="İl")
+    District = models.ForeignKey(District, on_delete=models.CASCADE, verbose_name="İlçe")
+    FullAddress = models.TextField(verbose_name="Adres")
+    PostalCode = models.PositiveIntegerField(null=True, blank=True, verbose_name="Posta Kodu")
 
-    PhoneNumber = models.IntegerField()
-    EMail = models.EmailField()
+    PhoneNumber = models.IntegerField(verbose_name="Telefon Numarası")
+    EMail = models.EmailField(verbose_name="E-Posta Adresi")
 
-    comp_name = models.CharField(max_length=255, null=True, blank=True)
-    tax_office = models.CharField(max_length=255, null=True, blank=True)
-    tax_no = models.PositiveBigIntegerField(null=True, blank=True)
+    comp_name = models.CharField(max_length=255, null=True, blank=True, verbose_name="Firma Adı")
+    tax_office = models.CharField(max_length=255, null=True, blank=True, verbose_name="Vergi Dairesi")
+    tax_no = models.PositiveBigIntegerField(null=True, blank=True, verbose_name="Vergi Numarası")
 
     CreatedAt = models.DateTimeField(auto_now_add=True)
     UpdatedAt = models.DateTimeField(auto_now=True)

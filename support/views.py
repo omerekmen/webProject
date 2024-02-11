@@ -102,4 +102,3 @@ def post_chat_message(request):
 
         # Return a success response
         return JsonResponse({'status': 'success'})
-
