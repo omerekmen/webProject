@@ -8,7 +8,7 @@ import random
 class Orders(models.Model):
     OrderID = models.SlugField(primary_key=True, editable=False, unique=True, max_length=10, verbose_name='Sipariş No')
     Member = models.ForeignKey(Member, on_delete=models.CASCADE, verbose_name='TC No')
-    MemberClass = models.ForeignKey("schools.Class", verbose_name=_("Üye Sınıfı"), on_delete=models.CASCADE, null=True, blank=True)
+    MemberClass = models.ForeignKey("school.Class", verbose_name=_("Üye Sınıfı"), on_delete=models.CASCADE, null=True, blank=True)
 
     ORDER_TYPE_CHOICES = [('Normal Sipariş', 'Normal Sipariş'), ('Bayi Siparişi', 'Bayi Siparişi')]
     OrderType = models.CharField(_('Sipariş Türü'), max_length=100, choices=ORDER_TYPE_CHOICES, default="Normal Sipariş")

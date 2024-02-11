@@ -9,7 +9,7 @@ from django.views import generic
 from django.contrib import messages
 from products.models import *
 from cart.models import *
-from schools.models import *
+from school.models import *
 from members.models import *
 from products.views import *
 from support.models import *

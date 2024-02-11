@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.db import transaction
 from products.models import *
 from members.models import *
-from schools.models import *
+from school.models import *
 from store.models import *
 from cart.models import *
 from .models import *
@@ -15,7 +15,7 @@ from .models import *
 from products.views import *
 from django.urls import reverse
 from members.urls import *
-from discounts.tasks import *
+from coupons.tasks import *
 
 from payment.iyzico import iyzico
 import json

@@ -1,5 +1,5 @@
 from products.models import *
-from schools.models import *
+from school.models import *
 from members.models import *
 from cart.models import *
 from store.models import *

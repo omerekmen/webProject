@@ -7,7 +7,7 @@ from django.views import generic
 from products.models import *
 from cart.models import *
 from cart import views as cart_views
-from schools.models import *
+from school.models import *
 from members.models import *
 from products.views import *
 from members.urls import *
