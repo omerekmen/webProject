@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "lifevesttest.cf0a2i888a21.eu-west-1.rds.amazonaws.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "LifeVest Test",
+            "database": "lifevesttest",
+            "username": "lifevest",
+            "password": "anCfbIFey2L54NmFxqvS"
+        }
+    ]
+}

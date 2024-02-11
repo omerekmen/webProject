@@ -1,6 +1,6 @@
 from django.contrib.auth.signals import user_logged_in
 from django.contrib.auth import login, authenticate, logout
-from webProject.context_processors import get_client_ip
+from app.context_processors import get_client_ip
 from django.shortcuts import redirect, render
 from django.dispatch import receiver
 from .forms import LoginForm, RegisterForm

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from webProject.context_processors import get_school
+from app.context_processors import get_school
 from django.contrib.auth.hashers import check_password
 from django.core.serializers import serialize
 from django.http import JsonResponse, HttpResponseRedirect

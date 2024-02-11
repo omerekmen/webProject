@@ -1,13 +1,15 @@
 import iyzipay
 import time, random
-from .models import iyziSet
+from management.paymentModels import PaymentGateways
+
+# iyziSet = PaymentGateways.objects.get(payment_gateway='iyzico')
 
 class IyzicoPayment:
 
     def __init__(self):
-        self.api_key = iyziSet.payment_api_key
-        self.secret_key = iyziSet.payment_secret
-        self.base_url = iyziSet.payment_base_url
+        self.api_key = '' #iyziSet.payment_api_key
+        self.secret_key = '' #iyziSet.payment_secret
+        self.base_url = '' #iyziSet.payment_base_url
 
     def iyzipay_options(self):
         options = {

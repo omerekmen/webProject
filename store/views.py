@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from webProject.context_processors import get_school, get_school_id
+from app.context_processors import get_school, get_school_id
 from django.http import JsonResponse
 from django.views import generic
 from products.models import *
