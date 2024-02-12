@@ -25,10 +25,7 @@ DEFAULT_FROM_EMAIL = 'testwebproject@outlook.com'
 
 # Iyzico Payment Login: Mail: testwebproject@outlook.com ||| Password: 102938 @ https://sandbox-merchant.iyzipay.com/
 
-SHARED_APPS = [
-    "django_tenants",
-    "customers",
-
+INSTALLED_APPS = [
     "jazzmin",
     "widget_tweaks",
     "nested_admin",
@@ -46,14 +43,12 @@ SHARED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
+    # django postgresql
+
 
     "ckeditor",
     "ckeditor_uploader",
 
-    "members",
-]
-
-TENANT_APPS = [
     "store",
     "schools",
     "members",
@@ -65,12 +60,10 @@ TENANT_APPS = [
     "discounts",
     "support",
     "warehouse",
+    "cargo",
 ]
 
-INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
-
 MIDDLEWARE = [
-    'django_tenants.middleware.main.TenantMainMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -114,14 +107,6 @@ DATABASES = {
         "PORT": os.environ.get("DBPORT"),
     }
 }
-
-DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
-)
-
-TENANT_MODEL = "customers.Client"
-TENANT_DOMAIN_MODEL = "customers.Domain"
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
